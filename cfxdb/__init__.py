@@ -13,7 +13,6 @@ from .common import address, uint256, unpack_uint256, pack_uint256,\
 from .eventstore import Event, Publication, Session
 from .log import MNodeLog
 from .usage import MasterNodeUsage
-from .meta import Attribute, Attributes
 
 # FIXME: remove this import/export
 from .schema import Schema
@@ -34,6 +33,4 @@ __all__ = (
     'MNodeLog',
     'MasterNodeUsage',
     'xbr',
-    'Attribute',
-    'Attributes',
 )

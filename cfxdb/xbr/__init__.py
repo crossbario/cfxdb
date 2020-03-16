@@ -16,6 +16,41 @@ from .offer import Offer, Offers, IndexOfferByKey
 from .token import TokenApproval, TokenApprovals, TokenTransfer, TokenTransfers
 from .transaction import Transaction, Transactions
 
+__all__ = (
+    'Schema',
+    'Actor',
+    'Actors',
+    'Block',
+    'Blocks',
+    'PaymentChannel',
+    'PaymentChannels',
+    'IndexPaymentChannelByDelegate',
+    'PaymentChannelBalance',
+    'PaymentChannelBalances',
+    'PayingChannelRequest',
+    'PayingChannelRequests',
+    'PayingChannels',
+    'IndexPayingChannelByDelegate',
+    'IndexPayingChannelByRecipient',
+    'PayingChannelBalances',
+    'IndexPayingChannelRequestByRecipient',
+    'Market',
+    'Markets',
+    'IndexMarketsByOwner',
+    'IndexMarketsByActor',
+    'Member',
+    'Members',
+    'Offer',
+    'Offers',
+    'IndexOfferByKey',
+    'TokenApproval',
+    'TokenApprovals',
+    'TokenTransfer',
+    'TokenTransfers',
+    'Transaction',
+    'Transactions',
+)
+
 
 class Schema(object):
     """
