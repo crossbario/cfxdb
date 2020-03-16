@@ -128,6 +128,7 @@ def test_actor_roundtrip_perf(actor, builder):
 
 def fill_member(member):
     member.address = os.urandom(20)
+    member.account_oid = uuid.uuid4()
     member.timestamp = np.datetime64(time_ns(), 'ns')
     member.registered = random.randint(0, 2**256 - 1)
     member.eula = _gen_ipfs_hash()
@@ -147,12 +148,13 @@ def test_member_roundtrip(member, builder):
     obj = member.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    assert len(data) == 224
+    assert len(data) == 264
 
     # create python object from bytes (flatbuffes)
     _member = Member.cast(data)
 
     assert _member.address == member.address
+    assert _member.account_oid == member.account_oid
     assert _member.timestamp == member.timestamp
     assert _member.registered == member.registered
     assert _member.eula == member.eula
@@ -170,6 +172,7 @@ def test_member_roundtrip_perf(member, builder):
         _member = Member.cast(data)
         if True:
             assert _member.address == member.address
+            assert _member.account_oid == member.account_oid
             assert _member.timestamp == member.timestamp
             assert _member.registered == member.registered
             assert _member.eula == member.eula

@@ -219,8 +219,16 @@ class _MemberGen(MemberGen.Member):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
+    def AccountOidAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
     def RegisteredAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
@@ -237,6 +245,9 @@ class Member(object):
 
         # [uint8] (address)
         self._address = None
+
+        # [uint8] (uuid)
+        self._account_oid = None
 
         # uint64 (timestamp)
         self._timestamp = None
@@ -256,6 +267,7 @@ class Member(object):
     def marshal(self) -> dict:
         obj = {
             'address': self.address,
+            'account_oid': self._account_oid.bytes if self._account_oid else None,
             'timestamp': self.timestamp,
             'registered': self.registered,
             'eula': self.eula,
@@ -281,6 +293,24 @@ class Member(object):
     def address(self, value: bytes):
         assert value is None or (type(value) == bytes and len(value) == 20)
         self._address = value
+
+    @property
+    def account_oid(self) -> uuid.UUID:
+        """
+        ID of user account this member has an account on planet.xbr.network.
+        """
+        if self._account_oid is None and self._from_fbs:
+            if self._from_fbs.AccountOidLength():
+                _account_oid = self._from_fbs.AccountOidAsBytes()
+                self._account_oid = uuid.UUID(bytes=bytes(_account_oid))
+            else:
+                self._account_oid = uuid.UUID(bytes=b'\x00' * 16)
+        return self._account_oid
+
+    @account_oid.setter
+    def account_oid(self, value: uuid.UUID):
+        assert value is None or isinstance(value, uuid.UUID)
+        self._account_oid = value
 
     @property
     def timestamp(self) -> np.datetime64:
@@ -374,6 +404,10 @@ class Member(object):
         if address:
             address = builder.CreateString(address)
 
+        account_oid = self.account_oid
+        if account_oid:
+            account_oid = builder.CreateString(account_oid.bytes)
+
         registered = self.registered
         if registered:
             registered = builder.CreateString(pack_uint256(registered))
@@ -390,6 +424,9 @@ class Member(object):
 
         if address:
             MemberGen.MemberAddAddress(builder, address)
+
+        if account_oid:
+            MemberGen.MemberAddAccountOid(builder, account_oid)
 
         if self.timestamp:
             MemberGen.MemberAddTimestamp(builder, int(self.timestamp))
