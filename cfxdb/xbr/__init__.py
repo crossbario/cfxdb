@@ -16,8 +16,26 @@ from .offer import Offer, Offers, IndexOfferByKey
 from .token import TokenApproval, TokenApprovals, TokenTransfer, TokenTransfers
 from .transaction import Transaction, Transactions
 
+from cfxdb.gen.xbr.MemberLevel import MemberLevel
+from cfxdb.gen.xbr.ActorType import ActorType
+from cfxdb.gen.xbr.PayingChannelRequestState import PayingChannelRequestState
+from cfxdb.gen.xbr.PaymentChannelType import PaymentChannelType
+from cfxdb.gen.xbr.PaymentChannelState import PaymentChannelState
+from cfxdb.gen.xbr.TransactionState import TransactionState
+
 __all__ = (
+    # database schema
     'Schema',
+
+    # enum types
+    'MemberLevel',
+    'ActorType',
+    'PayingChannelRequestState',
+    'PaymentChannelType',
+    'PaymentChannelState',
+    'TransactionState',
+
+    # table/index types
     'Actor',
     'Actors',
     'Block',

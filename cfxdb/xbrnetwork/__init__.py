@@ -8,9 +8,37 @@
 from cfxdb.meta import Attributes
 from cfxdb.xbr import Blocks, TokenApprovals, TokenTransfers, Members, Markets, IndexMarketsByOwner, \
     IndexMarketsByActor, Actors
-from .account import Accounts, IndexAccountsByUsername, IndexAccountsByEmail, IndexAccountsByWallet
-from .userkey import UserKeys, IndexUserKeyByAccount
-from .vaction import VerifiedActions
+from .account import Account, Accounts, IndexAccountsByUsername, IndexAccountsByEmail, IndexAccountsByWallet
+from .userkey import UserKey, UserKeys, IndexUserKeyByAccount
+from .vaction import VerifiedAction, VerifiedActions
+
+from cfxdb.gen.xbrnetwork.AccountLevel import AccountLevel
+from cfxdb.gen.xbrnetwork.WalletType import WalletType
+from cfxdb.gen.xbrnetwork.VerificationType import VerificationType
+from cfxdb.gen.xbrnetwork.VerificationStatus import VerificationStatus
+
+__all__ = (
+    # database schema
+    'Schema',
+
+    # enum types
+    'AccountLevel',
+    'WalletType',
+    'VerificationType',
+    'VerificationStatus',
+
+    # database tables
+    'Account',
+    'Accounts',
+    'IndexAccountsByUsername',
+    'IndexAccountsByEmail',
+    'IndexAccountsByWallet',
+    'UserKey',
+    'UserKeys',
+    'IndexUserKeyByAccount',
+    'VerifiedAction',
+    'VerifiedActions',
+)
 
 
 class Schema(object):
