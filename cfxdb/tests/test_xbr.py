@@ -24,7 +24,8 @@ txaio.use_twisted()  # noqa
 from txaio import time_ns
 from autobahn import util
 
-from cfxdb.xbr import TokenApproval, TokenTransfer, Market, Member, Actor, PaymentChannel, PayingChannelRequest, PaymentChannelBalance, Offer, Transaction
+from cfxdb.xbr import TokenApproval, TokenTransfer, Market, Member, Actor, \
+    PaymentChannel, PayingChannelRequest, PaymentChannelBalance, Offer, Transaction
 
 zlmdb.TABLES_BY_UUID = {}
 
