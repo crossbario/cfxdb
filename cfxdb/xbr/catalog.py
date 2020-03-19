@@ -13,7 +13,7 @@ from cfxdb.gen.xbr import Catalog as CatalogGen
 from zlmdb import table, MapUuidFlatBuffers, MapBytes20TimestampUuid
 
 
-class _CatalogGen(CatalogGen):
+class _CatalogGen(CatalogGen.Catalog):
     @classmethod
     def GetRootAsCatalog(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)

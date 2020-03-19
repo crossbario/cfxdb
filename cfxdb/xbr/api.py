@@ -14,7 +14,7 @@ from zlmdb import table, MapUuidFlatBuffers
 from cfxdb import pack_uint256, unpack_uint256
 
 
-class _ApiGen(ApiGen):
+class _ApiGen(ApiGen.Api):
     @classmethod
     def GetRootAsApi(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -136,11 +136,6 @@ class Api(object):
                 _oid = self._from_fbs.CatalogOidAsBytes()
                 self._oid = uuid.UUID(bytes=bytes(_oid))
         return self._oid
-
-    @oid.setter
-    def oid(self, value: uuid.UUID):
-        assert value is None or isinstance(value, uuid.UUID)
-        self._catalog_oid = value
 
     @property
     def timestamp(self) -> np.datetime64:
