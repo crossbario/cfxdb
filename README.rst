@@ -9,7 +9,7 @@ Python programs (including Jupyter notebooks) to CrossbarFX edge node data:
 
 * persisted event history
 * persisted tracing data
-* XBR market maker transaction logs
+* XBR market maker transactions database
 * WAMP session cache
 
 --------------
