@@ -7,10 +7,7 @@
 
 from zlmdb import table, MapOidFlatBuffers, MapOidTimestampFlatBuffers
 
-import cfxdb.eventstore.event
-import cfxdb.eventstore.publication
 import cfxdb.eventstore.session
-from . import eventstore
 
 __all__ = (
     'Sessions',

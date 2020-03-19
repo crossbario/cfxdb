@@ -5,6 +5,8 @@
 #
 ##############################################################################
 
+from typing import Dict
+
 from cfxdb.mrealm.web_service import WebService
 from cfxdb.mrealm.web_service_json import WebServiceJson
 from cfxdb.mrealm.web_service_static import WebServiceStatic
