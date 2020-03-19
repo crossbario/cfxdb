@@ -1,3 +1,10 @@
+##############################################################################
+#
+#                        Crossbar.io FX
+#     Copyright (C) Crossbar.io Technologies GmbH. All rights reserved.
+#
+##############################################################################
+
 from pprint import pformat
 
 import six
