@@ -18,9 +18,7 @@ from .offer import Offer, Offers, IndexOfferByKey
 from .token import TokenApproval, TokenApprovals, TokenTransfer, TokenTransfers
 from .transaction import Transaction, Transactions
 
-from cfxdb.gen.xbr.Api import Api
 from cfxdb.gen.xbr.ActorType import ActorType
-from cfxdb.gen.xbr.Catalog import Catalog
 from cfxdb.gen.xbr.MemberLevel import MemberLevel
 from cfxdb.gen.xbr.PayingChannelRequestState import PayingChannelRequestState
 from cfxdb.gen.xbr.PaymentChannelType import PaymentChannelType
