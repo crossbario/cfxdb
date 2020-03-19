@@ -13,14 +13,7 @@ from cfxdb.mrealm.web_service import WebService
 from cfxdb.mrealm.web_service_json import WebServiceJson
 from cfxdb.mrealm.web_service_node_info import WebServiceNodeInfo
 from cfxdb.mrealm.web_service_static import WebServiceStatic
+from cfxdb.mrealm.node import Node
 
-__all__ = (
-    'parse_webservice',
-    'ManagementRealm',
-    'WebCluster',
-    'WebClusterNodeMembership',
-    'WebService',
-    'WebServiceJson',
-    'WebServiceNodeInfo',
-    'WebServiceStatic',
-)
+__all__ = ('parse_webservice', 'ManagementRealm', 'WebCluster', 'WebClusterNodeMembership', 'WebService',
+           'WebServiceJson', 'WebServiceNodeInfo', 'WebServiceStatic', 'Node')
