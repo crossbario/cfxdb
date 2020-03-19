@@ -42,7 +42,7 @@ def builder():
 
 
 def fill_actor(actor):
-    actor.api = os.urandom(20)
+    actor.actor = os.urandom(20)
     actor.actor_type = random.randint(1, 2)
     actor.market = uuid.uuid4()
     actor.timestamp = np.datetime64(time_ns(), 'ns')
@@ -54,15 +54,15 @@ def fill_actor(actor):
 
 
 @pytest.fixture(scope='function')
-def api():
+def actor():
     _actor = Actor()
     fill_actor(_actor)
     return _actor
 
 
-def test_actor_roundtrip(api, builder):
+def test_actor_roundtrip(actor, builder):
     # serialize to bytes (flatbuffers) from python object
-    obj = api.build(builder)
+    obj = actor.build(builder)
     builder.Finish(obj)
     data = builder.Output()
     assert len(data) == 368
@@ -70,19 +70,19 @@ def test_actor_roundtrip(api, builder):
     # create python object from bytes (flatbuffes)
     _actor = Actor.cast(data)
 
-    assert _actor.api == api.actor
-    assert _actor.actor_type == api.actor_type
-    assert _actor.market == api.market
-    assert _actor.timestamp == api.timestamp
-    assert _actor.joined == api.joined
-    assert _actor.security == api.security
-    assert _actor.meta == api.meta
-    assert _actor.tid == api.tid
-    assert _actor.signature == api.signature
+    assert _actor.actor == actor.actor
+    assert _actor.actor_type == actor.actor_type
+    assert _actor.market == actor.market
+    assert _actor.timestamp == actor.timestamp
+    assert _actor.joined == actor.joined
+    assert _actor.security == actor.security
+    assert _actor.meta == actor.meta
+    assert _actor.tid == actor.tid
+    assert _actor.signature == actor.signature
 
 
-def test_actor_roundtrip_perf(api, builder):
-    obj = api.build(builder)
+def test_actor_roundtrip_perf(actor, builder):
+    obj = actor.build(builder)
     builder.Finish(obj)
     data = builder.Output()
     scratch = {'value': 0}
@@ -90,15 +90,15 @@ def test_actor_roundtrip_perf(api, builder):
     def loop():
         _actor = Actor.cast(data)
         if True:
-            assert _actor.api == api.actor
-            assert _actor.actor_type == api.actor_type
-            assert _actor.market == api.market
-            assert _actor.timestamp == api.timestamp
-            assert _actor.joined == api.joined
-            assert _actor.security == api.security
-            assert _actor.meta == api.meta
-            assert _actor.tid == api.tid
-            assert _actor.signature == api.signature
+            assert _actor.actor == actor.actor
+            assert _actor.actor_type == actor.actor_type
+            assert _actor.market == actor.market
+            assert _actor.timestamp == actor.timestamp
+            assert _actor.joined == actor.joined
+            assert _actor.security == actor.security
+            assert _actor.meta == actor.meta
+            assert _actor.tid == actor.tid
+            assert _actor.signature == actor.signature
 
             scratch['value'] += _actor.actor_type
 
