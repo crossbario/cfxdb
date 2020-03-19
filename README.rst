@@ -7,9 +7,10 @@ Crossbar.io FX Database
 written in native Python. The package allows direct in-memory data access from
 Python programs (including Jupyter notebooks) to CrossbarFX edge node data:
 
-* persisted event history
-* persisted tracing data
+* persisted WAMP event history
+* persisted router tracing data
 * XBR market maker transactions database
+* XBR network backend database
 * WAMP session cache
 
 --------------
