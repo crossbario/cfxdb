@@ -45,7 +45,6 @@ class _MWorkerLogGen(MWorkerLogGen.MWorkerLog):
         return None
 
 
-
 class MWorkerLog(object):
 
     WORKER_TYPES = {

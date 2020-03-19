@@ -20,7 +20,9 @@ __all__ = (
 )
 
 
-@table('a674f707-69b8-4c41-b2a1-df17cec9b095', build=cfxdb.eventstore.session.Session.build, cast=cfxdb.eventstore.session.Session.cast)
+@table('a674f707-69b8-4c41-b2a1-df17cec9b095',
+       build=cfxdb.eventstore.session.Session.build,
+       cast=cfxdb.eventstore.session.Session.cast)
 class Sessions(MapOidFlatBuffers):
     """
     Persisted sessions archive.
@@ -40,7 +42,9 @@ class Publications(MapOidFlatBuffers):
     """
 
 
-@table('40a9df31-6065-496f-809f-027a1879654c', build=cfxdb.eventstore.event.Event.build, cast=cfxdb.eventstore.event.Event.cast)
+@table('40a9df31-6065-496f-809f-027a1879654c',
+       build=cfxdb.eventstore.event.Event.build,
+       cast=cfxdb.eventstore.event.Event.cast)
 class Events(MapOidTimestampFlatBuffers):
     """
     Persisted events archive.

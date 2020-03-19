@@ -11,11 +11,4 @@ from cfxdb.log.mworker_log import MWorkerLog
 from cfxdb.log.mworker_logs import MWorkerLogs
 from cfxdb.log.schema import Schema
 
-
-__all__ = (
-    'MNodeLog',
-    'MNodeLogs',
-    'MWorkerLog',
-    'MWorkerLogs',
-    'Schema'
-)
+__all__ = ('MNodeLog', 'MNodeLogs', 'MWorkerLog', 'MWorkerLogs', 'Schema')

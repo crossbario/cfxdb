@@ -7,7 +7,6 @@ from cfxdb.user.activation_token_fbs import ActivationTokenFbs
 from cfxdb.user.organization import Organization
 from cfxdb.user.organization_fbs import OrganizationFbs
 
-
 __all__ = (
     'User',
     'UserFbs',

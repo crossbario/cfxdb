@@ -14,7 +14,6 @@ from cfxdb.mrealm.web_service_json import WebServiceJson
 from cfxdb.mrealm.web_service_node_info import WebServiceNodeInfo
 from cfxdb.mrealm.web_service_static import WebServiceStatic
 
-
 __all__ = (
     'parse_webservice',
     'ManagementRealm',

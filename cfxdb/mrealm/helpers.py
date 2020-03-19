@@ -10,7 +10,6 @@ from cfxdb.mrealm.web_service_json import WebServiceJson
 from cfxdb.mrealm.web_service_static import WebServiceStatic
 from cfxdb.mrealm.web_service_node_info import WebServiceNodeInfo
 
-
 _WEBSERVICE_TYPE_KLASSMAP = {}  # type: Dict[str, object]
 _WEBSERVICE_TYPE_KLASSMAP['nodeinfo'] = WebServiceNodeInfo
 _WEBSERVICE_TYPE_KLASSMAP['static'] = WebServiceStatic
