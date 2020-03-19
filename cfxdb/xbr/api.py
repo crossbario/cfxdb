@@ -9,15 +9,16 @@ import uuid
 
 import flatbuffers
 import numpy as np
-from cfxdb.gen.xbr import Catalog as CatalogGen
-from zlmdb import table, MapUuidFlatBuffers, MapBytes20TimestampUuid
+from cfxdb.gen.xbr import Api as ApiGen
+from zlmdb import table, MapUuidFlatBuffers
+from cfxdb import pack_uint256, unpack_uint256
 
 
-class _CatalogGen(CatalogGen):
+class _ApiGen(ApiGen):
     @classmethod
-    def GetRootAsCatalog(cls, buf, offset):
+    def GetRootAsApi(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
-        x = _CatalogGen()
+        x = _ApiGen()
         x.Init(buf, n + offset)
         return x
 
@@ -29,16 +30,16 @@ class _CatalogGen(CatalogGen):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def CreatedAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+    def CatalogOidAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def OwnerAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+    def PublishedAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
@@ -62,9 +63,9 @@ class _CatalogGen(CatalogGen):
         return None
 
 
-class Catalog(object):
+class Api(object):
     """
-    ``XBRNetwork.Catalog`` database object.
+    ``XBRNetwork.Api`` database object.
     """
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
@@ -72,17 +73,17 @@ class Catalog(object):
         # [uint8] (uuid);
         self._oid = None
 
+        # [uint8] (uuid);
+        self._catalog_oid = None
+
         # uint64 (timestamp)
         self._timestamp = None
 
-        # uint32
-        self._seq = None
-
-        # [uint8] (address)
-        self._owner = None
+        # [uint8] (uint256)
+        self._published = None
 
         # string (multihash)
-        self._terms = None
+        self._schema = None
 
         # string (multihash)
         self._meta = None
@@ -96,10 +97,10 @@ class Catalog(object):
     def marshal(self) -> dict:
         obj = {
             'oid': self.oid if self.oid else None,
+            'catalog_oid': self.catalog_oid if self.catalog_oid else None,
             'timestamp': int(self.timestamp) if self.timestamp else None,
-            'seq': self.seq,
-            'owner': bytes(self.owner) if self.owner else None,
-            'terms': self.terms,
+            'published': pack_uint256(self.published) if self.published else None,
+            'schema': self.schema,
             'meta': self.meta,
             'tid': bytes(self.tid) if self.tid else None,
             'signature': bytes(self.signature) if self.signature else None,
@@ -112,7 +113,7 @@ class Catalog(object):
     @property
     def oid(self) -> uuid.UUID:
         """
-        The unique ID of the market.
+        The unique ID of the api.
         """
         if self._oid is None and self._from_fbs:
             if self._from_fbs.OidLength():
@@ -124,6 +125,22 @@ class Catalog(object):
     def oid(self, value: uuid.UUID):
         assert value is None or isinstance(value, uuid.UUID)
         self._oid = value
+
+    @property
+    def catalog_oid(self) -> uuid.UUID:
+        """
+        The unique ID of the catalog.
+        """
+        if self._catalog_oid is None and self._from_fbs:
+            if self._from_fbs.CatalogOidLength():
+                _oid = self._from_fbs.CatalogOidAsBytes()
+                self._oid = uuid.UUID(bytes=bytes(_oid))
+        return self._oid
+
+    @oid.setter
+    def oid(self, value: uuid.UUID):
+        assert value is None or isinstance(value, uuid.UUID)
+        self._catalog_oid = value
 
     @property
     def timestamp(self) -> np.datetime64:
@@ -140,49 +157,37 @@ class Catalog(object):
         self._timestamp = value
 
     @property
-    def seq(self) -> int:
+    def published(self) -> int:
         """
         Global market sequence number.
         """
-        if self._seq is None and self._from_fbs:
-            self._seq = self._from_fbs.Seq()
-        return self._seq or 0
+        if self._published is None and self._from_fbs:
+            _published = self._from_fbs.PublishedAsBytes()
+            self._published = unpack_uint256(bytes(_published))
+        else:
+            self._published = 0
+        return self._published
 
-    @seq.setter
-    def seq(self, value: int):
+    @published.setter
+    def published(self, value: int):
         assert value is None or type(value) == int
-        self._seq = value
+        self._published = value
 
     @property
-    def owner(self) -> bytes:
-        """
-        Catalog owner.
-        """
-        if self._owner is None and self._from_fbs:
-            if self._from_fbs.OwnerLength():
-                self._owner = self._from_fbs.OwnerAsBytes()
-        return self._owner
-
-    @owner.setter
-    def owner(self, value: bytes):
-        assert value is None or (type(value) == bytes and len(value) == 20)
-        self._owner = value
-
-    @property
-    def terms(self) -> str:
+    def schema(self) -> str:
         """
         The XBR market terms set by the market owner. IPFS Multihash pointing to a ZIP archive file with market documents.
         """
-        if self._terms is None and self._from_fbs:
-            terms = self._from_fbs.Terms()
-            if terms:
-                self._terms = terms.decode('utf8')
-        return self._terms
+        if self._schema is None and self._from_fbs:
+            schema = self._from_fbs.Schema()
+            if schema:
+                self._schema = schema.decode('utf8')
+        return self._schema
 
-    @terms.setter
-    def terms(self, value: str):
+    @schema.setter
+    def schema(self, value: str):
         assert value is None or type(value) == str
-        self._terms = value
+        self._schema = value
 
     @property
     def meta(self) -> str:
@@ -232,7 +237,7 @@ class Catalog(object):
 
     @staticmethod
     def cast(buf):
-        return Catalog(_CatalogGen.GetRootAsCatalog(buf, 0))
+        return Api(_ApiGen.GetRootAsApi(buf, 0))
 
     def build(self, builder):
 
@@ -240,9 +245,17 @@ class Catalog(object):
         if oid:
             oid = builder.CreateString(oid)
 
-        terms = self.terms
-        if terms:
-            terms = builder.CreateString(terms)
+        catalog_oid = self.catalog_oid.bytes if self.catalog_oid else None
+        if catalog_oid:
+            catalog_oid = builder.CreateString(catalog_oid)
+
+        published = self.published
+        if published:
+            published = builder.CreateString(pack_uint256(published))
+
+        schema = self.schema
+        if schema:
+            schema = builder.CreateString(schema)
 
         meta = self.meta
         if meta:
@@ -256,50 +269,39 @@ class Catalog(object):
         if signature:
             signature = builder.CreateString(signature)
 
-        owner = self.owner
-        if owner:
-            owner = builder.CreateString(owner)
-
-        CatalogGen.CatalogStart(builder)
+        ApiGen.ApiStart(builder)
 
         if oid:
-            CatalogGen.CatalogAddOid(builder, oid)
+            ApiGen.ApiAddOid(builder, oid)
+
+        if catalog_oid:
+            ApiGen.ApiAddCatalogOid(builder, catalog_oid)
 
         if self.timestamp:
-            CatalogGen.CatalogAddTimestamp(builder, int(self.timestamp))
+            ApiGen.ApiAddTimestamp(builder, int(self.timestamp))
 
-        if self.seq:
-            CatalogGen.CatalogAddSeq(builder, self.seq)
+        if published:
+            ApiGen.ApiAddPublished(builder, published)
 
-        if terms:
-            CatalogGen.CatalogAddTerms(builder, terms)
+        if schema:
+            ApiGen.ApiAddSchema(builder, schema)
 
         if meta:
-            CatalogGen.CatalogAddMeta(builder, meta)
+            ApiGen.ApiAddMeta(builder, meta)
 
         if tid:
-            CatalogGen.CatalogAddTid(builder, tid)
+            ApiGen.ApiAddTid(builder, tid)
 
         if signature:
-            CatalogGen.CatalogAddSignature(builder, signature)
+            ApiGen.ApiAddSignature(builder, signature)
 
-        if owner:
-            CatalogGen.CatalogAddOwner(builder, owner)
-
-        final = CatalogGen.CatalogEnd(builder)
+        final = ApiGen.ApiEnd(builder)
 
         return final
 
 
-@table('60ba3189-d127-4522-bfbc-ed416bf7233c', build=Catalog.build, cast=Catalog.cast)
-class Catalogs(MapUuidFlatBuffers):
+@table('9f87bad9-695e-439d-86ad-9e23695d3f67', build=Api.build, cast=Api.cast)
+class Apis(MapUuidFlatBuffers):
     """
-    Catalogs table, mapping from ``oid|UUID`` to :class:`cfxdb.xbr.Catalog`
-    """
-
-
-@table('2e331469-68f8-4b1b-a1b9-904f7e29dbc5')
-class IndexCatalogsByOwner(MapBytes20TimestampUuid):
-    """
-    Catalogs-by-owner index with ``(owner_adr|bytes[20], created|int) -> catalog_id|UUID`` mapping.
+    Apis table, mapping from ``oid|UUID`` to :class:`cfxdb.xbr.Api`
     """
