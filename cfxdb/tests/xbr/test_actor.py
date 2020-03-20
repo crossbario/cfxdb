@@ -6,7 +6,6 @@ import uuid
 import txaio
 txaio.use_twisted()  # noqa
 
-from autobahn import util
 import flatbuffers
 import pytest
 import numpy as np

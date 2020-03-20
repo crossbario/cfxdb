@@ -75,4 +75,3 @@ def test_payment_channel_bal_roundtrip_perf(payment_channel_bal, builder):
 
     assert ops50 > 1000
     print(scratch['value'])
-
