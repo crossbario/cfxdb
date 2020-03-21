@@ -12,6 +12,7 @@ from . import schema
 
 __all__ = (
     '__version__',
+    'schema',
     'address',
     'uint256',
     'pack_uint256',
