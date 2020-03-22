@@ -57,7 +57,7 @@ test_xbr_roundtrip:
 	#pytest -v -s ./cfxdb/tests/xbr/test_block.py::test_block_roundtrip
 	pytest -v -s ./cfxdb/tests/xbr/test_catalog.py::test_catalog_roundtrip
 	#pytest -v -s ./cfxdb/tests/xbr/test_channel.py::test_channel_roundtrip
-	#pytest -v -s ./cfxdb/tests/xbr/test_channel_balance.py::test_channel_balance_roundtrip
+	pytest -v -s ./cfxdb/tests/xbr/test_channel_balance.py::test_channel_balance_roundtrip
 	pytest -v -s ./cfxdb/tests/xbr/test_consent.py::test_consent_roundtrip
 	pytest -v -s ./cfxdb/tests/xbr/test_market.py::test_market_roundtrip
 	pytest -v -s ./cfxdb/tests/xbr/test_member.py::test_member_roundtrip
