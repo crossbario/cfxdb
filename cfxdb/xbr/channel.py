@@ -7,6 +7,9 @@
 
 import pprint
 
+from uuid import UUID
+import numpy as np
+
 import flatbuffers
 from cfxdb import unpack_uint256, pack_uint256
 from cfxdb.gen.xbr import ChannelType as ChannelTypeGen, ChannelState as ChannelStateGen, \
@@ -30,7 +33,15 @@ class _ChannelGen(ChannelGen.Channel):
         x.Init(buf, n + offset)
         return x
 
-    def ChannelAsBytes(self):
+    def MarketOidAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def MemberOidAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -38,7 +49,7 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def MarketAsBytes(self):
+    def ChannelOidAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -46,15 +57,7 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def SenderAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
-        if o != 0:
-            _off = self._tab.Vector(o)
-            _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
-        return None
-
-    def DelegateAsBytes(self):
+    def OpenAtAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -62,23 +65,23 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def RecipientAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+    def MarketmakerAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def AmountAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+    def ActorAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def OpenAtAsBytes(self):
+    def DelegateAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -86,7 +89,7 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def ClosingAtAsBytes(self):
+    def RecipientAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -94,7 +97,7 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def ClosedAtAsBytes(self):
+    def AmountAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -102,23 +105,15 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def CloseMmSigAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+    def ClosingAtAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(32))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def CloseDelSigAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
-        if o != 0:
-            _off = self._tab.Vector(o)
-            _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
-        return None
-
-    def CloseBalanceAsBytes(self):
+    def ClosedAtAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -126,8 +121,32 @@ class _ChannelGen(ChannelGen.Channel):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
-    def ClosedTxAsBytes(self):
+    def CloseMmSigAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(36))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def CloseDelSigAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(38))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def CloseBalanceAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(42))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def ClosedTxAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(46))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
@@ -137,53 +156,57 @@ class _ChannelGen(ChannelGen.Channel):
 
 class Channel(object):
     """
-    ``XBRChannel`` record/event database object.
-
-    XBR payment channel (from XBR consumer to XBR market maker) and XBR paying channels (from XBR market maker to XBR provider).
+    XBR off-chain payment or paying channel.
     """
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
-        self._type = None
-        self._channel = None
-        self._market = None
-        self._sender = None
+        self._market_oid = None
+        self._member_oid = None
+        self._channel_oid = None
+        self._timestamp = None
+        self._open_at = None
+        self._seq = None
+        self._channel_type = None
+        self._marketmaker = None
+        self._actor = None
         self._delegate = None
         self._recipient = None
         self._amount = None
         self._timeout = None
         self._state = None
-        self._open_at = None
         self._closing_at = None
         self._closed_at = None
-
         self._close_mm_sig = None
         self._close_del_sig = None
         self._close_channel_seq = None
         self._close_balance = None
         self._close_is_final = None
-
         self._closed_tx = None
 
     def marshal(self) -> dict:
         obj = {
-            'type': self.type,
-            'channel': bytes(self.channel) if self.channel else None,
-            'market': bytes(self.market) if self.market else None,
-            'sender': bytes(self.sender) if self.sender else None,
+            'market_oid': self.market_oid.bytes if self.market_oid else None,
+            'member_oid': self.member_oid.bytes if self.member_oid else None,
+            'channel_oid': self.channel_oid.bytes if self.channel_oid else None,
+            'timestamp': int(self.timestamp) if self.timestamp else None,
+            'open_at': pack_uint256(self.open_at) if self.open_at else None,
+            'seq': self.seq,
+            'channel_type': self.channel_type,
+            'marketmaker': bytes(self.marketmaker) if self.marketmaker else None,
+            'actor': bytes(self.actor) if self.actor else None,
             'delegate': bytes(self.delegate) if self.delegate else None,
             'recipient': bytes(self.recipient) if self.recipient else None,
             'amount': pack_uint256(self.amount) if self.amount else 0,
             'timeout': self.timeout,
             'state': self.state,
-            'open_at': self.open_at,
-            'closing_at': self.closing_at,
-            'closed_at': self.closed_at,
+            'closing_at': pack_uint256(self.closing_at) if self.closing_at else None,
+            'closed_at': pack_uint256(self.closed_at) if self.closed_at else None,
             'close_mm_sig': bytes(self.close_mm_sig) if self.close_mm_sig else None,
             'close_del_sig': bytes(self.close_del_sig) if self.close_del_sig else None,
             'close_channel_seq': self.close_channel_seq,
-            'close_is_final': self.close_is_final,
             'close_balance': self.close_balance,
+            'close_is_final': self.close_is_final,
             'closed_tx': bytes(self.closed_tx) if self.closed_tx else None,
         }
         return obj
@@ -192,63 +215,142 @@ class Channel(object):
         return '\n{}\n'.format(pprint.pformat(self.marshal()))
 
     @property
-    def type(self) -> int:
+    def market_oid(self) -> UUID:
+        """
+        The unique OID of the market.
+        """
+        if self._market_oid is None and self._from_fbs:
+            if self._from_fbs.MarketOidLength():
+                _market_oid = self._from_fbs.MarketOidAsBytes()
+                self._market_oid = UUID(bytes=bytes(_market_oid))
+        return self._market_oid
+
+    @market_oid.setter
+    def market_oid(self, value: UUID):
+        assert value is None or isinstance(value, UUID)
+        self._market_oid = value
+
+    @property
+    def member_oid(self) -> UUID:
+        """
+        The unique OID of the member.
+        """
+        if self._member_oid is None and self._from_fbs:
+            if self._from_fbs.MemberOidLength():
+                _member_oid = self._from_fbs.MemberOidAsBytes()
+                self._member_oid = UUID(bytes=bytes(_member_oid))
+        return self._member_oid
+
+    @member_oid.setter
+    def member_oid(self, value: UUID):
+        assert value is None or isinstance(value, UUID)
+        self._member_oid = value
+
+    @property
+    def channel_oid(self) -> UUID:
+        """
+        The unique OID of the channel.
+        """
+        if self._channel_oid is None and self._from_fbs:
+            if self._from_fbs.ChannelOidLength():
+                _channel_oid = self._from_fbs.ChannelOidAsBytes()
+                self._channel_oid = UUID(bytes=bytes(_channel_oid))
+        return self._channel_oid
+
+    @channel_oid.setter
+    def channel_oid(self, value: UUID):
+        assert value is None or isinstance(value, UUID)
+        self._channel_oid = value
+
+    @property
+    def timestamp(self) -> np.datetime64:
+        """
+        Database transaction time (epoch time in ns) of insert or last update.
+        """
+        if self._timestamp is None and self._from_fbs:
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, value: np.datetime64):
+        assert value is None or isinstance(value, np.datetime64)
+        self._timestamp = value
+
+    @property
+    def open_at(self) -> int:
+        """
+        Block number (on the blockchain) when the actor (originally) joined the market.
+        """
+        if self._open_at is None and self._from_fbs:
+            if self._from_fbs.OpenAtLength():
+                _open_at = self._from_fbs.OpenAtAsBytes()
+                self._open_at = unpack_uint256(bytes(_open_at))
+            else:
+                self._open_at = 0
+        return self._open_at
+
+    @open_at.setter
+    def open_at(self, value: int):
+        assert value is None or type(value) == int
+        self._open_at = value
+
+    @property
+    def seq(self) -> int:
+        """
+        Global channel sequence number.
+        """
+        if self._seq is None and self._from_fbs:
+            self._seq = self._from_fbs.Seq()
+        return self._seq or 0
+
+    @seq.setter
+    def seq(self, value: int):
+        assert value is None or type(value) == int
+        self._seq = value
+
+    @property
+    def channel_type(self) -> int:
         """
         Channel type: payment channel (from XBR consumer to XBR market maker) or paying channel (from XBR market maker to XBR provider).
         """
-        if self._type is None and self._from_fbs:
-            self._type = self._from_fbs.Type()
-        return self._type
+        if self._channel_type is None and self._from_fbs:
+            self._channel_type = self._from_fbs.ChannelType()
+        return self._channel_type
 
-    @type.setter
-    def type(self, value: int):
+    @channel_type.setter
+    def channel_type(self, value: int):
         assert type(value) == int
-        self._type = value
+        self._channel_type = value
 
     @property
-    def channel(self) -> bytes:
+    def marketmaker(self) -> bytes:
         """
         ID of the payment channel.
         """
-        if self._channel is None and self._from_fbs:
-            if self._from_fbs.ChannelLength():
-                self._channel = self._from_fbs.ChannelAsBytes()
-        return self._channel
+        if self._marketmaker is None and self._from_fbs:
+            if self._from_fbs.MarketmakerLength():
+                self._marketmaker = self._from_fbs.MarketmakerAsBytes()
+        return self._marketmaker
 
-    @channel.setter
-    def channel(self, value: bytes):
+    @marketmaker.setter
+    def marketmaker(self, value: bytes):
         assert value is None or type(value) == bytes
-        self._channel = value
+        self._marketmaker = value
 
     @property
-    def market(self) -> bytes:
-        """
-        ID of the market this payment channel is associated with.
-        """
-        if self._market is None and self._from_fbs:
-            if self._from_fbs.MarketLength():
-                self._market = self._from_fbs.MarketAsBytes()
-        return self._market
-
-    @market.setter
-    def market(self, value: bytes):
-        assert value is None or type(value) == bytes
-        self._market = value
-
-    @property
-    def sender(self) -> bytes:
+    def actor(self) -> bytes:
         """
         Ethereum address of the sender (either XBR Consumer or XBR Market).
         """
-        if self._sender is None and self._from_fbs:
-            if self._from_fbs.SenderLength():
-                self._sender = self._from_fbs.SenderAsBytes()
-        return self._sender
+        if self._actor is None and self._from_fbs:
+            if self._from_fbs.ActorLength():
+                self._actor = self._from_fbs.ActorAsBytes()
+        return self._actor
 
-    @sender.setter
-    def sender(self, value: bytes):
+    @actor.setter
+    def actor(self, value: bytes):
         assert value is None or type(value) == bytes
-        self._sender = value
+        self._actor = value
 
     @property
     def delegate(self) -> bytes:
@@ -325,24 +427,6 @@ class Channel(object):
     def state(self, value: int):
         assert type(value) == int
         self._state = value
-
-    @property
-    def open_at(self) -> int:
-        """
-        Block number (on the blockchain) when the payment channel was opened.
-        """
-        if self._open_at is None and self._from_fbs:
-            if self._from_fbs.OpenAtLength():
-                _open_at = self._from_fbs.OpenAtAsBytes()
-                self._open_at = unpack_uint256(bytes(_open_at))
-            else:
-                self._open_at = 0
-        return self._open_at
-
-    @open_at.setter
-    def open_at(self, value: int):
-        assert value is None or type(value) == int
-        self._open_at = value
 
     @property
     def closing_at(self) -> int:
@@ -480,17 +564,29 @@ class Channel(object):
 
     def build(self, builder):
 
-        channel = self.channel
-        if channel:
-            channel = builder.CreateString(bytes(channel))
+        market_oid = self.market_oid
+        if market_oid:
+            market_oid = builder.CreateString(market_oid.bytes)
 
-        market = self.market
-        if market:
-            market = builder.CreateString(bytes(market))
+        member_oid = self.member_oid
+        if member_oid:
+            member_oid = builder.CreateString(member_oid.bytes)
 
-        sender = self.sender
-        if sender:
-            sender = builder.CreateString(bytes(sender))
+        channel_oid = self.channel_oid
+        if channel_oid:
+            channel_oid = builder.CreateString(channel_oid.bytes)
+
+        open_at = self.open_at
+        if open_at:
+            open_at = builder.CreateString(pack_uint256(open_at))
+
+        marketmaker = self.marketmaker
+        if marketmaker:
+            marketmaker = builder.CreateString(bytes(marketmaker))
+
+        actor = self.actor
+        if actor:
+            actor = builder.CreateString(bytes(actor))
 
         delegate = self.delegate
         if delegate:
@@ -503,10 +599,6 @@ class Channel(object):
         amount = self.amount
         if amount:
             amount = builder.CreateString(pack_uint256(amount))
-
-        open_at = self.open_at
-        if open_at:
-            open_at = builder.CreateString(pack_uint256(open_at))
 
         closing_at = self.closing_at
         if closing_at:
@@ -534,17 +626,32 @@ class Channel(object):
 
         ChannelGen.ChannelStart(builder)
 
+        if market_oid:
+            ChannelGen.ChannelAddMarketOid(builder, market_oid)
+
+        if member_oid:
+            ChannelGen.ChannelAddMemberOid(builder, member_oid)
+
+        if channel_oid:
+            ChannelGen.ChannelAddChannelOid(builder, channel_oid)
+
+        if self.timestamp:
+            ChannelGen.ChannelAddTimestamp(builder, int(self.timestamp))
+
+        if open_at:
+            ChannelGen.ChannelAddOpenAt(builder, open_at)
+
+        if self.seq:
+            ChannelGen.ChannelAddSeq(builder, self.seq)
+
         if self.channel_type:
-            ChannelGen.ChannelAddChannelType(builder, int(self.type))
+            ChannelGen.ChannelAddChannelType(builder, self.channel_type)
 
-        if channel:
-            ChannelGen.ChannelAddChannel(builder, channel)
+        if marketmaker:
+            ChannelGen.ChannelAddMarketmaker(builder, marketmaker)
 
-        if market:
-            ChannelGen.ChannelAddMarket(builder, market)
-
-        if sender:
-            ChannelGen.ChannelAddSender(builder, sender)
+        if actor:
+            ChannelGen.ChannelAddActor(builder, actor)
 
         if delegate:
             ChannelGen.ChannelAddDelegate(builder, delegate)
@@ -559,9 +666,6 @@ class Channel(object):
 
         if self.state:
             ChannelGen.ChannelAddState(builder, int(self.state))
-
-        if open_at:
-            ChannelGen.ChannelAddOpenAt(builder, open_at)
 
         if closing_at:
             ChannelGen.ChannelAddClosingAt(builder, closing_at)

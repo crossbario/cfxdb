@@ -54,6 +54,7 @@ __all__ = (
     'PaymentChannel',
     'PaymentChannels',
     'IndexPaymentChannelByDelegate',
+    'ChannelBalance',
     'PaymentChannelBalance',
     'PaymentChannelBalances',
     'PayingChannel',
