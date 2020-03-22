@@ -534,8 +534,8 @@ class Channel(object):
 
         ChannelGen.ChannelStart(builder)
 
-        if self.type:
-            ChannelGen.ChannelAddType(builder, int(self.type))
+        if self.channel_type:
+            ChannelGen.ChannelAddChannelType(builder, int(self.type))
 
         if channel:
             ChannelGen.ChannelAddChannel(builder, channel)
