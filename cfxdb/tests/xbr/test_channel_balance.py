@@ -14,7 +14,7 @@ txaio.use_twisted()  # noqa
 import flatbuffers
 import pytest
 
-from cfxdb.xbr import PaymentChannelBalance
+from cfxdb.xbr import ChannelBalance
 
 
 def fill_payment_channel_bal(payment_channel_bal):
@@ -25,7 +25,7 @@ def fill_payment_channel_bal(payment_channel_bal):
 
 @pytest.fixture(scope='function')
 def payment_channel_bal():
-    _payment_channel_bal = PaymentChannelBalance()
+    _payment_channel_bal = ChannelBalance()
     fill_payment_channel_bal(_payment_channel_bal)
     return _payment_channel_bal
 
@@ -44,7 +44,7 @@ def test_payment_channel_bal_roundtrip(payment_channel_bal, builder):
     assert len(data) == 112
 
     # create python object from bytes (flatbuffes)
-    _payment_channel_bal = PaymentChannelBalance.cast(data)
+    _payment_channel_bal = ChannelBalance.cast(data)
 
     assert _payment_channel_bal.remaining == payment_channel_bal.remaining
     assert _payment_channel_bal.inflight == payment_channel_bal.inflight
@@ -58,7 +58,7 @@ def test_payment_channel_bal_roundtrip_perf(payment_channel_bal, builder):
     scratch = {'value': 0}
 
     def loop():
-        _payment_channel_bal = PaymentChannelBalance.cast(data)
+        _payment_channel_bal = ChannelBalance.cast(data)
         if True:
             assert _payment_channel_bal.remaining == payment_channel_bal.remaining
             assert _payment_channel_bal.inflight == payment_channel_bal.inflight
