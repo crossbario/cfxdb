@@ -11,6 +11,7 @@ from .actor import Actor, Actors
 from .api import Api, Apis
 from .block import Block, Blocks
 from .catalog import Catalog, Catalogs
+from .consent import Consent, Consents, IndexConsentByMemberAddress
 
 from .channel import Channel
 from .channel import Channel as PaymentChannel
@@ -56,6 +57,9 @@ __all__ = (
     'Blocks',
     'Catalog',
     'Catalogs',
+    'Consent',
+    'Consents',
+    'IndexConsentByMemberAddress',
     'Channel',
     'PaymentChannel',
     'PaymentChannels',

@@ -10,13 +10,15 @@ from .api import Apis
 from .block import Blocks
 from .catalog import Catalogs
 
+from .consent import Consents, IndexConsentByMemberAddress
+
 from .channel import PaymentChannels, IndexPaymentChannelByDelegate, \
     PaymentChannelBalances, PayingChannels, IndexPayingChannelByDelegate, \
     PayingChannelBalances
 
 from .market import Markets, IndexMarketsByOwner, IndexMarketsByActor
 from .member import Members
-from .offer import Offer, Offers, IndexOfferByKey
+from .offer import Offers, IndexOfferByKey
 from .token import TokenApprovals, TokenTransfers
 from .transaction import Transactions
 
@@ -28,19 +30,9 @@ class Schema(object):
     def __init__(self, db):
         self.db = db
 
-    apis: Apis
-    """
-    XBR network apis.
-    """
-
     blocks: Blocks
     """
     Ethereum blocks basic information.
-    """
-
-    catalogs: Catalogs
-    """
-    XBR network catalogs.
     """
 
     token_approvals: TokenApprovals
@@ -56,6 +48,16 @@ class Schema(object):
     members: Members
     """
     XBR network members.
+    """
+
+    catalogs: Catalogs
+    """
+    XBR network catalogs.
+    """
+
+    apis: Apis
+    """
+    XBR network apis.
     """
 
     markets: Markets
@@ -76,6 +78,16 @@ class Schema(object):
     actors: Actors
     """
     XBR market actors.
+    """
+
+    consents: Consents
+    """
+    XBR data consents.
+    """
+
+    idx_consent_by_member_adr: IndexConsentByMemberAddress
+    """
+    Consents-by-members-address index with ``(member_adr|bytes[20], joined|int) -> member_adr|UUID`` mapping.
     """
 
     payment_channels: PaymentChannels
@@ -110,7 +122,7 @@ class Schema(object):
     Current off-chain balances within paying channels.
     """
 
-    key_offers: Offer
+    offers: Offers
     """
     Data encryption key offers.
     """
