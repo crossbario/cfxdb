@@ -31,6 +31,8 @@ from .transaction import Transaction, Transactions
 from cfxdb.gen.xbr.ActorType import ActorType
 from cfxdb.gen.xbr.MemberLevel import MemberLevel
 from cfxdb.gen.xbr.TransactionState import TransactionState
+from cfxdb.gen.xbr.ChannelType import ChannelType
+from cfxdb.gen.xbr.ChannelState import ChannelState
 
 __all__ = (
     # database schema
@@ -39,6 +41,8 @@ __all__ = (
     # enum types
     'MemberLevel',
     'ActorType',
+    'ChannelType',
+    'ChannelState',
     'TransactionState',
 
     # table/index types
