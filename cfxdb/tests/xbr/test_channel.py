@@ -126,9 +126,9 @@ def test_channel_roundtrip_perf(channel, builder):
             assert _channel.close_balance == channel.close_balance
             assert _channel.closed_tx == channel.closed_tx
 
-            scratch['value'] += int(_channel.channel[0])
-            scratch['value'] += int(_channel.channel[7])
-            scratch['value'] += int(_channel.channel[15])
+            scratch['value'] += int(_channel.market_oid.bytes[0])
+            scratch['value'] += int(_channel.market_oid.bytes[7])
+            scratch['value'] += int(_channel.market_oid.bytes[15])
 
     N = 5
     M = 10000

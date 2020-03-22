@@ -561,7 +561,7 @@ table Transaction
     /// Payment channel balance after transaction.
     payment_channel_after: [uint8] (uint256);
 
-    /// Paying channel balance after transaction.
+    /// Payment channel balance after transaction.
     paying_channel_after: [uint8] (uint256);
 
     /// Payment channel market maker transaction signature.
