@@ -6,11 +6,9 @@
 ##############################################################################
 
 import pytest
-import os
 import random
 import uuid
 import timeit
-import platform
 
 import flatbuffers
 from txaio import with_twisted  # noqa
