@@ -19,7 +19,6 @@ from cfxdb.xbr.token import TokenApproval, TokenApprovals, TokenTransfer, TokenT
 from cfxdb.gen.xbr.ActorType import ActorType
 from cfxdb.gen.xbr.MemberLevel import MemberLevel
 
-
 __all__ = (
     # database schema
     'Schema',
@@ -46,5 +45,4 @@ __all__ = (
     'TokenApproval',
     'TokenApprovals',
     'TokenTransfer',
-    'TokenTransfers'
-)
+    'TokenTransfers')

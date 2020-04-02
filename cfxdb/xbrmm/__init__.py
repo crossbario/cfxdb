@@ -27,7 +27,6 @@ from cfxdb.gen.xbrmm.TransactionState import TransactionState
 from cfxdb.gen.xbrmm.ChannelType import ChannelType
 from cfxdb.gen.xbrmm.ChannelState import ChannelState
 
-
 __all__ = (
     # database schema
     'Schema',
