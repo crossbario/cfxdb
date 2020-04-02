@@ -96,23 +96,6 @@ enum MemberLevel: uint8
 }
 
 
-/// XBR Market Actor type.
-enum ActorType: uint8
-{
-    /// Unset
-    NONE = 0,
-
-    /// Actor is a XBR Provider.
-    PROVIDER = 1,
-
-    /// Actor is a XBR Consumer.
-    CONSUMER = 2,
-
-    /// Actor is both a XBR Provider and XBR Consumer.
-    PROVIDER_CONSUMER = 3
-}
-
-
 /// XBR Network members.
 table Member
 {
