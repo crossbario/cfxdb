@@ -16,7 +16,7 @@ from cfxdb.xbr.market import Market, Markets, IndexMarketsByOwner, IndexMarketsB
 from cfxdb.xbr.member import Member, Members
 from cfxdb.xbr.token import TokenApproval, TokenApprovals, TokenTransfer, TokenTransfers
 
-from cfxdb.gen.ActorType import ActorType
+from cfxdb.gen.xbr.ActorType import ActorType
 from cfxdb.gen.xbr.MemberLevel import MemberLevel
 
 __all__ = (

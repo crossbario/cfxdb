@@ -39,43 +39,6 @@ enum ChannelState: uint8
 }
 
 
-/// XBR data consent set by market actors.
-table Consent {
-    /// The ID of the catalog consent was set within [primary key].
-    market_oid: [uint8] (uuid);
-
-    /// Member (must be actor in market) that has set consent [primary key].
-    member: [uint8] (address);
-
-    /// Delegate for which consent is set [primary key].
-    delegate: [uint8] (address);
-
-    /// Type of delegate for which consent was granted [primary key].
-    delegate_type: ActorType;
-
-    /// The ID of the catalog this consent was set for [primary key].
-    catalog_oid: [uint8] (uuid);
-
-    /// Database transaction time (epoch time in ns).
-    timestamp: uint64 (timestamp);
-
-    /// Block number when the consent was updated.
-    updated: [uint8] (uint256);
-
-    /// Consent granted or revoked.
-    consent: bool;
-
-    /// The WAMP URI prefix to be used by the delegate when providing data service under an API of the catalog and in the data plane realm.
-    service_prefix: string;
-
-    /// Transaction hash of the transaction this change was committed to the blockchain under.
-    tid: [uint8] (ethhash);
-
-    /// This is the signature the user (actor) supplied when setting the consent status.
-    signature: [uint8] (ethsig);
-}
-
-
 /// XBR channel (from XBR consumer to XBR market maker) and XBR paying channels (from XBR market maker to XBR provider).
 table Channel
 {
