@@ -7,8 +7,6 @@
 
 from cfxdb.xbrmm.schema import Schema
 
-from cfxdb.xbrmm.consent import Consent, Consents, IndexConsentByMemberAddress
-
 from cfxdb.xbrmm.channel import Channel
 from cfxdb.xbrmm.channel import Channel as PaymentChannel
 from cfxdb.xbrmm.channel import Channel as PayingChannel
@@ -37,9 +35,6 @@ __all__ = (
     'TransactionState',
 
     # table/index types
-    'Consent',
-    'Consents',
-    'IndexConsentByMemberAddress',
     'Channel',
     'PaymentChannel',
     'PaymentChannels',

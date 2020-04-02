@@ -10,7 +10,7 @@ from .api import Apis, IndexApiByCatalog
 from .block import Blocks
 from .catalog import Catalogs, IndexCatalogsByOwner
 
-from cfxdb.xbrmm.consent import Consents, IndexConsentByMemberAddress
+from cfxdb.xbr.consent import Consents, IndexConsentByMemberAddress
 
 from cfxdb.xbrmm.channel import PaymentChannels, IndexPaymentChannelByDelegate, \
     PaymentChannelBalances, PayingChannels, IndexPayingChannelByDelegate, \

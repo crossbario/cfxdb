@@ -11,6 +11,7 @@ from cfxdb.xbr.actor import Actor, Actors
 from cfxdb.xbr.api import Api, Apis
 from cfxdb.xbr.block import Block, Blocks
 from cfxdb.xbr.catalog import Catalog, Catalogs
+from cfxdb.xbr.consent import Consent, Consents, IndexConsentByMemberAddress
 
 from cfxdb.xbr.market import Market, Markets, IndexMarketsByOwner, IndexMarketsByActor
 from cfxdb.xbr.member import Member, Members
@@ -36,6 +37,9 @@ __all__ = (
     'Blocks',
     'Catalog',
     'Catalogs',
+    'Consent',
+    'Consents',
+    'IndexConsentByMemberAddress',
     'Market',
     'Markets',
     'IndexMarketsByOwner',

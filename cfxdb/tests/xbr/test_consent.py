@@ -21,7 +21,7 @@ txaio.use_twisted()  # noqa
 
 from txaio import time_ns
 
-from cfxdb.xbrmm.consent import Consent
+from cfxdb.xbr.consent import Consent
 from cfxdb.tests._util import _gen_ipfs_hash
 
 zlmdb.TABLES_BY_UUID = {}
