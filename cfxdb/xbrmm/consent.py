@@ -10,7 +10,7 @@ import uuid
 import flatbuffers
 import numpy as np
 from cfxdb import pack_uint256, unpack_uint256
-from cfxdb.gen.xbr import Consent as ConsentGen
+from cfxdb.gen.xbrmm import Consent as ConsentGen
 from zlmdb import table, MapBytes20TimestampUuid, MapUuidBytes20Bytes20Uint8UuidFlatBuffers
 
 
