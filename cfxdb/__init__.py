@@ -5,6 +5,9 @@
 #
 ##############################################################################
 
+import txaio
+txaio.use_twisted()  # noqa
+
 from ._version import __version__
 from .common import address, uint256, unpack_uint256, pack_uint256,\
     uint128, unpack_uint128, pack_uint128
