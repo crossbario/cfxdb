@@ -358,6 +358,7 @@ class Consent(object):
             ConsentGen.ConsentAddUpdated(builder, updated)
 
         ConsentGen.ConsentAddConsent(builder, self.consent)
+        ConsentGen.ConsentAddSynced(builder, self.synced)
 
         if service_prefix:
             ConsentGen.ConsentAddServicePrefix(builder, service_prefix)
