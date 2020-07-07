@@ -92,6 +92,9 @@ class Consent(object):
         # [uint8] (ethsig)
         self._signature = None
 
+        # bool
+        self._synced = None
+
     def marshal(self) -> dict:
         obj = {
             'market_oid': self.market_oid.bytes if self.market_oid else None,
@@ -105,6 +108,7 @@ class Consent(object):
             'service_prefix': self.service_prefix if self.service_prefix else None,
             'tid': bytes(self.tid) if self.tid else None,
             'signature': bytes(self.signature) if self.signature else None,
+            'synced': self.synced,
         }
         return obj
 
@@ -275,6 +279,20 @@ class Consent(object):
     def signature(self, value: bytes):
         assert value is None or (type(value) == bytes and len(value) == 65)
         self._signature = value
+
+    @property
+    def synced(self) -> bool:
+        """
+        Whether the consent is synced with blockchain
+        """
+        if self._synced is None and self._from_fbs:
+            self._synced = self._from_fbs.Synced()
+        return self._synced
+
+    @synced.setter
+    def synced(self, value: bool):
+        assert type(value) == bool
+        self._synced = value
 
     @staticmethod
     def cast(buf):
