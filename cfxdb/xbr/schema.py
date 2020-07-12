@@ -22,6 +22,8 @@ from cfxdb.xbrmm.offer import Offers, IndexOfferByKey
 from .token import TokenApprovals, TokenTransfers
 from cfxdb.xbrmm.transaction import Transactions
 
+from cfxdb.xbrnetwork.userkey import UserKeys, IndexUserKeyByAccount
+
 
 class Schema(object):
     """
@@ -159,6 +161,16 @@ class Schema(object):
     """
     """
 
+    user_keys: UserKeys
+    """
+    User client keys database table :class:`xbrnetwork.UserKeys`.
+    """
+
+    idx_user_key_by_account: IndexUserKeyByAccount
+    """
+    Index "by pubkey" of user keys :class:`xbrnetwork.IndexUserKeyByAccount`.
+    """
+
     @staticmethod
     def attach(db):
         """
@@ -235,6 +247,12 @@ class Schema(object):
         schema.offers = db.attach_table(Offers)
         schema.idx_offer_by_key = db.attach_table(IndexOfferByKey)
         schema.offers.attach_index('idx1', schema.idx_offer_by_key, lambda offer: offer.key)
+
+        schema.user_keys = db.attach_table(UserKeys)
+
+        schema.idx_user_key_by_account = db.attach_table(IndexUserKeyByAccount)
+        schema.user_keys.attach_index('idx1', schema.idx_user_key_by_account, lambda user_key:
+                                      (user_key.owner, user_key.created))
 
         schema.transactions = db.attach_table(Transactions)
 
