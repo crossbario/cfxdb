@@ -267,6 +267,6 @@ table UserKey {
     /// Timestamp (epoch time in ns) of initial creation of this record.
     created: uint64 (timestamp);
 
-    /// ID of user account this user key is owned by.
+    /// ID of XBR network member this user key is owned by (foreign key to xbr.Member)
     owner: [uint8] (uuid);
 }
