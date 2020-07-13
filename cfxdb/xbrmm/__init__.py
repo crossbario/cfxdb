@@ -57,5 +57,4 @@ __all__ = (
     'Transactions',
     'UserKey',
     'UserKeys',
-    'IndexUserKeyByMember'
-)
+    'IndexUserKeyByMember')
