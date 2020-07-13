@@ -3,7 +3,7 @@ FBS_FILES=./cfxdb/*.fbs
 FBS_OUTPUT=./cfxdb/gen
 
 #FLATC=${HOME}/scm/3rdparty/flatbuffers/flatc
-FLATC=/snap/bin/flatc
+FLATC=/usr/local/bin/flatc
 
 build_flatc:
 	cd /tmp
