@@ -22,6 +22,7 @@ class WebCluster(ConfigurationElement):
         3: 'RUNNING',
         4: 'PAUSED',
         5: 'STOPPING',
+        6: 'ERROR',
     }
 
     STATUS_BY_NAME = {
@@ -31,6 +32,7 @@ class WebCluster(ConfigurationElement):
         'RUNNING': 3,
         'PAUSED': 4,
         'STOPPING': 5,
+        'ERROR': 6,
     }
 
     STATUS_STOPPED = 1
@@ -38,6 +40,7 @@ class WebCluster(ConfigurationElement):
     STATUS_RUNNING = 3
     STATUS_PAUSED = 4
     STATUS_STOPPING = 5
+    STATUS_ERROR = 6
 
     def __init__(self,
                  oid=None,
