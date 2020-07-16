@@ -8,7 +8,7 @@
 from zlmdb import table
 from zlmdb import MapStringUuid, MapUuidCbor, MapSlotUuidUuid, MapUuidStringUuid, MapUuidUuidUuid, MapUuidUuidCbor
 
-from cfxdb.mrealm import WebCluster, WebService, WebClusterNodeMembership, parse_webservice
+from cfxdb.mrealm import WebCluster, WebService, ClusterNodeMembership, parse_webservice
 from cfxdb.log import MNodeLogs, MWorkerLogs
 
 __all__ = ('MrealmSchema', )
@@ -35,9 +35,9 @@ class IndexWebClusterByName(MapStringUuid):
 # Web cluster node memberships
 #
 @table('e9801077-a629-470b-a4c9-4292a1f00d43',
-       marshal=WebClusterNodeMembership.marshal,
-       parse=WebClusterNodeMembership.parse)
-class WebClusterNodeMemberships(MapUuidUuidCbor):
+       marshal=ClusterNodeMembership.marshal,
+       parse=ClusterNodeMembership.parse)
+class ClusterNodeMemberships(MapUuidUuidCbor):
     """
     Table: (webcluster_oid, node_oid) -> webcluster_node_membership
     """
@@ -108,7 +108,7 @@ class MrealmSchema(object):
     """
     """
 
-    # webcluster_node_memberships: WebClusterNodeMemberships
+    # webcluster_node_memberships: ClusterNodeMemberships
     webcluster_node_memberships = None
     """
     """
@@ -179,7 +179,7 @@ class MrealmSchema(object):
         schema.webclusters.attach_index('idx1', schema.idx_webclusters_by_name,
                                         lambda webcluster: webcluster.name)
 
-        schema.webcluster_node_memberships = db.attach_table(WebClusterNodeMemberships)
+        schema.webcluster_node_memberships = db.attach_table(ClusterNodeMemberships)
 
         # web services
         schema.webservices = db.attach_table(WebServices)

@@ -8,40 +8,43 @@
 import pprint
 
 from cfxdb.common import ConfigurationElement
+from cfxdb.gen.mrealm.ClusterStatus import ClusterStatus
+
+STATUS_BY_CODE = {
+    ClusterStatus.NONE: 'NONE',
+    ClusterStatus.STOPPED: 'STOPPED',
+    ClusterStatus.STARTING: 'STARTING',
+    ClusterStatus.RUNNING: 'RUNNING',
+    ClusterStatus.PAUSED: 'PAUSED',
+    ClusterStatus.STOPPING: 'STOPPING',
+    ClusterStatus.ERROR: 'ERROR',
+    ClusterStatus.DEGRADED: 'DEGRADED',
+}
+
+STATUS_BY_NAME = {
+    'NONE': ClusterStatus.NONE,
+    'STOPPED': ClusterStatus.STOPPED,
+    'STARTING': ClusterStatus.STARTING,
+    'RUNNING': ClusterStatus.RUNNING,
+    'PAUSED': ClusterStatus.PAUSED,
+    'STOPPING': ClusterStatus.STOPPING,
+    'ERROR': ClusterStatus.ERROR,
+    'DEGRADED': ClusterStatus.DEGRADED,
+}
+
+STATUS_STOPPED = ClusterStatus.STOPPED
+STATUS_STARTING = ClusterStatus.STARTING
+STATUS_RUNNING = ClusterStatus.RUNNING
+STATUS_PAUSED = ClusterStatus.PAUSED
+STATUS_STOPPING = ClusterStatus.STOPPING
+STATUS_ERROR = ClusterStatus.ERROR
+STATUS_DEGRADED = ClusterStatus.DEGRADED
 
 
 class WebCluster(ConfigurationElement):
     """
     CFC Web Cluster database configuration object.
     """
-
-    STATUS_BY_CODE = {
-        0: 'NONE',
-        1: 'STOPPED',
-        2: 'STARTING',
-        3: 'RUNNING',
-        4: 'PAUSED',
-        5: 'STOPPING',
-        6: 'ERROR',
-    }
-
-    STATUS_BY_NAME = {
-        'NONE': 0,
-        'STOPPED': 1,
-        'STARTING': 2,
-        'RUNNING': 3,
-        'PAUSED': 4,
-        'STOPPING': 5,
-        'ERROR': 6,
-    }
-
-    STATUS_STOPPED = 1
-    STATUS_STARTING = 2
-    STATUS_RUNNING = 3
-    STATUS_PAUSED = 4
-    STATUS_STOPPING = 5
-    STATUS_ERROR = 6
-
     def __init__(self,
                  oid=None,
                  label=None,
@@ -234,7 +237,7 @@ class WebCluster(ConfigurationElement):
 
         obj.update({
             u'name': self.name,
-            u'status': WebCluster.STATUS_BY_CODE[self.status],
+            u'status': STATUS_BY_CODE[self.status],
             u'changed': self.changed,
             u'tcp_version': self.tcp_version,
             u'tcp_port': self.tcp_port,
@@ -287,7 +290,7 @@ class WebCluster(ConfigurationElement):
 
         status = data.get('status', None)
         assert status is None or (type(status) == str)
-        status = WebCluster.STATUS_BY_NAME.get(status, None)
+        status = STATUS_BY_NAME.get(status, None)
 
         changed = data.get('changed', None)
         assert changed is None or (type(changed) == int)
