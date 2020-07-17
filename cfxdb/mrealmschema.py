@@ -137,8 +137,8 @@ class MrealmSchema(object):
     """
     """
 
-    # routerclusters_node_memberships: RouterClusterNodeMemberships
-    routerclusters_node_memberships = None
+    # routercluster_node_memberships: RouterClusterNodeMemberships
+    routercluster_node_memberships = None
     """
     """
 
