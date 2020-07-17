@@ -259,3 +259,22 @@ table RouterWorkerGroup
     /// Current status of worker group.
     status: WorkerGroupStatus;
 }
+
+
+table RouterWorkerGroupClusterPlacement
+{
+    /// OID of this worker-to-cluster placement.
+    oid: oid_t (required);
+
+    /// OID of (router) worker group this placement applies to.
+    worker_group_oid: oid_t (required);
+
+    /// OID of cluster onto which the worker is placed.
+    cluster_oid: oid_t (required);
+
+    /// OID of the node onto which the worker is placed.
+    node_oid: oid_t (required);
+
+    /// Local worker name on the node onto which the worker is placed.
+    worker_name: string;
+}

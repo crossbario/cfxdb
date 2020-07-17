@@ -8,37 +8,37 @@
 import pprint
 
 from cfxdb.common import ConfigurationElement
-from cfxdb.gen.mrealm.ClusterStatus import ClusterStatus
+from cfxdb.gen.mrealm.WorkerGroupStatus import WorkerGroupStatus
 
 STATUS_BY_CODE = {
-    ClusterStatus.NONE: 'NONE',
-    ClusterStatus.STOPPED: 'STOPPED',
-    ClusterStatus.STARTING: 'STARTING',
-    ClusterStatus.RUNNING: 'RUNNING',
-    ClusterStatus.PAUSED: 'PAUSED',
-    ClusterStatus.STOPPING: 'STOPPING',
-    ClusterStatus.ERROR: 'ERROR',
-    ClusterStatus.DEGRADED: 'DEGRADED',
+    WorkerGroupStatus.NONE: 'NONE',
+    WorkerGroupStatus.STOPPED: 'STOPPED',
+    WorkerGroupStatus.STARTING: 'STARTING',
+    WorkerGroupStatus.RUNNING: 'RUNNING',
+    WorkerGroupStatus.PAUSED: 'PAUSED',
+    WorkerGroupStatus.STOPPING: 'STOPPING',
+    WorkerGroupStatus.ERROR: 'ERROR',
+    WorkerGroupStatus.DEGRADED: 'DEGRADED',
 }
 
 STATUS_BY_NAME = {
-    'NONE': ClusterStatus.NONE,
-    'STOPPED': ClusterStatus.STOPPED,
-    'STARTING': ClusterStatus.STARTING,
-    'RUNNING': ClusterStatus.RUNNING,
-    'PAUSED': ClusterStatus.PAUSED,
-    'STOPPING': ClusterStatus.STOPPING,
-    'ERROR': ClusterStatus.ERROR,
-    'DEGRADED': ClusterStatus.DEGRADED,
+    'NONE': WorkerGroupStatus.NONE,
+    'STOPPED': WorkerGroupStatus.STOPPED,
+    'STARTING': WorkerGroupStatus.STARTING,
+    'RUNNING': WorkerGroupStatus.RUNNING,
+    'PAUSED': WorkerGroupStatus.PAUSED,
+    'STOPPING': WorkerGroupStatus.STOPPING,
+    'ERROR': WorkerGroupStatus.ERROR,
+    'DEGRADED': WorkerGroupStatus.DEGRADED,
 }
 
-STATUS_STOPPED = ClusterStatus.STOPPED
-STATUS_STARTING = ClusterStatus.STARTING
-STATUS_RUNNING = ClusterStatus.RUNNING
-STATUS_PAUSED = ClusterStatus.PAUSED
-STATUS_STOPPING = ClusterStatus.STOPPING
-STATUS_ERROR = ClusterStatus.ERROR
-STATUS_DEGRADED = ClusterStatus.DEGRADED
+STATUS_STOPPED = WorkerGroupStatus.STOPPED
+STATUS_STARTING = WorkerGroupStatus.STARTING
+STATUS_RUNNING = WorkerGroupStatus.RUNNING
+STATUS_PAUSED = WorkerGroupStatus.PAUSED
+STATUS_STOPPING = WorkerGroupStatus.STOPPING
+STATUS_ERROR = WorkerGroupStatus.ERROR
+STATUS_DEGRADED = WorkerGroupStatus.DEGRADED
 
 
 class RouterWorkerGroup(ConfigurationElement):
