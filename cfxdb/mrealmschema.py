@@ -6,7 +6,8 @@
 ##############################################################################
 
 from zlmdb import table
-from zlmdb import MapStringUuid, MapUuidCbor, MapSlotUuidUuid, MapUuidStringUuid, MapUuidUuidUuid, MapUuidUuidCbor
+from zlmdb import MapStringUuid, MapUuidCbor, MapSlotUuidUuid, MapUuidStringUuid, MapUuidUuidUuid
+from zlmdb import MapUuidUuidCbor, MapUuidUuidUuidStringUuid
 
 from cfxdb.mrealm import RouterCluster, WebCluster, WebService, WebClusterNodeMembership, RouterClusterNodeMembership, parse_webservice, RouterWorkerGroup, RouterWorkerGroupClusterPlacement
 from cfxdb.log import MNodeLogs, MWorkerLogs
@@ -64,6 +65,13 @@ class RouterWorkerGroups(MapUuidCbor):
 class RouterWorkerGroupClusterPlacements(MapUuidCbor):
     """
     Table: placement_oid -> placement
+    """
+
+
+@table('1a18739f-7224-4459-a446-6f1fedd760a7')
+class IndexClusterPlacementByWorkerName(MapUuidUuidUuidStringUuid):
+    """
+    Index: (worker_group_oid, cluster_oid, node_oid, worker_name) -> placement_oid
     """
 
 
