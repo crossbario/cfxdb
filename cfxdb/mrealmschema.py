@@ -71,7 +71,7 @@ class RouterWorkerGroupClusterPlacements(MapUuidCbor):
 @table('1a18739f-7224-4459-a446-6f1fedd760a7')
 class IndexClusterPlacementByWorkerName(MapUuidUuidUuidStringUuid):
     """
-    Index: (worker_group_oid, cluster_oid, node_oid, worker_name) -> placement_oid
+    Index: (workergroup_oid, cluster_oid, node_oid, worker_name) -> placement_oid
     """
 
 
@@ -184,6 +184,11 @@ class MrealmSchema(object):
     """
     """
 
+    # idx_clusterplacement_by_workername: IndexClusterPlacementByWorkerName
+    idx_clusterplacement_by_workername = None
+    """
+    """
+
     # webclusters: WebClusters
     webclusters = None
     """
@@ -269,6 +274,11 @@ class MrealmSchema(object):
 
         # route groups
         schema.router_workgroups = db.attach_table(RouterWorkerGroups)
+
+        schema.idx_clusterplacement_by_workername = db.attach_table(IndexClusterPlacementByWorkerName)
+        schema.router_workgroups.attach_index(
+            'idx1', schema.idx_clusterplacement_by_workername, lambda wg:
+            (wg.workergroup_oid, wg.cluster_oid, wg.node_oid, wg.worker_name))
 
         schema.router_workergroup_placements = db.attach_table(RouterWorkerGroupClusterPlacements)
 
