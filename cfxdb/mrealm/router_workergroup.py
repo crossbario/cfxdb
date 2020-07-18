@@ -5,6 +5,7 @@
 #
 ##############################################################################
 
+import uuid
 import pprint
 
 from cfxdb.common import ConfigurationElement
@@ -50,6 +51,7 @@ class RouterWorkerGroup(ConfigurationElement):
                  label=None,
                  description=None,
                  tags=None,
+                 cluster_oid=None,
                  name=None,
                  status=None,
                  changed=None,
@@ -77,6 +79,7 @@ class RouterWorkerGroup(ConfigurationElement):
                                       description=description,
                                       tags=tags,
                                       _unknown=_unknown)
+        self.cluster_oid = cluster_oid
         self.name = name
         self.status = status
         self.changed = changed
@@ -85,6 +88,8 @@ class RouterWorkerGroup(ConfigurationElement):
         if not isinstance(other, self.__class__):
             return False
         if not ConfigurationElement.__eq__(self, other):
+            return False
+        if other.cluster_oid != self.cluster_oid:
             return False
         if other.name != self.name:
             return False
@@ -106,6 +111,7 @@ class RouterWorkerGroup(ConfigurationElement):
 
         :return: dict
         """
+        assert self.cluster_oid is None or type(self.name) == str
         assert self.name is None or type(self.name) == str
         assert self.status is None or type(self.status) == int
         assert self.changed is None or type(self.changed) == int
@@ -113,6 +119,7 @@ class RouterWorkerGroup(ConfigurationElement):
         obj = ConfigurationElement.marshal(self)
 
         obj.update({
+            'cluster_oid': str(self.cluster_oid) if self.cluster_oid else None,
             'name': self.name,
             'status': STATUS_BY_CODE[self.status] if self.status else None,
             'changed': self.changed,
@@ -138,8 +145,12 @@ class RouterWorkerGroup(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = dict()
         for k in data:
-            if k not in ['name', 'status', 'changed']:
+            if k not in ['cluster_oid', 'name', 'status', 'changed']:
                 _unknown[k] = data[k]
+
+        cluster_oid = data.get('cluster_oid', None)
+        assert cluster_oid is None or (type(cluster_oid) == str)
+        cluster_oid = uuid.UUID(cluster_oid)
 
         name = data.get('name', None)
         assert name is None or (type(name) == str)
@@ -155,6 +166,7 @@ class RouterWorkerGroup(ConfigurationElement):
                                 label=obj.label,
                                 description=obj.description,
                                 tags=obj.tags,
+                                cluster_oid=cluster_oid,
                                 name=name,
                                 status=status,
                                 changed=changed,

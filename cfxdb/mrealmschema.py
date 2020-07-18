@@ -5,6 +5,8 @@
 #
 ##############################################################################
 
+import uuid
+
 from zlmdb import table
 from zlmdb import MapStringUuid, MapUuidCbor, MapSlotUuidUuid, MapUuidStringUuid, MapUuidUuidUuid
 from zlmdb import MapUuidUuidCbor, MapUuidUuidUuidStringUuid
@@ -53,6 +55,13 @@ class RouterClusterNodeMemberships(MapUuidUuidCbor):
 class RouterWorkerGroups(MapUuidCbor):
     """
     Table: workergroup_oid -> workergroup
+    """
+
+
+@table('4bb8ec14-4820-4061-8b2c-d1841e2686e1')
+class IndexWorkerGroupByCluster(MapUuidStringUuid):
+    """
+    Index: cluster_oid, workergroup_name -> workergroup_oid
     """
 
 
@@ -174,8 +183,13 @@ class MrealmSchema(object):
     """
     """
 
-    # router_workgroups: RouterWorkerGroups
-    router_workgroups = None
+    # router_workergroups: RouterWorkerGroups
+    router_workergroups = None
+    """
+    """
+
+    # idx_workergroup_by_cluster: IndexWorkerGroupByCluster
+    idx_workergroup_by_cluster = None
     """
     """
 
@@ -272,13 +286,17 @@ class MrealmSchema(object):
 
         schema.routercluster_node_memberships = db.attach_table(RouterClusterNodeMemberships)
 
-        # route groups
-        schema.router_workgroups = db.attach_table(RouterWorkerGroups)
+        # router worker groups
+        schema.router_workergroups = db.attach_table(RouterWorkerGroups)
+
+        schema.idx_workergroup_by_cluster = db.attach_table(IndexWorkerGroupByCluster)
+        schema.router_workergroups.attach_index('idx1', schema.idx_workergroup_by_cluster, lambda wg:
+                                                (wg.cluster_oid, wg.name))
 
         schema.idx_clusterplacement_by_workername = db.attach_table(IndexClusterPlacementByWorkerName)
-        schema.router_workgroups.attach_index(
-            'idx1', schema.idx_clusterplacement_by_workername, lambda wg:
-            (wg.workergroup_oid, wg.cluster_oid, wg.node_oid, wg.worker_name))
+        schema.router_workergroups.attach_index(
+            'idx2', schema.idx_clusterplacement_by_workername, lambda wg:
+            (wg.oid, wg.cluster_oid, uuid.UUID(bytes=b'\x00' * 16), ''))
 
         schema.router_workergroup_placements = db.attach_table(RouterWorkerGroupClusterPlacements)
 
