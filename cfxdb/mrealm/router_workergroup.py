@@ -53,6 +53,7 @@ class RouterWorkerGroup(ConfigurationElement):
                  tags=None,
                  cluster_oid=None,
                  name=None,
+                 scale=None,
                  status=None,
                  changed=None,
                  _unknown=None):
@@ -81,6 +82,7 @@ class RouterWorkerGroup(ConfigurationElement):
                                       _unknown=_unknown)
         self.cluster_oid = cluster_oid
         self.name = name
+        self.scale = scale or 1
         self.status = status
         self.changed = changed
 
@@ -92,6 +94,8 @@ class RouterWorkerGroup(ConfigurationElement):
         if other.cluster_oid != self.cluster_oid:
             return False
         if other.name != self.name:
+            return False
+        if other.scale != self.scale:
             return False
         if other.status != self.status:
             return False
@@ -113,6 +117,10 @@ class RouterWorkerGroup(ConfigurationElement):
         """
         assert self.cluster_oid is None or type(self.name) == str
         assert self.name is None or type(self.name) == str
+        assert self.scale is None or type(self.scale) == int
+
+        # FIXME: the free-tier would only allow 1. with scale > 1, rlinks are required.
+        assert self.scale == 1
         assert self.status is None or type(self.status) == int
         assert self.changed is None or type(self.changed) == int
 
@@ -121,6 +129,7 @@ class RouterWorkerGroup(ConfigurationElement):
         obj.update({
             'cluster_oid': str(self.cluster_oid) if self.cluster_oid else None,
             'name': self.name,
+            'scale': self.scale,
             'status': STATUS_BY_CODE[self.status] if self.status else None,
             'changed': self.changed,
         })
@@ -155,6 +164,10 @@ class RouterWorkerGroup(ConfigurationElement):
         name = data.get('name', None)
         assert name is None or (type(name) == str)
 
+        scale = data.get('scale', 1)
+        assert scale is None or type(scale) == int
+        assert scale == 1
+
         status = data.get('status', None)
         assert status is None or (type(status) == str)
         status = STATUS_BY_NAME.get(status, None)
@@ -168,6 +181,7 @@ class RouterWorkerGroup(ConfigurationElement):
                                 tags=obj.tags,
                                 cluster_oid=cluster_oid,
                                 name=name,
+                                scale=scale,
                                 status=status,
                                 changed=changed,
                                 _unknown=_unknown)
