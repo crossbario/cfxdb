@@ -358,6 +358,9 @@ class Consent(object):
             ConsentGen.ConsentAddUpdated(builder, updated)
 
         ConsentGen.ConsentAddConsent(builder, self.consent)
+        # _synced defaults to None, writing that to db doesn't work
+        if self.synced is None:
+            self.synced = False
         ConsentGen.ConsentAddSynced(builder, self.synced)
 
         if service_prefix:
