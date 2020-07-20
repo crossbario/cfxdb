@@ -11,9 +11,7 @@ import uuid
 import flatbuffers
 import numpy as np
 from cfxdb.gen.xbrmm import UserKey as UserKeyGen
-from cfxdb import pack_uint256
-from zlmdb import table, MapBytes32FlatBuffers, MapUuidTimestampBytes32, \
-    MapBytes20FlatBuffers
+from zlmdb import table, MapBytes32FlatBuffers, MapUuidTimestampBytes32
 
 
 class _UserKeyGen(UserKeyGen.UserKey):

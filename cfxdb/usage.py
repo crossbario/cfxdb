@@ -201,8 +201,8 @@ class MasterNodeUsage(object):
 
         client_ip_version = data.get('client_ip_version', None)
         assert client_ip_version is None or client_ip_version == 0 or (
-            type(client_ip_version) == int and client_ip_version in [4, 6]
-        ), '"client_ip_version" must have value [4, 6], but was "{}"'.format(client_ip_version)
+            type(client_ip_version) == int and client_ip_version
+            in [4, 6]), '"client_ip_version" must have value [4, 6], but was "{}"'.format(client_ip_version)
         obj._client_ip_version = client_ip_version
 
         client_ip_port = data.get('client_ip_port', None)
