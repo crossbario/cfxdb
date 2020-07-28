@@ -182,7 +182,7 @@ class Schema(object):
         schema.idx_catalogs_by_owner = db.attach_table(IndexCatalogsByOwner)
 
         schema.catalogs.attach_index('idx1', schema.idx_catalogs_by_owner, lambda catalog:
-                                    (catalog.owner, catalog.timestamp))
+                                     (catalog.owner, catalog.timestamp))
 
         schema.consents = db.attach_table(Consents)
 
