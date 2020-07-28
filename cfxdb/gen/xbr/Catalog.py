@@ -193,7 +193,15 @@ class Catalog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
-def CatalogStart(builder): builder.StartObject(9)
+    # Meta data downloaded from IPFS
+    # Catalog
+    def MetaData(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+def CatalogStart(builder): builder.StartObject(10)
 def CatalogAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
 def CatalogStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
 def CatalogAddTimestamp(builder, timestamp): builder.PrependUint64Slot(1, timestamp, 0)
@@ -208,4 +216,5 @@ def CatalogAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuff
 def CatalogStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
 def CatalogAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
 def CatalogStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def CatalogAddMetaData(builder, metaData): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(metaData), 0)
 def CatalogEnd(builder): return builder.EndObject()

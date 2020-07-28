@@ -282,6 +282,9 @@ table Catalog
 
     /// When signed off-chain and submitted via ``XBRCatalog.createCatalogFor``.
     signature: [uint8] (ethsig);
+
+    /// Meta data downloaded from IPFS
+    meta_data: string;
 }
 
 

@@ -93,6 +93,9 @@ class Catalog(object):
         # [uint8] (ethsig)
         self._signature = None
 
+        # string (json)
+        self._meta_data = None
+
     def marshal(self) -> dict:
         obj = {
             'oid': self.oid.bytes if self.oid else None,
@@ -103,6 +106,7 @@ class Catalog(object):
             'meta': self.meta,
             'tid': bytes(self.tid) if self.tid else None,
             'signature': bytes(self.signature) if self.signature else None,
+            'meta_data': self.meta_data
         }
         return obj
 
@@ -230,6 +234,22 @@ class Catalog(object):
         assert value is None or (type(value) == bytes and len(value) == 65)
         self._signature = value
 
+    @property
+    def meta_data(self) -> str:
+        """
+        Meta data of the catalog.
+        """
+        if self._meta_data is None and self._from_fbs:
+            meta_data = self._from_fbs.MetaData()
+            if meta_data:
+                self._meta_data = meta_data.decode('utf8')
+        return self._meta_data
+
+    @meta_data.setter
+    def meta_data(self, value: str):
+        assert value is None or type(value) == str
+        self._meta_data = value
+
     @staticmethod
     def cast(buf):
         return Catalog(_CatalogGen.GetRootAsCatalog(buf, 0))
@@ -255,6 +275,10 @@ class Catalog(object):
         signature = self.signature
         if signature:
             signature = builder.CreateString(signature)
+
+        meta_data = self.meta_data
+        if meta_data:
+            meta_data = builder.CreateString(meta_data)
 
         owner = self.owner
         if owner:
@@ -282,6 +306,9 @@ class Catalog(object):
 
         if signature:
             CatalogGen.CatalogAddSignature(builder, signature)
+
+        if meta_data:
+            CatalogGen.CatalogAddMetaData(builder, meta_data)
 
         if owner:
             CatalogGen.CatalogAddOwner(builder, owner)
