@@ -27,7 +27,6 @@ class IPFSFile:
     """
     Record of downloaded files from Infura
     """
-
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
         # string (multihash)
