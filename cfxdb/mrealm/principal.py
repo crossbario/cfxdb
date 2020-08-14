@@ -25,7 +25,7 @@ class Principal(ConfigurationElement):
                  arealm_oid: Optional[UUID] = None,
                  authid: Optional[str] = None,
                  role_oid: Optional[UUID] = None,
-                 authextra: Optional[bytes] = None,
+                 authextra: Optional[dict] = None,
                  _unknown=None):
         """
 
@@ -45,7 +45,7 @@ class Principal(ConfigurationElement):
 
         :param role_oid: ID of the role the authenticated principal will be joined to the application realm.
 
-        :param authextra: Optional authextra information returned to the authenticating principal (CBOR serialized).
+        :param authextra: Optional authextra information returned to the authenticating principal.
         """
         ConfigurationElement.__init__(self, oid=oid, label=label, description=description, tags=tags)
         self.modified = modified

@@ -195,6 +195,9 @@ table Principal
     /// ID of this principal.
     oid: oid_t (required);
 
+    /// Timestamp when the principal was last modified
+    modified: int;
+
     /// ID of the application realm the authenticated principal will be joined to.
     arealm_oid: oid_t (required);
 

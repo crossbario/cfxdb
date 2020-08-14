@@ -5,50 +5,43 @@
 #
 ##############################################################################
 
-from typing import Optional, List
+from typing import Optional
 import pprint
 from uuid import UUID
 
 from cfxdb.common import ConfigurationElement
 
 
-class Credential(ConfigurationElement):
+class Credential(object):
     """
-    Role credential database object.
+    Credentials created for use with WAMP authentication.
     """
     def __init__(self,
                  oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 role_oid: Optional[UUID] = None,
-                 uri: Optional[str] = None,
-                 created: Optional[int] = None,
-                 owner: Optional[UUID] = None,
+                 authmethod: Optional[str] = None,
+                 realm: Optional[str] = None,
+                 authconfig: Optional[dict] = None,
+                 principal_oid: Optional[UUID] = None,
                  _unknown=None):
         """
 
         :param oid: Object ID of this credential object
 
-        :param label: Optional user label of credential
+        :param authmethod: WAMP authentication method offered by the authenticating client.
 
-        :param description: Optional user description of credential
+        :param realm: WAMP realm requested by the authenticating client.
 
-        :param tags: Optional list of user tags on credential
+        :param authid: WAMP authid announced by the authenticating client.
 
-        :param role_oid: Object ID of role this credential applies to.
+        :param authconfig: Authentication method specific configuration.
 
-        :param uri: URI matched for credential.
-
-        :param created: Timestamp when the credential was created
-
-        :param owner: Owning user (object ID)
+        :param principal_oid: ID of the principal this credential resolves to upon successful authentication.
         """
-        ConfigurationElement.__init__(self, oid=oid, label=label, description=description, tags=tags)
-        self.role_oid = role_oid
-        self.uri = uri
-        self.created = created
-        self.owner = owner
+        self.oid = oid
+        self.authmethod = authmethod
+        self.realm = realm
+        self.authconfig = authconfig
+        self.principal_oid = principal_oid
 
         # private member with unknown/untouched data passing through
         self._unknown = _unknown
@@ -56,15 +49,15 @@ class Credential(ConfigurationElement):
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
-        if not ConfigurationElement.__eq__(self, other):
+        if other.oid != self.oid:
             return False
-        if other.role_oid != self.role_oid:
+        if other.authmethod != self.authmethod:
             return False
-        if other.uri != self.uri:
+        if other.realm != self.realm:
             return False
-        if other.created != self.created:
+        if other.authconfig != self.authconfig:
             return False
-        if other.owner != self.owner:
+        if other.principal_oid != self.principal_oid:
             return False
         return True
 
