@@ -212,6 +212,9 @@ table Principal
 /// WAMP client authentication credentials, used for mapping ``(authmethod, realm, authid) -> principal``.
 table Credential
 {
+    /// ID of this credential.
+    oid: oid_t (required);
+
     /// WAMP authentication method offered by the authenticating client.
     authmethod: AuthenticationMethod;
 
