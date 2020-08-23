@@ -213,8 +213,7 @@ class Schema(object):
         #                            (actor.actor, actor.timestamp))
 
         schema.idx_markets_by_maker = db.attach_table(IndexMarketsByMaker)
-        schema.markets.attach_index('idx3', schema.idx_markets_by_maker, lambda market:
-                                    market.maker)
+        schema.markets.attach_index('idx3', schema.idx_markets_by_maker, lambda market: market.maker)
 
         schema.payment_channels = db.attach_table(PaymentChannels)
 
