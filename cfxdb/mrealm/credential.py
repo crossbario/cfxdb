@@ -12,7 +12,7 @@ from uuid import UUID
 
 import numpy as np
 
-from crossbar.common.checkconfig import InvalidConfigException
+from cfxdb._exception import InvalidConfigException
 
 
 class Credential(object):
