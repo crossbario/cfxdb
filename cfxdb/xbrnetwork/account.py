@@ -186,14 +186,14 @@ class Account(object):
 
     def marshal(self):
         obj = {
-            'oid': self.oid,
-            'created': self.created,
+            'oid': self.oid.bytes if self.oid else None,
+            'created': int(self.created) if self.created else None,
             'username': self.username,
             'email': self.email,
-            'email_verified': self.email_verified,
+            'email_verified': int(self.email_verified) if self.email_verified else None,
             'wallet_type': self.wallet_type,
-            'wallet_address': self.wallet_address,
-            'registered': self.registered,
+            'wallet_address': bytes(self.wallet_address) if self.wallet_address else None,
+            'registered': int(self.registered) if self.registered else None,
             'eula': self.eula,
             'profile': self.profile,
             'level': self.level,

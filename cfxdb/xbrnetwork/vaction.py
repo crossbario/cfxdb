@@ -186,13 +186,13 @@ class VerifiedAction(object):
 
     def marshal(self):
         obj = {
-            'oid': self.oid,
-            'created': self.created,
+            'oid': self.oid.bytes if self.oid else None,
+            'created': int(self.created) if self.created else None,
             'vtype': self.vtype,
             'vstatus': self.vstatus,
             'vcode': self.vcode,
-            'verified_oid': self.verified_oid,
-            'verified_data': self.verified_data,
+            'verified_oid': self.verified_oid.bytes if self.verified_oid.bytes else None,
+            'verified_data': bytes(self.verified_data) if self.verified_data else None,
         }
         return obj
 

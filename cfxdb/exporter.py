@@ -9,7 +9,10 @@ import os
 
 import zlmdb
 import cfxdb
+# import cbor2
+import click
 
+from pprint import pprint
 
 # cfxdb.schema.Schema
 # cfxdb.meta.Schema
@@ -22,70 +25,109 @@ import cfxdb
 import uuid
 import binascii
 
-from cfxdb.xbrnetwork import VerifiedAction, Account, UserKey
-from txaio import make_logger, time_ns, sleep
+from cfxdb.xbrnetwork import Account, UserKey
+from txaio import time_ns
 import numpy as np
 
 
+class Exporter(object):
+    def __init__(self, dbpath):
+        self._dbpath = os.path.abspath('.xbrnetwork')
+        self._db = zlmdb.Database(dbpath=self._dbpath, maxsize=2**30, readonly=False)
+        self._db.__enter__()
 
-dbpath = os.path.abspath('.xbrnetwork')
-db = zlmdb.Database(dbpath=dbpath, maxsize=2 ** 30, readonly=False)
-db.__enter__()
+        self._meta = cfxdb.meta.Schema.attach(self._db)
+        self._xbr = cfxdb.xbr.Schema.attach(self._db)
+        self._xbrnetwork = cfxdb.xbrnetwork.Schema.attach(self._db)
 
-meta = cfxdb.meta.Schema.attach(db)
-xbr = cfxdb.xbr.Schema.attach(db)
-xbrnetwork = cfxdb.xbrnetwork.Schema.attach(db)
+        self._schemata = {
+            'meta': self._meta,
+            'xbr': self._xbr,
+            'xbrnetwork': self._xbrnetwork,
+        }
 
-account = Account()
-account.oid = uuid.uuid4()
-account.created = np.datetime64(time_ns(), 'ns')
-account.username = 'alice'
-account.email = 'alice@example.com'
-account.wallet_type = 2  # metamask
-account.wallet_address = binascii.a2b_hex('f5173a6111B2A6B3C20fceD53B2A8405EC142bF6')
+        pprint(self._schemata)
 
-userkey = UserKey()
-userkey.pubkey = binascii.a2b_hex('b7e6462121b9632b2bfcc5a3beef0b49dd865093ad003d011d4abbb68476d5b4')
-userkey.created = account.created
-userkey.owner = account.oid
+        self._schema_tables = {}
 
-with db.begin(write=True) as txn:
-    xbrnetwork.accounts[txn, account.oid] = account
-    xbrnetwork.user_keys[txn, userkey.pubkey] = userkey
+        for schema_name, schema in self._schemata.items():
+            tables = {}
+            first = None
+            for k, v in schema.__annotations__.items():
+                for line in v.__doc__.splitlines():
+                    line = line.strip()
+                    if line != "":
+                        first = line[:80]
+                        break
+                tables[k] = first
+            self._schema_tables[schema_name] = tables
 
-with db.begin() as txn:
-    cnt_accounts = xbrnetwork.accounts.count(txn)
-    cnt_idx_accounts_by_username = xbrnetwork.idx_accounts_by_username.count(txn)
-    cnt_verified_actions = xbrnetwork.verified_actions.count(txn)
+        pprint(self._schema_tables)
 
-print(
-    'Database opened from {dbpath} (cnt_accounts={cnt_accounts}, cnt_idx_accounts_by_username={cnt_idx_accounts_by_username}, cnt_verified_actions={cnt_verified_actions})'.format(
-        dbpath=dbpath,
-        cnt_accounts=cnt_accounts,
-        cnt_idx_accounts_by_username=cnt_idx_accounts_by_username,
-        cnt_verified_actions=cnt_verified_actions))
+    def add_test_data(self):
+        account = Account()
+        account.oid = uuid.uuid4()
+        account.created = np.datetime64(time_ns(), 'ns')
+        account.username = 'alice'
+        account.email = 'alice@example.com'
+        account.wallet_type = 2  # metamask
+        account.wallet_address = binascii.a2b_hex('f5173a6111B2A6B3C20fceD53B2A8405EC142bF6')
 
-print('-' * 80)
-slots = db._get_slots()
-for slot_id in slots:
-    slot = slots[slot_id]
-    print('slot {}: {}'.format(slot_id, slot.name, slot.description))
+        userkey = UserKey()
+        userkey.pubkey = binascii.a2b_hex('b7e6462121b9632b2bfcc5a3beef0b49dd865093ad003d011d4abbb68476d5b4')
+        userkey.created = account.created
+        userkey.owner = account.oid
 
-print('-' * 80)
-tables = []
-first = None
-for k, v in xbrnetwork.__annotations__.items():
-    for line in v.__doc__.splitlines():
-        line = line.strip()
-        if line != "":
-            first = line[:80]
-            break
-    print('{:<30}: {}..'.format(k, first))
-    tables.append(k)
+        with self._db.begin(write=True) as txn:
+            self._xbrnetwork.accounts[txn, account.oid] = account
+            self._xbrnetwork.user_keys[txn, userkey.pubkey] = userkey
 
-print('-' * 80)
-with db.begin() as txn:
-    # print('{} members'.format(xbrnetwork.members.count(txn)))
-    for table in tables:
-        if table in xbrnetwork.__dict__:
-            print('{} {}'.format(table, xbrnetwork.__dict__[table].count(txn)))
+    def print_slots(self):
+        print('\nDatabase slots [dbpath="{dbpath}"]:\n'.format(dbpath=self._dbpath))
+        slots = self._db._get_slots()
+        for slot_id in slots:
+            slot = slots[slot_id]
+            print('   Slot {} using DB table class {}: {}'.format(
+                click.style(str(slot_id), fg='white', bold=True), click.style(slot.name, fg='yellow'),
+                slot.description))
+        print('')
+
+    def print_stats(self):
+        stats = {}
+        with self._db.begin() as txn:
+            for schema_name in self._schemata:
+                stats[schema_name] = {}
+                for table_name in self._schema_tables[schema_name]:
+                    table = self._schemata[schema_name].__dict__[table_name]
+                    cnt = table.count(txn)
+                    stats[schema_name][table_name] = cnt
+        pprint(stats)
+
+    # def export(self, filename):
+    #     result = {}
+    #     with self._db.begin() as txn:
+    #         print('YYY', self._xbrnetwork.EXPORTED)
+    #         # for table in xbrnetwork.EXPORTED:
+    #         for tablename in tables:
+    #             if tablename in self._xbrnetwork.__dict__ and not tablename.startswith('idx'):
+    #                 table = self._xbrnetwork.__dict__[tablename]
+    #                 print('XXXXXXXXX', table)
+    #                 recs = []
+    #                 for key, val in table.select(txn, return_keys=True, return_values=True):
+    #                     recs.append((table._serialize_key(key), val.marshal() if val else None))
+    #                 print(table)
+    #                 print(self._xbrnetwork.accounts)
+    #                 result[tablename] = recs
+    #
+    #     from pprint import pprint
+    #     pprint(result)
+    #
+    #     print(cbor2.dumps(result))
+    #
+    #     with open(filename, 'wb') as f:
+    #         f.write(cbor2.dumps(result))
+
+
+exporter = Exporter('.xbrnetwork')
+exporter.print_slots()
+exporter.print_stats()

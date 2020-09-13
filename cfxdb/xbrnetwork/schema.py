@@ -54,9 +54,7 @@ class Schema(object):
     EXPORTED = None
     """
     """
-
     def __init__(self, db):
-        print(self.__dict__)
         self.db = db
 
     def export(self, txn, fd):
