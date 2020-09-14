@@ -13,10 +13,11 @@ import cbor2
 import click
 import numpy as np
 
-from txaio import time_ns
 import zlmdb
 import cfxdb
 from cfxdb.xbrnetwork import Account, UserKey
+
+from txaio import time_ns
 
 
 class Exporter(object):
