@@ -205,17 +205,3 @@ class Exporter(object):
                                                 bold=True), click.style(str(cnt) + ' records', fg='yellow')))
                         else:
                             print('No data to import for {}.{}!'.format(schema_name, table_name))
-
-
-if __name__ == '__main__':
-    DBPATH = '/home/oberstet/backups_planet_xbr_crossbarfx/20200914/.crossbar/.xbrnetwork'
-    exporter = Exporter(DBPATH)
-    # exporter._add_test_data()
-    # exporter.print_slots()
-    exporter.print_stats()
-    exporter.export_database('test.dat')
-
-    exporter2 = Exporter('.xbrnetwork')
-    exporter2.import_database('test.dat', include_indexes=False)
-    # exporter2.print_slots()
-    exporter2.print_stats()
