@@ -7,7 +7,6 @@
 
 import os
 import uuid
-from pprint import pprint
 
 import cbor2
 import click
@@ -49,15 +48,13 @@ class Exporter(object):
         self._xbrnetwork = cfxdb.xbrnetwork.Schema.attach(self._db)
 
         self._schemata = {
-            'meta': self._meta,
-            'globalschema': self._globalschema,
-            'mrealmschema': self._mrealmschema,
-            'xbr': self._xbr,
-            'xbrmm': self._xbrmm,
+            # 'meta': self._meta,
+            # 'globalschema': self._globalschema,
+            # 'mrealmschema': self._mrealmschema,
+            # 'xbr': self._xbr,
+            # 'xbrmm': self._xbrmm,
             'xbrnetwork': self._xbrnetwork,
         }
-
-        pprint(self._schemata)
 
         self._schema_tables = {}
 
@@ -73,9 +70,7 @@ class Exporter(object):
                 tables[k] = first
             self._schema_tables[schema_name] = tables
 
-        pprint(self._schema_tables)
-
-    def add_test_data(self):
+    def _add_test_data(self):
         account = Account()
         account.oid = uuid.uuid4()
         account.created = np.datetime64(time_ns(), 'ns')
@@ -95,17 +90,30 @@ class Exporter(object):
             self._xbrnetwork.accounts[txn, account.oid] = account
             self._xbrnetwork.user_keys[txn, userkey.pubkey] = userkey
 
-    def print_slots(self):
+    def print_slots(self, include_description=False):
+        """
+
+        :param include_description:
+        :return:
+        """
         print('\nDatabase slots [dbpath="{dbpath}"]:\n'.format(dbpath=self._dbpath))
         slots = self._db._get_slots()
         for slot_id in slots:
             slot = slots[slot_id]
-            print('   Slot {} using DB table class {}: {}'.format(
-                click.style(str(slot_id), fg='white', bold=True), click.style(slot.name, fg='yellow'),
-                slot.description))
+            if include_description:
+                print('   Slot {} using DB table class {}: {}'.format(
+                    click.style(str(slot_id), fg='white', bold=True), click.style(slot.name, fg='yellow'),
+                    slot.description))
+            else:
+                print('   Slot {} using DB table class {}'.format(
+                    click.style(str(slot_id), fg='white', bold=True), click.style(slot.name, fg='yellow')))
         print('')
 
     def print_stats(self):
+        """
+
+        :return:
+        """
         print('\nDatabase table statistics [dbpath="{dbpath}"]:\n'.format(dbpath=self._dbpath))
         stats = {}
         with self._db.begin() as txn:
@@ -117,26 +125,35 @@ class Exporter(object):
                     stats[schema_name][table_name] = cnt
         for schema_name in stats:
             for table_name in stats[schema_name]:
-                print('{:.<52}: {}'.format(
-                    click.style('{}.{}'.format(schema_name, table_name), fg='white', bold=True),
-                    click.style(str(stats[schema_name][table_name]) + ' records', fg='yellow')))
+                cnt = stats[schema_name][table_name]
+                if cnt:
+                    print('{:.<52}: {}'.format(
+                        click.style('{}.{}'.format(schema_name, table_name), fg='white', bold=True),
+                        click.style(str(cnt) + ' records', fg='yellow')))
 
-    def export(self, filename):
+    def export_database(self, filename, include_indexes=False):
+        """
+
+        :param filename:
+        :param include_indexes:
+        :return:
+        """
         result = {}
         with self._db.begin() as txn:
             for schema_name in self._schemata:
                 for table_name in self._schema_tables[schema_name]:
                     table = self._schemata[schema_name].__dict__[table_name]
-                    recs = []
-                    for key, val in table.select(txn, return_keys=True, return_values=True):
-                        if val:
-                            if hasattr(val, 'marshal'):
-                                val = val.marshal()
-                        recs.append((table._serialize_key(key), val))
-                    if recs:
-                        if schema_name not in result:
-                            result[schema_name] = {}
-                        result[schema_name][table_name] = recs
+                    if not table.is_index() or include_indexes:
+                        recs = []
+                        for key, val in table.select(txn, return_keys=True, return_values=True):
+                            if val:
+                                if hasattr(val, 'marshal'):
+                                    val = val.marshal()
+                            recs.append((table._serialize_key(key), val))
+                        if recs:
+                            if schema_name not in result:
+                                result[schema_name] = {}
+                            result[schema_name][table_name] = recs
 
         data = cbor2.dumps(result)
         with open(filename, 'wb') as f:
@@ -146,10 +163,59 @@ class Exporter(object):
         print('\nExported database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.format(
             dbpath=self._dbpath, filename=filename, filesize=len(data)))
 
+        for schema_name in result:
+            for table_name in result[schema_name]:
+                cnt = len(result[schema_name][table_name])
+                if cnt:
+                    print('{:.<52}: {}'.format(
+                        click.style('{}.{}'.format(schema_name, table_name), fg='white', bold=True),
+                        click.style(str(cnt) + ' records', fg='yellow')))
+
+    def import_database(self, filename, include_indexes=True):
+        """
+
+        :param filename:
+        :param include_indexes:
+        :return:
+        """
+        with open(filename, 'rb') as f:
+            data = f.read()
+            db_data = cbor2.loads(data)
+
+        print(
+            '\nImporting database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.format(
+                dbpath=self._dbpath, filename=filename, filesize=len(data)))
+
+        with self._db.begin(write=True) as txn:
+            for schema_name in self._schemata:
+                for table_name in self._schema_tables[schema_name]:
+                    table = self._schemata[schema_name].__dict__[table_name]
+                    if not table.is_index() or include_indexes:
+                        if schema_name in db_data and table_name in db_data[schema_name]:
+                            cnt = 0
+                            for key, val in db_data[schema_name][table_name]:
+                                key = table._deserialize_key(key)
+                                val = table.parse(val)
+                                table[txn, key] = val
+                                cnt += 1
+                            if cnt:
+                                print('{:.<52}: {}'.format(
+                                    click.style('{}.{}'.format(schema_name, table_name),
+                                                fg='white',
+                                                bold=True), click.style(str(cnt) + ' records', fg='yellow')))
+                        else:
+                            print('No data to import for {}.{}!'.format(schema_name, table_name))
+
 
 if __name__ == '__main__':
-    exporter = Exporter('.xbrnetwork')
-    exporter.add_test_data()
-    exporter.print_slots()
+    DBPATH = '/home/oberstet/backups_planet_xbr_crossbarfx/20200914/.crossbar/.xbrnetwork'
+    exporter = Exporter(DBPATH)
+    # exporter._add_test_data()
+    # exporter.print_slots()
     exporter.print_stats()
-    exporter.export('test.dat')
+    exporter.export_database('test.dat')
+
+    exporter2 = Exporter('.xbrnetwork')
+    exporter2.import_database('test.dat', include_indexes=False)
+    # exporter2.print_slots()
+    exporter2.print_stats()
