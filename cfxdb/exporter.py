@@ -6,20 +6,17 @@
 ##############################################################################
 
 import os
-
-import zlmdb
-import cfxdb
-import cbor2
-import click
-
+import uuid
 from pprint import pprint
 
-import uuid
-import binascii
-
-from cfxdb.xbrnetwork import Account, UserKey
-from txaio import time_ns
+import cbor2
+import click
 import numpy as np
+
+from txaio import time_ns
+import zlmdb
+import cfxdb
+from cfxdb.xbrnetwork import Account, UserKey
 
 
 class Exporter(object):
@@ -51,9 +48,9 @@ class Exporter(object):
         self._xbrnetwork = cfxdb.xbrnetwork.Schema.attach(self._db)
 
         self._schemata = {
-            # 'meta': self._meta,
+            'meta': self._meta,
             'globalschema': self._globalschema,
-            # 'mrealmschema': self._mrealmschema,
+            'mrealmschema': self._mrealmschema,
             'xbr': self._xbr,
             'xbrmm': self._xbrmm,
             'xbrnetwork': self._xbrnetwork,
@@ -84,10 +81,12 @@ class Exporter(object):
         account.username = 'alice'
         account.email = 'alice@example.com'
         account.wallet_type = 2  # metamask
-        account.wallet_address = binascii.a2b_hex('f5173a6111B2A6B3C20fceD53B2A8405EC142bF6')
+        account.wallet_address = os.urandom(20)
+        # account.wallet_address = binascii.a2b_hex('f5173a6111B2A6B3C20fceD53B2A8405EC142bF6')
 
         userkey = UserKey()
-        userkey.pubkey = binascii.a2b_hex('b7e6462121b9632b2bfcc5a3beef0b49dd865093ad003d011d4abbb68476d5b4')
+        userkey.pubkey = os.urandom(32)
+        # userkey.pubkey = binascii.a2b_hex('b7e6462121b9632b2bfcc5a3beef0b49dd865093ad003d011d4abbb68476d5b4')
         userkey.created = account.created
         userkey.owner = account.oid
 
@@ -142,8 +141,9 @@ class Exporter(object):
         with open(filename, 'wb') as f:
             f.write(data)
 
-        data_recovered = cbor2.loads(data)
-        pprint(data_recovered)
+        # data_recovered = cbor2.loads(data)
+        print('\nExported database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.format(
+            dbpath=self._dbpath, filename=filename, filesize=len(data)))
 
 
 if __name__ == '__main__':
