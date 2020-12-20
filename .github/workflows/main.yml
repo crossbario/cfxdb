@@ -52,6 +52,9 @@ jobs:
     - name: Run MyPy
       run: tox -c tox.ini -e mypy
 
+    - name: Run Sphinx
+      run: tox -c tox.ini -e sphinx
+
   test:
     # Test on Ubuntu, MacOS, Windows using CPython 3.6-3.9, PyPy 3.6-3.7
     runs-on: ${{ matrix.os }}
