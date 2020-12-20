@@ -58,9 +58,10 @@ wamp --max-failures 3 \
 echo ''
 echo 'package uploaded to:'
 echo ''
-echo '      https://crossbarbuilder.s3.eu-central-1.amazonaws.com/wheels/cfxdb-'${AUTOBAHN_VERSION}'-py2.py3-none-any.whl'
+echo '      https://crossbarbuilder.s3.eu-central-1.amazonaws.com/wheels/cfxdb-'${CFXDB_VERSION}'-py2.py3-none-any.whl'
 echo '      https://crossbarbuilder.s3.eu-central-1.amazonaws.com/wheels/cfxdb-latest-py2.py3-none-any.whl'
 echo ''
+
 
 export AWS_S3_BUCKET_NAME=crossbario.com
 export AWS_DEFAULT_REGION=eu-central-1
@@ -70,6 +71,7 @@ export AWS_DEFAULT_REGION=eu-central-1
 echo 'building and uploading docs ..'
 tox -c tox.ini -e sphinx
 aws s3 cp --recursive --acl public-read ./docs/_build s3://${AWS_S3_BUCKET_NAME}/docs/cfxdb
+aws cloudfront create-invalidation --distribution-id E1FNQA2EBNGVQC --paths "/docs/cfxdb/*"
 
 echo ''
 echo 'docs uploaded to:'

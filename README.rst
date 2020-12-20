@@ -15,7 +15,7 @@ Python programs (including Jupyter notebooks) to CrossbarFX edge node data:
 
 --------------
 
-*Copyright (C) 2018-2020 Crossbar.io Technologies GmbH. All rights reserved.
+*Copyright (C) Crossbar.io Technologies GmbH. All rights reserved.
 WAMP, Crossbar.io and XBR are trademarks of Crossbar.io Technologies GmbH.*
 
 .. |Version| image:: https://img.shields.io/pypi/v/cfxdb.svg
@@ -26,6 +26,6 @@ WAMP, Crossbar.io and XBR are trademarks of Crossbar.io Technologies GmbH.*
    :target: https://github.com/crossbario/cfxdb/actions?query=workflow%3Amain
    :alt: Build Status
 
-.. |Docs| image:: https://readthedocs.org/projects/cfxdb/badge/?version=latest
-   :target: https://cfxdb.readthedocs.io/en/latest/
+.. |Docs| image:: https://img.shields.io/badge/docs-brightgreen.svg?style=flat
+   :target: https://crossbario.com/docs/cfxdb/index.html
    :alt: Docs
