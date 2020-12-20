@@ -10,3 +10,5 @@ Site Contents
    :maxdepth: 3
 
    index
+   eventstore
+   xbr
