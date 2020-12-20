@@ -1,5 +1,5 @@
-Web Clusters
-============
+Web Cluster
+===========
 
 .. contents:: :local:
 

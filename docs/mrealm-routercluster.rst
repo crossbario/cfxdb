@@ -1,5 +1,5 @@
-Router Clusters
-===============
+Router Cluster
+==============
 
 .. contents:: :local:
 

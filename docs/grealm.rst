@@ -1,5 +1,5 @@
-Domain Controller Database
-==========================
+Global Domain
+=============
 
 The domain controller running on the master node stores its configuration and run-time
 information in an embedded database

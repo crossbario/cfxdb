@@ -1,5 +1,5 @@
-Management Realm Controller Database
-====================================
+Management Realm
+================
 
 Each management realm controller running on the master node stores its configuration and run-time
 information in an embedded database.

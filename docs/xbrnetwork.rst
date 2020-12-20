@@ -1,7 +1,7 @@
 .. _XBRNETWORKDB:
 
-XBR Network Database Schema
-===========================
+XBR Network
+===========
 
 cfxdb.meta.Attribute
 ....................

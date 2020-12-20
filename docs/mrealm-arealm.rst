@@ -1,5 +1,5 @@
-Application Realms
-==================
+Application Realm
+=================
 
 .. contents:: :local:
 
