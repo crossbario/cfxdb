@@ -209,9 +209,11 @@ class Permission(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['oid', 'role_oid', 'uri', 'uri_check_level', 'match', 'allow_call', 'allow_register',
-                         'allow_publish', 'allow_subscribe', 'disclose_caller', 'disclose_publisher', 'cache',
-                         'owner', 'created']:
+            if k not in [
+                    'oid', 'role_oid', 'uri', 'uri_check_level', 'match', 'allow_call', 'allow_register',
+                    'allow_publish', 'allow_subscribe', 'disclose_caller', 'disclose_publisher', 'cache',
+                    'owner', 'created'
+            ]:
                 _unknown[k] = data[k]
 
         role_oid = data.get('role_oid', None)
