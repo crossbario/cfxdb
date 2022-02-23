@@ -1,5 +1,4 @@
-autobahn[twisted,xbr]>=22.2.1
-cbor>=1.0.0
+autobahn[twisted,xbr,serialization]>=22.2.1
 cbor2>=5.2.0
 flatbuffers>=2.0
 numpy>=1.21.5

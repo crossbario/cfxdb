@@ -236,8 +236,7 @@ class ConfigurationElement(object):
         assert self.oid is None or isinstance(self.oid, uuid.UUID)
         assert self.label is None or type(self.label) == str
         assert self.description is None or type(self.description) == str
-        assert self.tags is None or (type(self.tags) == list and type(tag) == str
-                                     for tag in self.tags)
+        assert self.tags is None or (type(self.tags) == list and type(tag) == str for tag in self.tags)
 
         obj = dict()
         obj['oid'] = str(self.oid) if self.oid else None
