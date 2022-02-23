@@ -7,7 +7,6 @@
 
 import web3
 import struct
-import six
 import uuid
 import pprint
 
@@ -235,9 +234,9 @@ class ConfigurationElement(object):
 
     def marshal(self):
         assert self.oid is None or isinstance(self.oid, uuid.UUID)
-        assert self.label is None or type(self.label) == six.text_type
-        assert self.description is None or type(self.description) == six.text_type
-        assert self.tags is None or (type(self.tags) == list and type(tag) == six.text_type
+        assert self.label is None or type(self.label) == str
+        assert self.description is None or type(self.description) == str
+        assert self.tags is None or (type(self.tags) == list and type(tag) == str
                                      for tag in self.tags)
 
         obj = dict()
@@ -260,24 +259,24 @@ class ConfigurationElement(object):
 
         oid = None
         if 'oid' in data and data['oid'] is not None:
-            assert type(data['oid']) == six.text_type
+            assert type(data['oid']) == str
             oid = uuid.UUID(data['oid'])
 
         label = None
         if 'label' in data and data['label'] is not None:
-            assert type(data['label']) == six.text_type
+            assert type(data['label']) == str
             label = data['label']
 
         description = None
         if 'description' in data and data['description'] is not None:
-            assert type(data['description']) == six.text_type
+            assert type(data['description']) == str
             description = data['description']
 
         tags = None
         if 'tags' in data and data['tags'] is not None:
             assert type(data['tags']) == list
             for tag in data['tags']:
-                assert type(tag) == six.text_type
+                assert type(tag) == str
             tags = data['tags']
 
         obj = ConfigurationElement(oid=oid,
