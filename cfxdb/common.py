@@ -85,6 +85,41 @@ class uint128(object):
         return self._data
 
 
+def unpack_uint64(data):
+    assert data is None or (type(data) == bytes and len(data) == 8)
+
+    if data:
+        return web3.Web3.toInt(data)
+    else:
+        return 0
+
+
+def pack_uint64(value):
+    assert value is None or (type(value) == int and value >= 0 and value < 2**64)
+
+    if value:
+        data = web3.Web3.toBytes(value)
+        return b'\x00' * (8 - len(data)) + data
+    else:
+        return b'\x00' * 8
+
+
+class uint64(object):
+    def __init__(self, data=None):
+        self._data = data or b'\x00' * 8
+
+    @property
+    def value(self):
+        return unpack_uint64(self._data)
+
+    @value.setter
+    def value(self, value):
+        self._data = pack_uint64(value)
+
+    def serialize(self):
+        return self._data
+
+
 class address(object):
     def __init__(self, data=None):
         self._data = data or b'\x00' * 20
