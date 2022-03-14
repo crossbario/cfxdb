@@ -33,11 +33,7 @@ class Permission(ConfigurationElement):
     URI_CHECK_LEVEL_NONE: int = 0
     URI_CHECK_LEVEL_STRICT: int = 1
     URI_CHECK_LEVEL_LOOSE: int = 2
-    URI_CHECK_LEVELS_TOSTR = {
-        0: None,
-        1: 'strict',
-        2: 'loose'
-    }
+    URI_CHECK_LEVELS_TOSTR = {0: None, 1: 'strict', 2: 'loose'}
     URI_CHECK_LEVELS_FROMSTR = {val: key for key, val in URI_CHECK_LEVELS_TOSTR.items()}
 
     def __init__(self,
@@ -182,20 +178,34 @@ class Permission(ConfigurationElement):
         obj = ConfigurationElement.marshal(self)
 
         obj.update({
-            'oid': str(self.oid) if self.oid else None,
-            'role_oid': str(self.role_oid) if self.role_oid else None,
-            'uri': self.uri,
-            'uri_check_level': Permission.URI_CHECK_LEVELS_TOSTR[self.uri_check_level] if self.uri_check_level else None,
-            'match': Permission.MATCH_TYPES_TOSTR[self.match] if self.match else None,
-            'allow_call': self.allow_call,
-            'allow_register': self.allow_register,
-            'allow_publish': self.allow_publish,
-            'allow_subscribe': self.allow_subscribe,
-            'disclose_caller': self.disclose_caller,
-            'disclose_publisher': self.disclose_publisher,
-            'cache': self.cache,
-            'created': int(self.created) if self.created else None,
-            'owner': str(self.owner) if self.owner else None,
+            'oid':
+            str(self.oid) if self.oid else None,
+            'role_oid':
+            str(self.role_oid) if self.role_oid else None,
+            'uri':
+            self.uri,
+            'uri_check_level':
+            Permission.URI_CHECK_LEVELS_TOSTR[self.uri_check_level] if self.uri_check_level else None,
+            'match':
+            Permission.MATCH_TYPES_TOSTR[self.match] if self.match else None,
+            'allow_call':
+            self.allow_call,
+            'allow_register':
+            self.allow_register,
+            'allow_publish':
+            self.allow_publish,
+            'allow_subscribe':
+            self.allow_subscribe,
+            'disclose_caller':
+            self.disclose_caller,
+            'disclose_publisher':
+            self.disclose_publisher,
+            'cache':
+            self.cache,
+            'created':
+            int(self.created) if self.created else None,
+            'owner':
+            str(self.owner) if self.owner else None,
         })
 
         if self._unknown:
