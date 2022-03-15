@@ -1,4 +1,6 @@
-autobahn[twisted,xbr,serialization]>=22.2.1
+git+https://github.com/crossbario/autobahn-python.git@master#egg=autobahn[twisted,xbr,serialization]
+# autobahn[twisted,xbr,serialization]>=22.2.1
+
 cbor2>=5.2.0
 flatbuffers>=2.0
 numpy>=1.21.5
