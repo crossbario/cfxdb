@@ -10,7 +10,7 @@ import sys
 import uuid
 import json
 from pprint import pprint
-from typing import List
+from typing import List, Dict, Any
 
 from pygments import highlight, lexers, formatters
 
@@ -47,6 +47,9 @@ class Exporter(object):
         self._db = zlmdb.Database(dbpath=self._dbpath, maxsize=2**30, readonly=False)
         self._db.__enter__()
 
+        self._schemata: Dict[str, Any] = {}
+        self._schema_tables = {}
+
         if False:
             self._meta = cfxdb.meta.Schema.attach(self._db)
             self._globalschema = cfxdb.globalschema.GlobalSchema.attach(self._db)
@@ -75,9 +78,6 @@ class Exporter(object):
                             break
                     tables[k] = first
                 self._schema_tables[schema_name] = tables
-        else:
-            self._schemata = {}
-            self._schema_tables = {}
 
     @property
     def dbpath(self) -> str:

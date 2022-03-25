@@ -118,7 +118,7 @@ def test_stats(db):
     assert stats['free'] == 0.999609375
 
     # GlobalSchema has 14 tables
-    assert stats['zlmdb_slots'] == 14
+    assert stats['num_slots'] == 14
 
 
 def test_usage_stats(db):
