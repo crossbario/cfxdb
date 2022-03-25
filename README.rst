@@ -1,5 +1,5 @@
-Crossbar.io FX Database
-=======================
+Crossbar.io Database
+====================
 
 | |Version| |Build| |Deploy| |Docs|
 
@@ -16,7 +16,7 @@ Python programs (including Jupyter notebooks) to CrossbarFX edge node data:
 
 --------------
 
-*Copyright (C) Crossbar.io Technologies GmbH. All rights reserved.
+*Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT.
 WAMP, Crossbar.io and XBR are trademarks of Crossbar.io Technologies GmbH.*
 
 .. |Version| image:: https://img.shields.io/pypi/v/cfxdb.svg
