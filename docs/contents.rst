@@ -10,7 +10,7 @@ Site Contents
    :maxdepth: 3
 
    index
-   eventstore
-   management-network/index
-   management-domain/index
+   router-database/index
    management-realm/index
+   management-domain/index
+   management-network/index

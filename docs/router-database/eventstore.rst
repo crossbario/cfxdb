@@ -1,14 +1,18 @@
-.. _EVENTSDB:
-
 Event Store
 ===========
 
-Sessions
---------
+.. contents:: :local:
 
-.. autoclass:: cfxdb.schema.Sessions
-    :members:
-    :show-inheritance:
+-------------
+
+
+Session
+-------
+
+* :class:`cfxdb.eventstore.Session`
+* :class:`cfxdb.schema.Sessions`
+
+-------
 
 .. autoclass:: cfxdb.eventstore.Session
     :members:
@@ -21,13 +25,18 @@ Sessions
         authrole
     :member-order: bysource
 
-
-Publications
-------------
-
-.. autoclass:: cfxdb.schema.Publications
+.. autoclass:: cfxdb.schema.Sessions
     :members:
     :show-inheritance:
+
+
+Publication
+-----------
+
+* :class:`cfxdb.eventstore.Publication`
+* :class:`cfxdb.schema.Publications`
+
+-------
 
 .. autoclass:: cfxdb.eventstore.Publication
     :members:
@@ -53,13 +62,18 @@ Publications
         enc_serializer
     :member-order: bysource
 
-
-Events
-------
-
-.. autoclass:: cfxdb.schema.Events
+.. autoclass:: cfxdb.schema.Publications
     :members:
     :show-inheritance:
+
+
+Publication
+-----------
+
+* :class:`cfxdb.eventstore.Event`
+* :class:`cfxdb.schema.Events`
+
+-------
 
 .. autoclass:: cfxdb.eventstore.Event
     :members:
@@ -71,3 +85,7 @@ Events
         retained,
         acknowledged_delivery
     :member-order: bysource
+
+.. autoclass:: cfxdb.schema.Events
+    :members:
+    :show-inheritance:

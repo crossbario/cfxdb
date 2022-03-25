@@ -5,8 +5,8 @@ Run-time Logs
 
 ---------------
 
-mnode_logs
-----------
+MNodeLog
+--------
 
 .. autoclass:: cfxdb.log.mnode_log.MNodeLog
     :members:
@@ -16,8 +16,8 @@ mnode_logs
     :members:
     :show-inheritance:
 
-mworker_logs
-------------
+MWorkerLog
+----------
 
 .. autoclass:: cfxdb.log.mworker_log.MWorkerLog
     :members:

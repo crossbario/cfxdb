@@ -1,18 +1,16 @@
-.. _XBRDB:
+Key Exchange
+============
 
-XBR Market Maker
-================
+PaymentChannel
+--------------
 
-`schema.PaymentChannels`
-------------------------
+* :class:`cfxdb.xbrmm.PaymentChannel`
+* :class:`cfxdb.xbrmm.PaymentChannels`
+* :class:`cfxdb.xbrmm.IndexPaymentChannelByDelegate`
+* :class:`cfxdb.xbrmm.PaymentChannelBalance`
+* :class:`cfxdb.xbrmm.PaymentChannelBalances`
 
-.. autoclass:: cfxdb.xbrmm.PaymentChannels
-    :members:
-    :show-inheritance:
-
-.. autoclass:: cfxdb.xbrmm.IndexPaymentChannelByDelegate
-    :members:
-    :show-inheritance:
+-------
 
 .. autoclass:: cfxdb.xbrmm.PaymentChannel
     :members:
@@ -30,11 +28,11 @@ XBR Market Maker
         closed_at
     :member-order: bysource
 
+.. autoclass:: cfxdb.xbrmm.PaymentChannels
+    :members:
+    :show-inheritance:
 
-`schema.PaymentChannelBalances`
--------------------------------
-
-.. autoclass:: cfxdb.xbrmm.PaymentChannelBalances
+.. autoclass:: cfxdb.xbrmm.IndexPaymentChannelByDelegate
     :members:
     :show-inheritance:
 
@@ -45,17 +43,19 @@ XBR Market Maker
         inflight
     :member-order: bysource
 
-
-`schema.Offers`
----------------
-
-.. autoclass:: cfxdb.xbrmm.Offers
+.. autoclass:: cfxdb.xbrmm.PaymentChannelBalances
     :members:
     :show-inheritance:
 
-.. autoclass:: cfxdb.xbrmm.IndexOfferByKey
-    :members:
-    :show-inheritance:
+
+Offer
+-----
+
+* :class:`cfxdb.xbrmm.Offer`
+* :class:`cfxdb.xbrmm.Offers`
+* :class:`cfxdb.xbrmm.IndexOfferByKey`
+
+-------
 
 .. autoclass:: cfxdb.xbrmm.Offer
     :members:
@@ -76,3 +76,11 @@ XBR Market Maker
         copies,
         remaining
     :member-order: bysource
+
+.. autoclass:: cfxdb.xbrmm.Offers
+    :members:
+    :show-inheritance:
+
+.. autoclass:: cfxdb.xbrmm.IndexOfferByKey
+    :members:
+    :show-inheritance:
