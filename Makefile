@@ -24,6 +24,11 @@ clean:
 	-rm -rf ./*.egg-info
 	-rm -rf ./.tox
 
+# find . -type f -exec sed -i 's/Crossbar.io/Crossbar.io/g' {} \;
+fix_fx_strings:
+	find . -type f -exec sed -i 's/Copyright (C) Crossbar.io Technologies GmbH. All rights reserved./Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT./g' {} \;
+	find . -type f -exec sed -i 's/Crossbar.io FX/Crossbar.io Database/g' {} \;
+
 install:
 	pip install -e .
 
