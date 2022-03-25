@@ -10,7 +10,6 @@ WebCluster
 ----------
 
 * :class:`cfxdb.mrealm.WebCluster`
-* :class:`cfxdb.mrealm.WebClusterNodeMembership`
 * :class:`cfxdb.mrealmschema.WebClusters`
 * :class:`cfxdb.mrealmschema.IndexWebClusterByName`
 * :class:`cfxdb.mrealm.WebClusterNodeMembership`
@@ -19,10 +18,6 @@ WebCluster
 -------
 
 .. autoclass:: cfxdb.mrealm.WebCluster
-    :members:
-    :show-inheritance:
-
-.. autoclass:: cfxdb.mrealm.WebClusterNodeMembership
     :members:
     :show-inheritance:
 
