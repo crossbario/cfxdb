@@ -155,16 +155,13 @@ class Exporter(object):
             if include_description:
                 print('   Table in slot {} ({}) with {} records is bound to class {}: {}'.format(
                     click.style(str(slot.slot), fg='yellow', bold=True),
-                    click.style(str(slot_id), fg='white'),
-                    click.style(str(records), fg='yellow', bold=True),
-                    click.style(slot.name, fg='yellow'),
-                    slot.description))
+                    click.style(str(slot_id), fg='white'), click.style(str(records), fg='yellow', bold=True),
+                    click.style(slot.name, fg='yellow'), slot.description))
             else:
                 print('   Table in slot {} ({}) with {} records is bound to class {}'.format(
-                    click.style(str(slot.slot), fg='yellow', bold=True),
-                    click.style(str(slot_id), fg='white'),
-                    click.style(str(records), fg='yellow', bold=True),
-                    click.style(slot.name, fg='yellow')))
+                    click.style(str(slot.slot), fg='yellow', bold=True), click.style(str(slot_id),
+                                                                                     fg='white'),
+                    click.style(str(records), fg='yellow', bold=True), click.style(slot.name, fg='yellow')))
         print('')
 
     def print_stats(self, include_slots=False):

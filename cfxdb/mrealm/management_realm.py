@@ -15,7 +15,7 @@ from cfxdb.common import ConfigurationElement
 
 class ManagementRealm(ConfigurationElement):
     """
-    CFC management realm database configuration object.
+    Management realm database configuration object.
     """
     def __init__(self,
                  oid: Optional[UUID] = None,
