@@ -109,3 +109,16 @@ fix_fbs_python:
 	# FIXME: wrong import:
 	# "from oid_t import oid_t" => "from ..oid_t import oid_t"
 	find $(FBS_OUTPUT) -name "*.py" -exec sed -i'' 's/from oid_t/from ..oid_t/g' {} \;
+
+build_docs:
+	cd ./docs/ && sphinx-build -b html . _build
+
+test_docs:
+	cd ./docs/ && sphinx-build -nWT -b spelling -d _build/doctrees . _build/spelling
+	cd ./docs/ && sphinx-build -nWT -b dummy . _build
+
+run_docs:
+	twistd --nodaemon web --path=./docs/_build --listen=tcp:8090
+
+clean_docs:
+	-rm -rf ./docs/_build

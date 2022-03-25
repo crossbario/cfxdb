@@ -3,10 +3,12 @@
 Event Store
 ===========
 
-`schema.Sessions`
------------------
+Sessions
+--------
 
 .. autoclass:: cfxdb.schema.Sessions
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.eventstore.Session
     :members:
@@ -20,10 +22,12 @@ Event Store
     :member-order: bysource
 
 
-`schema.Publications`
----------------------
+Publications
+------------
 
 .. autoclass:: cfxdb.schema.Publications
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.eventstore.Publication
     :members:
@@ -50,10 +54,12 @@ Event Store
     :member-order: bysource
 
 
-`schema.Events`
----------------
+Events
+------
 
 .. autoclass:: cfxdb.schema.Events
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.eventstore.Event
     :members:

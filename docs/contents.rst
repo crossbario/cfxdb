@@ -11,10 +11,6 @@ Site Contents
 
    index
    eventstore
-   grealm
-   mrealm
-   mrealm-arealm
-   mrealm-routercluster
-   mrealm-webcluster
-   xbr
-   xbrnetwork
+   management-network/index
+   management-domain/index
+   management-realm/index

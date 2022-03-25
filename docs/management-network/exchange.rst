@@ -7,8 +7,12 @@ XBR Market Maker
 ------------------------
 
 .. autoclass:: cfxdb.xbrmm.PaymentChannels
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.xbrmm.IndexPaymentChannelByDelegate
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.xbrmm.PaymentChannel
     :members:
@@ -31,6 +35,8 @@ XBR Market Maker
 -------------------------------
 
 .. autoclass:: cfxdb.xbrmm.PaymentChannelBalances
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.xbrmm.PaymentChannelBalance
     :members:
@@ -44,8 +50,12 @@ XBR Market Maker
 ---------------
 
 .. autoclass:: cfxdb.xbrmm.Offers
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.xbrmm.IndexOfferByKey
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.xbrmm.Offer
     :members:

@@ -1,5 +1,5 @@
-Global Domain
-=============
+Management Domain
+=================
 
 The domain controller running on the master node stores its configuration and run-time
 information in an embedded database
@@ -42,67 +42,108 @@ Metadata Tables
 ---------------
 
 .. autoclass:: cfxdb.common.ConfigurationElement
-
+    :members:
+    :show-inheritance:
 
 
 User Tables
 -----------
 
 .. autoclass:: cfxdb.user.User
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.Users
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexUsersByName
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexUsersByPubkey
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexUsersByEmail
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.user.UserMrealmRole
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.UserMrealmRoles
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.user.ActivationToken
+    :members:
 
 .. autoclass:: cfxdb.globalschema.ActivationTokens
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexActivationTokensByAuthidPubkey
+    :members:
+    :show-inheritance:
 
 
 Organization Tables
 -------------------
 
 .. autoclass:: cfxdb.user.Organization
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.Organizations
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexOrganizationsByName
+    :members:
+    :show-inheritance:
 
 
 Management Realm Tables
 -----------------------
 
 .. autoclass:: cfxdb.mrealm.ManagementRealm
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.ManagementRealms
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexManagementRealmByName
+    :members:
+    :show-inheritance:
 
 
 Node Tables
 -----------
 
 .. autoclass:: cfxdb.mrealm.Node
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.Nodes
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexNodesByPubkey
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.IndexNodesByAuthid
+    :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.usage.MasterNodeUsage
     :members:
+    :show-inheritance:
 
 .. autoclass:: cfxdb.globalschema.UsageRecords
-
-
+    :members:
+    :show-inheritance:
