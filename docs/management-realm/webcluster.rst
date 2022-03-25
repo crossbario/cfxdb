@@ -6,8 +6,17 @@ Web Clusters
 -------------
 
 
-webclusters
------------
+WebCluster
+----------
+
+* :class:`cfxdb.mrealm.WebCluster`
+* :class:`cfxdb.mrealm.WebClusterNodeMembership`
+* :class:`cfxdb.mrealmschema.WebClusters`
+* :class:`cfxdb.mrealmschema.IndexWebClusterByName`
+* :class:`cfxdb.mrealm.WebClusterNodeMembership`
+* :class:`cfxdb.mrealmschema.WebClusterNodeMemberships`
+
+-------
 
 .. autoclass:: cfxdb.mrealm.WebCluster
     :members:
@@ -21,15 +30,9 @@ webclusters
     :members:
     :show-inheritance:
 
-idx_webclusters_by_name
------------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexWebClusterByName
     :members:
     :show-inheritance:
-
-webcluster_node_memberships
----------------------------
 
 .. autoclass:: cfxdb.mrealm.WebClusterNodeMembership
     :members:
@@ -40,8 +43,15 @@ webcluster_node_memberships
     :show-inheritance:
 
 
-webservices
------------
+WebService
+----------
+
+* :class:`cfxdb.mrealm.WebService`
+* :class:`cfxdb.mrealmschema.WebServices`
+* :class:`cfxdb.mrealmschema.IndexWebServiceByPath`
+* :class:`cfxdb.mrealmschema.IndexWebClusterPathToWebService`
+
+-------
 
 .. autoclass:: cfxdb.mrealm.WebService
     :members:
@@ -51,15 +61,9 @@ webservices
     :members:
     :show-inheritance:
 
-idx_webservices_by_path
------------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexWebServiceByPath
     :members:
     :show-inheritance:
-
-idx_webcluster_path_to_service
-------------------------------
 
 .. autoclass:: cfxdb.mrealmschema.IndexWebClusterPathToWebService
     :members:

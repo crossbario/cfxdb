@@ -1,38 +1,35 @@
 Database Schema
 ===============
 
-.. contents:: :local:
-
----------------
-
+All database tables and indexes can be accessed using the type information and
+schema definitions from a single database schema class:
 
 .. autoclass:: cfxdb.mrealmschema.MrealmSchema
     :members:
-        attach,
-        roles,
-        idx_roles_by_name,
-        permissions,
-        idx_permissions_by_uri,
-        arealms,
-        idx_arealms_by_name,
-        idx_arealm_by_webcluster,
-        arealm_role_associations,
-        principals,
-        idx_principals_by_name,
-        credentials,
-        idx_credentials_by_auth,
-        idx_credentials_by_principal,
-        routerclusters,
-        idx_routerclusters_by_name,
-        routercluster_node_memberships,
-        router_workergroups,
-        idx_workergroup_by_cluster,
-        router_workergroup_placements,
-        idx_clusterplacement_by_workername,
-        webclusters,
-        idx_webclusters_by_name,
-        webcluster_node_memberships,
-        webservices,
-        idx_webservices_by_path,
-        mnode_logs,
-        mworker_logs
+    :undoc-members:
+
+Database Tables
+---------------
+
+Application Realms
+..................
+
+* :class:`cfxdb.mrealm.ApplicationRealm`
+* :class:`cfxdb.mrealmschema.ApplicationRealms`
+* :class:`cfxdb.mrealmschema.IndexApplicationRealmByName`
+* :class:`cfxdb.mrealmschema.IndexApplicationRealmByWebCluster`
+* :class:`cfxdb.mrealm.ApplicationRealmRoleAssociation`
+* :class:`cfxdb.mrealmschema.ApplicationRealmRoleAssociations`
+* :class:`cfxdb.mrealmschema.Principal`
+* :class:`cfxdb.mrealmschema.Principals`
+* :class:`cfxdb.mrealmschema.IndexPrincipalByName`
+* :class:`cfxdb.mrealmschema.Credential`
+* :class:`cfxdb.mrealmschema.Credentials`
+* :class:`cfxdb.mrealmschema.IndexCredentialsByAuth`
+* :class:`cfxdb.mrealmschema.IndexCredentialsByPrincipal`
+* :class:`cfxdb.mrealm.Role`
+* :class:`cfxdb.mrealmschema.Roles`
+* :class:`cfxdb.mrealmschema.IndexRoleByName`
+* :class:`cfxdb.mrealm.Permission`
+* :class:`cfxdb.mrealmschema.Permissions`
+* :class:`cfxdb.mrealmschema.IndexPermissionByUri`

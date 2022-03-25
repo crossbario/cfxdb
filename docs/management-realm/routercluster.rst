@@ -5,9 +5,16 @@ Router Clusters
 
 ---------------
 
+RouterCluster
+-------------
 
-routerclusters
---------------
+* :class:`cfxdb.mrealm.RouterCluster`
+* :class:`cfxdb.mrealmschema.RouterClusters`
+* :class:`cfxdb.mrealmschema.IndexRouterClusterByName`
+* :class:`cfxdb.mrealm.RouterClusterNodeMembership`
+* :class:`cfxdb.mrealmschema.RouterClusterNodeMemberships`
+
+-------
 
 .. autoclass:: cfxdb.mrealm.RouterCluster
     :members:
@@ -17,15 +24,9 @@ routerclusters
     :members:
     :show-inheritance:
 
-idx_routerclusters_by_name
---------------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexRouterClusterByName
     :members:
     :show-inheritance:
-
-routercluster_node_memberships
-------------------------------
 
 .. autoclass:: cfxdb.mrealm.RouterClusterNodeMembership
     :members:
@@ -35,8 +36,18 @@ routercluster_node_memberships
     :members:
     :show-inheritance:
 
-router_workergroups
--------------------
+
+RouterWorkerGroup
+-----------------
+
+* :class:`cfxdb.mrealm.RouterWorkerGroup`
+* :class:`cfxdb.mrealmschema.RouterWorkerGroups`
+* :class:`cfxdb.mrealmschema.IndexWorkerGroupByCluster`
+* :class:`cfxdb.mrealm.RouterWorkerGroupClusterPlacement`
+* :class:`cfxdb.mrealmschema.RouterWorkerGroupClusterPlacements`
+* :class:`cfxdb.mrealmschema.IndexClusterPlacementByWorkerName`
+
+-------
 
 .. autoclass:: cfxdb.mrealm.RouterWorkerGroup
     :members:
@@ -46,15 +57,9 @@ router_workergroups
     :members:
     :show-inheritance:
 
-idx_workergroup_by_cluster
---------------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexWorkerGroupByCluster
     :members:
     :show-inheritance:
-
-router_workergroup_placements
------------------------------
 
 .. autoclass:: cfxdb.mrealm.RouterWorkerGroupClusterPlacement
     :members:
@@ -63,9 +68,6 @@ router_workergroup_placements
 .. autoclass:: cfxdb.mrealmschema.RouterWorkerGroupClusterPlacements
     :members:
     :show-inheritance:
-
-idx_clusterplacement_by_workername
-----------------------------------
 
 .. autoclass:: cfxdb.mrealmschema.IndexClusterPlacementByWorkerName
     :members:

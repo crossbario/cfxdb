@@ -118,7 +118,7 @@ test_docs:
 	cd ./docs/ && sphinx-build -nWT -b dummy . _build
 
 run_docs:
-	twistd --nodaemon web --path=./docs/_build --listen=tcp:8090
+	twistd --nodaemon web --path=./docs/_build --listen=tcp:8091
 
 clean_docs:
 	-rm -rf ./docs/_build

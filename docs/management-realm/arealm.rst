@@ -5,7 +5,16 @@ Application Realms
 
 --------------
 
-arealms
+ApplicationRealm
+----------------
+
+* :class:`cfxdb.mrealm.ApplicationRealm`
+* :class:`cfxdb.mrealmschema.ApplicationRealms`
+* :class:`cfxdb.mrealmschema.IndexApplicationRealmByName`
+* :class:`cfxdb.mrealmschema.IndexApplicationRealmByWebCluster`
+* :class:`cfxdb.mrealm.ApplicationRealmRoleAssociation`
+* :class:`cfxdb.mrealmschema.ApplicationRealmRoleAssociations`
+
 -------
 
 .. autoclass:: cfxdb.mrealm.ApplicationRealm
@@ -16,22 +25,13 @@ arealms
     :members:
     :show-inheritance:
 
-idx_arealms_by_name
--------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexApplicationRealmByName
     :members:
     :show-inheritance:
 
-idx_arealm_by_webcluster
-------------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexApplicationRealmByWebCluster
     :members:
     :show-inheritance:
-
-arealm_role_associations
-------------------------
 
 .. autoclass:: cfxdb.mrealm.ApplicationRealmRoleAssociation
     :members:
@@ -42,8 +42,14 @@ arealm_role_associations
     :show-inheritance:
 
 
-principals
-----------
+Principal
+---------
+
+* :class:`cfxdb.mrealmschema.Principal`
+* :class:`cfxdb.mrealmschema.Principals`
+* :class:`cfxdb.mrealmschema.IndexPrincipalByName`
+
+-------
 
 .. autoclass:: cfxdb.mrealmschema.Principal
     :members:
@@ -53,16 +59,20 @@ principals
     :members:
     :show-inheritance:
 
-idx_principals_by_name
-----------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexPrincipalByName
     :members:
     :show-inheritance:
 
 
-credentials
------------
+Credential
+----------
+
+* :class:`cfxdb.mrealmschema.Credential`
+* :class:`cfxdb.mrealmschema.Credentials`
+* :class:`cfxdb.mrealmschema.IndexCredentialsByAuth`
+* :class:`cfxdb.mrealmschema.IndexCredentialsByPrincipal`
+
+-------
 
 .. autoclass:: cfxdb.mrealmschema.Credential
     :members:
@@ -72,23 +82,23 @@ credentials
     :members:
     :show-inheritance:
 
-idx_credentials_by_auth
------------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexCredentialsByAuth
     :members:
     :show-inheritance:
-
-idx_credentials_by_principal
-----------------------------
 
 .. autoclass:: cfxdb.mrealmschema.IndexCredentialsByPrincipal
     :members:
     :show-inheritance:
 
 
-roles
------
+Role
+----
+
+* :class:`cfxdb.mrealm.Role`
+* :class:`cfxdb.mrealmschema.Roles`
+* :class:`cfxdb.mrealmschema.IndexRoleByName`
+
+-------
 
 .. autoclass:: cfxdb.mrealm.Role
     :members:
@@ -98,16 +108,19 @@ roles
     :members:
     :show-inheritance:
 
-idx_roles_by_name
------------------
-
 .. autoclass:: cfxdb.mrealmschema.IndexRoleByName
     :members:
     :show-inheritance:
 
 
-permissions
------------
+Permission
+----------
+
+* :class:`cfxdb.mrealm.Permission`
+* :class:`cfxdb.mrealmschema.Permissions`
+* :class:`cfxdb.mrealmschema.IndexPermissionByUri`
+
+-------
 
 .. autoclass:: cfxdb.mrealm.Permission
     :members:
@@ -116,9 +129,6 @@ permissions
 .. autoclass:: cfxdb.mrealmschema.Permissions
     :members:
     :show-inheritance:
-
-idx_permissions_by_uri
-----------------------
 
 .. autoclass:: cfxdb.mrealmschema.IndexPermissionByUri
     :members:
