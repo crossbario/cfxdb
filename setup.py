@@ -68,7 +68,7 @@ setup(
     platforms=('Any'),
     python_requires='>=3.7',
     install_requires=[
-        'zlmdb>=21.2.1',
+        'zlmdb>=22.3.1',
     ],
     packages=find_packages(),
     include_package_data=True,
