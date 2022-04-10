@@ -84,7 +84,7 @@ class ApplicationRealm(ConfigurationElement):
             for the application realm.
 
         :param datamarket_oid: When this application realm is to be federated with nodes paired
-        to a different management realm (master node) or run by different operators.
+            to a different management realm (master node) or run by different operators.
 
         :param changed: Timestamp when the application realm was last changed
 
