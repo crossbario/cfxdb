@@ -5,7 +5,7 @@ include "common.fbs";
 namespace cookiestore;
 
 
-/// This table stores persistent cookies, as used in WAMP-Cookie authentication by router and proxy workers.
+/// Persistent cookies, as used in WAMP-Cookie authentication by router and proxy workers.
 table Cookie
 {
     /// Database ID of this cookie record.
@@ -48,5 +48,5 @@ table Cookie
     authrealm: string;
 
     /// The WAMP authentication extra data to be returned to the client performing cookie-based authentication.
-    authextra: [uint8];
+    authextra: [uint8] (cbor);
 }
