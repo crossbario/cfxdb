@@ -129,7 +129,7 @@ class Cookie(object):
         Database ID of this cookie record.
         """
         if self._oid is None and self._from_fbs:
-            if self._from_fbs.CookieLength():
+            if self._from_fbs.OidLength():
                 _oid = self._from_fbs.OidAsBytes()
                 self._oid = uuid.UUID(bytes=bytes(_oid))
         return self._oid
@@ -217,7 +217,7 @@ class Cookie(object):
         Database ID of this cookie record.
         """
         if self._authenticated_on_node is None and self._from_fbs:
-            if self._from_fbs.CookieLength():
+            if self._from_fbs.AuthenticatedOnNodeLength():
                 _authenticated_on_node = self._from_fbs.AuthenticatedOnNodeAsBytes()
                 self._authenticated_on_node = uuid.UUID(bytes=bytes(_authenticated_on_node))
         return self._authenticated_on_node
