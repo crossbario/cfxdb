@@ -24,7 +24,7 @@ class _AppSessionGen(AppSessionGen.AppSession):
         x.Init(buf, n + offset)
         return x
 
-    def OidAsBytes(self):
+    def ArealmOidAsBytes(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             _off = self._tab.Vector(o)
@@ -32,8 +32,16 @@ class _AppSessionGen(AppSessionGen.AppSession):
             return memoryview(self._tab.Bytes)[_off:_off + _len]
         return None
 
+    def OidAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
     def NodeOidAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
@@ -41,7 +49,7 @@ class _AppSessionGen(AppSessionGen.AppSession):
         return None
 
     def TransportAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
@@ -49,7 +57,7 @@ class _AppSessionGen(AppSessionGen.AppSession):
         return None
 
     def AuthextraAsBytes(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
@@ -64,6 +72,7 @@ class AppSession(object):
 
     __slots__ = (
         '_from_fbs',
+        '_arealm_oid',
         '_oid',
         '_session',
         '_joined_at',
@@ -71,6 +80,7 @@ class AppSession(object):
         '_node_oid',
         '_node_authid',
         '_worker_name',
+        '_worker_pid',
         '_transport',
         '_realm',
         '_authid',
@@ -82,6 +92,9 @@ class AppSession(object):
 
     def __init__(self, from_fbs: Optional[_AppSessionGen] = None):
         self._from_fbs = from_fbs
+
+        # [uint8] (uuid)
+        self._arealm_oid: Optional[uuid.UUID] = None
 
         # [uint8] (uuid)
         self._oid: Optional[uuid.UUID] = None
@@ -103,6 +116,9 @@ class AppSession(object):
 
         # string
         self._worker_name: Optional[str] = None
+
+        # int32
+        self._worker_pid: Optional[int] = None
 
         # [uint8] (cbor)
         self._transport: Optional[Dict[str, Any]] = None
@@ -127,6 +143,7 @@ class AppSession(object):
 
     def marshal(self):
         obj = {
+            'arealm_oid': self.arealm_oid.bytes if self.arealm_oid else None,
             'oid': self.oid.bytes if self.oid else None,
             'session': self.session,
             'joined_at': int(self.joined_at) if self.joined_at else None,
@@ -134,6 +151,7 @@ class AppSession(object):
             'node_oid': self.node_oid.bytes if self.node_oid else None,
             'node_authid': self.node_authid,
             'worker_name': self.worker_name,
+            'worker_pid': self.worker_pid,
             'transport': self.transport,
             'realm': self.realm,
             'authid': self.authid,
@@ -148,9 +166,25 @@ class AppSession(object):
         return '\n{}\n'.format(pprint.pformat(self.marshal()))
 
     @property
+    def arealm_oid(self) -> Optional[uuid.UUID]:
+        """
+        OID of the application realm this session is/was joined on.
+        """
+        if self._arealm_oid is None and self._from_fbs:
+            if self._from_fbs.ArealmOidLength():
+                _arealm_oid = self._from_fbs.ArealmOidAsBytes()
+                self._arealm_oid = uuid.UUID(bytes=bytes(_arealm_oid))
+        return self._arealm_oid
+
+    @arealm_oid.setter
+    def arealm_oid(self, value: Optional[uuid.UUID]):
+        assert value is None or isinstance(value, uuid.UUID)
+        self._arealm_oid = value
+
+    @property
     def oid(self) -> Optional[uuid.UUID]:
         """
-        Unlimited time, globally unique, long-term session object ID. The pair ``(session, joined_at)`` maps bidirectionally to ``session_oid``.
+        Unlimited time, globally unique, long-term OID of this session. The pair of WAMP session ID and join time ``(session, joined_at)`` bidirectionally maps to session ``oid``.
         """
         if self._oid is None and self._from_fbs:
             if self._from_fbs.OidLength():
@@ -250,6 +284,19 @@ class AppSession(object):
     @worker_name.setter
     def worker_name(self, value: Optional[str]):
         self._worker_name = value
+
+    @property
+    def worker_pid(self) -> Optional[str]:
+        """
+        Local worker PID of the router worker hosting this session.
+        """
+        if self._worker_pid is None and self._from_fbs:
+            self._worker_pid = self._from_fbs.WorkerPid()
+        return self._worker_pid
+
+    @worker_pid.setter
+    def worker_pid(self, value: Optional[int]):
+        self._worker_pid = value
 
     @property
     def transport(self) -> Optional[Dict[str, Any]]:
@@ -367,6 +414,10 @@ class AppSession(object):
 
     def build(self, builder):
 
+        arealm_oid = self.arealm_oid.bytes if self.arealm_oid else None
+        if arealm_oid:
+            arealm_oid = builder.CreateString(arealm_oid)
+
         oid = self.oid.bytes if self.oid else None
         if oid:
             oid = builder.CreateString(oid)
@@ -413,6 +464,9 @@ class AppSession(object):
 
         AppSessionGen.AppSessionStart(builder)
 
+        if arealm_oid:
+            AppSessionGen.AppSessionAddArealmOid(builder, arealm_oid)
+
         if oid:
             AppSessionGen.AppSessionAddOid(builder, oid)
 
@@ -433,6 +487,9 @@ class AppSession(object):
 
         if worker_name:
             AppSessionGen.AppSessionAddWorkerName(builder, worker_name)
+
+        if self.worker_pid:
+            AppSessionGen.AppSessionAddWorkerPid(builder, self.worker_pid)
 
         if transport:
             AppSessionGen.AppSessionAddTransport(builder, transport)

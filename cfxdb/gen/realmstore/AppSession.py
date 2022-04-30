@@ -25,10 +25,38 @@ class AppSession(object):
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
 
-    # Unlimited time, globally unique, long-term session OID. The pair ``(session, joined_at)`` maps bidirectionally to ``session_oid``.
+    # OID of the application realm this session is/was joined on.
+    # AppSession
+    def ArealmOid(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+        return 0
+
+    # AppSession
+    def ArealmOidAsNumpy(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
+        return 0
+
+    # AppSession
+    def ArealmOidLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # AppSession
+    def ArealmOidIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        return o == 0
+
+    # Unlimited time, globally unique, long-term OID of this session. The pair of WAMP session ID and join time ``(session, joined_at)`` bidirectionally maps to session ``oid``.
     # AppSession
     def Oid(self, j):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
@@ -36,27 +64,27 @@ class AppSession(object):
 
     # AppSession
     def OidAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
         return 0
 
     # AppSession
     def OidLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # AppSession
     def OidIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
     # The WAMP session_id of the session.
     # AppSession
     def Session(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
@@ -64,7 +92,7 @@ class AppSession(object):
     # Timestamp when the session was joined by the router. Epoch time in ns.
     # AppSession
     def JoinedAt(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
@@ -72,7 +100,7 @@ class AppSession(object):
     # Timestamp when the session left the router. Epoch time in ns.
     # AppSession
     def LeftAt(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
@@ -80,7 +108,7 @@ class AppSession(object):
     # OID of the node of the router worker hosting this session.
     # AppSession
     def NodeOid(self, j):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
@@ -88,27 +116,27 @@ class AppSession(object):
 
     # AppSession
     def NodeOidAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
         return 0
 
     # AppSession
     def NodeOidLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # AppSession
     def NodeOidIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
     # Name (management realm WAMP authid) of the node of the router worker hosting this session.
     # AppSession
     def NodeAuthid(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
@@ -116,15 +144,23 @@ class AppSession(object):
     # Local worker name of the router worker hosting this session.
     # AppSession
     def WorkerName(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
 
+    # Local worker PID of the router worker hosting this session.
+    # AppSession
+    def WorkerPid(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Int32Flags, o + self._tab.Pos)
+        return 0
+
     # Session transport information.
     # AppSession
     def Transport(self, j):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
@@ -132,27 +168,27 @@ class AppSession(object):
 
     # AppSession
     def TransportAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
         return 0
 
     # AppSession
     def TransportLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # AppSession
     def TransportIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         return o == 0
 
-    # The WAMP realm the session is/was joined on.
+    # The WAMP realm (name) the session is/was joined on.
     # AppSession
     def Realm(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
@@ -160,7 +196,7 @@ class AppSession(object):
     # The WAMP authid the session was authenticated under.
     # AppSession
     def Authid(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
@@ -168,7 +204,7 @@ class AppSession(object):
     # The WAMP authrole the session was authenticated under.
     # AppSession
     def Authrole(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
@@ -176,7 +212,7 @@ class AppSession(object):
     # The WAMP authmethod uses to authenticate the session.
     # AppSession
     def Authmethod(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
@@ -184,7 +220,7 @@ class AppSession(object):
     # The WAMP authprovider that was handling the session authentication.
     # AppSession
     def Authprovider(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(32))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
@@ -192,7 +228,7 @@ class AppSession(object):
     # The WAMP authextra as provided to the authenticated session.
     # AppSession
     def Authextra(self, j):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         if o != 0:
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
@@ -200,28 +236,36 @@ class AppSession(object):
 
     # AppSession
     def AuthextraAsNumpy(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         if o != 0:
             return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Uint8Flags, o)
         return 0
 
     # AppSession
     def AuthextraLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # AppSession
     def AuthextraIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         return o == 0
 
-def Start(builder): builder.StartObject(14)
+def Start(builder): builder.StartObject(16)
 def AppSessionStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddArealmOid(builder, arealmOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+def AppSessionAddArealmOid(builder, arealmOid):
+    """This method is deprecated. Please switch to AddArealmOid."""
+    return AddArealmOid(builder, arealmOid)
+def StartArealmOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def AppSessionStartArealmOidVector(builder, numElems):
+    """This method is deprecated. Please switch to Start."""
+    return StartArealmOidVector(builder, numElems)
+def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
 def AppSessionAddOid(builder, oid):
     """This method is deprecated. Please switch to AddOid."""
     return AddOid(builder, oid)
@@ -229,19 +273,19 @@ def StartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1
 def AppSessionStartOidVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
     return StartOidVector(builder, numElems)
-def AddSession(builder, session): builder.PrependUint64Slot(1, session, 0)
+def AddSession(builder, session): builder.PrependUint64Slot(2, session, 0)
 def AppSessionAddSession(builder, session):
     """This method is deprecated. Please switch to AddSession."""
     return AddSession(builder, session)
-def AddJoinedAt(builder, joinedAt): builder.PrependUint64Slot(2, joinedAt, 0)
+def AddJoinedAt(builder, joinedAt): builder.PrependUint64Slot(3, joinedAt, 0)
 def AppSessionAddJoinedAt(builder, joinedAt):
     """This method is deprecated. Please switch to AddJoinedAt."""
     return AddJoinedAt(builder, joinedAt)
-def AddLeftAt(builder, leftAt): builder.PrependUint64Slot(3, leftAt, 0)
+def AddLeftAt(builder, leftAt): builder.PrependUint64Slot(4, leftAt, 0)
 def AppSessionAddLeftAt(builder, leftAt):
     """This method is deprecated. Please switch to AddLeftAt."""
     return AddLeftAt(builder, leftAt)
-def AddNodeOid(builder, nodeOid): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+def AddNodeOid(builder, nodeOid): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
 def AppSessionAddNodeOid(builder, nodeOid):
     """This method is deprecated. Please switch to AddNodeOid."""
     return AddNodeOid(builder, nodeOid)
@@ -249,15 +293,19 @@ def StartNodeOidVector(builder, numElems): return builder.StartVector(1, numElem
 def AppSessionStartNodeOidVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
     return StartNodeOidVector(builder, numElems)
-def AddNodeAuthid(builder, nodeAuthid): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(nodeAuthid), 0)
+def AddNodeAuthid(builder, nodeAuthid): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(nodeAuthid), 0)
 def AppSessionAddNodeAuthid(builder, nodeAuthid):
     """This method is deprecated. Please switch to AddNodeAuthid."""
     return AddNodeAuthid(builder, nodeAuthid)
-def AddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
+def AddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
 def AppSessionAddWorkerName(builder, workerName):
     """This method is deprecated. Please switch to AddWorkerName."""
     return AddWorkerName(builder, workerName)
-def AddTransport(builder, transport): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(transport), 0)
+def AddWorkerPid(builder, workerPid): builder.PrependInt32Slot(8, workerPid, 0)
+def AppSessionAddWorkerPid(builder, workerPid):
+    """This method is deprecated. Please switch to AddWorkerPid."""
+    return AddWorkerPid(builder, workerPid)
+def AddTransport(builder, transport): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(transport), 0)
 def AppSessionAddTransport(builder, transport):
     """This method is deprecated. Please switch to AddTransport."""
     return AddTransport(builder, transport)
@@ -265,27 +313,27 @@ def StartTransportVector(builder, numElems): return builder.StartVector(1, numEl
 def AppSessionStartTransportVector(builder, numElems):
     """This method is deprecated. Please switch to Start."""
     return StartTransportVector(builder, numElems)
-def AddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+def AddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
 def AppSessionAddRealm(builder, realm):
     """This method is deprecated. Please switch to AddRealm."""
     return AddRealm(builder, realm)
-def AddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+def AddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
 def AppSessionAddAuthid(builder, authid):
     """This method is deprecated. Please switch to AddAuthid."""
     return AddAuthid(builder, authid)
-def AddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
+def AddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
 def AppSessionAddAuthrole(builder, authrole):
     """This method is deprecated. Please switch to AddAuthrole."""
     return AddAuthrole(builder, authrole)
-def AddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
+def AddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
 def AppSessionAddAuthmethod(builder, authmethod):
     """This method is deprecated. Please switch to AddAuthmethod."""
     return AddAuthmethod(builder, authmethod)
-def AddAuthprovider(builder, authprovider): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(authprovider), 0)
+def AddAuthprovider(builder, authprovider): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(authprovider), 0)
 def AppSessionAddAuthprovider(builder, authprovider):
     """This method is deprecated. Please switch to AddAuthprovider."""
     return AddAuthprovider(builder, authprovider)
-def AddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+def AddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
 def AppSessionAddAuthextra(builder, authextra):
     """This method is deprecated. Please switch to AddAuthextra."""
     return AddAuthextra(builder, authextra)

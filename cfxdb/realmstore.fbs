@@ -7,7 +7,10 @@ namespace realmstore;
 /// This table stores WAMP sessions and serves as an anchor for all usage related data.
 table AppSession
 {
-    /// Unlimited time, globally unique, long-term session OID. The pair ``(session, joined_at)`` maps bidirectionally to ``session_oid``.
+    /// OID of the application realm this session is/was joined on.
+    arealm_oid: [uint8] (uuid);
+
+    /// Unlimited time, globally unique, long-term OID of this session. The pair of WAMP session ID and join time ``(session, joined_at)`` bidirectionally maps to session ``oid``.
     oid: [uint8] (uuid);
 
     /// The WAMP session_id of the session.
@@ -28,10 +31,13 @@ table AppSession
     /// Local worker name of the router worker hosting this session.
     worker_name: string;
 
+    /// Local worker PID of the router worker hosting this session.
+    worker_pid: int32;
+
     /// Session transport information.
     transport: [uint8] (cbor);
 
-    /// The WAMP realm the session is/was joined on.
+    /// The WAMP realm (name) the session is/was joined on.
     realm: string;
 
     /// The WAMP authid the session was authenticated under.
