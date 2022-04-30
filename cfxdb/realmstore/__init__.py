@@ -7,6 +7,4 @@
 
 from cfxdb.realmstore.appsession import AppSession
 
-__all__ = (
-    'AppSession',
-)
+__all__ = ('AppSession', )
