@@ -11,6 +11,7 @@ from typing import Optional, Dict, Any
 import pprint
 
 import flatbuffers
+import numpy as np
 
 from cfxdb.gen.realmstore import AppSession as AppSessionGen
 
@@ -80,37 +81,37 @@ class AppSession(object):
         self._from_fbs = from_fbs
 
         # [uint8] (uuid)
-        self._oid = None
+        self._oid: Optional[uuid.UUID] = None
 
         # uint64
-        self._session = None
+        self._session: Optional[int] = None
 
         # uint64 (timestamp)
-        self._joined_at = None
+        self._joined_at: Optional[np.datetime64] = None
 
         # uint64 (timestamp)
-        self._left_at = None
+        self._left_at: Optional[np.datetime64] = None
 
         # [uint8] (cbor)
-        self._transport = None
+        self._transport: Optional[Dict[str, Any]] = None
 
         # string
-        self._realm = None
+        self._realm: Optional[str] = None
 
         # string
-        self._authid = None
+        self._authid: Optional[str] = None
 
         # string
-        self._authrole = None
+        self._authrole: Optional[str] = None
 
         # string
-        self._authmethod = None
+        self._authmethod: Optional[str] = None
 
         # string
-        self._authprovider = None
+        self._authprovider: Optional[str] = None
 
         # [uint8] (cbor)
-        self._authextra = None
+        self._authextra: Optional[Dict[str, Any]] = None
 
     def marshal(self):
         obj = {
@@ -130,7 +131,7 @@ class AppSession(object):
         return '\n{}\n'.format(pprint.pformat(self.marshal()))
 
     @property
-    def oid(self) -> uuid.UUID:
+    def oid(self) -> Optional[uuid.UUID]:
         """
         Unlimited time, globally unique, long-term session object ID. The pair ``(session, joined_at)`` maps bidirectionally to ``session_oid``.
         """
@@ -141,12 +142,12 @@ class AppSession(object):
         return self._oid
 
     @oid.setter
-    def oid(self, value: uuid.UUID):
+    def oid(self, value: Optional[uuid.UUID]):
         assert value is None or isinstance(value, uuid.UUID)
         self._oid = value
 
     @property
-    def session(self):
+    def session(self) -> Optional[int]:
         """
         The WAMP session_id of the session.
         """
@@ -155,40 +156,40 @@ class AppSession(object):
         return self._session
 
     @session.setter
-    def session(self, value):
+    def session(self, value: Optional[int]):
         assert value is None or type(value) == int
         self._session = value
 
     @property
-    def joined_at(self):
+    def joined_at(self) -> Optional[np.datetime64]:
         """
         Timestamp when the session was joined by the router. Epoch time in ns.
         """
         if self._joined_at is None and self._from_fbs:
-            self._joined_at = self._from_fbs.JoinedAt()
+            self._joined_at = np.datetime64(self._from_fbs.JoinedAt(), 'ns')
         return self._joined_at
 
     @joined_at.setter
-    def joined_at(self, value):
-        assert value is None or type(value) == int
+    def joined_at(self, value: Optional[np.datetime64]):
+        assert value is None or isinstance(value, np.datetime64)
         self._joined_at = value
 
     @property
-    def left_at(self):
+    def left_at(self) -> Optional[np.datetime64]:
         """
         Timestamp when the session left the router. Epoch time in ns.
         """
         if self._left_at is None and self._from_fbs:
-            self._left_at = self._from_fbs.LeftAt()
+            self._left_at = np.datetime64(self._from_fbs.LeftAt(), 'ns')
         return self._left_at
 
     @left_at.setter
-    def left_at(self, value):
-        assert value is None or type(value) == int
+    def left_at(self, value: Optional[np.datetime64]):
+        assert value is None or isinstance(value, np.datetime64)
         self._left_at = value
 
     @property
-    def transport(self) -> dict:
+    def transport(self) -> Optional[Dict[str, Any]]:
         """
         Session transport information.
         """
@@ -206,7 +207,7 @@ class AppSession(object):
         self._transport = value
 
     @property
-    def realm(self):
+    def realm(self) -> Optional[str]:
         """
         The WAMP realm the session is/was joined on.
         """
@@ -215,12 +216,12 @@ class AppSession(object):
         return self._realm
 
     @realm.setter
-    def realm(self, value):
+    def realm(self, value: Optional[str]):
         assert value is None or type(value) == str
         self._realm = value
 
     @property
-    def authid(self) -> str:
+    def authid(self) -> Optional[str]:
         """
         The WAMP authid the session was authenticated under.
         """
@@ -231,11 +232,11 @@ class AppSession(object):
         return self._authid
 
     @authid.setter
-    def authid(self, value: str):
+    def authid(self, value: Optional[str]):
         self._authid = value
 
     @property
-    def authrole(self) -> str:
+    def authrole(self) -> Optional[str]:
         """
         The WAMP authrole the session was authenticated under.
         """
@@ -246,11 +247,11 @@ class AppSession(object):
         return self._authrole
 
     @authrole.setter
-    def authrole(self, value: str):
+    def authrole(self, value: Optional[str]):
         self._authrole = value
 
     @property
-    def authmethod(self) -> str:
+    def authmethod(self) -> Optional[str]:
         """
         The WAMP authmethod uses to authenticate the session.
         """
@@ -261,11 +262,11 @@ class AppSession(object):
         return self._authmethod
 
     @authmethod.setter
-    def authmethod(self, value: str):
+    def authmethod(self, value: Optional[str]):
         self._authmethod = value
 
     @property
-    def authprovider(self) -> str:
+    def authprovider(self) -> Optional[str]:
         """
         The WAMP authprovider that was handling the session authentication.
         """
@@ -276,11 +277,11 @@ class AppSession(object):
         return self._authprovider
 
     @authprovider.setter
-    def authprovider(self, value: str):
+    def authprovider(self, value: Optional[str]):
         self._authprovider = value
 
     @property
-    def authextra(self) -> dict:
+    def authextra(self) -> Optional[Dict[str, Any]]:
         """
         The WAMP authextra as provided to the authenticated session.
         """
