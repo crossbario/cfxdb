@@ -1,3 +1,22 @@
+##############################################################################
+#
+#                        Crossbar.io Database
+#     Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT.
+#
+##############################################################################
+
+import pytest
+import random
+import uuid
+import timeit
+
+import flatbuffers
+from txaio import with_twisted, time_ns  # noqa
+
+from autobahn import util
+from autobahn.wamp.types import TransportDetails
+from cfxdb.realmstore import AppSession
+
 DATA1 = {
     'authextra': {
         'transport': {
@@ -86,4 +105,99 @@ DATA1 = {
     }
 }
 
-from cfxdb.realmstore import AppSession
+
+def fill_app_session(app_session):
+    _td1 = TransportDetails.parse(DATA1['transport'])
+    _td2 = TransportDetails.parse(DATA1['authextra']['transport'])
+
+    app_session.session = util.id()
+    app_session.joined_at = time_ns() - 723 * 10**9
+    app_session.left_at = time_ns()
+    app_session.transport = _td1.marshal()
+    app_session.realm = 'realm-{}'.format(uuid.uuid4())
+    app_session.authid = util.generate_serial_number()
+    app_session.authrole = random.choice(['admin', 'user*', 'guest', 'anon*'])
+    app_session.authmethod = random.choice(['wampcra', 'cookie', 'anonymous-proxy'])
+    app_session.authprovider = random.choice(['static', 'dynamic'])
+    app_session.authextra = {
+        'transport': _td2.marshal(),
+        'x_cb_node': DATA1['x_cb_node'],
+        'x_cb_peer': DATA1['x_cb_peer'],
+        'x_cb_pid': DATA1['x_cb_pid'],
+        'x_cb_worker': DATA1['x_cb_worker']
+    }
+
+
+@pytest.fixture(scope='function')
+def builder():
+    _builder = flatbuffers.Builder(0)
+    return _builder
+
+
+@pytest.fixture(scope='function')
+def app_session():
+    _app_session = AppSession()
+    fill_app_session(_app_session)
+    return _app_session
+
+
+def test_app_session_roundtrip(app_session, builder):
+    # serialize to bytes (flatbuffers) from python object
+    obj = app_session.build(builder)
+    builder.Finish(obj)
+    data = builder.Output()
+    assert len(data) == 160
+
+    # create python object from bytes (flatbuffers)
+    _app_session = AppSession.cast(data)
+
+    assert _app_session.session == app_session.session
+    assert _app_session.joined_at == app_session.joined_at
+    assert _app_session.left_at == app_session.left_at
+    assert _app_session.transport == app_session.transport
+    assert _app_session.realm == app_session.realm
+    assert _app_session.authid == app_session.authid
+    assert _app_session.authrole == app_session.authrole
+    assert _app_session.authmethod == app_session.authmethod
+    assert _app_session.authprovider == app_session.authprovider
+    assert _app_session.authextra == app_session.authextra
+
+
+def test_app_session_roundtrip_perf(app_session, builder):
+    obj = app_session.build(builder)
+    builder.Finish(obj)
+    data = builder.Output()
+    scratch = {'joined_at': 0}
+
+    def loop():
+        _app_session = AppSession.cast(data)
+        if True:
+            assert _app_session.session == app_session.session
+            assert _app_session.joined_at == app_session.joined_at
+            assert _app_session.left_at == app_session.left_at
+            assert _app_session.transport == app_session.transport
+            assert _app_session.realm == app_session.realm
+            assert _app_session.authid == app_session.authid
+            assert _app_session.authrole == app_session.authrole
+            assert _app_session.authmethod == app_session.authmethod
+            assert _app_session.authprovider == app_session.authprovider
+            assert _app_session.authextra == app_session.authextra
+
+            scratch['joined_at'] += app_session.joined_at
+
+    N = 5
+    M = 100000
+    samples = []
+    print('measuring:')
+    for i in range(N):
+        secs = timeit.timeit(loop, number=M)
+        ops = round(float(M) / secs, 1)
+        samples.append(ops)
+        print('{} objects/sec performance'.format(ops))
+
+    samples = sorted(samples)
+    ops50 = samples[int(len(samples) / 2)]
+    print('RESULT: {} objects/sec median performance'.format(ops50))
+
+    assert ops50 > 1000
+    assert scratch['joined_at'] > 0
