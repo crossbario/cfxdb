@@ -112,9 +112,13 @@ def fill_app_session(app_session):
     _td1 = TransportDetails.parse(DATA1['transport'])
     _td2 = TransportDetails.parse(DATA1['authextra']['transport'])
 
+    app_session.oid = uuid.uuid4()
     app_session.session = util.id()
     app_session.joined_at = np.datetime64(time_ns() - 723 * 10**9, 'ns')
     app_session.left_at = np.datetime64(time_ns(), 'ns')
+    app_session.node_oid = uuid.uuid4()
+    app_session.node_authid = 'intel-nuci7'
+    app_session.worker_name = 'router1'
     app_session.transport = _td1.marshal()
     app_session.realm = 'realm-{}'.format(uuid.uuid4())
     app_session.authid = util.generate_serial_number()
@@ -148,14 +152,18 @@ def test_app_session_roundtrip(app_session, builder):
     obj = app_session.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    assert len(data) == 1464
+    assert len(data) in [1544, 1552]
 
     # create python object from bytes (flatbuffers)
     _app_session = AppSession.cast(data)
 
+    assert _app_session.oid == app_session.oid
     assert _app_session.session == app_session.session
     assert _app_session.joined_at == app_session.joined_at
     assert _app_session.left_at == app_session.left_at
+    assert _app_session.node_oid == app_session.node_oid
+    assert _app_session.node_authid == app_session.node_authid
+    assert _app_session.worker_name == app_session.worker_name
     assert _app_session.transport == app_session.transport
     assert _app_session.realm == app_session.realm
     assert _app_session.authid == app_session.authid
@@ -174,9 +182,13 @@ def test_app_session_roundtrip_perf(app_session, builder):
     def loop():
         _app_session = AppSession.cast(data)
         if True:
+            assert _app_session.oid == app_session.oid
             assert _app_session.session == app_session.session
             assert _app_session.joined_at == app_session.joined_at
             assert _app_session.left_at == app_session.left_at
+            assert _app_session.node_oid == app_session.node_oid
+            assert _app_session.node_authid == app_session.node_authid
+            assert _app_session.worker_name == app_session.worker_name
             assert _app_session.transport == app_session.transport
             assert _app_session.realm == app_session.realm
             assert _app_session.authid == app_session.authid

@@ -68,6 +68,9 @@ class AppSession(object):
         '_session',
         '_joined_at',
         '_left_at',
+        '_node_oid',
+        '_node_authid',
+        '_worker_name',
         '_transport',
         '_realm',
         '_authid',
@@ -91,6 +94,15 @@ class AppSession(object):
 
         # uint64 (timestamp)
         self._left_at: Optional[np.datetime64] = None
+
+        # [uint8] (uuid)
+        self._node_oid: Optional[uuid.UUID] = None
+
+        # string
+        self._node_authid: Optional[str] = None
+
+        # string
+        self._worker_name: Optional[str] = None
 
         # [uint8] (cbor)
         self._transport: Optional[Dict[str, Any]] = None
@@ -116,8 +128,13 @@ class AppSession(object):
     def marshal(self):
         obj = {
             'oid': self.oid.bytes if self.oid else None,
+            'session': self.session,
             'joined_at': int(self.joined_at) if self.joined_at else None,
             'left_at': int(self.left_at) if self.left_at else None,
+            'node_oid': self.node_oid.bytes if self.node_oid else None,
+            'node_authid': self.node_authid,
+            'worker_name': self.worker_name,
+            'transport': self.transport,
             'realm': self.realm,
             'authid': self.authid,
             'authrole': self.authrole,
@@ -187,6 +204,52 @@ class AppSession(object):
     def left_at(self, value: Optional[np.datetime64]):
         assert value is None or isinstance(value, np.datetime64)
         self._left_at = value
+
+    @property
+    def node_oid(self) -> Optional[uuid.UUID]:
+        """
+        OID of the node of the router worker hosting this session.
+        """
+        if self._node_oid is None and self._from_fbs:
+            if self._from_fbs.NodeOidLength():
+                _node_oid = self._from_fbs.NodeOidAsBytes()
+                self._node_oid = uuid.UUID(bytes=bytes(_node_oid))
+        return self._node_oid
+
+    @node_oid.setter
+    def node_oid(self, value: Optional[uuid.UUID]):
+        assert value is None or isinstance(value, uuid.UUID)
+        self._node_oid = value
+
+    @property
+    def node_authid(self) -> Optional[str]:
+        """
+        Name (management realm WAMP authid) of the node of the router worker hosting this session.
+        """
+        if self._node_authid is None and self._from_fbs:
+            _node_authid = self._from_fbs.NodeAuthid()
+            if _node_authid:
+                self._node_authid = _node_authid.decode('utf8')
+        return self._node_authid
+
+    @node_authid.setter
+    def node_authid(self, value: Optional[str]):
+        self._node_authid = value
+
+    @property
+    def worker_name(self) -> Optional[str]:
+        """
+        Local worker name of the router worker hosting this session.
+        """
+        if self._worker_name is None and self._from_fbs:
+            _worker_name = self._from_fbs.WorkerName()
+            if _worker_name:
+                self._worker_name = _worker_name.decode('utf8')
+        return self._worker_name
+
+    @worker_name.setter
+    def worker_name(self, value: Optional[str]):
+        self._worker_name = value
 
     @property
     def transport(self) -> Optional[Dict[str, Any]]:
@@ -308,6 +371,18 @@ class AppSession(object):
         if oid:
             oid = builder.CreateString(oid)
 
+        node_oid = self.node_oid.bytes if self.node_oid else None
+        if node_oid:
+            node_oid = builder.CreateString(node_oid)
+
+        node_authid = self.node_authid
+        if node_authid:
+            node_authid = builder.CreateString(node_authid)
+
+        worker_name = self.worker_name
+        if worker_name:
+            worker_name = builder.CreateString(worker_name)
+
         transport = self.transport
         if transport:
             transport = builder.CreateString(cbor2.dumps(transport))
@@ -349,6 +424,15 @@ class AppSession(object):
 
         if self.left_at:
             AppSessionGen.AppSessionAddLeftAt(builder, int(self.left_at))
+
+        if node_oid:
+            AppSessionGen.AppSessionAddNodeOid(builder, node_oid)
+
+        if node_authid:
+            AppSessionGen.AppSessionAddNodeAuthid(builder, node_authid)
+
+        if worker_name:
+            AppSessionGen.AppSessionAddWorkerName(builder, worker_name)
 
         if transport:
             AppSessionGen.AppSessionAddTransport(builder, transport)
