@@ -286,7 +286,7 @@ class AppSession(object):
         self._worker_name = value
 
     @property
-    def worker_pid(self) -> Optional[str]:
+    def worker_pid(self) -> Optional[int]:
         """
         Local worker PID of the router worker hosting this session.
         """
