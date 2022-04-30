@@ -11,6 +11,8 @@ import uuid
 import timeit
 
 import flatbuffers
+import numpy as np
+
 from txaio import with_twisted, time_ns  # noqa
 
 from autobahn import util
@@ -111,8 +113,8 @@ def fill_app_session(app_session):
     _td2 = TransportDetails.parse(DATA1['authextra']['transport'])
 
     app_session.session = util.id()
-    app_session.joined_at = time_ns() - 723 * 10**9
-    app_session.left_at = time_ns()
+    app_session.joined_at = np.datetime64(time_ns() - 723 * 10**9, 'ns')
+    app_session.left_at = np.datetime64(time_ns(), 'ns')
     app_session.transport = _td1.marshal()
     app_session.realm = 'realm-{}'.format(uuid.uuid4())
     app_session.authid = util.generate_serial_number()
@@ -146,7 +148,7 @@ def test_app_session_roundtrip(app_session, builder):
     obj = app_session.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    assert len(data) == 1456
+    assert len(data) == 1464
 
     # create python object from bytes (flatbuffers)
     _app_session = AppSession.cast(data)
@@ -167,7 +169,7 @@ def test_app_session_roundtrip_perf(app_session, builder):
     obj = app_session.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'joined_at': 0}
+    scratch = {'session': 0}
 
     def loop():
         _app_session = AppSession.cast(data)
@@ -183,7 +185,7 @@ def test_app_session_roundtrip_perf(app_session, builder):
             assert _app_session.authprovider == app_session.authprovider
             assert _app_session.authextra == app_session.authextra
 
-            scratch['joined_at'] += app_session.joined_at
+            scratch['session'] += app_session.session
 
     N = 5
     M = 100000
@@ -200,4 +202,4 @@ def test_app_session_roundtrip_perf(app_session, builder):
     print('RESULT: {} objects/sec median performance'.format(ops50))
 
     assert ops50 > 1000
-    assert scratch['joined_at'] > 0
+    assert scratch['session'] > 0
