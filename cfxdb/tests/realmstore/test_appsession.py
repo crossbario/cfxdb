@@ -121,10 +121,10 @@ def fill_app_session(app_session):
     app_session.authprovider = random.choice(['static', 'dynamic'])
     app_session.authextra = {
         'transport': _td2.marshal(),
-        'x_cb_node': DATA1['x_cb_node'],
-        'x_cb_peer': DATA1['x_cb_peer'],
-        'x_cb_pid': DATA1['x_cb_pid'],
-        'x_cb_worker': DATA1['x_cb_worker']
+        'x_cb_node': DATA1['authextra'].get('x_cb_node', None),
+        'x_cb_peer': DATA1['authextra'].get('x_cb_peer', None),
+        'x_cb_pid': DATA1['authextra'].get('x_cb_pid', None),
+        'x_cb_worker': DATA1['authextra'].get('x_cb_worker', None),
     }
 
 
@@ -146,7 +146,7 @@ def test_app_session_roundtrip(app_session, builder):
     obj = app_session.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    assert len(data) == 160
+    assert len(data) == 1456
 
     # create python object from bytes (flatbuffers)
     _app_session = AppSession.cast(data)

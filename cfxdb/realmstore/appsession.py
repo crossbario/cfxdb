@@ -5,33 +5,124 @@
 #
 ##############################################################################
 
+import uuid
+import cbor2
+from typing import Optional, Dict, Any
 import pprint
 
+import flatbuffers
+
 from cfxdb.gen.realmstore import AppSession as AppSessionGen
+
+
+class _AppSessionGen(AppSessionGen.AppSession):
+    @classmethod
+    def GetRootAs(cls, buf, offset=0):
+        n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
+        x = _AppSessionGen()
+        x.Init(buf, n + offset)
+        return x
+
+    def OidAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def NodeOidAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def TransportAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
+
+    def AuthextraAsBytes(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        if o != 0:
+            _off = self._tab.Vector(o)
+            _len = self._tab.VectorLen(o)
+            return memoryview(self._tab.Bytes)[_off:_off + _len]
+        return None
 
 
 class AppSession(object):
     """
     Persisted session database object.
     """
-    def __init__(self, from_fbs=None):
+
+    __slots__ = (
+        '_from_fbs',
+        '_oid',
+        '_session',
+        '_joined_at',
+        '_left_at',
+        '_transport',
+        '_realm',
+        '_authid',
+        '_authrole',
+        '_authmethod',
+        '_authprovider',
+        '_authextra',
+    )
+
+    def __init__(self, from_fbs: Optional[_AppSessionGen] = None):
         self._from_fbs = from_fbs
 
+        # [uint8] (uuid)
+        self._oid = None
+
+        # uint64
         self._session = None
+
+        # uint64 (timestamp)
         self._joined_at = None
+
+        # uint64 (timestamp)
         self._left_at = None
+
+        # [uint8] (cbor)
+        self._transport = None
+
+        # string
         self._realm = None
+
+        # string
         self._authid = None
+
+        # string
         self._authrole = None
+
+        # string
+        self._authmethod = None
+
+        # string
+        self._authprovider = None
+
+        # [uint8] (cbor)
+        self._authextra = None
 
     def marshal(self):
         obj = {
-            'session': self.session,
-            'joined_at': self.joined_at,
-            'left_at': self.left_at,
+            'oid': self.oid.bytes if self.oid else None,
+            'joined_at': int(self.joined_at) if self.joined_at else None,
+            'left_at': int(self.left_at) if self.left_at else None,
             'realm': self.realm,
             'authid': self.authid,
             'authrole': self.authrole,
+            'authmethod': self.authmethod,
+            'authprovider': self.authprovider,
+            'authextra': self.authextra,
         }
         return obj
 
@@ -39,15 +130,28 @@ class AppSession(object):
         return '\n{}\n'.format(pprint.pformat(self.marshal()))
 
     @property
+    def oid(self) -> uuid.UUID:
+        """
+        Unlimited time, globally unique, long-term session object ID. The pair ``(session, joined_at)`` maps bidirectionally to ``session_oid``.
+        """
+        if self._oid is None and self._from_fbs:
+            if self._from_fbs.OidLength():
+                _oid = self._from_fbs.OidAsBytes()
+                self._oid = uuid.UUID(bytes=bytes(_oid))
+        return self._oid
+
+    @oid.setter
+    def oid(self, value: uuid.UUID):
+        assert value is None or isinstance(value, uuid.UUID)
+        self._oid = value
+
+    @property
     def session(self):
         """
-        The WAMP session ID of the session.
-
-        :returns: session ID
-        :rtype: int
+        The WAMP session_id of the session.
         """
         if self._session is None and self._from_fbs:
-            self._session = self._from_fbs.AppSession()
+            self._session = self._from_fbs.Session()
         return self._session
 
     @session.setter
@@ -59,9 +163,6 @@ class AppSession(object):
     def joined_at(self):
         """
         Timestamp when the session was joined by the router. Epoch time in ns.
-
-        :returns: Epoch time in ns when session joined
-        :rtype: int
         """
         if self._joined_at is None and self._from_fbs:
             self._joined_at = self._from_fbs.JoinedAt()
@@ -76,9 +177,6 @@ class AppSession(object):
     def left_at(self):
         """
         Timestamp when the session left the router. Epoch time in ns.
-
-        :returns: Epoch time in ns when session left - or 0 when session currently joined
-        :rtype: int
         """
         if self._left_at is None and self._from_fbs:
             self._left_at = self._from_fbs.LeftAt()
@@ -90,12 +188,27 @@ class AppSession(object):
         self._left_at = value
 
     @property
+    def transport(self) -> dict:
+        """
+        Session transport information.
+        """
+        if self._transport is None and self._from_fbs:
+            _transport = self._from_fbs.TransportAsBytes()
+            if _transport:
+                self._transport = cbor2.loads(_transport)
+            else:
+                self._transport = {}
+        return self._transport
+
+    @transport.setter
+    def transport(self, value: Optional[Dict[str, Any]]):
+        assert value is None or type(value) == dict
+        self._transport = value
+
+    @property
     def realm(self):
         """
         The WAMP realm the session is/was joined on.
-
-        :returns: WAMP realm
-        :rtype: str
         """
         if self._realm is None and self._from_fbs:
             self._realm = self._from_fbs.Realm().decode('utf8')
@@ -107,44 +220,96 @@ class AppSession(object):
         self._realm = value
 
     @property
-    def authid(self):
+    def authid(self) -> str:
         """
         The WAMP authid the session was authenticated under.
-
-        :returns: WAMP authid
-        :rtype: str
         """
         if self._authid is None and self._from_fbs:
-            self._authid = self._from_fbs.Authid().decode('utf8')
+            _authid = self._from_fbs.Authid()
+            if _authid:
+                self._authid = _authid.decode('utf8')
         return self._authid
 
     @authid.setter
-    def authid(self, value):
-        assert value is None or type(value) == str
+    def authid(self, value: str):
         self._authid = value
 
     @property
-    def authrole(self):
+    def authrole(self) -> str:
         """
         The WAMP authrole the session was authenticated under.
-
-        :returns: WAMP authrole
-        :rtype: str
         """
         if self._authrole is None and self._from_fbs:
-            self._authrole = self._from_fbs.Authrole().decode('utf8')
+            _authrole = self._from_fbs.Authrole()
+            if _authrole:
+                self._authrole = _authrole.decode('utf8')
         return self._authrole
 
     @authrole.setter
-    def authrole(self, value):
-        assert value is None or type(value) == str
+    def authrole(self, value: str):
         self._authrole = value
 
+    @property
+    def authmethod(self) -> str:
+        """
+        The WAMP authmethod uses to authenticate the session.
+        """
+        if self._authmethod is None and self._from_fbs:
+            _authmethod = self._from_fbs.Authmethod()
+            if _authmethod:
+                self._authmethod = _authmethod.decode('utf8')
+        return self._authmethod
+
+    @authmethod.setter
+    def authmethod(self, value: str):
+        self._authmethod = value
+
+    @property
+    def authprovider(self) -> str:
+        """
+        The WAMP authprovider that was handling the session authentication.
+        """
+        if self._authprovider is None and self._from_fbs:
+            _authprovider = self._from_fbs.Authprovider()
+            if _authprovider:
+                self._authprovider = _authprovider.decode('utf8')
+        return self._authprovider
+
+    @authprovider.setter
+    def authprovider(self, value: str):
+        self._authprovider = value
+
+    @property
+    def authextra(self) -> dict:
+        """
+        The WAMP authextra as provided to the authenticated session.
+        """
+        if self._authextra is None and self._from_fbs:
+            _authextra = self._from_fbs.AuthextraAsBytes()
+            if _authextra:
+                self._authextra = cbor2.loads(_authextra)
+            else:
+                self._authextra = {}
+        return self._authextra
+
+    @authextra.setter
+    def authextra(self, value: Optional[Dict[str, Any]]):
+        assert value is None or type(value) == dict
+        self._authextra = value
+
     @staticmethod
-    def cast(buf):
-        return AppSession(AppSessionGen.AppSession.GetRootAsAppSession(buf, 0))
+    def cast(buf) -> 'AppSession':
+        return AppSession(_AppSessionGen.GetRootAsAppSession(buf, 0))
 
     def build(self, builder):
+
+        oid = self.oid.bytes if self.oid else None
+        if oid:
+            oid = builder.CreateString(oid)
+
+        transport = self.transport
+        if transport:
+            transport = builder.CreateString(cbor2.dumps(transport))
 
         realm = self.realm
         if realm:
@@ -158,21 +323,53 @@ class AppSession(object):
         if authrole:
             authrole = builder.CreateString(authrole)
 
-        # now start and build a new object ..
+        authmethod = self.authmethod
+        if authmethod:
+            authmethod = builder.CreateString(authmethod)
+
+        authprovider = self.authprovider
+        if authprovider:
+            authprovider = builder.CreateString(authprovider)
+
+        authextra = self.authextra
+        if authextra:
+            authextra = builder.CreateString(cbor2.dumps(authextra))
+
         AppSessionGen.AppSessionStart(builder)
 
-        AppSessionGen.AppSessionAddAppSession(builder, self.session)
-        AppSessionGen.AppSessionAddJoinedAt(builder, self.joined_at)
+        if oid:
+            AppSessionGen.AppSessionAddOid(builder, oid)
+
+        if self.session:
+            AppSessionGen.AppSessionAddSession(builder, self.session)
+
+        if self.joined_at:
+            AppSessionGen.AppSessionAddJoinedAt(builder, int(self.joined_at))
+
         if self.left_at:
-            AppSessionGen.AppSessionAddLeftAt(builder, self.left_at)
+            AppSessionGen.AppSessionAddLeftAt(builder, int(self.left_at))
+
+        if transport:
+            AppSessionGen.AppSessionAddTransport(builder, transport)
+
         if realm:
             AppSessionGen.AppSessionAddRealm(builder, realm)
+
         if authid:
             AppSessionGen.AppSessionAddAuthid(builder, authid)
+
         if authrole:
             AppSessionGen.AppSessionAddAuthrole(builder, authrole)
 
-        # finish the object.
+        if authmethod:
+            AppSessionGen.AppSessionAddAuthmethod(builder, authmethod)
+
+        if authprovider:
+            AppSessionGen.AppSessionAddAuthprovider(builder, authprovider)
+
+        if authextra:
+            AppSessionGen.AppSessionAddAuthextra(builder, authextra)
+
         final = AppSessionGen.AppSessionEnd(builder)
 
         return final
