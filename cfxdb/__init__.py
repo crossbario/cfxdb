@@ -35,7 +35,7 @@ from .common import uint256, unpack_uint256, pack_uint256  # noqa
 from .common import uint128, unpack_uint128, pack_uint128  # noqa
 from .common import uint64, unpack_uint64, pack_uint64  # noqa
 from . import meta, mrealm, xbr, xbrmm, xbrnetwork  # noqa
-from . import schema, globalschema, mrealmschema, eventstore, cookiestore, realmstore  # noqa
+from . import globalschema, mrealmschema, eventstore, cookiestore, realmstore  # noqa
 
 __all__ = (
     '__version__',
@@ -57,7 +57,6 @@ __all__ = (
     'uint64',
     'pack_uint64',
     'unpack_uint64',
-    'schema',
     'globalschema',
     'mrealmschema',
     'InvalidConfigException',
