@@ -13,6 +13,7 @@ import pprint
 import flatbuffers
 import numpy as np
 
+from zlmdb import table, MapUuidFlatBuffers, MapUint64TimestampUuid
 from cfxdb.gen.realmstore import AppSession as AppSessionGen
 
 
@@ -515,3 +516,19 @@ class AppSession(object):
         final = AppSessionGen.AppSessionEnd(builder)
 
         return final
+
+
+@table('403ecc06-f564-4ea9-92f2-c4c13bd2ba5a', build=AppSession.build, cast=AppSession.cast)
+class AppSessions(MapUuidFlatBuffers):
+    """
+    Persisted session information table.
+
+    Map :class:`zlmdb.MapUuidFlatBuffers` from ``session_oid`` to :class:`cfxdb.realmstore.AppSession`
+    """
+
+
+@table('65e1d8c1-fa8b-459d-ae43-cb320d28cc97')
+class IndexAppSessionsBySession(MapUint64TimestampUuid):
+    """
+    Index: (session, joined_at) -> app_session_oid
+    """

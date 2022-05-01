@@ -5,6 +5,7 @@
 #
 ##############################################################################
 
-from cfxdb.realmstore.appsession import AppSession
+from cfxdb.realmstore._appsession import AppSession, AppSessions, IndexAppSessionsBySession
+from cfxdb.realmstore._schema import RealmStoreSchema
 
-__all__ = ('AppSession', )
+__all__ = ('AppSession', 'AppSessions', 'IndexAppSessionsBySession', 'RealmStoreSchema')
