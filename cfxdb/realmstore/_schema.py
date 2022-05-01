@@ -69,14 +69,15 @@ class RealmStore(object):
         return self._events
 
     @staticmethod
-    def attach(db: zlmdb.Database) -> 'RealmStoreSchema':
-        schema = RealmStoreSchema(db)
+    def attach(db: zlmdb.Database) -> 'RealmStore':
+        schema = RealmStore(db)
 
         schema._sessions = db.attach_table(Sessions)
+        assert schema._sessions
 
         schema._idx_sessions_by_session_id = db.attach_table(IndexSessionsBySessionId)
-        schema._sessions.attach_index('idx1', schema._idx_sessions_by_session_id,
-                                      lambda session: (session.session, session.joined_at))
+        schema._sessions.attach_index('idx1', schema._idx_sessions_by_session_id, lambda session:
+                                      (session.session, session.joined_at))
 
         schema._publications = db.attach_table(Publications)
         schema._events = db.attach_table(Events)
