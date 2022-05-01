@@ -527,8 +527,8 @@ class Sessions(MapUuidFlatBuffers):
     """
 
 
-@table('65e1d8c1-fa8b-459d-ae43-cb320d28cc97')
+@table('0ea1ea1a-45f2-4352-a4a0-1fafff099c96')
 class IndexSessionsBySessionId(MapUint64TimestampUuid):
     """
-    Index: (sessionid, joined_at) -> session_oid
+    Index: ``(sessionid, joined_at) -> session_oid``
     """
