@@ -10,4 +10,3 @@ class ChannelType(object):
     PAYMENT = 1
     # Paying channel: from market maker to seller/provider delegate.
     PAYING = 2
-

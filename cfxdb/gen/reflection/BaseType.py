@@ -21,4 +21,3 @@ class BaseType(object):
     Obj = 15
     Union = 16
     Array = 17
-

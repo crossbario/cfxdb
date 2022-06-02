@@ -241,95 +241,72 @@ class Cookie(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(36))
         return o == 0
 
-def Start(builder): builder.StartObject(17)
-def CookieStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def CookieAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def StartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CookieStartOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOidVector(builder, numElems)
-def AddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
-def CookieAddCreated(builder, created):
-    """This method is deprecated. Please switch to AddCreated."""
-    return AddCreated(builder, created)
-def AddMaxAge(builder, maxAge): builder.PrependUint64Slot(2, maxAge, 0)
-def CookieAddMaxAge(builder, maxAge):
-    """This method is deprecated. Please switch to AddMaxAge."""
-    return AddMaxAge(builder, maxAge)
-def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
-def CookieAddName(builder, name):
-    """This method is deprecated. Please switch to AddName."""
-    return AddName(builder, name)
-def AddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
-def CookieAddValue(builder, value):
-    """This method is deprecated. Please switch to AddValue."""
-    return AddValue(builder, value)
-def AddAuthenticated(builder, authenticated): builder.PrependUint64Slot(5, authenticated, 0)
-def CookieAddAuthenticated(builder, authenticated):
-    """This method is deprecated. Please switch to AddAuthenticated."""
-    return AddAuthenticated(builder, authenticated)
-def AddAuthenticatedOnNode(builder, authenticatedOnNode): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedOnNode), 0)
-def CookieAddAuthenticatedOnNode(builder, authenticatedOnNode):
-    """This method is deprecated. Please switch to AddAuthenticatedOnNode."""
-    return AddAuthenticatedOnNode(builder, authenticatedOnNode)
-def StartAuthenticatedOnNodeVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CookieStartAuthenticatedOnNodeVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartAuthenticatedOnNodeVector(builder, numElems)
-def AddAuthenticatedOnWorker(builder, authenticatedOnWorker): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedOnWorker), 0)
-def CookieAddAuthenticatedOnWorker(builder, authenticatedOnWorker):
-    """This method is deprecated. Please switch to AddAuthenticatedOnWorker."""
-    return AddAuthenticatedOnWorker(builder, authenticatedOnWorker)
-def AddAuthenticatedTransportInfo(builder, authenticatedTransportInfo): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedTransportInfo), 0)
-def CookieAddAuthenticatedTransportInfo(builder, authenticatedTransportInfo):
-    """This method is deprecated. Please switch to AddAuthenticatedTransportInfo."""
-    return AddAuthenticatedTransportInfo(builder, authenticatedTransportInfo)
-def StartAuthenticatedTransportInfoVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CookieStartAuthenticatedTransportInfoVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartAuthenticatedTransportInfoVector(builder, numElems)
-def AddAuthenticatedSession(builder, authenticatedSession): builder.PrependUint64Slot(9, authenticatedSession, 0)
-def CookieAddAuthenticatedSession(builder, authenticatedSession):
-    """This method is deprecated. Please switch to AddAuthenticatedSession."""
-    return AddAuthenticatedSession(builder, authenticatedSession)
-def AddAuthenticatedJoinedAt(builder, authenticatedJoinedAt): builder.PrependUint64Slot(10, authenticatedJoinedAt, 0)
-def CookieAddAuthenticatedJoinedAt(builder, authenticatedJoinedAt):
-    """This method is deprecated. Please switch to AddAuthenticatedJoinedAt."""
-    return AddAuthenticatedJoinedAt(builder, authenticatedJoinedAt)
-def AddAuthenticatedAuthmethod(builder, authenticatedAuthmethod): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedAuthmethod), 0)
-def CookieAddAuthenticatedAuthmethod(builder, authenticatedAuthmethod):
-    """This method is deprecated. Please switch to AddAuthenticatedAuthmethod."""
-    return AddAuthenticatedAuthmethod(builder, authenticatedAuthmethod)
-def AddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
-def CookieAddAuthid(builder, authid):
-    """This method is deprecated. Please switch to AddAuthid."""
-    return AddAuthid(builder, authid)
-def AddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
-def CookieAddAuthrole(builder, authrole):
-    """This method is deprecated. Please switch to AddAuthrole."""
-    return AddAuthrole(builder, authrole)
-def AddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
-def CookieAddAuthmethod(builder, authmethod):
-    """This method is deprecated. Please switch to AddAuthmethod."""
-    return AddAuthmethod(builder, authmethod)
-def AddAuthrealm(builder, authrealm): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(authrealm), 0)
-def CookieAddAuthrealm(builder, authrealm):
-    """This method is deprecated. Please switch to AddAuthrealm."""
-    return AddAuthrealm(builder, authrealm)
-def AddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
-def CookieAddAuthextra(builder, authextra):
-    """This method is deprecated. Please switch to AddAuthextra."""
-    return AddAuthextra(builder, authextra)
-def StartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CookieStartAuthextraVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartAuthextraVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def CookieEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def CookieStart(builder): builder.StartObject(17)
+def Start(builder):
+    return CookieStart(builder)
+def CookieAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return CookieAddOid(builder, oid)
+def CookieStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOidVector(builder, numElems):
+    return CookieStartOidVector(builder, numElems)
+def CookieAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+def AddCreated(builder, created):
+    return CookieAddCreated(builder, created)
+def CookieAddMaxAge(builder, maxAge): builder.PrependUint64Slot(2, maxAge, 0)
+def AddMaxAge(builder, maxAge):
+    return CookieAddMaxAge(builder, maxAge)
+def CookieAddName(builder, name): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+def AddName(builder, name):
+    return CookieAddName(builder, name)
+def CookieAddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+def AddValue(builder, value):
+    return CookieAddValue(builder, value)
+def CookieAddAuthenticated(builder, authenticated): builder.PrependUint64Slot(5, authenticated, 0)
+def AddAuthenticated(builder, authenticated):
+    return CookieAddAuthenticated(builder, authenticated)
+def CookieAddAuthenticatedOnNode(builder, authenticatedOnNode): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedOnNode), 0)
+def AddAuthenticatedOnNode(builder, authenticatedOnNode):
+    return CookieAddAuthenticatedOnNode(builder, authenticatedOnNode)
+def CookieStartAuthenticatedOnNodeVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartAuthenticatedOnNodeVector(builder, numElems):
+    return CookieStartAuthenticatedOnNodeVector(builder, numElems)
+def CookieAddAuthenticatedOnWorker(builder, authenticatedOnWorker): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedOnWorker), 0)
+def AddAuthenticatedOnWorker(builder, authenticatedOnWorker):
+    return CookieAddAuthenticatedOnWorker(builder, authenticatedOnWorker)
+def CookieAddAuthenticatedTransportInfo(builder, authenticatedTransportInfo): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedTransportInfo), 0)
+def AddAuthenticatedTransportInfo(builder, authenticatedTransportInfo):
+    return CookieAddAuthenticatedTransportInfo(builder, authenticatedTransportInfo)
+def CookieStartAuthenticatedTransportInfoVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartAuthenticatedTransportInfoVector(builder, numElems):
+    return CookieStartAuthenticatedTransportInfoVector(builder, numElems)
+def CookieAddAuthenticatedSession(builder, authenticatedSession): builder.PrependUint64Slot(9, authenticatedSession, 0)
+def AddAuthenticatedSession(builder, authenticatedSession):
+    return CookieAddAuthenticatedSession(builder, authenticatedSession)
+def CookieAddAuthenticatedJoinedAt(builder, authenticatedJoinedAt): builder.PrependUint64Slot(10, authenticatedJoinedAt, 0)
+def AddAuthenticatedJoinedAt(builder, authenticatedJoinedAt):
+    return CookieAddAuthenticatedJoinedAt(builder, authenticatedJoinedAt)
+def CookieAddAuthenticatedAuthmethod(builder, authenticatedAuthmethod): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedAuthmethod), 0)
+def AddAuthenticatedAuthmethod(builder, authenticatedAuthmethod):
+    return CookieAddAuthenticatedAuthmethod(builder, authenticatedAuthmethod)
+def CookieAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+def AddAuthid(builder, authid):
+    return CookieAddAuthid(builder, authid)
+def CookieAddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
+def AddAuthrole(builder, authrole):
+    return CookieAddAuthrole(builder, authrole)
+def CookieAddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
+def AddAuthmethod(builder, authmethod):
+    return CookieAddAuthmethod(builder, authmethod)
+def CookieAddAuthrealm(builder, authrealm): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(authrealm), 0)
+def AddAuthrealm(builder, authrealm):
+    return CookieAddAuthrealm(builder, authrealm)
+def CookieAddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+def AddAuthextra(builder, authextra):
+    return CookieAddAuthextra(builder, authextra)
+def CookieStartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartAuthextraVector(builder, numElems):
+    return CookieStartAuthextraVector(builder, numElems)
+def CookieEnd(builder): return builder.EndObject()
+def End(builder):
+    return CookieEnd(builder)

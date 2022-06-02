@@ -12,4 +12,3 @@ class ActorType(object):
     CONSUMER = 2
     # Actor is both a XBR Provider and XBR Consumer.
     PROVIDER_CONSUMER = 3
-

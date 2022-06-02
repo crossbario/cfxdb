@@ -14,4 +14,3 @@ class ChannelState(object):
     CLOSED = 3
     # The channel is closed with an error. The final channel state is committed on-chain.
     FAILED = 4
-

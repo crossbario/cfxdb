@@ -49,19 +49,15 @@ class ApplicationRealmRole(object):
             return obj
         return None
 
-def Start(builder): builder.StartObject(2)
-def ApplicationRealmRoleStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddRoleOid(builder, roleOid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
-def ApplicationRealmRoleAddRoleOid(builder, roleOid):
-    """This method is deprecated. Please switch to AddRoleOid."""
-    return AddRoleOid(builder, roleOid)
-def AddArealmOid(builder, arealmOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
-def ApplicationRealmRoleAddArealmOid(builder, arealmOid):
-    """This method is deprecated. Please switch to AddArealmOid."""
-    return AddArealmOid(builder, arealmOid)
-def End(builder): return builder.EndObject()
-def ApplicationRealmRoleEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def ApplicationRealmRoleStart(builder): builder.StartObject(2)
+def Start(builder):
+    return ApplicationRealmRoleStart(builder)
+def ApplicationRealmRoleAddRoleOid(builder, roleOid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+def AddRoleOid(builder, roleOid):
+    return ApplicationRealmRoleAddRoleOid(builder, roleOid)
+def ApplicationRealmRoleAddArealmOid(builder, arealmOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+def AddArealmOid(builder, arealmOid):
+    return ApplicationRealmRoleAddArealmOid(builder, arealmOid)
+def ApplicationRealmRoleEnd(builder): return builder.EndObject()
+def End(builder):
+    return ApplicationRealmRoleEnd(builder)

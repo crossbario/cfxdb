@@ -98,43 +98,33 @@ class Organization(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(7)
-def OrganizationStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def OrganizationAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
-def OrganizationAddLabel(builder, label):
-    """This method is deprecated. Please switch to AddLabel."""
-    return AddLabel(builder, label)
-def AddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
-def OrganizationAddDescription(builder, description):
-    """This method is deprecated. Please switch to AddDescription."""
-    return AddDescription(builder, description)
-def AddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
-def OrganizationAddTags(builder, tags):
-    """This method is deprecated. Please switch to AddTags."""
-    return AddTags(builder, tags)
-def StartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def OrganizationStartTagsVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTagsVector(builder, numElems)
-def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
-def OrganizationAddName(builder, name):
-    """This method is deprecated. Please switch to AddName."""
-    return AddName(builder, name)
-def AddOtype(builder, otype): builder.PrependInt8Slot(5, otype, 0)
-def OrganizationAddOtype(builder, otype):
-    """This method is deprecated. Please switch to AddOtype."""
-    return AddOtype(builder, otype)
-def AddRegistered(builder, registered): builder.PrependUint64Slot(6, registered, 0)
-def OrganizationAddRegistered(builder, registered):
-    """This method is deprecated. Please switch to AddRegistered."""
-    return AddRegistered(builder, registered)
-def End(builder): return builder.EndObject()
-def OrganizationEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def OrganizationStart(builder): builder.StartObject(7)
+def Start(builder):
+    return OrganizationStart(builder)
+def OrganizationAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return OrganizationAddOid(builder, oid)
+def OrganizationAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+def AddLabel(builder, label):
+    return OrganizationAddLabel(builder, label)
+def OrganizationAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+def AddDescription(builder, description):
+    return OrganizationAddDescription(builder, description)
+def OrganizationAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+def AddTags(builder, tags):
+    return OrganizationAddTags(builder, tags)
+def OrganizationStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def StartTagsVector(builder, numElems):
+    return OrganizationStartTagsVector(builder, numElems)
+def OrganizationAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+def AddName(builder, name):
+    return OrganizationAddName(builder, name)
+def OrganizationAddOtype(builder, otype): builder.PrependInt8Slot(5, otype, 0)
+def AddOtype(builder, otype):
+    return OrganizationAddOtype(builder, otype)
+def OrganizationAddRegistered(builder, registered): builder.PrependUint64Slot(6, registered, 0)
+def AddRegistered(builder, registered):
+    return OrganizationAddRegistered(builder, registered)
+def OrganizationEnd(builder): return builder.EndObject()
+def End(builder):
+    return OrganizationEnd(builder)

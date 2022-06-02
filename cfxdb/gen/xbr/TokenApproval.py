@@ -165,51 +165,39 @@ class TokenApproval(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-def Start(builder): builder.StartObject(5)
-def TokenApprovalStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddTxHash(builder, txHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
-def TokenApprovalAddTxHash(builder, txHash):
-    """This method is deprecated. Please switch to AddTxHash."""
-    return AddTxHash(builder, txHash)
-def StartTxHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TokenApprovalStartTxHashVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTxHashVector(builder, numElems)
-def AddBlockHash(builder, blockHash): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
-def TokenApprovalAddBlockHash(builder, blockHash):
-    """This method is deprecated. Please switch to AddBlockHash."""
-    return AddBlockHash(builder, blockHash)
-def StartBlockHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TokenApprovalStartBlockHashVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartBlockHashVector(builder, numElems)
-def AddOwnerAddress(builder, ownerAddress): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(ownerAddress), 0)
-def TokenApprovalAddOwnerAddress(builder, ownerAddress):
-    """This method is deprecated. Please switch to AddOwnerAddress."""
-    return AddOwnerAddress(builder, ownerAddress)
-def StartOwnerAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TokenApprovalStartOwnerAddressVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOwnerAddressVector(builder, numElems)
-def AddSpenderAddress(builder, spenderAddress): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(spenderAddress), 0)
-def TokenApprovalAddSpenderAddress(builder, spenderAddress):
-    """This method is deprecated. Please switch to AddSpenderAddress."""
-    return AddSpenderAddress(builder, spenderAddress)
-def StartSpenderAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TokenApprovalStartSpenderAddressVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSpenderAddressVector(builder, numElems)
-def AddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
-def TokenApprovalAddValue(builder, value):
-    """This method is deprecated. Please switch to AddValue."""
-    return AddValue(builder, value)
-def StartValueVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TokenApprovalStartValueVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartValueVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def TokenApprovalEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def TokenApprovalStart(builder): builder.StartObject(5)
+def Start(builder):
+    return TokenApprovalStart(builder)
+def TokenApprovalAddTxHash(builder, txHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
+def AddTxHash(builder, txHash):
+    return TokenApprovalAddTxHash(builder, txHash)
+def TokenApprovalStartTxHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartTxHashVector(builder, numElems):
+    return TokenApprovalStartTxHashVector(builder, numElems)
+def TokenApprovalAddBlockHash(builder, blockHash): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+def AddBlockHash(builder, blockHash):
+    return TokenApprovalAddBlockHash(builder, blockHash)
+def TokenApprovalStartBlockHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartBlockHashVector(builder, numElems):
+    return TokenApprovalStartBlockHashVector(builder, numElems)
+def TokenApprovalAddOwnerAddress(builder, ownerAddress): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(ownerAddress), 0)
+def AddOwnerAddress(builder, ownerAddress):
+    return TokenApprovalAddOwnerAddress(builder, ownerAddress)
+def TokenApprovalStartOwnerAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOwnerAddressVector(builder, numElems):
+    return TokenApprovalStartOwnerAddressVector(builder, numElems)
+def TokenApprovalAddSpenderAddress(builder, spenderAddress): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(spenderAddress), 0)
+def AddSpenderAddress(builder, spenderAddress):
+    return TokenApprovalAddSpenderAddress(builder, spenderAddress)
+def TokenApprovalStartSpenderAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSpenderAddressVector(builder, numElems):
+    return TokenApprovalStartSpenderAddressVector(builder, numElems)
+def TokenApprovalAddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+def AddValue(builder, value):
+    return TokenApprovalAddValue(builder, value)
+def TokenApprovalStartValueVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartValueVector(builder, numElems):
+    return TokenApprovalStartValueVector(builder, numElems)
+def TokenApprovalEnd(builder): return builder.EndObject()
+def End(builder):
+    return TokenApprovalEnd(builder)

@@ -7,4 +7,3 @@ class ActivationType(object):
     NONE = 0
     REGISTRATION = 1
     LOGIN = 2
-

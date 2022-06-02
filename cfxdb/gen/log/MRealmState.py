@@ -14,4 +14,3 @@ class MRealmState(object):
     ENDED = 3
     # The state was determined as "not current" (eg when the previous running CFC was hard-killed) and the record was cleaned up (marked as ended).
     PURGED = 4
-

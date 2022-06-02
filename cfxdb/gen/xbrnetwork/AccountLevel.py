@@ -16,4 +16,3 @@ class AccountLevel(object):
     PENALTY = 4
     # Account is currently blocked and cannot current actively participate in the market.
     BLOCKED = 5
-

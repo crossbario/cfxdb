@@ -53,19 +53,15 @@ class UserMrealmRoles(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         return o == 0
 
-def Start(builder): builder.StartObject(1)
-def UserMrealmRolesStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddRoles(builder, roles): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roles), 0)
-def UserMrealmRolesAddRoles(builder, roles):
-    """This method is deprecated. Please switch to AddRoles."""
-    return AddRoles(builder, roles)
-def StartRolesVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def UserMrealmRolesStartRolesVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartRolesVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def UserMrealmRolesEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def UserMrealmRolesStart(builder): builder.StartObject(1)
+def Start(builder):
+    return UserMrealmRolesStart(builder)
+def UserMrealmRolesAddRoles(builder, roles): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roles), 0)
+def AddRoles(builder, roles):
+    return UserMrealmRolesAddRoles(builder, roles)
+def UserMrealmRolesStartRolesVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartRolesVector(builder, numElems):
+    return UserMrealmRolesStartRolesVector(builder, numElems)
+def UserMrealmRolesEnd(builder): return builder.EndObject()
+def End(builder):
+    return UserMrealmRolesEnd(builder)

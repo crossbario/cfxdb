@@ -89,39 +89,30 @@ class RouterCluster(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(6)
-def RouterClusterStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def RouterClusterAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
-def RouterClusterAddLabel(builder, label):
-    """This method is deprecated. Please switch to AddLabel."""
-    return AddLabel(builder, label)
-def AddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
-def RouterClusterAddDescription(builder, description):
-    """This method is deprecated. Please switch to AddDescription."""
-    return AddDescription(builder, description)
-def AddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
-def RouterClusterAddTags(builder, tags):
-    """This method is deprecated. Please switch to AddTags."""
-    return AddTags(builder, tags)
-def StartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def RouterClusterStartTagsVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTagsVector(builder, numElems)
-def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
-def RouterClusterAddName(builder, name):
-    """This method is deprecated. Please switch to AddName."""
-    return AddName(builder, name)
-def AddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
-def RouterClusterAddStatus(builder, status):
-    """This method is deprecated. Please switch to AddStatus."""
-    return AddStatus(builder, status)
-def End(builder): return builder.EndObject()
-def RouterClusterEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def RouterClusterStart(builder): builder.StartObject(6)
+def Start(builder):
+    return RouterClusterStart(builder)
+def RouterClusterAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return RouterClusterAddOid(builder, oid)
+def RouterClusterAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+def AddLabel(builder, label):
+    return RouterClusterAddLabel(builder, label)
+def RouterClusterAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+def AddDescription(builder, description):
+    return RouterClusterAddDescription(builder, description)
+def RouterClusterAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+def AddTags(builder, tags):
+    return RouterClusterAddTags(builder, tags)
+def RouterClusterStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def StartTagsVector(builder, numElems):
+    return RouterClusterStartTagsVector(builder, numElems)
+def RouterClusterAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+def AddName(builder, name):
+    return RouterClusterAddName(builder, name)
+def RouterClusterAddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
+def AddStatus(builder, status):
+    return RouterClusterAddStatus(builder, status)
+def RouterClusterEnd(builder): return builder.EndObject()
+def End(builder):
+    return RouterClusterEnd(builder)

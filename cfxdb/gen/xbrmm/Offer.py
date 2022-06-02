@@ -299,107 +299,81 @@ class Offer(object):
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(16)
-def OfferStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
-def OfferAddTimestamp(builder, timestamp):
-    """This method is deprecated. Please switch to AddTimestamp."""
-    return AddTimestamp(builder, timestamp)
-def AddOffer(builder, offer): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(offer), 0)
-def OfferAddOffer(builder, offer):
-    """This method is deprecated. Please switch to AddOffer."""
-    return AddOffer(builder, offer)
-def StartOfferVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def OfferStartOfferVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOfferVector(builder, numElems)
-def AddSeller(builder, seller): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(seller), 0)
-def OfferAddSeller(builder, seller):
-    """This method is deprecated. Please switch to AddSeller."""
-    return AddSeller(builder, seller)
-def StartSellerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def OfferStartSellerVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSellerVector(builder, numElems)
-def AddSellerSessionId(builder, sellerSessionId): builder.PrependUint64Slot(3, sellerSessionId, 0)
-def OfferAddSellerSessionId(builder, sellerSessionId):
-    """This method is deprecated. Please switch to AddSellerSessionId."""
-    return AddSellerSessionId(builder, sellerSessionId)
-def AddSellerAuthid(builder, sellerAuthid): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(sellerAuthid), 0)
-def OfferAddSellerAuthid(builder, sellerAuthid):
-    """This method is deprecated. Please switch to AddSellerAuthid."""
-    return AddSellerAuthid(builder, sellerAuthid)
-def AddKey(builder, key): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
-def OfferAddKey(builder, key):
-    """This method is deprecated. Please switch to AddKey."""
-    return AddKey(builder, key)
-def StartKeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def OfferStartKeyVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartKeyVector(builder, numElems)
-def AddApi(builder, api): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(api), 0)
-def OfferAddApi(builder, api):
-    """This method is deprecated. Please switch to AddApi."""
-    return AddApi(builder, api)
-def StartApiVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def OfferStartApiVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartApiVector(builder, numElems)
-def AddUri(builder, uri): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(uri), 0)
-def OfferAddUri(builder, uri):
-    """This method is deprecated. Please switch to AddUri."""
-    return AddUri(builder, uri)
-def AddValidFrom(builder, validFrom): builder.PrependUint64Slot(8, validFrom, 0)
-def OfferAddValidFrom(builder, validFrom):
-    """This method is deprecated. Please switch to AddValidFrom."""
-    return AddValidFrom(builder, validFrom)
-def AddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
-def OfferAddSignature(builder, signature):
-    """This method is deprecated. Please switch to AddSignature."""
-    return AddSignature(builder, signature)
-def StartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def OfferStartSignatureVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSignatureVector(builder, numElems)
-def AddPrice(builder, price): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(price), 0)
-def OfferAddPrice(builder, price):
-    """This method is deprecated. Please switch to AddPrice."""
-    return AddPrice(builder, price)
-def StartPriceVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def OfferStartPriceVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartPriceVector(builder, numElems)
-def AddCategoriesKey(builder, categoriesKey): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesKey), 0)
-def OfferAddCategoriesKey(builder, categoriesKey):
-    """This method is deprecated. Please switch to AddCategoriesKey."""
-    return AddCategoriesKey(builder, categoriesKey)
-def StartCategoriesKeyVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def OfferStartCategoriesKeyVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartCategoriesKeyVector(builder, numElems)
-def AddCategoriesValue(builder, categoriesValue): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesValue), 0)
-def OfferAddCategoriesValue(builder, categoriesValue):
-    """This method is deprecated. Please switch to AddCategoriesValue."""
-    return AddCategoriesValue(builder, categoriesValue)
-def StartCategoriesValueVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def OfferStartCategoriesValueVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartCategoriesValueVector(builder, numElems)
-def AddExpires(builder, expires): builder.PrependUint64Slot(13, expires, 0)
-def OfferAddExpires(builder, expires):
-    """This method is deprecated. Please switch to AddExpires."""
-    return AddExpires(builder, expires)
-def AddCopies(builder, copies): builder.PrependUint32Slot(14, copies, 0)
-def OfferAddCopies(builder, copies):
-    """This method is deprecated. Please switch to AddCopies."""
-    return AddCopies(builder, copies)
-def AddRemaining(builder, remaining): builder.PrependUint32Slot(15, remaining, 0)
-def OfferAddRemaining(builder, remaining):
-    """This method is deprecated. Please switch to AddRemaining."""
-    return AddRemaining(builder, remaining)
-def End(builder): return builder.EndObject()
-def OfferEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def OfferStart(builder): builder.StartObject(16)
+def Start(builder):
+    return OfferStart(builder)
+def OfferAddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
+def AddTimestamp(builder, timestamp):
+    return OfferAddTimestamp(builder, timestamp)
+def OfferAddOffer(builder, offer): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(offer), 0)
+def AddOffer(builder, offer):
+    return OfferAddOffer(builder, offer)
+def OfferStartOfferVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOfferVector(builder, numElems):
+    return OfferStartOfferVector(builder, numElems)
+def OfferAddSeller(builder, seller): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(seller), 0)
+def AddSeller(builder, seller):
+    return OfferAddSeller(builder, seller)
+def OfferStartSellerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSellerVector(builder, numElems):
+    return OfferStartSellerVector(builder, numElems)
+def OfferAddSellerSessionId(builder, sellerSessionId): builder.PrependUint64Slot(3, sellerSessionId, 0)
+def AddSellerSessionId(builder, sellerSessionId):
+    return OfferAddSellerSessionId(builder, sellerSessionId)
+def OfferAddSellerAuthid(builder, sellerAuthid): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(sellerAuthid), 0)
+def AddSellerAuthid(builder, sellerAuthid):
+    return OfferAddSellerAuthid(builder, sellerAuthid)
+def OfferAddKey(builder, key): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+def AddKey(builder, key):
+    return OfferAddKey(builder, key)
+def OfferStartKeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartKeyVector(builder, numElems):
+    return OfferStartKeyVector(builder, numElems)
+def OfferAddApi(builder, api): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(api), 0)
+def AddApi(builder, api):
+    return OfferAddApi(builder, api)
+def OfferStartApiVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartApiVector(builder, numElems):
+    return OfferStartApiVector(builder, numElems)
+def OfferAddUri(builder, uri): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(uri), 0)
+def AddUri(builder, uri):
+    return OfferAddUri(builder, uri)
+def OfferAddValidFrom(builder, validFrom): builder.PrependUint64Slot(8, validFrom, 0)
+def AddValidFrom(builder, validFrom):
+    return OfferAddValidFrom(builder, validFrom)
+def OfferAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+def AddSignature(builder, signature):
+    return OfferAddSignature(builder, signature)
+def OfferStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSignatureVector(builder, numElems):
+    return OfferStartSignatureVector(builder, numElems)
+def OfferAddPrice(builder, price): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(price), 0)
+def AddPrice(builder, price):
+    return OfferAddPrice(builder, price)
+def OfferStartPriceVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartPriceVector(builder, numElems):
+    return OfferStartPriceVector(builder, numElems)
+def OfferAddCategoriesKey(builder, categoriesKey): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesKey), 0)
+def AddCategoriesKey(builder, categoriesKey):
+    return OfferAddCategoriesKey(builder, categoriesKey)
+def OfferStartCategoriesKeyVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def StartCategoriesKeyVector(builder, numElems):
+    return OfferStartCategoriesKeyVector(builder, numElems)
+def OfferAddCategoriesValue(builder, categoriesValue): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesValue), 0)
+def AddCategoriesValue(builder, categoriesValue):
+    return OfferAddCategoriesValue(builder, categoriesValue)
+def OfferStartCategoriesValueVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def StartCategoriesValueVector(builder, numElems):
+    return OfferStartCategoriesValueVector(builder, numElems)
+def OfferAddExpires(builder, expires): builder.PrependUint64Slot(13, expires, 0)
+def AddExpires(builder, expires):
+    return OfferAddExpires(builder, expires)
+def OfferAddCopies(builder, copies): builder.PrependUint32Slot(14, copies, 0)
+def AddCopies(builder, copies):
+    return OfferAddCopies(builder, copies)
+def OfferAddRemaining(builder, remaining): builder.PrependUint32Slot(15, remaining, 0)
+def AddRemaining(builder, remaining):
+    return OfferAddRemaining(builder, remaining)
+def OfferEnd(builder): return builder.EndObject()
+def End(builder):
+    return OfferEnd(builder)

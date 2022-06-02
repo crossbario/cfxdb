@@ -64,27 +64,21 @@ class ClusterNodeMembership(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def Start(builder): builder.StartObject(4)
-def ClusterNodeMembershipStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddClusterOid(builder, clusterOid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
-def ClusterNodeMembershipAddClusterOid(builder, clusterOid):
-    """This method is deprecated. Please switch to AddClusterOid."""
-    return AddClusterOid(builder, clusterOid)
-def AddNodeOid(builder, nodeOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
-def ClusterNodeMembershipAddNodeOid(builder, nodeOid):
-    """This method is deprecated. Please switch to AddNodeOid."""
-    return AddNodeOid(builder, nodeOid)
-def AddParallel(builder, parallel): builder.PrependUint16Slot(2, parallel, 0)
-def ClusterNodeMembershipAddParallel(builder, parallel):
-    """This method is deprecated. Please switch to AddParallel."""
-    return AddParallel(builder, parallel)
-def AddStandby(builder, standby): builder.PrependBoolSlot(3, standby, 0)
-def ClusterNodeMembershipAddStandby(builder, standby):
-    """This method is deprecated. Please switch to AddStandby."""
-    return AddStandby(builder, standby)
-def End(builder): return builder.EndObject()
-def ClusterNodeMembershipEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def ClusterNodeMembershipStart(builder): builder.StartObject(4)
+def Start(builder):
+    return ClusterNodeMembershipStart(builder)
+def ClusterNodeMembershipAddClusterOid(builder, clusterOid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
+def AddClusterOid(builder, clusterOid):
+    return ClusterNodeMembershipAddClusterOid(builder, clusterOid)
+def ClusterNodeMembershipAddNodeOid(builder, nodeOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+def AddNodeOid(builder, nodeOid):
+    return ClusterNodeMembershipAddNodeOid(builder, nodeOid)
+def ClusterNodeMembershipAddParallel(builder, parallel): builder.PrependUint16Slot(2, parallel, 0)
+def AddParallel(builder, parallel):
+    return ClusterNodeMembershipAddParallel(builder, parallel)
+def ClusterNodeMembershipAddStandby(builder, standby): builder.PrependBoolSlot(3, standby, 0)
+def AddStandby(builder, standby):
+    return ClusterNodeMembershipAddStandby(builder, standby)
+def ClusterNodeMembershipEnd(builder): return builder.EndObject()
+def End(builder):
+    return ClusterNodeMembershipEnd(builder)

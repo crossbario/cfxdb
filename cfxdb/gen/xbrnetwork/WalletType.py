@@ -11,4 +11,3 @@ class WalletType(object):
     METAMASK = 2
     # Account wallet in hosted (in this database).
     HOSTED = 3
-

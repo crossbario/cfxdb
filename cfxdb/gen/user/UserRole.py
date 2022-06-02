@@ -9,4 +9,3 @@ class UserRole(object):
     ADMIN = 2
     USER = 3
     GUEST = 4
-

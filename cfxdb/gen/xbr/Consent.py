@@ -261,87 +261,66 @@ class Consent(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def Start(builder): builder.StartObject(12)
-def ConsentStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddMarketOid(builder, marketOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(marketOid), 0)
-def ConsentAddMarketOid(builder, marketOid):
-    """This method is deprecated. Please switch to AddMarketOid."""
-    return AddMarketOid(builder, marketOid)
-def StartMarketOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartMarketOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartMarketOidVector(builder, numElems)
-def AddMember(builder, member): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(member), 0)
-def ConsentAddMember(builder, member):
-    """This method is deprecated. Please switch to AddMember."""
-    return AddMember(builder, member)
-def StartMemberVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartMemberVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartMemberVector(builder, numElems)
-def AddDelegate(builder, delegate): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(delegate), 0)
-def ConsentAddDelegate(builder, delegate):
-    """This method is deprecated. Please switch to AddDelegate."""
-    return AddDelegate(builder, delegate)
-def StartDelegateVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartDelegateVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartDelegateVector(builder, numElems)
-def AddDelegateType(builder, delegateType): builder.PrependUint8Slot(3, delegateType, 0)
-def ConsentAddDelegateType(builder, delegateType):
-    """This method is deprecated. Please switch to AddDelegateType."""
-    return AddDelegateType(builder, delegateType)
-def AddCatalogOid(builder, catalogOid): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(catalogOid), 0)
-def ConsentAddCatalogOid(builder, catalogOid):
-    """This method is deprecated. Please switch to AddCatalogOid."""
-    return AddCatalogOid(builder, catalogOid)
-def StartCatalogOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartCatalogOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartCatalogOidVector(builder, numElems)
-def AddTimestamp(builder, timestamp): builder.PrependUint64Slot(5, timestamp, 0)
-def ConsentAddTimestamp(builder, timestamp):
-    """This method is deprecated. Please switch to AddTimestamp."""
-    return AddTimestamp(builder, timestamp)
-def AddUpdated(builder, updated): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(updated), 0)
-def ConsentAddUpdated(builder, updated):
-    """This method is deprecated. Please switch to AddUpdated."""
-    return AddUpdated(builder, updated)
-def StartUpdatedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartUpdatedVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartUpdatedVector(builder, numElems)
-def AddConsent(builder, consent): builder.PrependBoolSlot(7, consent, 0)
-def ConsentAddConsent(builder, consent):
-    """This method is deprecated. Please switch to AddConsent."""
-    return AddConsent(builder, consent)
-def AddServicePrefix(builder, servicePrefix): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(servicePrefix), 0)
-def ConsentAddServicePrefix(builder, servicePrefix):
-    """This method is deprecated. Please switch to AddServicePrefix."""
-    return AddServicePrefix(builder, servicePrefix)
-def AddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
-def ConsentAddTid(builder, tid):
-    """This method is deprecated. Please switch to AddTid."""
-    return AddTid(builder, tid)
-def StartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartTidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTidVector(builder, numElems)
-def AddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
-def ConsentAddSignature(builder, signature):
-    """This method is deprecated. Please switch to AddSignature."""
-    return AddSignature(builder, signature)
-def StartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ConsentStartSignatureVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSignatureVector(builder, numElems)
-def AddSynced(builder, synced): builder.PrependBoolSlot(11, synced, 0)
-def ConsentAddSynced(builder, synced):
-    """This method is deprecated. Please switch to AddSynced."""
-    return AddSynced(builder, synced)
-def End(builder): return builder.EndObject()
-def ConsentEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def ConsentStart(builder): builder.StartObject(12)
+def Start(builder):
+    return ConsentStart(builder)
+def ConsentAddMarketOid(builder, marketOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(marketOid), 0)
+def AddMarketOid(builder, marketOid):
+    return ConsentAddMarketOid(builder, marketOid)
+def ConsentStartMarketOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartMarketOidVector(builder, numElems):
+    return ConsentStartMarketOidVector(builder, numElems)
+def ConsentAddMember(builder, member): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(member), 0)
+def AddMember(builder, member):
+    return ConsentAddMember(builder, member)
+def ConsentStartMemberVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartMemberVector(builder, numElems):
+    return ConsentStartMemberVector(builder, numElems)
+def ConsentAddDelegate(builder, delegate): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(delegate), 0)
+def AddDelegate(builder, delegate):
+    return ConsentAddDelegate(builder, delegate)
+def ConsentStartDelegateVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartDelegateVector(builder, numElems):
+    return ConsentStartDelegateVector(builder, numElems)
+def ConsentAddDelegateType(builder, delegateType): builder.PrependUint8Slot(3, delegateType, 0)
+def AddDelegateType(builder, delegateType):
+    return ConsentAddDelegateType(builder, delegateType)
+def ConsentAddCatalogOid(builder, catalogOid): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(catalogOid), 0)
+def AddCatalogOid(builder, catalogOid):
+    return ConsentAddCatalogOid(builder, catalogOid)
+def ConsentStartCatalogOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartCatalogOidVector(builder, numElems):
+    return ConsentStartCatalogOidVector(builder, numElems)
+def ConsentAddTimestamp(builder, timestamp): builder.PrependUint64Slot(5, timestamp, 0)
+def AddTimestamp(builder, timestamp):
+    return ConsentAddTimestamp(builder, timestamp)
+def ConsentAddUpdated(builder, updated): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(updated), 0)
+def AddUpdated(builder, updated):
+    return ConsentAddUpdated(builder, updated)
+def ConsentStartUpdatedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartUpdatedVector(builder, numElems):
+    return ConsentStartUpdatedVector(builder, numElems)
+def ConsentAddConsent(builder, consent): builder.PrependBoolSlot(7, consent, 0)
+def AddConsent(builder, consent):
+    return ConsentAddConsent(builder, consent)
+def ConsentAddServicePrefix(builder, servicePrefix): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(servicePrefix), 0)
+def AddServicePrefix(builder, servicePrefix):
+    return ConsentAddServicePrefix(builder, servicePrefix)
+def ConsentAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+def AddTid(builder, tid):
+    return ConsentAddTid(builder, tid)
+def ConsentStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartTidVector(builder, numElems):
+    return ConsentStartTidVector(builder, numElems)
+def ConsentAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+def AddSignature(builder, signature):
+    return ConsentAddSignature(builder, signature)
+def ConsentStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSignatureVector(builder, numElems):
+    return ConsentStartSignatureVector(builder, numElems)
+def ConsentAddSynced(builder, synced): builder.PrependBoolSlot(11, synced, 0)
+def AddSynced(builder, synced):
+    return ConsentAddSynced(builder, synced)
+def ConsentEnd(builder): return builder.EndObject()
+def End(builder):
+    return ConsentEnd(builder)

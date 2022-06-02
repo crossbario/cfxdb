@@ -12,4 +12,3 @@ class MatchType(object):
     PREFIX = 2
     # Match by URI wildcard pattern.
     WILDCARD = 3
-

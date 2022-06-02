@@ -311,5 +311,5 @@ class Apis(MapUuidFlatBuffers):
 @table('57ae5d83-57b0-4214-8481-a1853f7faf87')
 class IndexApiByCatalog(MapBytes16TimestampUuid):
     """
-    Api-by-Catalog, index with ``(catalog_oid|bytes[16], created|int) -> api_oid|UUID`` mapping.
+    Api-by-FbsRepository, index with ``(catalog_oid|bytes[16], created|int) -> api_oid|UUID`` mapping.
     """

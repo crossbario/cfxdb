@@ -89,43 +89,33 @@ class ActivationToken(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-def Start(builder): builder.StartObject(8)
-def ActivationTokenStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def ActivationTokenAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddAtype(builder, atype): builder.PrependInt8Slot(1, atype, 0)
-def ActivationTokenAddAtype(builder, atype):
-    """This method is deprecated. Please switch to AddAtype."""
-    return AddAtype(builder, atype)
-def AddStatus(builder, status): builder.PrependInt8Slot(2, status, 0)
-def ActivationTokenAddStatus(builder, status):
-    """This method is deprecated. Please switch to AddStatus."""
-    return AddStatus(builder, status)
-def AddCreated(builder, created): builder.PrependUint64Slot(3, created, 0)
-def ActivationTokenAddCreated(builder, created):
-    """This method is deprecated. Please switch to AddCreated."""
-    return AddCreated(builder, created)
-def AddCompleted(builder, completed): builder.PrependUint64Slot(4, completed, 0)
-def ActivationTokenAddCompleted(builder, completed):
-    """This method is deprecated. Please switch to AddCompleted."""
-    return AddCompleted(builder, completed)
-def AddCode(builder, code): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(code), 0)
-def ActivationTokenAddCode(builder, code):
-    """This method is deprecated. Please switch to AddCode."""
-    return AddCode(builder, code)
-def AddEmail(builder, email): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
-def ActivationTokenAddEmail(builder, email):
-    """This method is deprecated. Please switch to AddEmail."""
-    return AddEmail(builder, email)
-def AddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
-def ActivationTokenAddPubkey(builder, pubkey):
-    """This method is deprecated. Please switch to AddPubkey."""
-    return AddPubkey(builder, pubkey)
-def End(builder): return builder.EndObject()
-def ActivationTokenEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def ActivationTokenStart(builder): builder.StartObject(8)
+def Start(builder):
+    return ActivationTokenStart(builder)
+def ActivationTokenAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return ActivationTokenAddOid(builder, oid)
+def ActivationTokenAddAtype(builder, atype): builder.PrependInt8Slot(1, atype, 0)
+def AddAtype(builder, atype):
+    return ActivationTokenAddAtype(builder, atype)
+def ActivationTokenAddStatus(builder, status): builder.PrependInt8Slot(2, status, 0)
+def AddStatus(builder, status):
+    return ActivationTokenAddStatus(builder, status)
+def ActivationTokenAddCreated(builder, created): builder.PrependUint64Slot(3, created, 0)
+def AddCreated(builder, created):
+    return ActivationTokenAddCreated(builder, created)
+def ActivationTokenAddCompleted(builder, completed): builder.PrependUint64Slot(4, completed, 0)
+def AddCompleted(builder, completed):
+    return ActivationTokenAddCompleted(builder, completed)
+def ActivationTokenAddCode(builder, code): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(code), 0)
+def AddCode(builder, code):
+    return ActivationTokenAddCode(builder, code)
+def ActivationTokenAddEmail(builder, email): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+def AddEmail(builder, email):
+    return ActivationTokenAddEmail(builder, email)
+def ActivationTokenAddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+def AddPubkey(builder, pubkey):
+    return ActivationTokenAddPubkey(builder, pubkey)
+def ActivationTokenEnd(builder): return builder.EndObject()
+def End(builder):
+    return ActivationTokenEnd(builder)

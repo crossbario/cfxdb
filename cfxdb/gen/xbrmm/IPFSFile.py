@@ -56,27 +56,21 @@ class IPFSFile(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(4)
-def IPFSFileStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddFileHash(builder, fileHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(fileHash), 0)
-def IPFSFileAddFileHash(builder, fileHash):
-    """This method is deprecated. Please switch to AddFileHash."""
-    return AddFileHash(builder, fileHash)
-def AddDownloaded(builder, downloaded): builder.PrependBoolSlot(1, downloaded, 0)
-def IPFSFileAddDownloaded(builder, downloaded):
-    """This method is deprecated. Please switch to AddDownloaded."""
-    return AddDownloaded(builder, downloaded)
-def AddRetries(builder, retries): builder.PrependUint32Slot(2, retries, 0)
-def IPFSFileAddRetries(builder, retries):
-    """This method is deprecated. Please switch to AddRetries."""
-    return AddRetries(builder, retries)
-def AddErroredAt(builder, erroredAt): builder.PrependUint64Slot(3, erroredAt, 0)
-def IPFSFileAddErroredAt(builder, erroredAt):
-    """This method is deprecated. Please switch to AddErroredAt."""
-    return AddErroredAt(builder, erroredAt)
-def End(builder): return builder.EndObject()
-def IPFSFileEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def IPFSFileStart(builder): builder.StartObject(4)
+def Start(builder):
+    return IPFSFileStart(builder)
+def IPFSFileAddFileHash(builder, fileHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(fileHash), 0)
+def AddFileHash(builder, fileHash):
+    return IPFSFileAddFileHash(builder, fileHash)
+def IPFSFileAddDownloaded(builder, downloaded): builder.PrependBoolSlot(1, downloaded, 0)
+def AddDownloaded(builder, downloaded):
+    return IPFSFileAddDownloaded(builder, downloaded)
+def IPFSFileAddRetries(builder, retries): builder.PrependUint32Slot(2, retries, 0)
+def AddRetries(builder, retries):
+    return IPFSFileAddRetries(builder, retries)
+def IPFSFileAddErroredAt(builder, erroredAt): builder.PrependUint64Slot(3, erroredAt, 0)
+def AddErroredAt(builder, erroredAt):
+    return IPFSFileAddErroredAt(builder, erroredAt)
+def IPFSFileEnd(builder): return builder.EndObject()
+def End(builder):
+    return IPFSFileEnd(builder)

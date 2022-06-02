@@ -144,47 +144,36 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-def Start(builder): builder.StartObject(5)
-def UserKeyStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
-def UserKeyAddPubkey(builder, pubkey):
-    """This method is deprecated. Please switch to AddPubkey."""
-    return AddPubkey(builder, pubkey)
-def StartPubkeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def UserKeyStartPubkeyVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartPubkeyVector(builder, numElems)
-def AddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
-def UserKeyAddCreated(builder, created):
-    """This method is deprecated. Please switch to AddCreated."""
-    return AddCreated(builder, created)
-def AddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
-def UserKeyAddOwner(builder, owner):
-    """This method is deprecated. Please switch to AddOwner."""
-    return AddOwner(builder, owner)
-def StartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def UserKeyStartOwnerVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOwnerVector(builder, numElems)
-def AddWalletAddress(builder, walletAddress): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(walletAddress), 0)
-def UserKeyAddWalletAddress(builder, walletAddress):
-    """This method is deprecated. Please switch to AddWalletAddress."""
-    return AddWalletAddress(builder, walletAddress)
-def StartWalletAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def UserKeyStartWalletAddressVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartWalletAddressVector(builder, numElems)
-def AddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
-def UserKeyAddSignature(builder, signature):
-    """This method is deprecated. Please switch to AddSignature."""
-    return AddSignature(builder, signature)
-def StartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def UserKeyStartSignatureVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSignatureVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def UserKeyEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def UserKeyStart(builder): builder.StartObject(5)
+def Start(builder):
+    return UserKeyStart(builder)
+def UserKeyAddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+def AddPubkey(builder, pubkey):
+    return UserKeyAddPubkey(builder, pubkey)
+def UserKeyStartPubkeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartPubkeyVector(builder, numElems):
+    return UserKeyStartPubkeyVector(builder, numElems)
+def UserKeyAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+def AddCreated(builder, created):
+    return UserKeyAddCreated(builder, created)
+def UserKeyAddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+def AddOwner(builder, owner):
+    return UserKeyAddOwner(builder, owner)
+def UserKeyStartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOwnerVector(builder, numElems):
+    return UserKeyStartOwnerVector(builder, numElems)
+def UserKeyAddWalletAddress(builder, walletAddress): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(walletAddress), 0)
+def AddWalletAddress(builder, walletAddress):
+    return UserKeyAddWalletAddress(builder, walletAddress)
+def UserKeyStartWalletAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartWalletAddressVector(builder, numElems):
+    return UserKeyStartWalletAddressVector(builder, numElems)
+def UserKeyAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+def AddSignature(builder, signature):
+    return UserKeyAddSignature(builder, signature)
+def UserKeyStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSignatureVector(builder, numElems):
+    return UserKeyStartSignatureVector(builder, numElems)
+def UserKeyEnd(builder): return builder.EndObject()
+def End(builder):
+    return UserKeyEnd(builder)

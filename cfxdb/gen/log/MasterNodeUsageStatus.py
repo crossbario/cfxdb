@@ -10,4 +10,3 @@ class MasterNodeUsageStatus(object):
     # Online, but some error occurred and some features or entities might be unavailable.
     SUCCESS = 2
     FAILED = 3
-

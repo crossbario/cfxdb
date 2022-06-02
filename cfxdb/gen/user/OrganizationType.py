@@ -12,4 +12,3 @@ class OrganizationType(object):
     BUSINESS = 2
     # Public academics & teaching.
     ACADEMICS = 3
-

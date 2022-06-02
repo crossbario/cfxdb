@@ -22,4 +22,3 @@ class MWorkerType(object):
     HOSTMONITOR = 7
     # Router worker.
     CONTROLLER = 8
-

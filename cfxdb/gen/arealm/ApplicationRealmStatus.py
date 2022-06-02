@@ -20,4 +20,3 @@ class ApplicationRealmStatus(object):
     ERROR = 6
     # The application realm is currently running, but degraded (not all components and services desired are actually running at this moment, but some have failed, but may be retried automatically).
     DEGRADED = 7
-

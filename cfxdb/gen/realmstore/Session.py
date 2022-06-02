@@ -333,123 +333,93 @@ class Session(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(44))
         return o == 0
 
-def Start(builder): builder.StartObject(21)
-def SessionStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddArealmOid(builder, arealmOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
-def SessionAddArealmOid(builder, arealmOid):
-    """This method is deprecated. Please switch to AddArealmOid."""
-    return AddArealmOid(builder, arealmOid)
-def StartArealmOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartArealmOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartArealmOidVector(builder, numElems)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def SessionAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def StartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOidVector(builder, numElems)
-def AddSession(builder, session): builder.PrependUint64Slot(2, session, 0)
-def SessionAddSession(builder, session):
-    """This method is deprecated. Please switch to AddSession."""
-    return AddSession(builder, session)
-def AddJoinedAt(builder, joinedAt): builder.PrependUint64Slot(3, joinedAt, 0)
-def SessionAddJoinedAt(builder, joinedAt):
-    """This method is deprecated. Please switch to AddJoinedAt."""
-    return AddJoinedAt(builder, joinedAt)
-def AddLeftAt(builder, leftAt): builder.PrependUint64Slot(4, leftAt, 0)
-def SessionAddLeftAt(builder, leftAt):
-    """This method is deprecated. Please switch to AddLeftAt."""
-    return AddLeftAt(builder, leftAt)
-def AddNodeOid(builder, nodeOid): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
-def SessionAddNodeOid(builder, nodeOid):
-    """This method is deprecated. Please switch to AddNodeOid."""
-    return AddNodeOid(builder, nodeOid)
-def StartNodeOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartNodeOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartNodeOidVector(builder, numElems)
-def AddNodeAuthid(builder, nodeAuthid): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(nodeAuthid), 0)
-def SessionAddNodeAuthid(builder, nodeAuthid):
-    """This method is deprecated. Please switch to AddNodeAuthid."""
-    return AddNodeAuthid(builder, nodeAuthid)
-def AddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
-def SessionAddWorkerName(builder, workerName):
-    """This method is deprecated. Please switch to AddWorkerName."""
-    return AddWorkerName(builder, workerName)
-def AddWorkerPid(builder, workerPid): builder.PrependInt32Slot(8, workerPid, 0)
-def SessionAddWorkerPid(builder, workerPid):
-    """This method is deprecated. Please switch to AddWorkerPid."""
-    return AddWorkerPid(builder, workerPid)
-def AddTransport(builder, transport): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(transport), 0)
-def SessionAddTransport(builder, transport):
-    """This method is deprecated. Please switch to AddTransport."""
-    return AddTransport(builder, transport)
-def StartTransportVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartTransportVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTransportVector(builder, numElems)
-def AddProxyNodeOid(builder, proxyNodeOid): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeOid), 0)
-def SessionAddProxyNodeOid(builder, proxyNodeOid):
-    """This method is deprecated. Please switch to AddProxyNodeOid."""
-    return AddProxyNodeOid(builder, proxyNodeOid)
-def StartProxyNodeOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartProxyNodeOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartProxyNodeOidVector(builder, numElems)
-def AddProxyNodeAuthid(builder, proxyNodeAuthid): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeAuthid), 0)
-def SessionAddProxyNodeAuthid(builder, proxyNodeAuthid):
-    """This method is deprecated. Please switch to AddProxyNodeAuthid."""
-    return AddProxyNodeAuthid(builder, proxyNodeAuthid)
-def AddProxyWorkerName(builder, proxyWorkerName): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(proxyWorkerName), 0)
-def SessionAddProxyWorkerName(builder, proxyWorkerName):
-    """This method is deprecated. Please switch to AddProxyWorkerName."""
-    return AddProxyWorkerName(builder, proxyWorkerName)
-def AddProxyWorkerPid(builder, proxyWorkerPid): builder.PrependInt32Slot(13, proxyWorkerPid, 0)
-def SessionAddProxyWorkerPid(builder, proxyWorkerPid):
-    """This method is deprecated. Please switch to AddProxyWorkerPid."""
-    return AddProxyWorkerPid(builder, proxyWorkerPid)
-def AddProxyTransport(builder, proxyTransport): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(proxyTransport), 0)
-def SessionAddProxyTransport(builder, proxyTransport):
-    """This method is deprecated. Please switch to AddProxyTransport."""
-    return AddProxyTransport(builder, proxyTransport)
-def StartProxyTransportVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartProxyTransportVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartProxyTransportVector(builder, numElems)
-def AddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
-def SessionAddRealm(builder, realm):
-    """This method is deprecated. Please switch to AddRealm."""
-    return AddRealm(builder, realm)
-def AddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
-def SessionAddAuthid(builder, authid):
-    """This method is deprecated. Please switch to AddAuthid."""
-    return AddAuthid(builder, authid)
-def AddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
-def SessionAddAuthrole(builder, authrole):
-    """This method is deprecated. Please switch to AddAuthrole."""
-    return AddAuthrole(builder, authrole)
-def AddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(18, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
-def SessionAddAuthmethod(builder, authmethod):
-    """This method is deprecated. Please switch to AddAuthmethod."""
-    return AddAuthmethod(builder, authmethod)
-def AddAuthprovider(builder, authprovider): builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(authprovider), 0)
-def SessionAddAuthprovider(builder, authprovider):
-    """This method is deprecated. Please switch to AddAuthprovider."""
-    return AddAuthprovider(builder, authprovider)
-def AddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(20, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
-def SessionAddAuthextra(builder, authextra):
-    """This method is deprecated. Please switch to AddAuthextra."""
-    return AddAuthextra(builder, authextra)
-def StartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def SessionStartAuthextraVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartAuthextraVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def SessionEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def SessionStart(builder): builder.StartObject(21)
+def Start(builder):
+    return SessionStart(builder)
+def SessionAddArealmOid(builder, arealmOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+def AddArealmOid(builder, arealmOid):
+    return SessionAddArealmOid(builder, arealmOid)
+def SessionStartArealmOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartArealmOidVector(builder, numElems):
+    return SessionStartArealmOidVector(builder, numElems)
+def SessionAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return SessionAddOid(builder, oid)
+def SessionStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOidVector(builder, numElems):
+    return SessionStartOidVector(builder, numElems)
+def SessionAddSession(builder, session): builder.PrependUint64Slot(2, session, 0)
+def AddSession(builder, session):
+    return SessionAddSession(builder, session)
+def SessionAddJoinedAt(builder, joinedAt): builder.PrependUint64Slot(3, joinedAt, 0)
+def AddJoinedAt(builder, joinedAt):
+    return SessionAddJoinedAt(builder, joinedAt)
+def SessionAddLeftAt(builder, leftAt): builder.PrependUint64Slot(4, leftAt, 0)
+def AddLeftAt(builder, leftAt):
+    return SessionAddLeftAt(builder, leftAt)
+def SessionAddNodeOid(builder, nodeOid): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+def AddNodeOid(builder, nodeOid):
+    return SessionAddNodeOid(builder, nodeOid)
+def SessionStartNodeOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartNodeOidVector(builder, numElems):
+    return SessionStartNodeOidVector(builder, numElems)
+def SessionAddNodeAuthid(builder, nodeAuthid): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(nodeAuthid), 0)
+def AddNodeAuthid(builder, nodeAuthid):
+    return SessionAddNodeAuthid(builder, nodeAuthid)
+def SessionAddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
+def AddWorkerName(builder, workerName):
+    return SessionAddWorkerName(builder, workerName)
+def SessionAddWorkerPid(builder, workerPid): builder.PrependInt32Slot(8, workerPid, 0)
+def AddWorkerPid(builder, workerPid):
+    return SessionAddWorkerPid(builder, workerPid)
+def SessionAddTransport(builder, transport): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(transport), 0)
+def AddTransport(builder, transport):
+    return SessionAddTransport(builder, transport)
+def SessionStartTransportVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartTransportVector(builder, numElems):
+    return SessionStartTransportVector(builder, numElems)
+def SessionAddProxyNodeOid(builder, proxyNodeOid): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeOid), 0)
+def AddProxyNodeOid(builder, proxyNodeOid):
+    return SessionAddProxyNodeOid(builder, proxyNodeOid)
+def SessionStartProxyNodeOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartProxyNodeOidVector(builder, numElems):
+    return SessionStartProxyNodeOidVector(builder, numElems)
+def SessionAddProxyNodeAuthid(builder, proxyNodeAuthid): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeAuthid), 0)
+def AddProxyNodeAuthid(builder, proxyNodeAuthid):
+    return SessionAddProxyNodeAuthid(builder, proxyNodeAuthid)
+def SessionAddProxyWorkerName(builder, proxyWorkerName): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(proxyWorkerName), 0)
+def AddProxyWorkerName(builder, proxyWorkerName):
+    return SessionAddProxyWorkerName(builder, proxyWorkerName)
+def SessionAddProxyWorkerPid(builder, proxyWorkerPid): builder.PrependInt32Slot(13, proxyWorkerPid, 0)
+def AddProxyWorkerPid(builder, proxyWorkerPid):
+    return SessionAddProxyWorkerPid(builder, proxyWorkerPid)
+def SessionAddProxyTransport(builder, proxyTransport): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(proxyTransport), 0)
+def AddProxyTransport(builder, proxyTransport):
+    return SessionAddProxyTransport(builder, proxyTransport)
+def SessionStartProxyTransportVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartProxyTransportVector(builder, numElems):
+    return SessionStartProxyTransportVector(builder, numElems)
+def SessionAddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+def AddRealm(builder, realm):
+    return SessionAddRealm(builder, realm)
+def SessionAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+def AddAuthid(builder, authid):
+    return SessionAddAuthid(builder, authid)
+def SessionAddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
+def AddAuthrole(builder, authrole):
+    return SessionAddAuthrole(builder, authrole)
+def SessionAddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(18, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
+def AddAuthmethod(builder, authmethod):
+    return SessionAddAuthmethod(builder, authmethod)
+def SessionAddAuthprovider(builder, authprovider): builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(authprovider), 0)
+def AddAuthprovider(builder, authprovider):
+    return SessionAddAuthprovider(builder, authprovider)
+def SessionAddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(20, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+def AddAuthextra(builder, authextra):
+    return SessionAddAuthextra(builder, authextra)
+def SessionStartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartAuthextraVector(builder, numElems):
+    return SessionStartAuthextraVector(builder, numElems)
+def SessionEnd(builder): return builder.EndObject()
+def End(builder):
+    return SessionEnd(builder)

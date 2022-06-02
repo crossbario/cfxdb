@@ -9,4 +9,3 @@ class IpVersion(object):
     IPV4 = 4
     # IP version 6.
     IPV6 = 6
-

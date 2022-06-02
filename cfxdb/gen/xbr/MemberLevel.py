@@ -16,4 +16,3 @@ class MemberLevel(object):
     PENALTY = 4
     # Member is currently blocked and cannot current actively participate in the market.
     BLOCKED = 5
-

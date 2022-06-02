@@ -77,31 +77,24 @@ class MasterRun(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(4)
-def MasterRunStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddEnded(builder, ended): builder.PrependUint64Slot(0, ended, 0)
-def MasterRunAddEnded(builder, ended):
-    """This method is deprecated. Please switch to AddEnded."""
-    return AddEnded(builder, ended)
-def AddRunId(builder, runId): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(runId), 0)
-def MasterRunAddRunId(builder, runId):
-    """This method is deprecated. Please switch to AddRunId."""
-    return AddRunId(builder, runId)
-def StartRunIdVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def MasterRunStartRunIdVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartRunIdVector(builder, numElems)
-def AddStarted(builder, started): builder.PrependUint64Slot(2, started, 0)
-def MasterRunAddStarted(builder, started):
-    """This method is deprecated. Please switch to AddStarted."""
-    return AddStarted(builder, started)
-def AddState(builder, state): builder.PrependUint8Slot(3, state, 0)
-def MasterRunAddState(builder, state):
-    """This method is deprecated. Please switch to AddState."""
-    return AddState(builder, state)
-def End(builder): return builder.EndObject()
-def MasterRunEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def MasterRunStart(builder): builder.StartObject(4)
+def Start(builder):
+    return MasterRunStart(builder)
+def MasterRunAddEnded(builder, ended): builder.PrependUint64Slot(0, ended, 0)
+def AddEnded(builder, ended):
+    return MasterRunAddEnded(builder, ended)
+def MasterRunAddRunId(builder, runId): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(runId), 0)
+def AddRunId(builder, runId):
+    return MasterRunAddRunId(builder, runId)
+def MasterRunStartRunIdVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartRunIdVector(builder, numElems):
+    return MasterRunStartRunIdVector(builder, numElems)
+def MasterRunAddStarted(builder, started): builder.PrependUint64Slot(2, started, 0)
+def AddStarted(builder, started):
+    return MasterRunAddStarted(builder, started)
+def MasterRunAddState(builder, state): builder.PrependUint8Slot(3, state, 0)
+def AddState(builder, state):
+    return MasterRunAddState(builder, state)
+def MasterRunEnd(builder): return builder.EndObject()
+def End(builder):
+    return MasterRunEnd(builder)
