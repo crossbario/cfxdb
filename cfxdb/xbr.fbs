@@ -265,16 +265,16 @@ table Catalog
     /// Block number when the catalog was created.
     created: [uint8] (uint256);
 
-    /// Catalog sequence number.
+    /// FbsRepository sequence number.
     seq: uint32;
 
-    /// Catalog owner (aka "catalog publisher").
+    /// FbsRepository owner (aka "catalog publisher").
     owner: [uint8] (address);
 
-    /// Catalog terms (IPFS Multihash).
+    /// FbsRepository terms (IPFS Multihash).
     terms: string (multihash);
 
-    /// Catalog metadata (IPFS Multihash).
+    /// FbsRepository metadata (IPFS Multihash).
     meta: string (multihash);
 
     /// Transaction hash of the transaction this change was committed to the blockchain under.

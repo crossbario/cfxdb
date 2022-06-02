@@ -12,4 +12,3 @@ class TransactionState(object):
     FAILED = 2
     # The (off-chain) transaction has completed with success.
     SUCCESS = 3
-

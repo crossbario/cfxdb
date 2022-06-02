@@ -10,4 +10,3 @@ class MWorkerState(object):
     ONLINE = 1
     # Online, but some error occurred and some features or entities might be unavailable.
     DEGRADED = 2
-

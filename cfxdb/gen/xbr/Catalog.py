@@ -89,7 +89,7 @@ class Catalog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         return o == 0
 
-    # Catalog sequence number.
+    # FbsRepository sequence number.
     # Catalog
     def Seq(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
@@ -97,7 +97,7 @@ class Catalog(object):
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-    # Catalog owner (aka "catalog publisher").
+    # FbsRepository owner (aka "catalog publisher").
     # Catalog
     def Owner(self, j):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
@@ -125,7 +125,7 @@ class Catalog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-    # Catalog terms (IPFS Multihash).
+    # FbsRepository terms (IPFS Multihash).
     # Catalog
     def Terms(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
@@ -133,7 +133,7 @@ class Catalog(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-    # Catalog metadata (IPFS Multihash).
+    # FbsRepository metadata (IPFS Multihash).
     # Catalog
     def Meta(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
@@ -197,67 +197,51 @@ class Catalog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
-def Start(builder): builder.StartObject(9)
-def CatalogStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def CatalogAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def StartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CatalogStartOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOidVector(builder, numElems)
-def AddTimestamp(builder, timestamp): builder.PrependUint64Slot(1, timestamp, 0)
-def CatalogAddTimestamp(builder, timestamp):
-    """This method is deprecated. Please switch to AddTimestamp."""
-    return AddTimestamp(builder, timestamp)
-def AddCreated(builder, created): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
-def CatalogAddCreated(builder, created):
-    """This method is deprecated. Please switch to AddCreated."""
-    return AddCreated(builder, created)
-def StartCreatedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CatalogStartCreatedVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartCreatedVector(builder, numElems)
-def AddSeq(builder, seq): builder.PrependUint32Slot(3, seq, 0)
-def CatalogAddSeq(builder, seq):
-    """This method is deprecated. Please switch to AddSeq."""
-    return AddSeq(builder, seq)
-def AddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
-def CatalogAddOwner(builder, owner):
-    """This method is deprecated. Please switch to AddOwner."""
-    return AddOwner(builder, owner)
-def StartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CatalogStartOwnerVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOwnerVector(builder, numElems)
-def AddTerms(builder, terms): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
-def CatalogAddTerms(builder, terms):
-    """This method is deprecated. Please switch to AddTerms."""
-    return AddTerms(builder, terms)
-def AddMeta(builder, meta): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
-def CatalogAddMeta(builder, meta):
-    """This method is deprecated. Please switch to AddMeta."""
-    return AddMeta(builder, meta)
-def AddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
-def CatalogAddTid(builder, tid):
-    """This method is deprecated. Please switch to AddTid."""
-    return AddTid(builder, tid)
-def StartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CatalogStartTidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTidVector(builder, numElems)
-def AddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
-def CatalogAddSignature(builder, signature):
-    """This method is deprecated. Please switch to AddSignature."""
-    return AddSignature(builder, signature)
-def StartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CatalogStartSignatureVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSignatureVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def CatalogEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def CatalogStart(builder): builder.StartObject(9)
+def Start(builder):
+    return CatalogStart(builder)
+def CatalogAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return CatalogAddOid(builder, oid)
+def CatalogStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOidVector(builder, numElems):
+    return CatalogStartOidVector(builder, numElems)
+def CatalogAddTimestamp(builder, timestamp): builder.PrependUint64Slot(1, timestamp, 0)
+def AddTimestamp(builder, timestamp):
+    return CatalogAddTimestamp(builder, timestamp)
+def CatalogAddCreated(builder, created): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
+def AddCreated(builder, created):
+    return CatalogAddCreated(builder, created)
+def CatalogStartCreatedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartCreatedVector(builder, numElems):
+    return CatalogStartCreatedVector(builder, numElems)
+def CatalogAddSeq(builder, seq): builder.PrependUint32Slot(3, seq, 0)
+def AddSeq(builder, seq):
+    return CatalogAddSeq(builder, seq)
+def CatalogAddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+def AddOwner(builder, owner):
+    return CatalogAddOwner(builder, owner)
+def CatalogStartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOwnerVector(builder, numElems):
+    return CatalogStartOwnerVector(builder, numElems)
+def CatalogAddTerms(builder, terms): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
+def AddTerms(builder, terms):
+    return CatalogAddTerms(builder, terms)
+def CatalogAddMeta(builder, meta): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+def AddMeta(builder, meta):
+    return CatalogAddMeta(builder, meta)
+def CatalogAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+def AddTid(builder, tid):
+    return CatalogAddTid(builder, tid)
+def CatalogStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartTidVector(builder, numElems):
+    return CatalogStartTidVector(builder, numElems)
+def CatalogAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+def AddSignature(builder, signature):
+    return CatalogAddSignature(builder, signature)
+def CatalogStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSignatureVector(builder, numElems):
+    return CatalogStartSignatureVector(builder, numElems)
+def CatalogEnd(builder): return builder.EndObject()
+def End(builder):
+    return CatalogEnd(builder)

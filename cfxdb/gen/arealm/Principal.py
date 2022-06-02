@@ -105,39 +105,30 @@ class Principal(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
-def Start(builder): builder.StartObject(6)
-def PrincipalStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def PrincipalAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddModified(builder, modified): builder.PrependInt32Slot(1, modified, 0)
-def PrincipalAddModified(builder, modified):
-    """This method is deprecated. Please switch to AddModified."""
-    return AddModified(builder, modified)
-def AddArealmOid(builder, arealmOid): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
-def PrincipalAddArealmOid(builder, arealmOid):
-    """This method is deprecated. Please switch to AddArealmOid."""
-    return AddArealmOid(builder, arealmOid)
-def AddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
-def PrincipalAddAuthid(builder, authid):
-    """This method is deprecated. Please switch to AddAuthid."""
-    return AddAuthid(builder, authid)
-def AddRoleOid(builder, roleOid): builder.PrependStructSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
-def PrincipalAddRoleOid(builder, roleOid):
-    """This method is deprecated. Please switch to AddRoleOid."""
-    return AddRoleOid(builder, roleOid)
-def AddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
-def PrincipalAddAuthextra(builder, authextra):
-    """This method is deprecated. Please switch to AddAuthextra."""
-    return AddAuthextra(builder, authextra)
-def StartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def PrincipalStartAuthextraVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartAuthextraVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def PrincipalEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def PrincipalStart(builder): builder.StartObject(6)
+def Start(builder):
+    return PrincipalStart(builder)
+def PrincipalAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return PrincipalAddOid(builder, oid)
+def PrincipalAddModified(builder, modified): builder.PrependInt32Slot(1, modified, 0)
+def AddModified(builder, modified):
+    return PrincipalAddModified(builder, modified)
+def PrincipalAddArealmOid(builder, arealmOid): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+def AddArealmOid(builder, arealmOid):
+    return PrincipalAddArealmOid(builder, arealmOid)
+def PrincipalAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+def AddAuthid(builder, authid):
+    return PrincipalAddAuthid(builder, authid)
+def PrincipalAddRoleOid(builder, roleOid): builder.PrependStructSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+def AddRoleOid(builder, roleOid):
+    return PrincipalAddRoleOid(builder, roleOid)
+def PrincipalAddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+def AddAuthextra(builder, authextra):
+    return PrincipalAddAuthextra(builder, authextra)
+def PrincipalStartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartAuthextraVector(builder, numElems):
+    return PrincipalStartAuthextraVector(builder, numElems)
+def PrincipalEnd(builder): return builder.EndObject()
+def End(builder):
+    return PrincipalEnd(builder)

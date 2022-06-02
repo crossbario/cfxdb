@@ -20,4 +20,3 @@ class DocFormat(object):
     DOCBOOK = 6
     # Jupyter notebook.
     NOTEBOOK = 7
-

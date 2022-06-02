@@ -98,43 +98,33 @@ class User(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-def Start(builder): builder.StartObject(7)
-def UserStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def UserAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
-def UserAddLabel(builder, label):
-    """This method is deprecated. Please switch to AddLabel."""
-    return AddLabel(builder, label)
-def AddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
-def UserAddDescription(builder, description):
-    """This method is deprecated. Please switch to AddDescription."""
-    return AddDescription(builder, description)
-def AddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
-def UserAddTags(builder, tags):
-    """This method is deprecated. Please switch to AddTags."""
-    return AddTags(builder, tags)
-def StartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def UserStartTagsVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTagsVector(builder, numElems)
-def AddEmail(builder, email): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
-def UserAddEmail(builder, email):
-    """This method is deprecated. Please switch to AddEmail."""
-    return AddEmail(builder, email)
-def AddRegistered(builder, registered): builder.PrependUint64Slot(5, registered, 0)
-def UserAddRegistered(builder, registered):
-    """This method is deprecated. Please switch to AddRegistered."""
-    return AddRegistered(builder, registered)
-def AddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
-def UserAddPubkey(builder, pubkey):
-    """This method is deprecated. Please switch to AddPubkey."""
-    return AddPubkey(builder, pubkey)
-def End(builder): return builder.EndObject()
-def UserEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def UserStart(builder): builder.StartObject(7)
+def Start(builder):
+    return UserStart(builder)
+def UserAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return UserAddOid(builder, oid)
+def UserAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+def AddLabel(builder, label):
+    return UserAddLabel(builder, label)
+def UserAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+def AddDescription(builder, description):
+    return UserAddDescription(builder, description)
+def UserAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+def AddTags(builder, tags):
+    return UserAddTags(builder, tags)
+def UserStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def StartTagsVector(builder, numElems):
+    return UserStartTagsVector(builder, numElems)
+def UserAddEmail(builder, email): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+def AddEmail(builder, email):
+    return UserAddEmail(builder, email)
+def UserAddRegistered(builder, registered): builder.PrependUint64Slot(5, registered, 0)
+def AddRegistered(builder, registered):
+    return UserAddRegistered(builder, registered)
+def UserAddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+def AddPubkey(builder, pubkey):
+    return UserAddPubkey(builder, pubkey)
+def UserEnd(builder): return builder.EndObject()
+def End(builder):
+    return UserEnd(builder)

@@ -97,35 +97,27 @@ class TagDefinition(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         return o == 0
 
-def Start(builder): builder.StartObject(4)
-def TagDefinitionStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def TagDefinitionAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def StartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TagDefinitionStartOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOidVector(builder, numElems)
-def AddModified(builder, modified): builder.PrependUint64Slot(1, modified, 0)
-def TagDefinitionAddModified(builder, modified):
-    """This method is deprecated. Please switch to AddModified."""
-    return AddModified(builder, modified)
-def AddTag(builder, tag): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tag), 0)
-def TagDefinitionAddTag(builder, tag):
-    """This method is deprecated. Please switch to AddTag."""
-    return AddTag(builder, tag)
-def AddExtra(builder, extra): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
-def TagDefinitionAddExtra(builder, extra):
-    """This method is deprecated. Please switch to AddExtra."""
-    return AddExtra(builder, extra)
-def StartExtraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def TagDefinitionStartExtraVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartExtraVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def TagDefinitionEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def TagDefinitionStart(builder): builder.StartObject(4)
+def Start(builder):
+    return TagDefinitionStart(builder)
+def TagDefinitionAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return TagDefinitionAddOid(builder, oid)
+def TagDefinitionStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOidVector(builder, numElems):
+    return TagDefinitionStartOidVector(builder, numElems)
+def TagDefinitionAddModified(builder, modified): builder.PrependUint64Slot(1, modified, 0)
+def AddModified(builder, modified):
+    return TagDefinitionAddModified(builder, modified)
+def TagDefinitionAddTag(builder, tag): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tag), 0)
+def AddTag(builder, tag):
+    return TagDefinitionAddTag(builder, tag)
+def TagDefinitionAddExtra(builder, extra): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
+def AddExtra(builder, extra):
+    return TagDefinitionAddExtra(builder, extra)
+def TagDefinitionStartExtraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartExtraVector(builder, numElems):
+    return TagDefinitionStartExtraVector(builder, numElems)
+def TagDefinitionEnd(builder): return builder.EndObject()
+def End(builder):
+    return TagDefinitionEnd(builder)

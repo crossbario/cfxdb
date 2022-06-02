@@ -13,4 +13,3 @@ class VerificationType(object):
     MEMBER_CREATEMARKET_EMAIL = 3
     # Member joined a market, using verification via member primary email.
     MEMBER_JOINMARKET_EMAIL = 4
-

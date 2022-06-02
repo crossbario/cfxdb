@@ -10,4 +10,3 @@ class UriCheckLevel(object):
     STRICT = 1
     # Check level "loose".
     LOOSE = 2
-

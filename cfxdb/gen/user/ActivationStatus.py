@@ -8,4 +8,3 @@ class ActivationStatus(object):
     PENDING = 1
     ACTIVE = 2
     EXPIRED = 3
-

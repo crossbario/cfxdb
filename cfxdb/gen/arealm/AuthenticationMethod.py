@@ -20,4 +20,3 @@ class AuthenticationMethod(object):
     CRYPTOSIGN = 6
     # WAMP-SCRAM authentication.
     SCRAM = 7
-

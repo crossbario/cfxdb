@@ -64,7 +64,7 @@ class _CatalogGen(CatalogGen.Catalog):
 
 class Catalog(object):
     """
-    ``XBRNetwork.Catalog`` database object.
+    ``XBRNetwork.FbsRepository`` database object.
     """
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
@@ -156,7 +156,7 @@ class Catalog(object):
     @property
     def owner(self) -> bytes:
         """
-        Catalog owner.
+        FbsRepository owner.
         """
         if self._owner is None and self._from_fbs:
             if self._from_fbs.OwnerLength():
@@ -294,7 +294,7 @@ class Catalog(object):
 @table('60ba3189-d127-4522-bfbc-ed416bf7233c', build=Catalog.build, cast=Catalog.cast)
 class Catalogs(MapUuidFlatBuffers):
     """
-    Catalogs table, mapping from ``oid|UUID`` to :class:`cfxdb.xbr.Catalog`
+    Catalogs table, mapping from ``oid|UUID`` to :class:`cfxdb.xbr.FbsRepository`
     """
 
 

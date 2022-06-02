@@ -180,59 +180,45 @@ class Comment(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(7)
-def CommentStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def CommentAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def StartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CommentStartOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartOidVector(builder, numElems)
-def AddTableOid(builder, tableOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
-def CommentAddTableOid(builder, tableOid):
-    """This method is deprecated. Please switch to AddTableOid."""
-    return AddTableOid(builder, tableOid)
-def StartTableOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CommentStartTableOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTableOidVector(builder, numElems)
-def AddObjectOid(builder, objectOid): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
-def CommentAddObjectOid(builder, objectOid):
-    """This method is deprecated. Please switch to AddObjectOid."""
-    return AddObjectOid(builder, objectOid)
-def StartObjectOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CommentStartObjectOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartObjectOidVector(builder, numElems)
-def AddAuthorOid(builder, authorOid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authorOid), 0)
-def CommentAddAuthorOid(builder, authorOid):
-    """This method is deprecated. Please switch to AddAuthorOid."""
-    return AddAuthorOid(builder, authorOid)
-def StartAuthorOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CommentStartAuthorOidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartAuthorOidVector(builder, numElems)
-def AddReplyTo(builder, replyTo): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(replyTo), 0)
-def CommentAddReplyTo(builder, replyTo):
-    """This method is deprecated. Please switch to AddReplyTo."""
-    return AddReplyTo(builder, replyTo)
-def StartReplyToVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def CommentStartReplyToVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartReplyToVector(builder, numElems)
-def AddComment(builder, comment): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(comment), 0)
-def CommentAddComment(builder, comment):
-    """This method is deprecated. Please switch to AddComment."""
-    return AddComment(builder, comment)
-def AddPosted(builder, posted): builder.PrependUint64Slot(6, posted, 0)
-def CommentAddPosted(builder, posted):
-    """This method is deprecated. Please switch to AddPosted."""
-    return AddPosted(builder, posted)
-def End(builder): return builder.EndObject()
-def CommentEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def CommentStart(builder): builder.StartObject(7)
+def Start(builder):
+    return CommentStart(builder)
+def CommentAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return CommentAddOid(builder, oid)
+def CommentStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartOidVector(builder, numElems):
+    return CommentStartOidVector(builder, numElems)
+def CommentAddTableOid(builder, tableOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+def AddTableOid(builder, tableOid):
+    return CommentAddTableOid(builder, tableOid)
+def CommentStartTableOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartTableOidVector(builder, numElems):
+    return CommentStartTableOidVector(builder, numElems)
+def CommentAddObjectOid(builder, objectOid): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+def AddObjectOid(builder, objectOid):
+    return CommentAddObjectOid(builder, objectOid)
+def CommentStartObjectOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartObjectOidVector(builder, numElems):
+    return CommentStartObjectOidVector(builder, numElems)
+def CommentAddAuthorOid(builder, authorOid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authorOid), 0)
+def AddAuthorOid(builder, authorOid):
+    return CommentAddAuthorOid(builder, authorOid)
+def CommentStartAuthorOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartAuthorOidVector(builder, numElems):
+    return CommentStartAuthorOidVector(builder, numElems)
+def CommentAddReplyTo(builder, replyTo): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(replyTo), 0)
+def AddReplyTo(builder, replyTo):
+    return CommentAddReplyTo(builder, replyTo)
+def CommentStartReplyToVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartReplyToVector(builder, numElems):
+    return CommentStartReplyToVector(builder, numElems)
+def CommentAddComment(builder, comment): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(comment), 0)
+def AddComment(builder, comment):
+    return CommentAddComment(builder, comment)
+def CommentAddPosted(builder, posted): builder.PrependUint64Slot(6, posted, 0)
+def AddPosted(builder, posted):
+    return CommentAddPosted(builder, posted)
+def CommentEnd(builder): return builder.EndObject()
+def End(builder):
+    return CommentEnd(builder)

@@ -13,4 +13,3 @@ class VerificationStatus(object):
     FAILED = 3
     #
     EXPIRED = 4
-

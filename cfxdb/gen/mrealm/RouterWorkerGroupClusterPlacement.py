@@ -80,31 +80,24 @@ class RouterWorkerGroupClusterPlacement(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-def Start(builder): builder.StartObject(5)
-def RouterWorkerGroupClusterPlacementStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def RouterWorkerGroupClusterPlacementAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddWorkerGroupOid(builder, workerGroupOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(workerGroupOid), 0)
-def RouterWorkerGroupClusterPlacementAddWorkerGroupOid(builder, workerGroupOid):
-    """This method is deprecated. Please switch to AddWorkerGroupOid."""
-    return AddWorkerGroupOid(builder, workerGroupOid)
-def AddClusterOid(builder, clusterOid): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
-def RouterWorkerGroupClusterPlacementAddClusterOid(builder, clusterOid):
-    """This method is deprecated. Please switch to AddClusterOid."""
-    return AddClusterOid(builder, clusterOid)
-def AddNodeOid(builder, nodeOid): builder.PrependStructSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
-def RouterWorkerGroupClusterPlacementAddNodeOid(builder, nodeOid):
-    """This method is deprecated. Please switch to AddNodeOid."""
-    return AddNodeOid(builder, nodeOid)
-def AddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
-def RouterWorkerGroupClusterPlacementAddWorkerName(builder, workerName):
-    """This method is deprecated. Please switch to AddWorkerName."""
-    return AddWorkerName(builder, workerName)
-def End(builder): return builder.EndObject()
-def RouterWorkerGroupClusterPlacementEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def RouterWorkerGroupClusterPlacementStart(builder): builder.StartObject(5)
+def Start(builder):
+    return RouterWorkerGroupClusterPlacementStart(builder)
+def RouterWorkerGroupClusterPlacementAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return RouterWorkerGroupClusterPlacementAddOid(builder, oid)
+def RouterWorkerGroupClusterPlacementAddWorkerGroupOid(builder, workerGroupOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(workerGroupOid), 0)
+def AddWorkerGroupOid(builder, workerGroupOid):
+    return RouterWorkerGroupClusterPlacementAddWorkerGroupOid(builder, workerGroupOid)
+def RouterWorkerGroupClusterPlacementAddClusterOid(builder, clusterOid): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
+def AddClusterOid(builder, clusterOid):
+    return RouterWorkerGroupClusterPlacementAddClusterOid(builder, clusterOid)
+def RouterWorkerGroupClusterPlacementAddNodeOid(builder, nodeOid): builder.PrependStructSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+def AddNodeOid(builder, nodeOid):
+    return RouterWorkerGroupClusterPlacementAddNodeOid(builder, nodeOid)
+def RouterWorkerGroupClusterPlacementAddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
+def AddWorkerName(builder, workerName):
+    return RouterWorkerGroupClusterPlacementAddWorkerName(builder, workerName)
+def RouterWorkerGroupClusterPlacementEnd(builder): return builder.EndObject()
+def End(builder):
+    return RouterWorkerGroupClusterPlacementEnd(builder)

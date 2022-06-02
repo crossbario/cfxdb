@@ -89,39 +89,30 @@ class RouterWorkerGroup(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(6)
-def RouterWorkerGroupStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
-def RouterWorkerGroupAddOid(builder, oid):
-    """This method is deprecated. Please switch to AddOid."""
-    return AddOid(builder, oid)
-def AddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
-def RouterWorkerGroupAddLabel(builder, label):
-    """This method is deprecated. Please switch to AddLabel."""
-    return AddLabel(builder, label)
-def AddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
-def RouterWorkerGroupAddDescription(builder, description):
-    """This method is deprecated. Please switch to AddDescription."""
-    return AddDescription(builder, description)
-def AddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
-def RouterWorkerGroupAddTags(builder, tags):
-    """This method is deprecated. Please switch to AddTags."""
-    return AddTags(builder, tags)
-def StartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def RouterWorkerGroupStartTagsVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTagsVector(builder, numElems)
-def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
-def RouterWorkerGroupAddName(builder, name):
-    """This method is deprecated. Please switch to AddName."""
-    return AddName(builder, name)
-def AddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
-def RouterWorkerGroupAddStatus(builder, status):
-    """This method is deprecated. Please switch to AddStatus."""
-    return AddStatus(builder, status)
-def End(builder): return builder.EndObject()
-def RouterWorkerGroupEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def RouterWorkerGroupStart(builder): builder.StartObject(6)
+def Start(builder):
+    return RouterWorkerGroupStart(builder)
+def RouterWorkerGroupAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+def AddOid(builder, oid):
+    return RouterWorkerGroupAddOid(builder, oid)
+def RouterWorkerGroupAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+def AddLabel(builder, label):
+    return RouterWorkerGroupAddLabel(builder, label)
+def RouterWorkerGroupAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+def AddDescription(builder, description):
+    return RouterWorkerGroupAddDescription(builder, description)
+def RouterWorkerGroupAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+def AddTags(builder, tags):
+    return RouterWorkerGroupAddTags(builder, tags)
+def RouterWorkerGroupStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
+def StartTagsVector(builder, numElems):
+    return RouterWorkerGroupStartTagsVector(builder, numElems)
+def RouterWorkerGroupAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+def AddName(builder, name):
+    return RouterWorkerGroupAddName(builder, name)
+def RouterWorkerGroupAddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
+def AddStatus(builder, status):
+    return RouterWorkerGroupAddStatus(builder, status)
+def RouterWorkerGroupEnd(builder): return builder.EndObject()
+def End(builder):
+    return RouterWorkerGroupEnd(builder)

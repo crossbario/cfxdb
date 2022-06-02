@@ -13,4 +13,3 @@ class EncAlgo(object):
     # XBR end-to-end encrypted application payload
     XBR = 3
     OPAQUE = 4
-

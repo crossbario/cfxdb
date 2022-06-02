@@ -217,71 +217,54 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
-def Start(builder): builder.StartObject(9)
-def ActorStart(builder):
-    """This method is deprecated. Please switch to Start."""
-    return Start(builder)
-def AddActor(builder, actor): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(actor), 0)
-def ActorAddActor(builder, actor):
-    """This method is deprecated. Please switch to AddActor."""
-    return AddActor(builder, actor)
-def StartActorVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ActorStartActorVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartActorVector(builder, numElems)
-def AddActorType(builder, actorType): builder.PrependUint8Slot(1, actorType, 0)
-def ActorAddActorType(builder, actorType):
-    """This method is deprecated. Please switch to AddActorType."""
-    return AddActorType(builder, actorType)
-def AddMarket(builder, market): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(market), 0)
-def ActorAddMarket(builder, market):
-    """This method is deprecated. Please switch to AddMarket."""
-    return AddMarket(builder, market)
-def StartMarketVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ActorStartMarketVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartMarketVector(builder, numElems)
-def AddTimestamp(builder, timestamp): builder.PrependUint64Slot(3, timestamp, 0)
-def ActorAddTimestamp(builder, timestamp):
-    """This method is deprecated. Please switch to AddTimestamp."""
-    return AddTimestamp(builder, timestamp)
-def AddJoined(builder, joined): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(joined), 0)
-def ActorAddJoined(builder, joined):
-    """This method is deprecated. Please switch to AddJoined."""
-    return AddJoined(builder, joined)
-def StartJoinedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ActorStartJoinedVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartJoinedVector(builder, numElems)
-def AddSecurity(builder, security): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(security), 0)
-def ActorAddSecurity(builder, security):
-    """This method is deprecated. Please switch to AddSecurity."""
-    return AddSecurity(builder, security)
-def StartSecurityVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ActorStartSecurityVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSecurityVector(builder, numElems)
-def AddMeta(builder, meta): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
-def ActorAddMeta(builder, meta):
-    """This method is deprecated. Please switch to AddMeta."""
-    return AddMeta(builder, meta)
-def AddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
-def ActorAddTid(builder, tid):
-    """This method is deprecated. Please switch to AddTid."""
-    return AddTid(builder, tid)
-def StartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ActorStartTidVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartTidVector(builder, numElems)
-def AddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
-def ActorAddSignature(builder, signature):
-    """This method is deprecated. Please switch to AddSignature."""
-    return AddSignature(builder, signature)
-def StartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def ActorStartSignatureVector(builder, numElems):
-    """This method is deprecated. Please switch to Start."""
-    return StartSignatureVector(builder, numElems)
-def End(builder): return builder.EndObject()
-def ActorEnd(builder):
-    """This method is deprecated. Please switch to End."""
-    return End(builder)
+def ActorStart(builder): builder.StartObject(9)
+def Start(builder):
+    return ActorStart(builder)
+def ActorAddActor(builder, actor): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(actor), 0)
+def AddActor(builder, actor):
+    return ActorAddActor(builder, actor)
+def ActorStartActorVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartActorVector(builder, numElems):
+    return ActorStartActorVector(builder, numElems)
+def ActorAddActorType(builder, actorType): builder.PrependUint8Slot(1, actorType, 0)
+def AddActorType(builder, actorType):
+    return ActorAddActorType(builder, actorType)
+def ActorAddMarket(builder, market): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(market), 0)
+def AddMarket(builder, market):
+    return ActorAddMarket(builder, market)
+def ActorStartMarketVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartMarketVector(builder, numElems):
+    return ActorStartMarketVector(builder, numElems)
+def ActorAddTimestamp(builder, timestamp): builder.PrependUint64Slot(3, timestamp, 0)
+def AddTimestamp(builder, timestamp):
+    return ActorAddTimestamp(builder, timestamp)
+def ActorAddJoined(builder, joined): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(joined), 0)
+def AddJoined(builder, joined):
+    return ActorAddJoined(builder, joined)
+def ActorStartJoinedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartJoinedVector(builder, numElems):
+    return ActorStartJoinedVector(builder, numElems)
+def ActorAddSecurity(builder, security): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(security), 0)
+def AddSecurity(builder, security):
+    return ActorAddSecurity(builder, security)
+def ActorStartSecurityVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSecurityVector(builder, numElems):
+    return ActorStartSecurityVector(builder, numElems)
+def ActorAddMeta(builder, meta): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+def AddMeta(builder, meta):
+    return ActorAddMeta(builder, meta)
+def ActorAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+def AddTid(builder, tid):
+    return ActorAddTid(builder, tid)
+def ActorStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartTidVector(builder, numElems):
+    return ActorStartTidVector(builder, numElems)
+def ActorAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+def AddSignature(builder, signature):
+    return ActorAddSignature(builder, signature)
+def ActorStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
+def StartSignatureVector(builder, numElems):
+    return ActorStartSignatureVector(builder, numElems)
+def ActorEnd(builder): return builder.EndObject()
+def End(builder):
+    return ActorEnd(builder)
