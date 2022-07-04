@@ -77,7 +77,7 @@ def db(scratch=True):
     dbpath = os.path.join(tempfile.gettempdir(), 'testdb')
     if scratch and os.path.exists(dbpath):
         shutil.rmtree(dbpath)
-    db = zlmdb.Database(dbpath=dbpath)
+    db = zlmdb.Database(dbpath=dbpath, writemap=True)
     db.__enter__()
     return db
 
