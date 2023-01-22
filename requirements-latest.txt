@@ -1,4 +1,5 @@
 git+https://github.com/crossbario/autobahn-python.git@master#egg=autobahn[twisted,xbr,serialization]
 git+https://github.com/crossbario/zlmdb.git@master#egg=zlmdb
 git+https://github.com/ethereum/web3.py.git@master#egg=web3
+parsimonious>=0.9.0,<0.10.0
 argon2_cffi>=21.3.0
