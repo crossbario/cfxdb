@@ -32,8 +32,8 @@ jobs:
 
     - name: Install Python package
       run: |
-        pip install .
         pip install -U --force-reinstall -r requirements-latest.txt
+        pip install .
 
     - name: Run Flake8
       run: tox -c tox.ini -e flake8
