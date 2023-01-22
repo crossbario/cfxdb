@@ -25,7 +25,7 @@ clean:
 	-rm -rf ./.tox
 
 fix_fx_strings:
-	find . -type f -exec sed -i 's/Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT./Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT./g' {} \;
+	find . -type f -exec sed -i 's/Copyright (c) typedef int GmbH. Licensed under MIT./Copyright (c) typedef int GmbH. Licensed under MIT./g' {} \;
 	find . -type f -exec sed -i 's/Crossbar.io Database/Crossbar.io Database/g' {} \;
 
 install:
@@ -127,3 +127,6 @@ run_docs:
 
 clean_docs:
 	-rm -rf ./docs/_build
+
+fix_copyright:
+	find . -type f -exec sed -i 's/Copyright (c) Crossbar.io Technologies GmbH/Copyright (c) typedef int GmbH/g' {} \;
