@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #                        Crossbar.io Database
-#     Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT.
+#     Copyright (c) typedef int GmbH. Licensed under MIT.
 #
 ##############################################################################
 import pprint

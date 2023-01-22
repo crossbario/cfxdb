@@ -1,8 +1,8 @@
 ##############################################################################
 #
 #                        Crossbar.io Database
-#     Copyright (c) Crossbar.io Technologies GmbH. Licensed under MIT.
+#     Copyright (c) typedef int GmbH. Licensed under MIT.
 #
 ##############################################################################
 
-__version__ = '22.6.1'
+__version__ = '23.1.1'
