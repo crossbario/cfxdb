@@ -333,93 +333,182 @@ class Session(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(44))
         return o == 0
 
-def SessionStart(builder): builder.StartObject(21)
+def SessionStart(builder):
+    builder.StartObject(21)
+
 def Start(builder):
-    return SessionStart(builder)
-def SessionAddArealmOid(builder, arealmOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+    SessionStart(builder)
+
+def SessionAddArealmOid(builder, arealmOid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+
 def AddArealmOid(builder, arealmOid):
-    return SessionAddArealmOid(builder, arealmOid)
-def SessionStartArealmOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartArealmOidVector(builder, numElems):
+    SessionAddArealmOid(builder, arealmOid)
+
+def SessionStartArealmOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartArealmOidVector(builder, numElems: int) -> int:
     return SessionStartArealmOidVector(builder, numElems)
-def SessionAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
+def SessionAddOid(builder, oid):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return SessionAddOid(builder, oid)
-def SessionStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOidVector(builder, numElems):
+    SessionAddOid(builder, oid)
+
+def SessionStartOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOidVector(builder, numElems: int) -> int:
     return SessionStartOidVector(builder, numElems)
-def SessionAddSession(builder, session): builder.PrependUint64Slot(2, session, 0)
+
+def SessionAddSession(builder, session):
+    builder.PrependUint64Slot(2, session, 0)
+
 def AddSession(builder, session):
-    return SessionAddSession(builder, session)
-def SessionAddJoinedAt(builder, joinedAt): builder.PrependUint64Slot(3, joinedAt, 0)
+    SessionAddSession(builder, session)
+
+def SessionAddJoinedAt(builder, joinedAt):
+    builder.PrependUint64Slot(3, joinedAt, 0)
+
 def AddJoinedAt(builder, joinedAt):
-    return SessionAddJoinedAt(builder, joinedAt)
-def SessionAddLeftAt(builder, leftAt): builder.PrependUint64Slot(4, leftAt, 0)
+    SessionAddJoinedAt(builder, joinedAt)
+
+def SessionAddLeftAt(builder, leftAt):
+    builder.PrependUint64Slot(4, leftAt, 0)
+
 def AddLeftAt(builder, leftAt):
-    return SessionAddLeftAt(builder, leftAt)
-def SessionAddNodeOid(builder, nodeOid): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+    SessionAddLeftAt(builder, leftAt)
+
+def SessionAddNodeOid(builder, nodeOid):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+
 def AddNodeOid(builder, nodeOid):
-    return SessionAddNodeOid(builder, nodeOid)
-def SessionStartNodeOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartNodeOidVector(builder, numElems):
+    SessionAddNodeOid(builder, nodeOid)
+
+def SessionStartNodeOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartNodeOidVector(builder, numElems: int) -> int:
     return SessionStartNodeOidVector(builder, numElems)
-def SessionAddNodeAuthid(builder, nodeAuthid): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(nodeAuthid), 0)
+
+def SessionAddNodeAuthid(builder, nodeAuthid):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(nodeAuthid), 0)
+
 def AddNodeAuthid(builder, nodeAuthid):
-    return SessionAddNodeAuthid(builder, nodeAuthid)
-def SessionAddWorkerName(builder, workerName): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
+    SessionAddNodeAuthid(builder, nodeAuthid)
+
+def SessionAddWorkerName(builder, workerName):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
+
 def AddWorkerName(builder, workerName):
-    return SessionAddWorkerName(builder, workerName)
-def SessionAddWorkerPid(builder, workerPid): builder.PrependInt32Slot(8, workerPid, 0)
+    SessionAddWorkerName(builder, workerName)
+
+def SessionAddWorkerPid(builder, workerPid):
+    builder.PrependInt32Slot(8, workerPid, 0)
+
 def AddWorkerPid(builder, workerPid):
-    return SessionAddWorkerPid(builder, workerPid)
-def SessionAddTransport(builder, transport): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(transport), 0)
+    SessionAddWorkerPid(builder, workerPid)
+
+def SessionAddTransport(builder, transport):
+    builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(transport), 0)
+
 def AddTransport(builder, transport):
-    return SessionAddTransport(builder, transport)
-def SessionStartTransportVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTransportVector(builder, numElems):
+    SessionAddTransport(builder, transport)
+
+def SessionStartTransportVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTransportVector(builder, numElems: int) -> int:
     return SessionStartTransportVector(builder, numElems)
-def SessionAddProxyNodeOid(builder, proxyNodeOid): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeOid), 0)
+
+def SessionAddProxyNodeOid(builder, proxyNodeOid):
+    builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeOid), 0)
+
 def AddProxyNodeOid(builder, proxyNodeOid):
-    return SessionAddProxyNodeOid(builder, proxyNodeOid)
-def SessionStartProxyNodeOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartProxyNodeOidVector(builder, numElems):
+    SessionAddProxyNodeOid(builder, proxyNodeOid)
+
+def SessionStartProxyNodeOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartProxyNodeOidVector(builder, numElems: int) -> int:
     return SessionStartProxyNodeOidVector(builder, numElems)
-def SessionAddProxyNodeAuthid(builder, proxyNodeAuthid): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeAuthid), 0)
+
+def SessionAddProxyNodeAuthid(builder, proxyNodeAuthid):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(proxyNodeAuthid), 0)
+
 def AddProxyNodeAuthid(builder, proxyNodeAuthid):
-    return SessionAddProxyNodeAuthid(builder, proxyNodeAuthid)
-def SessionAddProxyWorkerName(builder, proxyWorkerName): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(proxyWorkerName), 0)
+    SessionAddProxyNodeAuthid(builder, proxyNodeAuthid)
+
+def SessionAddProxyWorkerName(builder, proxyWorkerName):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(proxyWorkerName), 0)
+
 def AddProxyWorkerName(builder, proxyWorkerName):
-    return SessionAddProxyWorkerName(builder, proxyWorkerName)
-def SessionAddProxyWorkerPid(builder, proxyWorkerPid): builder.PrependInt32Slot(13, proxyWorkerPid, 0)
+    SessionAddProxyWorkerName(builder, proxyWorkerName)
+
+def SessionAddProxyWorkerPid(builder, proxyWorkerPid):
+    builder.PrependInt32Slot(13, proxyWorkerPid, 0)
+
 def AddProxyWorkerPid(builder, proxyWorkerPid):
-    return SessionAddProxyWorkerPid(builder, proxyWorkerPid)
-def SessionAddProxyTransport(builder, proxyTransport): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(proxyTransport), 0)
+    SessionAddProxyWorkerPid(builder, proxyWorkerPid)
+
+def SessionAddProxyTransport(builder, proxyTransport):
+    builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(proxyTransport), 0)
+
 def AddProxyTransport(builder, proxyTransport):
-    return SessionAddProxyTransport(builder, proxyTransport)
-def SessionStartProxyTransportVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartProxyTransportVector(builder, numElems):
+    SessionAddProxyTransport(builder, proxyTransport)
+
+def SessionStartProxyTransportVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartProxyTransportVector(builder, numElems: int) -> int:
     return SessionStartProxyTransportVector(builder, numElems)
-def SessionAddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+
+def SessionAddRealm(builder, realm):
+    builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+
 def AddRealm(builder, realm):
-    return SessionAddRealm(builder, realm)
-def SessionAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+    SessionAddRealm(builder, realm)
+
+def SessionAddAuthid(builder, authid):
+    builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 def AddAuthid(builder, authid):
-    return SessionAddAuthid(builder, authid)
-def SessionAddAuthrole(builder, authrole): builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
+    SessionAddAuthid(builder, authid)
+
+def SessionAddAuthrole(builder, authrole):
+    builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
+
 def AddAuthrole(builder, authrole):
-    return SessionAddAuthrole(builder, authrole)
-def SessionAddAuthmethod(builder, authmethod): builder.PrependUOffsetTRelativeSlot(18, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
+    SessionAddAuthrole(builder, authrole)
+
+def SessionAddAuthmethod(builder, authmethod):
+    builder.PrependUOffsetTRelativeSlot(18, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
+
 def AddAuthmethod(builder, authmethod):
-    return SessionAddAuthmethod(builder, authmethod)
-def SessionAddAuthprovider(builder, authprovider): builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(authprovider), 0)
+    SessionAddAuthmethod(builder, authmethod)
+
+def SessionAddAuthprovider(builder, authprovider):
+    builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(authprovider), 0)
+
 def AddAuthprovider(builder, authprovider):
-    return SessionAddAuthprovider(builder, authprovider)
-def SessionAddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(20, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+    SessionAddAuthprovider(builder, authprovider)
+
+def SessionAddAuthextra(builder, authextra):
+    builder.PrependUOffsetTRelativeSlot(20, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+
 def AddAuthextra(builder, authextra):
-    return SessionAddAuthextra(builder, authextra)
-def SessionStartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAuthextraVector(builder, numElems):
+    SessionAddAuthextra(builder, authextra)
+
+def SessionStartAuthextraVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAuthextraVector(builder, numElems: int) -> int:
     return SessionStartAuthextraVector(builder, numElems)
-def SessionEnd(builder): return builder.EndObject()
+
+def SessionEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return SessionEnd(builder)

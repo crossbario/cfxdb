@@ -56,21 +56,38 @@ class IPFSFile(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def IPFSFileStart(builder): builder.StartObject(4)
+def IPFSFileStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return IPFSFileStart(builder)
-def IPFSFileAddFileHash(builder, fileHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(fileHash), 0)
+    IPFSFileStart(builder)
+
+def IPFSFileAddFileHash(builder, fileHash):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(fileHash), 0)
+
 def AddFileHash(builder, fileHash):
-    return IPFSFileAddFileHash(builder, fileHash)
-def IPFSFileAddDownloaded(builder, downloaded): builder.PrependBoolSlot(1, downloaded, 0)
+    IPFSFileAddFileHash(builder, fileHash)
+
+def IPFSFileAddDownloaded(builder, downloaded):
+    builder.PrependBoolSlot(1, downloaded, 0)
+
 def AddDownloaded(builder, downloaded):
-    return IPFSFileAddDownloaded(builder, downloaded)
-def IPFSFileAddRetries(builder, retries): builder.PrependUint32Slot(2, retries, 0)
+    IPFSFileAddDownloaded(builder, downloaded)
+
+def IPFSFileAddRetries(builder, retries):
+    builder.PrependUint32Slot(2, retries, 0)
+
 def AddRetries(builder, retries):
-    return IPFSFileAddRetries(builder, retries)
-def IPFSFileAddErroredAt(builder, erroredAt): builder.PrependUint64Slot(3, erroredAt, 0)
+    IPFSFileAddRetries(builder, retries)
+
+def IPFSFileAddErroredAt(builder, erroredAt):
+    builder.PrependUint64Slot(3, erroredAt, 0)
+
 def AddErroredAt(builder, erroredAt):
-    return IPFSFileAddErroredAt(builder, erroredAt)
-def IPFSFileEnd(builder): return builder.EndObject()
+    IPFSFileAddErroredAt(builder, erroredAt)
+
+def IPFSFileEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return IPFSFileEnd(builder)

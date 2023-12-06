@@ -197,51 +197,98 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
-def MemberStart(builder): builder.StartObject(9)
+def MemberStart(builder):
+    builder.StartObject(9)
+
 def Start(builder):
-    return MemberStart(builder)
-def MemberAddAddress(builder, address): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(address), 0)
+    MemberStart(builder)
+
+def MemberAddAddress(builder, address):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(address), 0)
+
 def AddAddress(builder, address):
-    return MemberAddAddress(builder, address)
-def MemberStartAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAddressVector(builder, numElems):
+    MemberAddAddress(builder, address)
+
+def MemberStartAddressVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAddressVector(builder, numElems: int) -> int:
     return MemberStartAddressVector(builder, numElems)
-def MemberAddAccountOid(builder, accountOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(accountOid), 0)
+
+def MemberAddAccountOid(builder, accountOid):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(accountOid), 0)
+
 def AddAccountOid(builder, accountOid):
-    return MemberAddAccountOid(builder, accountOid)
-def MemberStartAccountOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAccountOidVector(builder, numElems):
+    MemberAddAccountOid(builder, accountOid)
+
+def MemberStartAccountOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAccountOidVector(builder, numElems: int) -> int:
     return MemberStartAccountOidVector(builder, numElems)
-def MemberAddTimestamp(builder, timestamp): builder.PrependUint64Slot(2, timestamp, 0)
+
+def MemberAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(2, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return MemberAddTimestamp(builder, timestamp)
-def MemberAddRegistered(builder, registered): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(registered), 0)
+    MemberAddTimestamp(builder, timestamp)
+
+def MemberAddRegistered(builder, registered):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(registered), 0)
+
 def AddRegistered(builder, registered):
-    return MemberAddRegistered(builder, registered)
-def MemberStartRegisteredVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartRegisteredVector(builder, numElems):
+    MemberAddRegistered(builder, registered)
+
+def MemberStartRegisteredVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartRegisteredVector(builder, numElems: int) -> int:
     return MemberStartRegisteredVector(builder, numElems)
-def MemberAddEula(builder, eula): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(eula), 0)
+
+def MemberAddEula(builder, eula):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(eula), 0)
+
 def AddEula(builder, eula):
-    return MemberAddEula(builder, eula)
-def MemberAddProfile(builder, profile): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(profile), 0)
+    MemberAddEula(builder, eula)
+
+def MemberAddProfile(builder, profile):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(profile), 0)
+
 def AddProfile(builder, profile):
-    return MemberAddProfile(builder, profile)
-def MemberAddLevel(builder, level): builder.PrependUint8Slot(6, level, 0)
+    MemberAddProfile(builder, profile)
+
+def MemberAddLevel(builder, level):
+    builder.PrependUint8Slot(6, level, 0)
+
 def AddLevel(builder, level):
-    return MemberAddLevel(builder, level)
-def MemberAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+    MemberAddLevel(builder, level)
+
+def MemberAddTid(builder, tid):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 def AddTid(builder, tid):
-    return MemberAddTid(builder, tid)
-def MemberStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTidVector(builder, numElems):
+    MemberAddTid(builder, tid)
+
+def MemberStartTidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTidVector(builder, numElems: int) -> int:
     return MemberStartTidVector(builder, numElems)
-def MemberAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
+def MemberAddSignature(builder, signature):
+    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 def AddSignature(builder, signature):
-    return MemberAddSignature(builder, signature)
-def MemberStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartSignatureVector(builder, numElems):
+    MemberAddSignature(builder, signature)
+
+def MemberStartSignatureVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartSignatureVector(builder, numElems: int) -> int:
     return MemberStartSignatureVector(builder, numElems)
-def MemberEnd(builder): return builder.EndObject()
+
+def MemberEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return MemberEnd(builder)

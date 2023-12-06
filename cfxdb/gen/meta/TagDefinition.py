@@ -97,27 +97,50 @@ class TagDefinition(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         return o == 0
 
-def TagDefinitionStart(builder): builder.StartObject(4)
+def TagDefinitionStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return TagDefinitionStart(builder)
-def TagDefinitionAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    TagDefinitionStart(builder)
+
+def TagDefinitionAddOid(builder, oid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return TagDefinitionAddOid(builder, oid)
-def TagDefinitionStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOidVector(builder, numElems):
+    TagDefinitionAddOid(builder, oid)
+
+def TagDefinitionStartOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOidVector(builder, numElems: int) -> int:
     return TagDefinitionStartOidVector(builder, numElems)
-def TagDefinitionAddModified(builder, modified): builder.PrependUint64Slot(1, modified, 0)
+
+def TagDefinitionAddModified(builder, modified):
+    builder.PrependUint64Slot(1, modified, 0)
+
 def AddModified(builder, modified):
-    return TagDefinitionAddModified(builder, modified)
-def TagDefinitionAddTag(builder, tag): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tag), 0)
+    TagDefinitionAddModified(builder, modified)
+
+def TagDefinitionAddTag(builder, tag):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tag), 0)
+
 def AddTag(builder, tag):
-    return TagDefinitionAddTag(builder, tag)
-def TagDefinitionAddExtra(builder, extra): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
+    TagDefinitionAddTag(builder, tag)
+
+def TagDefinitionAddExtra(builder, extra):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
+
 def AddExtra(builder, extra):
-    return TagDefinitionAddExtra(builder, extra)
-def TagDefinitionStartExtraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartExtraVector(builder, numElems):
+    TagDefinitionAddExtra(builder, extra)
+
+def TagDefinitionStartExtraVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartExtraVector(builder, numElems: int) -> int:
     return TagDefinitionStartExtraVector(builder, numElems)
-def TagDefinitionEnd(builder): return builder.EndObject()
+
+def TagDefinitionEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TagDefinitionEnd(builder)

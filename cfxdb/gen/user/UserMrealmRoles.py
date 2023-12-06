@@ -53,15 +53,26 @@ class UserMrealmRoles(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         return o == 0
 
-def UserMrealmRolesStart(builder): builder.StartObject(1)
+def UserMrealmRolesStart(builder):
+    builder.StartObject(1)
+
 def Start(builder):
-    return UserMrealmRolesStart(builder)
-def UserMrealmRolesAddRoles(builder, roles): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roles), 0)
+    UserMrealmRolesStart(builder)
+
+def UserMrealmRolesAddRoles(builder, roles):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roles), 0)
+
 def AddRoles(builder, roles):
-    return UserMrealmRolesAddRoles(builder, roles)
-def UserMrealmRolesStartRolesVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartRolesVector(builder, numElems):
+    UserMrealmRolesAddRoles(builder, roles)
+
+def UserMrealmRolesStartRolesVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartRolesVector(builder, numElems: int) -> int:
     return UserMrealmRolesStartRolesVector(builder, numElems)
-def UserMrealmRolesEnd(builder): return builder.EndObject()
+
+def UserMrealmRolesEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return UserMrealmRolesEnd(builder)

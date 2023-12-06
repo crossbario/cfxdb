@@ -445,108 +445,212 @@ class Transaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(42))
         return o == 0
 
-def TransactionStart(builder): builder.StartObject(20)
+def TransactionStart(builder):
+    builder.StartObject(20)
+
 def Start(builder):
-    return TransactionStart(builder)
-def TransactionAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+    TransactionStart(builder)
+
+def TransactionAddTid(builder, tid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 def AddTid(builder, tid):
-    return TransactionAddTid(builder, tid)
-def TransactionStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTidVector(builder, numElems):
+    TransactionAddTid(builder, tid)
+
+def TransactionStartTidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTidVector(builder, numElems: int) -> int:
     return TransactionStartTidVector(builder, numElems)
-def TransactionAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+
+def TransactionAddCreated(builder, created):
+    builder.PrependUint64Slot(1, created, 0)
+
 def AddCreated(builder, created):
-    return TransactionAddCreated(builder, created)
-def TransactionAddCreatedPaymentChannelSeq(builder, createdPaymentChannelSeq): builder.PrependUint32Slot(2, createdPaymentChannelSeq, 0)
+    TransactionAddCreated(builder, created)
+
+def TransactionAddCreatedPaymentChannelSeq(builder, createdPaymentChannelSeq):
+    builder.PrependUint32Slot(2, createdPaymentChannelSeq, 0)
+
 def AddCreatedPaymentChannelSeq(builder, createdPaymentChannelSeq):
-    return TransactionAddCreatedPaymentChannelSeq(builder, createdPaymentChannelSeq)
-def TransactionAddCreatedPayingChannelSeq(builder, createdPayingChannelSeq): builder.PrependUint32Slot(3, createdPayingChannelSeq, 0)
+    TransactionAddCreatedPaymentChannelSeq(builder, createdPaymentChannelSeq)
+
+def TransactionAddCreatedPayingChannelSeq(builder, createdPayingChannelSeq):
+    builder.PrependUint32Slot(3, createdPayingChannelSeq, 0)
+
 def AddCreatedPayingChannelSeq(builder, createdPayingChannelSeq):
-    return TransactionAddCreatedPayingChannelSeq(builder, createdPayingChannelSeq)
-def TransactionAddOffer(builder, offer): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(offer), 0)
+    TransactionAddCreatedPayingChannelSeq(builder, createdPayingChannelSeq)
+
+def TransactionAddOffer(builder, offer):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(offer), 0)
+
 def AddOffer(builder, offer):
-    return TransactionAddOffer(builder, offer)
-def TransactionStartOfferVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOfferVector(builder, numElems):
+    TransactionAddOffer(builder, offer)
+
+def TransactionStartOfferVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOfferVector(builder, numElems: int) -> int:
     return TransactionStartOfferVector(builder, numElems)
-def TransactionAddAmount(builder, amount): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(amount), 0)
+
+def TransactionAddAmount(builder, amount):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(amount), 0)
+
 def AddAmount(builder, amount):
-    return TransactionAddAmount(builder, amount)
-def TransactionStartAmountVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAmountVector(builder, numElems):
+    TransactionAddAmount(builder, amount)
+
+def TransactionStartAmountVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAmountVector(builder, numElems: int) -> int:
     return TransactionStartAmountVector(builder, numElems)
-def TransactionAddPaymentChannel(builder, paymentChannel): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(paymentChannel), 0)
+
+def TransactionAddPaymentChannel(builder, paymentChannel):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(paymentChannel), 0)
+
 def AddPaymentChannel(builder, paymentChannel):
-    return TransactionAddPaymentChannel(builder, paymentChannel)
-def TransactionStartPaymentChannelVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPaymentChannelVector(builder, numElems):
+    TransactionAddPaymentChannel(builder, paymentChannel)
+
+def TransactionStartPaymentChannelVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPaymentChannelVector(builder, numElems: int) -> int:
     return TransactionStartPaymentChannelVector(builder, numElems)
-def TransactionAddPayingChannel(builder, payingChannel): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(payingChannel), 0)
+
+def TransactionAddPayingChannel(builder, payingChannel):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(payingChannel), 0)
+
 def AddPayingChannel(builder, payingChannel):
-    return TransactionAddPayingChannel(builder, payingChannel)
-def TransactionStartPayingChannelVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPayingChannelVector(builder, numElems):
+    TransactionAddPayingChannel(builder, payingChannel)
+
+def TransactionStartPayingChannelVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPayingChannelVector(builder, numElems: int) -> int:
     return TransactionStartPayingChannelVector(builder, numElems)
-def TransactionAddState(builder, state): builder.PrependUint8Slot(8, state, 0)
+
+def TransactionAddState(builder, state):
+    builder.PrependUint8Slot(8, state, 0)
+
 def AddState(builder, state):
-    return TransactionAddState(builder, state)
-def TransactionAddCompleted(builder, completed): builder.PrependUint64Slot(9, completed, 0)
+    TransactionAddState(builder, state)
+
+def TransactionAddCompleted(builder, completed):
+    builder.PrependUint64Slot(9, completed, 0)
+
 def AddCompleted(builder, completed):
-    return TransactionAddCompleted(builder, completed)
-def TransactionAddCompletedPaymentChannelSeq(builder, completedPaymentChannelSeq): builder.PrependUint32Slot(10, completedPaymentChannelSeq, 0)
+    TransactionAddCompleted(builder, completed)
+
+def TransactionAddCompletedPaymentChannelSeq(builder, completedPaymentChannelSeq):
+    builder.PrependUint32Slot(10, completedPaymentChannelSeq, 0)
+
 def AddCompletedPaymentChannelSeq(builder, completedPaymentChannelSeq):
-    return TransactionAddCompletedPaymentChannelSeq(builder, completedPaymentChannelSeq)
-def TransactionAddCompletedPayingChannelSeq(builder, completedPayingChannelSeq): builder.PrependUint32Slot(11, completedPayingChannelSeq, 0)
+    TransactionAddCompletedPaymentChannelSeq(builder, completedPaymentChannelSeq)
+
+def TransactionAddCompletedPayingChannelSeq(builder, completedPayingChannelSeq):
+    builder.PrependUint32Slot(11, completedPayingChannelSeq, 0)
+
 def AddCompletedPayingChannelSeq(builder, completedPayingChannelSeq):
-    return TransactionAddCompletedPayingChannelSeq(builder, completedPayingChannelSeq)
-def TransactionAddKey(builder, key): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+    TransactionAddCompletedPayingChannelSeq(builder, completedPayingChannelSeq)
+
+def TransactionAddKey(builder, key):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+
 def AddKey(builder, key):
-    return TransactionAddKey(builder, key)
-def TransactionStartKeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartKeyVector(builder, numElems):
+    TransactionAddKey(builder, key)
+
+def TransactionStartKeyVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartKeyVector(builder, numElems: int) -> int:
     return TransactionStartKeyVector(builder, numElems)
-def TransactionAddBuyerPubkey(builder, buyerPubkey): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(buyerPubkey), 0)
+
+def TransactionAddBuyerPubkey(builder, buyerPubkey):
+    builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(buyerPubkey), 0)
+
 def AddBuyerPubkey(builder, buyerPubkey):
-    return TransactionAddBuyerPubkey(builder, buyerPubkey)
-def TransactionStartBuyerPubkeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartBuyerPubkeyVector(builder, numElems):
+    TransactionAddBuyerPubkey(builder, buyerPubkey)
+
+def TransactionStartBuyerPubkeyVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartBuyerPubkeyVector(builder, numElems: int) -> int:
     return TransactionStartBuyerPubkeyVector(builder, numElems)
-def TransactionAddPaymentChannelAfter(builder, paymentChannelAfter): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(paymentChannelAfter), 0)
+
+def TransactionAddPaymentChannelAfter(builder, paymentChannelAfter):
+    builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(paymentChannelAfter), 0)
+
 def AddPaymentChannelAfter(builder, paymentChannelAfter):
-    return TransactionAddPaymentChannelAfter(builder, paymentChannelAfter)
-def TransactionStartPaymentChannelAfterVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPaymentChannelAfterVector(builder, numElems):
+    TransactionAddPaymentChannelAfter(builder, paymentChannelAfter)
+
+def TransactionStartPaymentChannelAfterVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPaymentChannelAfterVector(builder, numElems: int) -> int:
     return TransactionStartPaymentChannelAfterVector(builder, numElems)
-def TransactionAddPayingChannelAfter(builder, payingChannelAfter): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(payingChannelAfter), 0)
+
+def TransactionAddPayingChannelAfter(builder, payingChannelAfter):
+    builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(payingChannelAfter), 0)
+
 def AddPayingChannelAfter(builder, payingChannelAfter):
-    return TransactionAddPayingChannelAfter(builder, payingChannelAfter)
-def TransactionStartPayingChannelAfterVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPayingChannelAfterVector(builder, numElems):
+    TransactionAddPayingChannelAfter(builder, payingChannelAfter)
+
+def TransactionStartPayingChannelAfterVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPayingChannelAfterVector(builder, numElems: int) -> int:
     return TransactionStartPayingChannelAfterVector(builder, numElems)
-def TransactionAddPaymentMmSig(builder, paymentMmSig): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(paymentMmSig), 0)
+
+def TransactionAddPaymentMmSig(builder, paymentMmSig):
+    builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(paymentMmSig), 0)
+
 def AddPaymentMmSig(builder, paymentMmSig):
-    return TransactionAddPaymentMmSig(builder, paymentMmSig)
-def TransactionStartPaymentMmSigVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPaymentMmSigVector(builder, numElems):
+    TransactionAddPaymentMmSig(builder, paymentMmSig)
+
+def TransactionStartPaymentMmSigVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPaymentMmSigVector(builder, numElems: int) -> int:
     return TransactionStartPaymentMmSigVector(builder, numElems)
-def TransactionAddPaymentDelSig(builder, paymentDelSig): builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(paymentDelSig), 0)
+
+def TransactionAddPaymentDelSig(builder, paymentDelSig):
+    builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(paymentDelSig), 0)
+
 def AddPaymentDelSig(builder, paymentDelSig):
-    return TransactionAddPaymentDelSig(builder, paymentDelSig)
-def TransactionStartPaymentDelSigVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPaymentDelSigVector(builder, numElems):
+    TransactionAddPaymentDelSig(builder, paymentDelSig)
+
+def TransactionStartPaymentDelSigVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPaymentDelSigVector(builder, numElems: int) -> int:
     return TransactionStartPaymentDelSigVector(builder, numElems)
-def TransactionAddPayingMmSig(builder, payingMmSig): builder.PrependUOffsetTRelativeSlot(18, flatbuffers.number_types.UOffsetTFlags.py_type(payingMmSig), 0)
+
+def TransactionAddPayingMmSig(builder, payingMmSig):
+    builder.PrependUOffsetTRelativeSlot(18, flatbuffers.number_types.UOffsetTFlags.py_type(payingMmSig), 0)
+
 def AddPayingMmSig(builder, payingMmSig):
-    return TransactionAddPayingMmSig(builder, payingMmSig)
-def TransactionStartPayingMmSigVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPayingMmSigVector(builder, numElems):
+    TransactionAddPayingMmSig(builder, payingMmSig)
+
+def TransactionStartPayingMmSigVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPayingMmSigVector(builder, numElems: int) -> int:
     return TransactionStartPayingMmSigVector(builder, numElems)
-def TransactionAddPayingDelSig(builder, payingDelSig): builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(payingDelSig), 0)
+
+def TransactionAddPayingDelSig(builder, payingDelSig):
+    builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(payingDelSig), 0)
+
 def AddPayingDelSig(builder, payingDelSig):
-    return TransactionAddPayingDelSig(builder, payingDelSig)
-def TransactionStartPayingDelSigVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPayingDelSigVector(builder, numElems):
+    TransactionAddPayingDelSig(builder, payingDelSig)
+
+def TransactionStartPayingDelSigVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPayingDelSigVector(builder, numElems: int) -> int:
     return TransactionStartPayingDelSigVector(builder, numElems)
-def TransactionEnd(builder): return builder.EndObject()
+
+def TransactionEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TransactionEnd(builder)

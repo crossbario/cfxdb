@@ -89,24 +89,44 @@ class ChannelBalance(object):
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def ChannelBalanceStart(builder): builder.StartObject(3)
+def ChannelBalanceStart(builder):
+    builder.StartObject(3)
+
 def Start(builder):
-    return ChannelBalanceStart(builder)
-def ChannelBalanceAddRemaining(builder, remaining): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(remaining), 0)
+    ChannelBalanceStart(builder)
+
+def ChannelBalanceAddRemaining(builder, remaining):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(remaining), 0)
+
 def AddRemaining(builder, remaining):
-    return ChannelBalanceAddRemaining(builder, remaining)
-def ChannelBalanceStartRemainingVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartRemainingVector(builder, numElems):
+    ChannelBalanceAddRemaining(builder, remaining)
+
+def ChannelBalanceStartRemainingVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartRemainingVector(builder, numElems: int) -> int:
     return ChannelBalanceStartRemainingVector(builder, numElems)
-def ChannelBalanceAddInflight(builder, inflight): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(inflight), 0)
+
+def ChannelBalanceAddInflight(builder, inflight):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(inflight), 0)
+
 def AddInflight(builder, inflight):
-    return ChannelBalanceAddInflight(builder, inflight)
-def ChannelBalanceStartInflightVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartInflightVector(builder, numElems):
+    ChannelBalanceAddInflight(builder, inflight)
+
+def ChannelBalanceStartInflightVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartInflightVector(builder, numElems: int) -> int:
     return ChannelBalanceStartInflightVector(builder, numElems)
-def ChannelBalanceAddSeq(builder, seq): builder.PrependUint32Slot(2, seq, 0)
+
+def ChannelBalanceAddSeq(builder, seq):
+    builder.PrependUint32Slot(2, seq, 0)
+
 def AddSeq(builder, seq):
-    return ChannelBalanceAddSeq(builder, seq)
-def ChannelBalanceEnd(builder): return builder.EndObject()
+    ChannelBalanceAddSeq(builder, seq)
+
+def ChannelBalanceEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return ChannelBalanceEnd(builder)

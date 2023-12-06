@@ -56,21 +56,38 @@ class Type(object):
             return self._tab.Get(flatbuffers.number_types.Uint16Flags, o + self._tab.Pos)
         return 0
 
-def TypeStart(builder): builder.StartObject(4)
+def TypeStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return TypeStart(builder)
-def TypeAddBaseType(builder, baseType): builder.PrependInt8Slot(0, baseType, 0)
+    TypeStart(builder)
+
+def TypeAddBaseType(builder, baseType):
+    builder.PrependInt8Slot(0, baseType, 0)
+
 def AddBaseType(builder, baseType):
-    return TypeAddBaseType(builder, baseType)
-def TypeAddElement(builder, element): builder.PrependInt8Slot(1, element, 0)
+    TypeAddBaseType(builder, baseType)
+
+def TypeAddElement(builder, element):
+    builder.PrependInt8Slot(1, element, 0)
+
 def AddElement(builder, element):
-    return TypeAddElement(builder, element)
-def TypeAddIndex(builder, index): builder.PrependInt32Slot(2, index, -1)
+    TypeAddElement(builder, element)
+
+def TypeAddIndex(builder, index):
+    builder.PrependInt32Slot(2, index, -1)
+
 def AddIndex(builder, index):
-    return TypeAddIndex(builder, index)
-def TypeAddFixedLength(builder, fixedLength): builder.PrependUint16Slot(3, fixedLength, 0)
+    TypeAddIndex(builder, index)
+
+def TypeAddFixedLength(builder, fixedLength):
+    builder.PrependUint16Slot(3, fixedLength, 0)
+
 def AddFixedLength(builder, fixedLength):
-    return TypeAddFixedLength(builder, fixedLength)
-def TypeEnd(builder): return builder.EndObject()
+    TypeAddFixedLength(builder, fixedLength)
+
+def TypeEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TypeEnd(builder)

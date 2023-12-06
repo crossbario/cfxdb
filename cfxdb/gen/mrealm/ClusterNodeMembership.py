@@ -64,21 +64,38 @@ class ClusterNodeMembership(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def ClusterNodeMembershipStart(builder): builder.StartObject(4)
+def ClusterNodeMembershipStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return ClusterNodeMembershipStart(builder)
-def ClusterNodeMembershipAddClusterOid(builder, clusterOid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
+    ClusterNodeMembershipStart(builder)
+
+def ClusterNodeMembershipAddClusterOid(builder, clusterOid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
+
 def AddClusterOid(builder, clusterOid):
-    return ClusterNodeMembershipAddClusterOid(builder, clusterOid)
-def ClusterNodeMembershipAddNodeOid(builder, nodeOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+    ClusterNodeMembershipAddClusterOid(builder, clusterOid)
+
+def ClusterNodeMembershipAddNodeOid(builder, nodeOid):
+    builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+
 def AddNodeOid(builder, nodeOid):
-    return ClusterNodeMembershipAddNodeOid(builder, nodeOid)
-def ClusterNodeMembershipAddParallel(builder, parallel): builder.PrependUint16Slot(2, parallel, 0)
+    ClusterNodeMembershipAddNodeOid(builder, nodeOid)
+
+def ClusterNodeMembershipAddParallel(builder, parallel):
+    builder.PrependUint16Slot(2, parallel, 0)
+
 def AddParallel(builder, parallel):
-    return ClusterNodeMembershipAddParallel(builder, parallel)
-def ClusterNodeMembershipAddStandby(builder, standby): builder.PrependBoolSlot(3, standby, 0)
+    ClusterNodeMembershipAddParallel(builder, parallel)
+
+def ClusterNodeMembershipAddStandby(builder, standby):
+    builder.PrependBoolSlot(3, standby, 0)
+
 def AddStandby(builder, standby):
-    return ClusterNodeMembershipAddStandby(builder, standby)
-def ClusterNodeMembershipEnd(builder): return builder.EndObject()
+    ClusterNodeMembershipAddStandby(builder, standby)
+
+def ClusterNodeMembershipEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return ClusterNodeMembershipEnd(builder)

@@ -140,39 +140,74 @@ class VerifiedAction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         return o == 0
 
-def VerifiedActionStart(builder): builder.StartObject(7)
+def VerifiedActionStart(builder):
+    builder.StartObject(7)
+
 def Start(builder):
-    return VerifiedActionStart(builder)
-def VerifiedActionAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    VerifiedActionStart(builder)
+
+def VerifiedActionAddOid(builder, oid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return VerifiedActionAddOid(builder, oid)
-def VerifiedActionStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOidVector(builder, numElems):
+    VerifiedActionAddOid(builder, oid)
+
+def VerifiedActionStartOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOidVector(builder, numElems: int) -> int:
     return VerifiedActionStartOidVector(builder, numElems)
-def VerifiedActionAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+
+def VerifiedActionAddCreated(builder, created):
+    builder.PrependUint64Slot(1, created, 0)
+
 def AddCreated(builder, created):
-    return VerifiedActionAddCreated(builder, created)
-def VerifiedActionAddVtype(builder, vtype): builder.PrependUint8Slot(2, vtype, 0)
+    VerifiedActionAddCreated(builder, created)
+
+def VerifiedActionAddVtype(builder, vtype):
+    builder.PrependUint8Slot(2, vtype, 0)
+
 def AddVtype(builder, vtype):
-    return VerifiedActionAddVtype(builder, vtype)
-def VerifiedActionAddVstatus(builder, vstatus): builder.PrependUint8Slot(3, vstatus, 0)
+    VerifiedActionAddVtype(builder, vtype)
+
+def VerifiedActionAddVstatus(builder, vstatus):
+    builder.PrependUint8Slot(3, vstatus, 0)
+
 def AddVstatus(builder, vstatus):
-    return VerifiedActionAddVstatus(builder, vstatus)
-def VerifiedActionAddVcode(builder, vcode): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(vcode), 0)
+    VerifiedActionAddVstatus(builder, vstatus)
+
+def VerifiedActionAddVcode(builder, vcode):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(vcode), 0)
+
 def AddVcode(builder, vcode):
-    return VerifiedActionAddVcode(builder, vcode)
-def VerifiedActionAddVerifiedOid(builder, verifiedOid): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(verifiedOid), 0)
+    VerifiedActionAddVcode(builder, vcode)
+
+def VerifiedActionAddVerifiedOid(builder, verifiedOid):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(verifiedOid), 0)
+
 def AddVerifiedOid(builder, verifiedOid):
-    return VerifiedActionAddVerifiedOid(builder, verifiedOid)
-def VerifiedActionStartVerifiedOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartVerifiedOidVector(builder, numElems):
+    VerifiedActionAddVerifiedOid(builder, verifiedOid)
+
+def VerifiedActionStartVerifiedOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartVerifiedOidVector(builder, numElems: int) -> int:
     return VerifiedActionStartVerifiedOidVector(builder, numElems)
-def VerifiedActionAddVerifiedData(builder, verifiedData): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(verifiedData), 0)
+
+def VerifiedActionAddVerifiedData(builder, verifiedData):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(verifiedData), 0)
+
 def AddVerifiedData(builder, verifiedData):
-    return VerifiedActionAddVerifiedData(builder, verifiedData)
-def VerifiedActionStartVerifiedDataVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartVerifiedDataVector(builder, numElems):
+    VerifiedActionAddVerifiedData(builder, verifiedData)
+
+def VerifiedActionStartVerifiedDataVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartVerifiedDataVector(builder, numElems: int) -> int:
     return VerifiedActionStartVerifiedDataVector(builder, numElems)
-def VerifiedActionEnd(builder): return builder.EndObject()
+
+def VerifiedActionEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return VerifiedActionEnd(builder)

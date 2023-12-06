@@ -101,30 +101,56 @@ class Credential(object):
             return obj
         return None
 
-def CredentialStart(builder): builder.StartObject(6)
+def CredentialStart(builder):
+    builder.StartObject(6)
+
 def Start(builder):
-    return CredentialStart(builder)
-def CredentialAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    CredentialStart(builder)
+
+def CredentialAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return CredentialAddOid(builder, oid)
-def CredentialAddAuthmethod(builder, authmethod): builder.PrependInt8Slot(1, authmethod, 0)
+    CredentialAddOid(builder, oid)
+
+def CredentialAddAuthmethod(builder, authmethod):
+    builder.PrependInt8Slot(1, authmethod, 0)
+
 def AddAuthmethod(builder, authmethod):
-    return CredentialAddAuthmethod(builder, authmethod)
-def CredentialAddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+    CredentialAddAuthmethod(builder, authmethod)
+
+def CredentialAddRealm(builder, realm):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+
 def AddRealm(builder, realm):
-    return CredentialAddRealm(builder, realm)
-def CredentialAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+    CredentialAddRealm(builder, realm)
+
+def CredentialAddAuthid(builder, authid):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 def AddAuthid(builder, authid):
-    return CredentialAddAuthid(builder, authid)
-def CredentialAddAuthconfig(builder, authconfig): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(authconfig), 0)
+    CredentialAddAuthid(builder, authid)
+
+def CredentialAddAuthconfig(builder, authconfig):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(authconfig), 0)
+
 def AddAuthconfig(builder, authconfig):
-    return CredentialAddAuthconfig(builder, authconfig)
-def CredentialStartAuthconfigVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAuthconfigVector(builder, numElems):
+    CredentialAddAuthconfig(builder, authconfig)
+
+def CredentialStartAuthconfigVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAuthconfigVector(builder, numElems: int) -> int:
     return CredentialStartAuthconfigVector(builder, numElems)
-def CredentialAddPrincipalOid(builder, principalOid): builder.PrependStructSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(principalOid), 0)
+
+def CredentialAddPrincipalOid(builder, principalOid):
+    builder.PrependStructSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(principalOid), 0)
+
 def AddPrincipalOid(builder, principalOid):
-    return CredentialAddPrincipalOid(builder, principalOid)
-def CredentialEnd(builder): return builder.EndObject()
+    CredentialAddPrincipalOid(builder, principalOid)
+
+def CredentialEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return CredentialEnd(builder)

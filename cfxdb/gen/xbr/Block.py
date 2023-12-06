@@ -97,27 +97,50 @@ class Block(object):
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def BlockStart(builder): builder.StartObject(4)
+def BlockStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return BlockStart(builder)
-def BlockAddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
+    BlockStart(builder)
+
+def BlockAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(0, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return BlockAddTimestamp(builder, timestamp)
-def BlockAddBlockNumber(builder, blockNumber): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockNumber), 0)
+    BlockAddTimestamp(builder, timestamp)
+
+def BlockAddBlockNumber(builder, blockNumber):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockNumber), 0)
+
 def AddBlockNumber(builder, blockNumber):
-    return BlockAddBlockNumber(builder, blockNumber)
-def BlockStartBlockNumberVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartBlockNumberVector(builder, numElems):
+    BlockAddBlockNumber(builder, blockNumber)
+
+def BlockStartBlockNumberVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartBlockNumberVector(builder, numElems: int) -> int:
     return BlockStartBlockNumberVector(builder, numElems)
-def BlockAddBlockHash(builder, blockHash): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
+def BlockAddBlockHash(builder, blockHash):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
 def AddBlockHash(builder, blockHash):
-    return BlockAddBlockHash(builder, blockHash)
-def BlockStartBlockHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartBlockHashVector(builder, numElems):
+    BlockAddBlockHash(builder, blockHash)
+
+def BlockStartBlockHashVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartBlockHashVector(builder, numElems: int) -> int:
     return BlockStartBlockHashVector(builder, numElems)
-def BlockAddCntEvents(builder, cntEvents): builder.PrependUint32Slot(3, cntEvents, 0)
+
+def BlockAddCntEvents(builder, cntEvents):
+    builder.PrependUint32Slot(3, cntEvents, 0)
+
 def AddCntEvents(builder, cntEvents):
-    return BlockAddCntEvents(builder, cntEvents)
-def BlockEnd(builder): return builder.EndObject()
+    BlockAddCntEvents(builder, cntEvents)
+
+def BlockEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return BlockEnd(builder)

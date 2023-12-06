@@ -134,42 +134,80 @@ class Node(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
-def NodeStart(builder): builder.StartObject(9)
+def NodeStart(builder):
+    builder.StartObject(9)
+
 def Start(builder):
-    return NodeStart(builder)
-def NodeAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    NodeStart(builder)
+
+def NodeAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return NodeAddOid(builder, oid)
-def NodeAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    NodeAddOid(builder, oid)
+
+def NodeAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return NodeAddLabel(builder, label)
-def NodeAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    NodeAddLabel(builder, label)
+
+def NodeAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return NodeAddDescription(builder, description)
-def NodeAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    NodeAddDescription(builder, description)
+
+def NodeAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return NodeAddTags(builder, tags)
-def NodeStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    NodeAddTags(builder, tags)
+
+def NodeStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return NodeStartTagsVector(builder, numElems)
-def NodeAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def NodeAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return NodeAddName(builder, name)
-def NodeAddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+    NodeAddName(builder, name)
+
+def NodeAddPubkey(builder, pubkey):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 def AddPubkey(builder, pubkey):
-    return NodeAddPubkey(builder, pubkey)
-def NodeAddRealm(builder, realm): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+    NodeAddPubkey(builder, pubkey)
+
+def NodeAddRealm(builder, realm):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+
 def AddRealm(builder, realm):
-    return NodeAddRealm(builder, realm)
-def NodeAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+    NodeAddRealm(builder, realm)
+
+def NodeAddAuthid(builder, authid):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 def AddAuthid(builder, authid):
-    return NodeAddAuthid(builder, authid)
-def NodeAddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+    NodeAddAuthid(builder, authid)
+
+def NodeAddAuthextra(builder, authextra):
+    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+
 def AddAuthextra(builder, authextra):
-    return NodeAddAuthextra(builder, authextra)
-def NodeStartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAuthextraVector(builder, numElems):
+    NodeAddAuthextra(builder, authextra)
+
+def NodeStartAuthextraVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAuthextraVector(builder, numElems: int) -> int:
     return NodeStartAuthextraVector(builder, numElems)
-def NodeEnd(builder): return builder.EndObject()
+
+def NodeEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return NodeEnd(builder)

@@ -77,24 +77,44 @@ class MasterRun(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def MasterRunStart(builder): builder.StartObject(4)
+def MasterRunStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return MasterRunStart(builder)
-def MasterRunAddEnded(builder, ended): builder.PrependUint64Slot(0, ended, 0)
+    MasterRunStart(builder)
+
+def MasterRunAddEnded(builder, ended):
+    builder.PrependUint64Slot(0, ended, 0)
+
 def AddEnded(builder, ended):
-    return MasterRunAddEnded(builder, ended)
-def MasterRunAddRunId(builder, runId): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(runId), 0)
+    MasterRunAddEnded(builder, ended)
+
+def MasterRunAddRunId(builder, runId):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(runId), 0)
+
 def AddRunId(builder, runId):
-    return MasterRunAddRunId(builder, runId)
-def MasterRunStartRunIdVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartRunIdVector(builder, numElems):
+    MasterRunAddRunId(builder, runId)
+
+def MasterRunStartRunIdVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartRunIdVector(builder, numElems: int) -> int:
     return MasterRunStartRunIdVector(builder, numElems)
-def MasterRunAddStarted(builder, started): builder.PrependUint64Slot(2, started, 0)
+
+def MasterRunAddStarted(builder, started):
+    builder.PrependUint64Slot(2, started, 0)
+
 def AddStarted(builder, started):
-    return MasterRunAddStarted(builder, started)
-def MasterRunAddState(builder, state): builder.PrependUint8Slot(3, state, 0)
+    MasterRunAddStarted(builder, started)
+
+def MasterRunAddState(builder, state):
+    builder.PrependUint8Slot(3, state, 0)
+
 def AddState(builder, state):
-    return MasterRunAddState(builder, state)
-def MasterRunEnd(builder): return builder.EndObject()
+    MasterRunAddState(builder, state)
+
+def MasterRunEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return MasterRunEnd(builder)

@@ -89,30 +89,56 @@ class RouterWorkerGroup(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def RouterWorkerGroupStart(builder): builder.StartObject(6)
+def RouterWorkerGroupStart(builder):
+    builder.StartObject(6)
+
 def Start(builder):
-    return RouterWorkerGroupStart(builder)
-def RouterWorkerGroupAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    RouterWorkerGroupStart(builder)
+
+def RouterWorkerGroupAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return RouterWorkerGroupAddOid(builder, oid)
-def RouterWorkerGroupAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    RouterWorkerGroupAddOid(builder, oid)
+
+def RouterWorkerGroupAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return RouterWorkerGroupAddLabel(builder, label)
-def RouterWorkerGroupAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    RouterWorkerGroupAddLabel(builder, label)
+
+def RouterWorkerGroupAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return RouterWorkerGroupAddDescription(builder, description)
-def RouterWorkerGroupAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    RouterWorkerGroupAddDescription(builder, description)
+
+def RouterWorkerGroupAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return RouterWorkerGroupAddTags(builder, tags)
-def RouterWorkerGroupStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    RouterWorkerGroupAddTags(builder, tags)
+
+def RouterWorkerGroupStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return RouterWorkerGroupStartTagsVector(builder, numElems)
-def RouterWorkerGroupAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def RouterWorkerGroupAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return RouterWorkerGroupAddName(builder, name)
-def RouterWorkerGroupAddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
+    RouterWorkerGroupAddName(builder, name)
+
+def RouterWorkerGroupAddStatus(builder, status):
+    builder.PrependUint8Slot(5, status, 0)
+
 def AddStatus(builder, status):
-    return RouterWorkerGroupAddStatus(builder, status)
-def RouterWorkerGroupEnd(builder): return builder.EndObject()
+    RouterWorkerGroupAddStatus(builder, status)
+
+def RouterWorkerGroupEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return RouterWorkerGroupEnd(builder)

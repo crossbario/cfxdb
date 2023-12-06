@@ -98,33 +98,62 @@ class User(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-def UserStart(builder): builder.StartObject(7)
+def UserStart(builder):
+    builder.StartObject(7)
+
 def Start(builder):
-    return UserStart(builder)
-def UserAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    UserStart(builder)
+
+def UserAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return UserAddOid(builder, oid)
-def UserAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    UserAddOid(builder, oid)
+
+def UserAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return UserAddLabel(builder, label)
-def UserAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    UserAddLabel(builder, label)
+
+def UserAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return UserAddDescription(builder, description)
-def UserAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    UserAddDescription(builder, description)
+
+def UserAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return UserAddTags(builder, tags)
-def UserStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    UserAddTags(builder, tags)
+
+def UserStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return UserStartTagsVector(builder, numElems)
-def UserAddEmail(builder, email): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+
+def UserAddEmail(builder, email):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+
 def AddEmail(builder, email):
-    return UserAddEmail(builder, email)
-def UserAddRegistered(builder, registered): builder.PrependUint64Slot(5, registered, 0)
+    UserAddEmail(builder, email)
+
+def UserAddRegistered(builder, registered):
+    builder.PrependUint64Slot(5, registered, 0)
+
 def AddRegistered(builder, registered):
-    return UserAddRegistered(builder, registered)
-def UserAddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+    UserAddRegistered(builder, registered)
+
+def UserAddPubkey(builder, pubkey):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 def AddPubkey(builder, pubkey):
-    return UserAddPubkey(builder, pubkey)
-def UserEnd(builder): return builder.EndObject()
+    UserAddPubkey(builder, pubkey)
+
+def UserEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return UserEnd(builder)
