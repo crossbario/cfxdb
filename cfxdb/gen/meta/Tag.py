@@ -117,30 +117,56 @@ class Tag(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def TagStart(builder): builder.StartObject(4)
+def TagStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return TagStart(builder)
-def TagAddTableOid(builder, tableOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+    TagStart(builder)
+
+def TagAddTableOid(builder, tableOid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 def AddTableOid(builder, tableOid):
-    return TagAddTableOid(builder, tableOid)
-def TagStartTableOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTableOidVector(builder, numElems):
+    TagAddTableOid(builder, tableOid)
+
+def TagStartTableOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTableOidVector(builder, numElems: int) -> int:
     return TagStartTableOidVector(builder, numElems)
-def TagAddObjectOid(builder, objectOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
+def TagAddObjectOid(builder, objectOid):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 def AddObjectOid(builder, objectOid):
-    return TagAddObjectOid(builder, objectOid)
-def TagStartObjectOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartObjectOidVector(builder, numElems):
+    TagAddObjectOid(builder, objectOid)
+
+def TagStartObjectOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartObjectOidVector(builder, numElems: int) -> int:
     return TagStartObjectOidVector(builder, numElems)
-def TagAddTagOid(builder, tagOid): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tagOid), 0)
+
+def TagAddTagOid(builder, tagOid):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tagOid), 0)
+
 def AddTagOid(builder, tagOid):
-    return TagAddTagOid(builder, tagOid)
-def TagStartTagOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTagOidVector(builder, numElems):
+    TagAddTagOid(builder, tagOid)
+
+def TagStartTagOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTagOidVector(builder, numElems: int) -> int:
     return TagStartTagOidVector(builder, numElems)
-def TagAddAttached(builder, attached): builder.PrependUint64Slot(3, attached, 0)
+
+def TagAddAttached(builder, attached):
+    builder.PrependUint64Slot(3, attached, 0)
+
 def AddAttached(builder, attached):
-    return TagAddAttached(builder, attached)
-def TagEnd(builder): return builder.EndObject()
+    TagAddAttached(builder, attached)
+
+def TagEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TagEnd(builder)

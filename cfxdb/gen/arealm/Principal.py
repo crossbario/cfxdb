@@ -105,30 +105,56 @@ class Principal(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
-def PrincipalStart(builder): builder.StartObject(6)
+def PrincipalStart(builder):
+    builder.StartObject(6)
+
 def Start(builder):
-    return PrincipalStart(builder)
-def PrincipalAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    PrincipalStart(builder)
+
+def PrincipalAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return PrincipalAddOid(builder, oid)
-def PrincipalAddModified(builder, modified): builder.PrependInt32Slot(1, modified, 0)
+    PrincipalAddOid(builder, oid)
+
+def PrincipalAddModified(builder, modified):
+    builder.PrependInt32Slot(1, modified, 0)
+
 def AddModified(builder, modified):
-    return PrincipalAddModified(builder, modified)
-def PrincipalAddArealmOid(builder, arealmOid): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+    PrincipalAddModified(builder, modified)
+
+def PrincipalAddArealmOid(builder, arealmOid):
+    builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+
 def AddArealmOid(builder, arealmOid):
-    return PrincipalAddArealmOid(builder, arealmOid)
-def PrincipalAddAuthid(builder, authid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+    PrincipalAddArealmOid(builder, arealmOid)
+
+def PrincipalAddAuthid(builder, authid):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 def AddAuthid(builder, authid):
-    return PrincipalAddAuthid(builder, authid)
-def PrincipalAddRoleOid(builder, roleOid): builder.PrependStructSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+    PrincipalAddAuthid(builder, authid)
+
+def PrincipalAddRoleOid(builder, roleOid):
+    builder.PrependStructSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+
 def AddRoleOid(builder, roleOid):
-    return PrincipalAddRoleOid(builder, roleOid)
-def PrincipalAddAuthextra(builder, authextra): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+    PrincipalAddRoleOid(builder, roleOid)
+
+def PrincipalAddAuthextra(builder, authextra):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+
 def AddAuthextra(builder, authextra):
-    return PrincipalAddAuthextra(builder, authextra)
-def PrincipalStartAuthextraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAuthextraVector(builder, numElems):
+    PrincipalAddAuthextra(builder, authextra)
+
+def PrincipalStartAuthextraVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAuthextraVector(builder, numElems: int) -> int:
     return PrincipalStartAuthextraVector(builder, numElems)
-def PrincipalEnd(builder): return builder.EndObject()
+
+def PrincipalEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return PrincipalEnd(builder)

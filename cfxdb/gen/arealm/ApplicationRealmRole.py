@@ -49,15 +49,26 @@ class ApplicationRealmRole(object):
             return obj
         return None
 
-def ApplicationRealmRoleStart(builder): builder.StartObject(2)
+def ApplicationRealmRoleStart(builder):
+    builder.StartObject(2)
+
 def Start(builder):
-    return ApplicationRealmRoleStart(builder)
-def ApplicationRealmRoleAddRoleOid(builder, roleOid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+    ApplicationRealmRoleStart(builder)
+
+def ApplicationRealmRoleAddRoleOid(builder, roleOid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+
 def AddRoleOid(builder, roleOid):
-    return ApplicationRealmRoleAddRoleOid(builder, roleOid)
-def ApplicationRealmRoleAddArealmOid(builder, arealmOid): builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+    ApplicationRealmRoleAddRoleOid(builder, roleOid)
+
+def ApplicationRealmRoleAddArealmOid(builder, arealmOid):
+    builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+
 def AddArealmOid(builder, arealmOid):
-    return ApplicationRealmRoleAddArealmOid(builder, arealmOid)
-def ApplicationRealmRoleEnd(builder): return builder.EndObject()
+    ApplicationRealmRoleAddArealmOid(builder, arealmOid)
+
+def ApplicationRealmRoleEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return ApplicationRealmRoleEnd(builder)

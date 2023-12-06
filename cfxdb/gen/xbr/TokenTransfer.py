@@ -165,39 +165,74 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-def TokenTransferStart(builder): builder.StartObject(5)
+def TokenTransferStart(builder):
+    builder.StartObject(5)
+
 def Start(builder):
-    return TokenTransferStart(builder)
-def TokenTransferAddTxHash(builder, txHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
+    TokenTransferStart(builder)
+
+def TokenTransferAddTxHash(builder, txHash):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
+
 def AddTxHash(builder, txHash):
-    return TokenTransferAddTxHash(builder, txHash)
-def TokenTransferStartTxHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTxHashVector(builder, numElems):
+    TokenTransferAddTxHash(builder, txHash)
+
+def TokenTransferStartTxHashVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTxHashVector(builder, numElems: int) -> int:
     return TokenTransferStartTxHashVector(builder, numElems)
-def TokenTransferAddBlockHash(builder, blockHash): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
+def TokenTransferAddBlockHash(builder, blockHash):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
 def AddBlockHash(builder, blockHash):
-    return TokenTransferAddBlockHash(builder, blockHash)
-def TokenTransferStartBlockHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartBlockHashVector(builder, numElems):
+    TokenTransferAddBlockHash(builder, blockHash)
+
+def TokenTransferStartBlockHashVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartBlockHashVector(builder, numElems: int) -> int:
     return TokenTransferStartBlockHashVector(builder, numElems)
-def TokenTransferAddFromAddress(builder, fromAddress): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(fromAddress), 0)
+
+def TokenTransferAddFromAddress(builder, fromAddress):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(fromAddress), 0)
+
 def AddFromAddress(builder, fromAddress):
-    return TokenTransferAddFromAddress(builder, fromAddress)
-def TokenTransferStartFromAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartFromAddressVector(builder, numElems):
+    TokenTransferAddFromAddress(builder, fromAddress)
+
+def TokenTransferStartFromAddressVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartFromAddressVector(builder, numElems: int) -> int:
     return TokenTransferStartFromAddressVector(builder, numElems)
-def TokenTransferAddToAddress(builder, toAddress): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(toAddress), 0)
+
+def TokenTransferAddToAddress(builder, toAddress):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(toAddress), 0)
+
 def AddToAddress(builder, toAddress):
-    return TokenTransferAddToAddress(builder, toAddress)
-def TokenTransferStartToAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartToAddressVector(builder, numElems):
+    TokenTransferAddToAddress(builder, toAddress)
+
+def TokenTransferStartToAddressVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartToAddressVector(builder, numElems: int) -> int:
     return TokenTransferStartToAddressVector(builder, numElems)
-def TokenTransferAddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
+def TokenTransferAddValue(builder, value):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 def AddValue(builder, value):
-    return TokenTransferAddValue(builder, value)
-def TokenTransferStartValueVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartValueVector(builder, numElems):
+    TokenTransferAddValue(builder, value)
+
+def TokenTransferStartValueVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartValueVector(builder, numElems: int) -> int:
     return TokenTransferStartValueVector(builder, numElems)
-def TokenTransferEnd(builder): return builder.EndObject()
+
+def TokenTransferEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TokenTransferEnd(builder)

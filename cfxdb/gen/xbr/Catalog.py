@@ -197,51 +197,98 @@ class Catalog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
-def CatalogStart(builder): builder.StartObject(9)
+def CatalogStart(builder):
+    builder.StartObject(9)
+
 def Start(builder):
-    return CatalogStart(builder)
-def CatalogAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    CatalogStart(builder)
+
+def CatalogAddOid(builder, oid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return CatalogAddOid(builder, oid)
-def CatalogStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOidVector(builder, numElems):
+    CatalogAddOid(builder, oid)
+
+def CatalogStartOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOidVector(builder, numElems: int) -> int:
     return CatalogStartOidVector(builder, numElems)
-def CatalogAddTimestamp(builder, timestamp): builder.PrependUint64Slot(1, timestamp, 0)
+
+def CatalogAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(1, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return CatalogAddTimestamp(builder, timestamp)
-def CatalogAddCreated(builder, created): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
+    CatalogAddTimestamp(builder, timestamp)
+
+def CatalogAddCreated(builder, created):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
+
 def AddCreated(builder, created):
-    return CatalogAddCreated(builder, created)
-def CatalogStartCreatedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartCreatedVector(builder, numElems):
+    CatalogAddCreated(builder, created)
+
+def CatalogStartCreatedVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartCreatedVector(builder, numElems: int) -> int:
     return CatalogStartCreatedVector(builder, numElems)
-def CatalogAddSeq(builder, seq): builder.PrependUint32Slot(3, seq, 0)
+
+def CatalogAddSeq(builder, seq):
+    builder.PrependUint32Slot(3, seq, 0)
+
 def AddSeq(builder, seq):
-    return CatalogAddSeq(builder, seq)
-def CatalogAddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+    CatalogAddSeq(builder, seq)
+
+def CatalogAddOwner(builder, owner):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 def AddOwner(builder, owner):
-    return CatalogAddOwner(builder, owner)
-def CatalogStartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOwnerVector(builder, numElems):
+    CatalogAddOwner(builder, owner)
+
+def CatalogStartOwnerVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOwnerVector(builder, numElems: int) -> int:
     return CatalogStartOwnerVector(builder, numElems)
-def CatalogAddTerms(builder, terms): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
+
+def CatalogAddTerms(builder, terms):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
+
 def AddTerms(builder, terms):
-    return CatalogAddTerms(builder, terms)
-def CatalogAddMeta(builder, meta): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+    CatalogAddTerms(builder, terms)
+
+def CatalogAddMeta(builder, meta):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+
 def AddMeta(builder, meta):
-    return CatalogAddMeta(builder, meta)
-def CatalogAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+    CatalogAddMeta(builder, meta)
+
+def CatalogAddTid(builder, tid):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 def AddTid(builder, tid):
-    return CatalogAddTid(builder, tid)
-def CatalogStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTidVector(builder, numElems):
+    CatalogAddTid(builder, tid)
+
+def CatalogStartTidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTidVector(builder, numElems: int) -> int:
     return CatalogStartTidVector(builder, numElems)
-def CatalogAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
+def CatalogAddSignature(builder, signature):
+    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 def AddSignature(builder, signature):
-    return CatalogAddSignature(builder, signature)
-def CatalogStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartSignatureVector(builder, numElems):
+    CatalogAddSignature(builder, signature)
+
+def CatalogStartSignatureVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartSignatureVector(builder, numElems: int) -> int:
     return CatalogStartSignatureVector(builder, numElems)
-def CatalogEnd(builder): return builder.EndObject()
+
+def CatalogEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return CatalogEnd(builder)

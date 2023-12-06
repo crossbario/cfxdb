@@ -81,21 +81,38 @@ class TokenBalance(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         return o == 0
 
-def TokenBalanceStart(builder): builder.StartObject(2)
+def TokenBalanceStart(builder):
+    builder.StartObject(2)
+
 def Start(builder):
-    return TokenBalanceStart(builder)
-def TokenBalanceAddOwnerAddress(builder, ownerAddress): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(ownerAddress), 0)
+    TokenBalanceStart(builder)
+
+def TokenBalanceAddOwnerAddress(builder, ownerAddress):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(ownerAddress), 0)
+
 def AddOwnerAddress(builder, ownerAddress):
-    return TokenBalanceAddOwnerAddress(builder, ownerAddress)
-def TokenBalanceStartOwnerAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOwnerAddressVector(builder, numElems):
+    TokenBalanceAddOwnerAddress(builder, ownerAddress)
+
+def TokenBalanceStartOwnerAddressVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOwnerAddressVector(builder, numElems: int) -> int:
     return TokenBalanceStartOwnerAddressVector(builder, numElems)
-def TokenBalanceAddValue(builder, value): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
+def TokenBalanceAddValue(builder, value):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 def AddValue(builder, value):
-    return TokenBalanceAddValue(builder, value)
-def TokenBalanceStartValueVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartValueVector(builder, numElems):
+    TokenBalanceAddValue(builder, value)
+
+def TokenBalanceStartValueVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartValueVector(builder, numElems: int) -> int:
     return TokenBalanceStartValueVector(builder, numElems)
-def TokenBalanceEnd(builder): return builder.EndObject()
+
+def TokenBalanceEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TokenBalanceEnd(builder)

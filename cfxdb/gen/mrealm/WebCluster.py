@@ -243,84 +243,164 @@ class WebCluster(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def WebClusterStart(builder): builder.StartObject(22)
+def WebClusterStart(builder):
+    builder.StartObject(22)
+
 def Start(builder):
-    return WebClusterStart(builder)
-def WebClusterAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    WebClusterStart(builder)
+
+def WebClusterAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return WebClusterAddOid(builder, oid)
-def WebClusterAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    WebClusterAddOid(builder, oid)
+
+def WebClusterAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return WebClusterAddLabel(builder, label)
-def WebClusterAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    WebClusterAddLabel(builder, label)
+
+def WebClusterAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return WebClusterAddDescription(builder, description)
-def WebClusterAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    WebClusterAddDescription(builder, description)
+
+def WebClusterAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return WebClusterAddTags(builder, tags)
-def WebClusterStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    WebClusterAddTags(builder, tags)
+
+def WebClusterStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return WebClusterStartTagsVector(builder, numElems)
-def WebClusterAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def WebClusterAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return WebClusterAddName(builder, name)
-def WebClusterAddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
+    WebClusterAddName(builder, name)
+
+def WebClusterAddStatus(builder, status):
+    builder.PrependUint8Slot(5, status, 0)
+
 def AddStatus(builder, status):
-    return WebClusterAddStatus(builder, status)
-def WebClusterAddTcpVersion(builder, tcpVersion): builder.PrependInt8Slot(6, tcpVersion, 0)
+    WebClusterAddStatus(builder, status)
+
+def WebClusterAddTcpVersion(builder, tcpVersion):
+    builder.PrependInt8Slot(6, tcpVersion, 0)
+
 def AddTcpVersion(builder, tcpVersion):
-    return WebClusterAddTcpVersion(builder, tcpVersion)
-def WebClusterAddTcpPort(builder, tcpPort): builder.PrependUint16Slot(7, tcpPort, 0)
+    WebClusterAddTcpVersion(builder, tcpVersion)
+
+def WebClusterAddTcpPort(builder, tcpPort):
+    builder.PrependUint16Slot(7, tcpPort, 0)
+
 def AddTcpPort(builder, tcpPort):
-    return WebClusterAddTcpPort(builder, tcpPort)
-def WebClusterAddTcpShared(builder, tcpShared): builder.PrependBoolSlot(8, tcpShared, 0)
+    WebClusterAddTcpPort(builder, tcpPort)
+
+def WebClusterAddTcpShared(builder, tcpShared):
+    builder.PrependBoolSlot(8, tcpShared, 0)
+
 def AddTcpShared(builder, tcpShared):
-    return WebClusterAddTcpShared(builder, tcpShared)
-def WebClusterAddTcpInterface(builder, tcpInterface): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(tcpInterface), 0)
+    WebClusterAddTcpShared(builder, tcpShared)
+
+def WebClusterAddTcpInterface(builder, tcpInterface):
+    builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(tcpInterface), 0)
+
 def AddTcpInterface(builder, tcpInterface):
-    return WebClusterAddTcpInterface(builder, tcpInterface)
-def WebClusterAddTcpBacklog(builder, tcpBacklog): builder.PrependInt32Slot(10, tcpBacklog, 0)
+    WebClusterAddTcpInterface(builder, tcpInterface)
+
+def WebClusterAddTcpBacklog(builder, tcpBacklog):
+    builder.PrependInt32Slot(10, tcpBacklog, 0)
+
 def AddTcpBacklog(builder, tcpBacklog):
-    return WebClusterAddTcpBacklog(builder, tcpBacklog)
-def WebClusterAddTlsKey(builder, tlsKey): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(tlsKey), 0)
+    WebClusterAddTcpBacklog(builder, tcpBacklog)
+
+def WebClusterAddTlsKey(builder, tlsKey):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(tlsKey), 0)
+
 def AddTlsKey(builder, tlsKey):
-    return WebClusterAddTlsKey(builder, tlsKey)
-def WebClusterAddTlsCertificate(builder, tlsCertificate): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(tlsCertificate), 0)
+    WebClusterAddTlsKey(builder, tlsKey)
+
+def WebClusterAddTlsCertificate(builder, tlsCertificate):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(tlsCertificate), 0)
+
 def AddTlsCertificate(builder, tlsCertificate):
-    return WebClusterAddTlsCertificate(builder, tlsCertificate)
-def WebClusterAddTlsChainCertificates(builder, tlsChainCertificates): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(tlsChainCertificates), 0)
+    WebClusterAddTlsCertificate(builder, tlsCertificate)
+
+def WebClusterAddTlsChainCertificates(builder, tlsChainCertificates):
+    builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(tlsChainCertificates), 0)
+
 def AddTlsChainCertificates(builder, tlsChainCertificates):
-    return WebClusterAddTlsChainCertificates(builder, tlsChainCertificates)
-def WebClusterStartTlsChainCertificatesVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTlsChainCertificatesVector(builder, numElems):
+    WebClusterAddTlsChainCertificates(builder, tlsChainCertificates)
+
+def WebClusterStartTlsChainCertificatesVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTlsChainCertificatesVector(builder, numElems: int) -> int:
     return WebClusterStartTlsChainCertificatesVector(builder, numElems)
-def WebClusterAddTlsCaCertificates(builder, tlsCaCertificates): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(tlsCaCertificates), 0)
+
+def WebClusterAddTlsCaCertificates(builder, tlsCaCertificates):
+    builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(tlsCaCertificates), 0)
+
 def AddTlsCaCertificates(builder, tlsCaCertificates):
-    return WebClusterAddTlsCaCertificates(builder, tlsCaCertificates)
-def WebClusterStartTlsCaCertificatesVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTlsCaCertificatesVector(builder, numElems):
+    WebClusterAddTlsCaCertificates(builder, tlsCaCertificates)
+
+def WebClusterStartTlsCaCertificatesVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTlsCaCertificatesVector(builder, numElems: int) -> int:
     return WebClusterStartTlsCaCertificatesVector(builder, numElems)
-def WebClusterAddTlsCiphers(builder, tlsCiphers): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(tlsCiphers), 0)
+
+def WebClusterAddTlsCiphers(builder, tlsCiphers):
+    builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(tlsCiphers), 0)
+
 def AddTlsCiphers(builder, tlsCiphers):
-    return WebClusterAddTlsCiphers(builder, tlsCiphers)
-def WebClusterAddTlsDhparam(builder, tlsDhparam): builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(tlsDhparam), 0)
+    WebClusterAddTlsCiphers(builder, tlsCiphers)
+
+def WebClusterAddTlsDhparam(builder, tlsDhparam):
+    builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(tlsDhparam), 0)
+
 def AddTlsDhparam(builder, tlsDhparam):
-    return WebClusterAddTlsDhparam(builder, tlsDhparam)
-def WebClusterAddHttpClientTimeout(builder, httpClientTimeout): builder.PrependInt32Slot(17, httpClientTimeout, 0)
+    WebClusterAddTlsDhparam(builder, tlsDhparam)
+
+def WebClusterAddHttpClientTimeout(builder, httpClientTimeout):
+    builder.PrependInt32Slot(17, httpClientTimeout, 0)
+
 def AddHttpClientTimeout(builder, httpClientTimeout):
-    return WebClusterAddHttpClientTimeout(builder, httpClientTimeout)
-def WebClusterAddHttpHsts(builder, httpHsts): builder.PrependBoolSlot(18, httpHsts, 0)
+    WebClusterAddHttpClientTimeout(builder, httpClientTimeout)
+
+def WebClusterAddHttpHsts(builder, httpHsts):
+    builder.PrependBoolSlot(18, httpHsts, 0)
+
 def AddHttpHsts(builder, httpHsts):
-    return WebClusterAddHttpHsts(builder, httpHsts)
-def WebClusterAddHttpHstsMaxAge(builder, httpHstsMaxAge): builder.PrependInt32Slot(19, httpHstsMaxAge, 0)
+    WebClusterAddHttpHsts(builder, httpHsts)
+
+def WebClusterAddHttpHstsMaxAge(builder, httpHstsMaxAge):
+    builder.PrependInt32Slot(19, httpHstsMaxAge, 0)
+
 def AddHttpHstsMaxAge(builder, httpHstsMaxAge):
-    return WebClusterAddHttpHstsMaxAge(builder, httpHstsMaxAge)
-def WebClusterAddHttpAccessLog(builder, httpAccessLog): builder.PrependBoolSlot(20, httpAccessLog, 0)
+    WebClusterAddHttpHstsMaxAge(builder, httpHstsMaxAge)
+
+def WebClusterAddHttpAccessLog(builder, httpAccessLog):
+    builder.PrependBoolSlot(20, httpAccessLog, 0)
+
 def AddHttpAccessLog(builder, httpAccessLog):
-    return WebClusterAddHttpAccessLog(builder, httpAccessLog)
-def WebClusterAddHttpDisplayTracebacks(builder, httpDisplayTracebacks): builder.PrependBoolSlot(21, httpDisplayTracebacks, 0)
+    WebClusterAddHttpAccessLog(builder, httpAccessLog)
+
+def WebClusterAddHttpDisplayTracebacks(builder, httpDisplayTracebacks):
+    builder.PrependBoolSlot(21, httpDisplayTracebacks, 0)
+
 def AddHttpDisplayTracebacks(builder, httpDisplayTracebacks):
-    return WebClusterAddHttpDisplayTracebacks(builder, httpDisplayTracebacks)
-def WebClusterEnd(builder): return builder.EndObject()
+    WebClusterAddHttpDisplayTracebacks(builder, httpDisplayTracebacks)
+
+def WebClusterEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return WebClusterEnd(builder)

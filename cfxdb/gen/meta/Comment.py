@@ -180,45 +180,86 @@ class Comment(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def CommentStart(builder): builder.StartObject(7)
+def CommentStart(builder):
+    builder.StartObject(7)
+
 def Start(builder):
-    return CommentStart(builder)
-def CommentAddOid(builder, oid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    CommentStart(builder)
+
+def CommentAddOid(builder, oid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return CommentAddOid(builder, oid)
-def CommentStartOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOidVector(builder, numElems):
+    CommentAddOid(builder, oid)
+
+def CommentStartOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOidVector(builder, numElems: int) -> int:
     return CommentStartOidVector(builder, numElems)
-def CommentAddTableOid(builder, tableOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
+def CommentAddTableOid(builder, tableOid):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 def AddTableOid(builder, tableOid):
-    return CommentAddTableOid(builder, tableOid)
-def CommentStartTableOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTableOidVector(builder, numElems):
+    CommentAddTableOid(builder, tableOid)
+
+def CommentStartTableOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTableOidVector(builder, numElems: int) -> int:
     return CommentStartTableOidVector(builder, numElems)
-def CommentAddObjectOid(builder, objectOid): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
+def CommentAddObjectOid(builder, objectOid):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 def AddObjectOid(builder, objectOid):
-    return CommentAddObjectOid(builder, objectOid)
-def CommentStartObjectOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartObjectOidVector(builder, numElems):
+    CommentAddObjectOid(builder, objectOid)
+
+def CommentStartObjectOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartObjectOidVector(builder, numElems: int) -> int:
     return CommentStartObjectOidVector(builder, numElems)
-def CommentAddAuthorOid(builder, authorOid): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authorOid), 0)
+
+def CommentAddAuthorOid(builder, authorOid):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authorOid), 0)
+
 def AddAuthorOid(builder, authorOid):
-    return CommentAddAuthorOid(builder, authorOid)
-def CommentStartAuthorOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartAuthorOidVector(builder, numElems):
+    CommentAddAuthorOid(builder, authorOid)
+
+def CommentStartAuthorOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartAuthorOidVector(builder, numElems: int) -> int:
     return CommentStartAuthorOidVector(builder, numElems)
-def CommentAddReplyTo(builder, replyTo): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(replyTo), 0)
+
+def CommentAddReplyTo(builder, replyTo):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(replyTo), 0)
+
 def AddReplyTo(builder, replyTo):
-    return CommentAddReplyTo(builder, replyTo)
-def CommentStartReplyToVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartReplyToVector(builder, numElems):
+    CommentAddReplyTo(builder, replyTo)
+
+def CommentStartReplyToVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartReplyToVector(builder, numElems: int) -> int:
     return CommentStartReplyToVector(builder, numElems)
-def CommentAddComment(builder, comment): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(comment), 0)
+
+def CommentAddComment(builder, comment):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(comment), 0)
+
 def AddComment(builder, comment):
-    return CommentAddComment(builder, comment)
-def CommentAddPosted(builder, posted): builder.PrependUint64Slot(6, posted, 0)
+    CommentAddComment(builder, comment)
+
+def CommentAddPosted(builder, posted):
+    builder.PrependUint64Slot(6, posted, 0)
+
 def AddPosted(builder, posted):
-    return CommentAddPosted(builder, posted)
-def CommentEnd(builder): return builder.EndObject()
+    CommentAddPosted(builder, posted)
+
+def CommentEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return CommentEnd(builder)

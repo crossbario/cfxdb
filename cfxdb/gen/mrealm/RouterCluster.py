@@ -89,30 +89,56 @@ class RouterCluster(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def RouterClusterStart(builder): builder.StartObject(6)
+def RouterClusterStart(builder):
+    builder.StartObject(6)
+
 def Start(builder):
-    return RouterClusterStart(builder)
-def RouterClusterAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    RouterClusterStart(builder)
+
+def RouterClusterAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return RouterClusterAddOid(builder, oid)
-def RouterClusterAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    RouterClusterAddOid(builder, oid)
+
+def RouterClusterAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return RouterClusterAddLabel(builder, label)
-def RouterClusterAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    RouterClusterAddLabel(builder, label)
+
+def RouterClusterAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return RouterClusterAddDescription(builder, description)
-def RouterClusterAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    RouterClusterAddDescription(builder, description)
+
+def RouterClusterAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return RouterClusterAddTags(builder, tags)
-def RouterClusterStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    RouterClusterAddTags(builder, tags)
+
+def RouterClusterStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return RouterClusterStartTagsVector(builder, numElems)
-def RouterClusterAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def RouterClusterAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return RouterClusterAddName(builder, name)
-def RouterClusterAddStatus(builder, status): builder.PrependUint8Slot(5, status, 0)
+    RouterClusterAddName(builder, name)
+
+def RouterClusterAddStatus(builder, status):
+    builder.PrependUint8Slot(5, status, 0)
+
 def AddStatus(builder, status):
-    return RouterClusterAddStatus(builder, status)
-def RouterClusterEnd(builder): return builder.EndObject()
+    RouterClusterAddStatus(builder, status)
+
+def RouterClusterEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return RouterClusterEnd(builder)

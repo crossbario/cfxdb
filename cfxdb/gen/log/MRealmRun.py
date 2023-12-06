@@ -76,24 +76,44 @@ class MRealmRun(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def MRealmRunStart(builder): builder.StartObject(4)
+def MRealmRunStart(builder):
+    builder.StartObject(4)
+
 def Start(builder):
-    return MRealmRunStart(builder)
-def MRealmRunAddEnded(builder, ended): builder.PrependUint64Slot(0, ended, 0)
+    MRealmRunStart(builder)
+
+def MRealmRunAddEnded(builder, ended):
+    builder.PrependUint64Slot(0, ended, 0)
+
 def AddEnded(builder, ended):
-    return MRealmRunAddEnded(builder, ended)
-def MRealmRunAddRunId(builder, runId): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(runId), 0)
+    MRealmRunAddEnded(builder, ended)
+
+def MRealmRunAddRunId(builder, runId):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(runId), 0)
+
 def AddRunId(builder, runId):
-    return MRealmRunAddRunId(builder, runId)
-def MRealmRunStartRunIdVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartRunIdVector(builder, numElems):
+    MRealmRunAddRunId(builder, runId)
+
+def MRealmRunStartRunIdVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartRunIdVector(builder, numElems: int) -> int:
     return MRealmRunStartRunIdVector(builder, numElems)
-def MRealmRunAddStarted(builder, started): builder.PrependUint64Slot(2, started, 0)
+
+def MRealmRunAddStarted(builder, started):
+    builder.PrependUint64Slot(2, started, 0)
+
 def AddStarted(builder, started):
-    return MRealmRunAddStarted(builder, started)
-def MRealmRunAddState(builder, state): builder.PrependUint8Slot(3, state, 0)
+    MRealmRunAddStarted(builder, started)
+
+def MRealmRunAddState(builder, state):
+    builder.PrependUint8Slot(3, state, 0)
+
 def AddState(builder, state):
-    return MRealmRunAddState(builder, state)
-def MRealmRunEnd(builder): return builder.EndObject()
+    MRealmRunAddState(builder, state)
+
+def MRealmRunEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return MRealmRunEnd(builder)

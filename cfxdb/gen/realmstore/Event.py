@@ -73,27 +73,50 @@ class Event(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def EventStart(builder): builder.StartObject(6)
+def EventStart(builder):
+    builder.StartObject(6)
+
 def Start(builder):
-    return EventStart(builder)
-def EventAddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
+    EventStart(builder)
+
+def EventAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(0, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return EventAddTimestamp(builder, timestamp)
-def EventAddSubscription(builder, subscription): builder.PrependUint64Slot(1, subscription, 0)
+    EventAddTimestamp(builder, timestamp)
+
+def EventAddSubscription(builder, subscription):
+    builder.PrependUint64Slot(1, subscription, 0)
+
 def AddSubscription(builder, subscription):
-    return EventAddSubscription(builder, subscription)
-def EventAddPublication(builder, publication): builder.PrependUint64Slot(2, publication, 0)
+    EventAddSubscription(builder, subscription)
+
+def EventAddPublication(builder, publication):
+    builder.PrependUint64Slot(2, publication, 0)
+
 def AddPublication(builder, publication):
-    return EventAddPublication(builder, publication)
-def EventAddReceiver(builder, receiver): builder.PrependUint64Slot(3, receiver, 0)
+    EventAddPublication(builder, publication)
+
+def EventAddReceiver(builder, receiver):
+    builder.PrependUint64Slot(3, receiver, 0)
+
 def AddReceiver(builder, receiver):
-    return EventAddReceiver(builder, receiver)
-def EventAddRetained(builder, retained): builder.PrependBoolSlot(4, retained, 0)
+    EventAddReceiver(builder, receiver)
+
+def EventAddRetained(builder, retained):
+    builder.PrependBoolSlot(4, retained, 0)
+
 def AddRetained(builder, retained):
-    return EventAddRetained(builder, retained)
-def EventAddAcknowledgedDelivery(builder, acknowledgedDelivery): builder.PrependBoolSlot(5, acknowledgedDelivery, 0)
+    EventAddRetained(builder, retained)
+
+def EventAddAcknowledgedDelivery(builder, acknowledgedDelivery):
+    builder.PrependBoolSlot(5, acknowledgedDelivery, 0)
+
 def AddAcknowledgedDelivery(builder, acknowledgedDelivery):
-    return EventAddAcknowledgedDelivery(builder, acknowledgedDelivery)
-def EventEnd(builder): return builder.EndObject()
+    EventAddAcknowledgedDelivery(builder, acknowledgedDelivery)
+
+def EventEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return EventEnd(builder)

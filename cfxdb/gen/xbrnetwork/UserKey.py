@@ -88,24 +88,44 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         return o == 0
 
-def UserKeyStart(builder): builder.StartObject(3)
+def UserKeyStart(builder):
+    builder.StartObject(3)
+
 def Start(builder):
-    return UserKeyStart(builder)
-def UserKeyAddPubkey(builder, pubkey): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+    UserKeyStart(builder)
+
+def UserKeyAddPubkey(builder, pubkey):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 def AddPubkey(builder, pubkey):
-    return UserKeyAddPubkey(builder, pubkey)
-def UserKeyStartPubkeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPubkeyVector(builder, numElems):
+    UserKeyAddPubkey(builder, pubkey)
+
+def UserKeyStartPubkeyVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPubkeyVector(builder, numElems: int) -> int:
     return UserKeyStartPubkeyVector(builder, numElems)
-def UserKeyAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+
+def UserKeyAddCreated(builder, created):
+    builder.PrependUint64Slot(1, created, 0)
+
 def AddCreated(builder, created):
-    return UserKeyAddCreated(builder, created)
-def UserKeyAddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+    UserKeyAddCreated(builder, created)
+
+def UserKeyAddOwner(builder, owner):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 def AddOwner(builder, owner):
-    return UserKeyAddOwner(builder, owner)
-def UserKeyStartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOwnerVector(builder, numElems):
+    UserKeyAddOwner(builder, owner)
+
+def UserKeyStartOwnerVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOwnerVector(builder, numElems: int) -> int:
     return UserKeyStartOwnerVector(builder, numElems)
-def UserKeyEnd(builder): return builder.EndObject()
+
+def UserKeyEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return UserKeyEnd(builder)

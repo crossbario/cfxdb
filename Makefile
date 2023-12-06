@@ -7,18 +7,21 @@ FLATC=/usr/local/bin/flatc
 
 build_flatc:
 	cd /tmp && \
-	wget https://github.com/google/flatbuffers/archive/v1.12.0.tar.gz && \
-	tar xvf v1.12.0.tar.gz && \
-	cd flatbuffers-1.12.0 && \
+	wget https://github.com/google/flatbuffers/archive/v23.5.26.tar.gz && \
+	tar xvf v23.5.26.tar.gz && \
+	cd flatbuffers-23.5.26 && \
 	cmake . && \
 	make && \
 	sudo cp ./flatc $(FLATC) && \
 	cd .. && \
-	rm -rf flatbuffers-1.12.0 && rm v1.12.0.tar.gz
+	rm -rf flatbuffers-23.5.26 && rm v23.5.26.tar.gz
+	which flatc
+	flatc --version
 
 clean:
 	-find . -type d -name "__pycache__" -exec rm -rf {} \;
 	-rm -rf ./.pytest_cache
+	-rm -rf ./.mypy_cache/
 	-rm -rf ./build
 	-rm -rf ./dist
 	-rm -rf ./*.egg-info

@@ -501,195 +501,386 @@ class MNodeLog(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def MNodeLogStart(builder): builder.StartObject(60)
+def MNodeLogStart(builder):
+    builder.StartObject(60)
+
 def Start(builder):
-    return MNodeLogStart(builder)
-def MNodeLogAddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
+    MNodeLogStart(builder)
+
+def MNodeLogAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(0, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return MNodeLogAddTimestamp(builder, timestamp)
-def MNodeLogAddNodeId(builder, nodeId): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeId), 0)
+    MNodeLogAddTimestamp(builder, timestamp)
+
+def MNodeLogAddNodeId(builder, nodeId):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeId), 0)
+
 def AddNodeId(builder, nodeId):
-    return MNodeLogAddNodeId(builder, nodeId)
-def MNodeLogStartNodeIdVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartNodeIdVector(builder, numElems):
+    MNodeLogAddNodeId(builder, nodeId)
+
+def MNodeLogStartNodeIdVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartNodeIdVector(builder, numElems: int) -> int:
     return MNodeLogStartNodeIdVector(builder, numElems)
-def MNodeLogAddPeriod(builder, period): builder.PrependUint32Slot(2, period, 0)
+
+def MNodeLogAddPeriod(builder, period):
+    builder.PrependUint32Slot(2, period, 0)
+
 def AddPeriod(builder, period):
-    return MNodeLogAddPeriod(builder, period)
-def MNodeLogAddMrealmId(builder, mrealmId): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(mrealmId), 0)
+    MNodeLogAddPeriod(builder, period)
+
+def MNodeLogAddMrealmId(builder, mrealmId):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(mrealmId), 0)
+
 def AddMrealmId(builder, mrealmId):
-    return MNodeLogAddMrealmId(builder, mrealmId)
-def MNodeLogStartMrealmIdVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartMrealmIdVector(builder, numElems):
+    MNodeLogAddMrealmId(builder, mrealmId)
+
+def MNodeLogStartMrealmIdVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartMrealmIdVector(builder, numElems: int) -> int:
     return MNodeLogStartMrealmIdVector(builder, numElems)
-def MNodeLogAddState(builder, state): builder.PrependUint8Slot(4, state, 0)
+
+def MNodeLogAddState(builder, state):
+    builder.PrependUint8Slot(4, state, 0)
+
 def AddState(builder, state):
-    return MNodeLogAddState(builder, state)
-def MNodeLogAddSession(builder, session): builder.PrependUint64Slot(5, session, 0)
+    MNodeLogAddState(builder, state)
+
+def MNodeLogAddSession(builder, session):
+    builder.PrependUint64Slot(5, session, 0)
+
 def AddSession(builder, session):
-    return MNodeLogAddSession(builder, session)
-def MNodeLogAddSent(builder, sent): builder.PrependUint64Slot(6, sent, 0)
+    MNodeLogAddSession(builder, session)
+
+def MNodeLogAddSent(builder, sent):
+    builder.PrependUint64Slot(6, sent, 0)
+
 def AddSent(builder, sent):
-    return MNodeLogAddSent(builder, sent)
-def MNodeLogAddSeq(builder, seq): builder.PrependUint64Slot(7, seq, 0)
+    MNodeLogAddSent(builder, sent)
+
+def MNodeLogAddSeq(builder, seq):
+    builder.PrependUint64Slot(7, seq, 0)
+
 def AddSeq(builder, seq):
-    return MNodeLogAddSeq(builder, seq)
-def MNodeLogAddControllers(builder, controllers): builder.PrependUint16Slot(8, controllers, 0)
+    MNodeLogAddSeq(builder, seq)
+
+def MNodeLogAddControllers(builder, controllers):
+    builder.PrependUint16Slot(8, controllers, 0)
+
 def AddControllers(builder, controllers):
-    return MNodeLogAddControllers(builder, controllers)
-def MNodeLogAddRouters(builder, routers): builder.PrependUint16Slot(9, routers, 0)
+    MNodeLogAddControllers(builder, controllers)
+
+def MNodeLogAddRouters(builder, routers):
+    builder.PrependUint16Slot(9, routers, 0)
+
 def AddRouters(builder, routers):
-    return MNodeLogAddRouters(builder, routers)
-def MNodeLogAddContainers(builder, containers): builder.PrependUint16Slot(10, containers, 0)
+    MNodeLogAddRouters(builder, routers)
+
+def MNodeLogAddContainers(builder, containers):
+    builder.PrependUint16Slot(10, containers, 0)
+
 def AddContainers(builder, containers):
-    return MNodeLogAddContainers(builder, containers)
-def MNodeLogAddGuests(builder, guests): builder.PrependUint16Slot(11, guests, 0)
+    MNodeLogAddContainers(builder, containers)
+
+def MNodeLogAddGuests(builder, guests):
+    builder.PrependUint16Slot(11, guests, 0)
+
 def AddGuests(builder, guests):
-    return MNodeLogAddGuests(builder, guests)
-def MNodeLogAddProxies(builder, proxies): builder.PrependUint16Slot(12, proxies, 0)
+    MNodeLogAddGuests(builder, guests)
+
+def MNodeLogAddProxies(builder, proxies):
+    builder.PrependUint16Slot(12, proxies, 0)
+
 def AddProxies(builder, proxies):
-    return MNodeLogAddProxies(builder, proxies)
-def MNodeLogAddMarketmakers(builder, marketmakers): builder.PrependUint16Slot(13, marketmakers, 0)
+    MNodeLogAddProxies(builder, proxies)
+
+def MNodeLogAddMarketmakers(builder, marketmakers):
+    builder.PrependUint16Slot(13, marketmakers, 0)
+
 def AddMarketmakers(builder, marketmakers):
-    return MNodeLogAddMarketmakers(builder, marketmakers)
-def MNodeLogAddHostmonitors(builder, hostmonitors): builder.PrependUint16Slot(14, hostmonitors, 0)
+    MNodeLogAddMarketmakers(builder, marketmakers)
+
+def MNodeLogAddHostmonitors(builder, hostmonitors):
+    builder.PrependUint16Slot(14, hostmonitors, 0)
+
 def AddHostmonitors(builder, hostmonitors):
-    return MNodeLogAddHostmonitors(builder, hostmonitors)
-def MNodeLogAddCpuCtxSwitches(builder, cpuCtxSwitches): builder.PrependUint64Slot(15, cpuCtxSwitches, 0)
+    MNodeLogAddHostmonitors(builder, hostmonitors)
+
+def MNodeLogAddCpuCtxSwitches(builder, cpuCtxSwitches):
+    builder.PrependUint64Slot(15, cpuCtxSwitches, 0)
+
 def AddCpuCtxSwitches(builder, cpuCtxSwitches):
-    return MNodeLogAddCpuCtxSwitches(builder, cpuCtxSwitches)
-def MNodeLogAddCpuFreq(builder, cpuFreq): builder.PrependFloat32Slot(16, cpuFreq, 0.0)
+    MNodeLogAddCpuCtxSwitches(builder, cpuCtxSwitches)
+
+def MNodeLogAddCpuFreq(builder, cpuFreq):
+    builder.PrependFloat32Slot(16, cpuFreq, 0.0)
+
 def AddCpuFreq(builder, cpuFreq):
-    return MNodeLogAddCpuFreq(builder, cpuFreq)
-def MNodeLogAddCpuGuest(builder, cpuGuest): builder.PrependFloat32Slot(17, cpuGuest, 0.0)
+    MNodeLogAddCpuFreq(builder, cpuFreq)
+
+def MNodeLogAddCpuGuest(builder, cpuGuest):
+    builder.PrependFloat32Slot(17, cpuGuest, 0.0)
+
 def AddCpuGuest(builder, cpuGuest):
-    return MNodeLogAddCpuGuest(builder, cpuGuest)
-def MNodeLogAddCpuGuestNice(builder, cpuGuestNice): builder.PrependFloat32Slot(18, cpuGuestNice, 0.0)
+    MNodeLogAddCpuGuest(builder, cpuGuest)
+
+def MNodeLogAddCpuGuestNice(builder, cpuGuestNice):
+    builder.PrependFloat32Slot(18, cpuGuestNice, 0.0)
+
 def AddCpuGuestNice(builder, cpuGuestNice):
-    return MNodeLogAddCpuGuestNice(builder, cpuGuestNice)
-def MNodeLogAddCpuIdle(builder, cpuIdle): builder.PrependFloat32Slot(19, cpuIdle, 0.0)
+    MNodeLogAddCpuGuestNice(builder, cpuGuestNice)
+
+def MNodeLogAddCpuIdle(builder, cpuIdle):
+    builder.PrependFloat32Slot(19, cpuIdle, 0.0)
+
 def AddCpuIdle(builder, cpuIdle):
-    return MNodeLogAddCpuIdle(builder, cpuIdle)
-def MNodeLogAddCpuInterrupts(builder, cpuInterrupts): builder.PrependUint64Slot(20, cpuInterrupts, 0)
+    MNodeLogAddCpuIdle(builder, cpuIdle)
+
+def MNodeLogAddCpuInterrupts(builder, cpuInterrupts):
+    builder.PrependUint64Slot(20, cpuInterrupts, 0)
+
 def AddCpuInterrupts(builder, cpuInterrupts):
-    return MNodeLogAddCpuInterrupts(builder, cpuInterrupts)
-def MNodeLogAddCpuIowait(builder, cpuIowait): builder.PrependFloat32Slot(21, cpuIowait, 0.0)
+    MNodeLogAddCpuInterrupts(builder, cpuInterrupts)
+
+def MNodeLogAddCpuIowait(builder, cpuIowait):
+    builder.PrependFloat32Slot(21, cpuIowait, 0.0)
+
 def AddCpuIowait(builder, cpuIowait):
-    return MNodeLogAddCpuIowait(builder, cpuIowait)
-def MNodeLogAddCpuIrq(builder, cpuIrq): builder.PrependFloat32Slot(22, cpuIrq, 0.0)
+    MNodeLogAddCpuIowait(builder, cpuIowait)
+
+def MNodeLogAddCpuIrq(builder, cpuIrq):
+    builder.PrependFloat32Slot(22, cpuIrq, 0.0)
+
 def AddCpuIrq(builder, cpuIrq):
-    return MNodeLogAddCpuIrq(builder, cpuIrq)
-def MNodeLogAddCpuNice(builder, cpuNice): builder.PrependFloat32Slot(23, cpuNice, 0.0)
+    MNodeLogAddCpuIrq(builder, cpuIrq)
+
+def MNodeLogAddCpuNice(builder, cpuNice):
+    builder.PrependFloat32Slot(23, cpuNice, 0.0)
+
 def AddCpuNice(builder, cpuNice):
-    return MNodeLogAddCpuNice(builder, cpuNice)
-def MNodeLogAddCpuSoftInterrupts(builder, cpuSoftInterrupts): builder.PrependUint64Slot(24, cpuSoftInterrupts, 0)
+    MNodeLogAddCpuNice(builder, cpuNice)
+
+def MNodeLogAddCpuSoftInterrupts(builder, cpuSoftInterrupts):
+    builder.PrependUint64Slot(24, cpuSoftInterrupts, 0)
+
 def AddCpuSoftInterrupts(builder, cpuSoftInterrupts):
-    return MNodeLogAddCpuSoftInterrupts(builder, cpuSoftInterrupts)
-def MNodeLogAddCpuSoftirq(builder, cpuSoftirq): builder.PrependFloat32Slot(25, cpuSoftirq, 0.0)
+    MNodeLogAddCpuSoftInterrupts(builder, cpuSoftInterrupts)
+
+def MNodeLogAddCpuSoftirq(builder, cpuSoftirq):
+    builder.PrependFloat32Slot(25, cpuSoftirq, 0.0)
+
 def AddCpuSoftirq(builder, cpuSoftirq):
-    return MNodeLogAddCpuSoftirq(builder, cpuSoftirq)
-def MNodeLogAddCpuSteal(builder, cpuSteal): builder.PrependFloat32Slot(26, cpuSteal, 0.0)
+    MNodeLogAddCpuSoftirq(builder, cpuSoftirq)
+
+def MNodeLogAddCpuSteal(builder, cpuSteal):
+    builder.PrependFloat32Slot(26, cpuSteal, 0.0)
+
 def AddCpuSteal(builder, cpuSteal):
-    return MNodeLogAddCpuSteal(builder, cpuSteal)
-def MNodeLogAddCpuSystem(builder, cpuSystem): builder.PrependFloat32Slot(27, cpuSystem, 0.0)
+    MNodeLogAddCpuSteal(builder, cpuSteal)
+
+def MNodeLogAddCpuSystem(builder, cpuSystem):
+    builder.PrependFloat32Slot(27, cpuSystem, 0.0)
+
 def AddCpuSystem(builder, cpuSystem):
-    return MNodeLogAddCpuSystem(builder, cpuSystem)
-def MNodeLogAddCpuUser(builder, cpuUser): builder.PrependFloat32Slot(28, cpuUser, 0.0)
+    MNodeLogAddCpuSystem(builder, cpuSystem)
+
+def MNodeLogAddCpuUser(builder, cpuUser):
+    builder.PrependFloat32Slot(28, cpuUser, 0.0)
+
 def AddCpuUser(builder, cpuUser):
-    return MNodeLogAddCpuUser(builder, cpuUser)
-def MNodeLogAddDiskBusyTime(builder, diskBusyTime): builder.PrependUint64Slot(29, diskBusyTime, 0)
+    MNodeLogAddCpuUser(builder, cpuUser)
+
+def MNodeLogAddDiskBusyTime(builder, diskBusyTime):
+    builder.PrependUint64Slot(29, diskBusyTime, 0)
+
 def AddDiskBusyTime(builder, diskBusyTime):
-    return MNodeLogAddDiskBusyTime(builder, diskBusyTime)
-def MNodeLogAddDiskReadBytes(builder, diskReadBytes): builder.PrependUint64Slot(30, diskReadBytes, 0)
+    MNodeLogAddDiskBusyTime(builder, diskBusyTime)
+
+def MNodeLogAddDiskReadBytes(builder, diskReadBytes):
+    builder.PrependUint64Slot(30, diskReadBytes, 0)
+
 def AddDiskReadBytes(builder, diskReadBytes):
-    return MNodeLogAddDiskReadBytes(builder, diskReadBytes)
-def MNodeLogAddDiskReadCount(builder, diskReadCount): builder.PrependUint64Slot(31, diskReadCount, 0)
+    MNodeLogAddDiskReadBytes(builder, diskReadBytes)
+
+def MNodeLogAddDiskReadCount(builder, diskReadCount):
+    builder.PrependUint64Slot(31, diskReadCount, 0)
+
 def AddDiskReadCount(builder, diskReadCount):
-    return MNodeLogAddDiskReadCount(builder, diskReadCount)
-def MNodeLogAddDiskReadMergedCount(builder, diskReadMergedCount): builder.PrependUint64Slot(32, diskReadMergedCount, 0)
+    MNodeLogAddDiskReadCount(builder, diskReadCount)
+
+def MNodeLogAddDiskReadMergedCount(builder, diskReadMergedCount):
+    builder.PrependUint64Slot(32, diskReadMergedCount, 0)
+
 def AddDiskReadMergedCount(builder, diskReadMergedCount):
-    return MNodeLogAddDiskReadMergedCount(builder, diskReadMergedCount)
-def MNodeLogAddDiskReadTime(builder, diskReadTime): builder.PrependUint64Slot(33, diskReadTime, 0)
+    MNodeLogAddDiskReadMergedCount(builder, diskReadMergedCount)
+
+def MNodeLogAddDiskReadTime(builder, diskReadTime):
+    builder.PrependUint64Slot(33, diskReadTime, 0)
+
 def AddDiskReadTime(builder, diskReadTime):
-    return MNodeLogAddDiskReadTime(builder, diskReadTime)
-def MNodeLogAddDiskWriteBytes(builder, diskWriteBytes): builder.PrependUint64Slot(34, diskWriteBytes, 0)
+    MNodeLogAddDiskReadTime(builder, diskReadTime)
+
+def MNodeLogAddDiskWriteBytes(builder, diskWriteBytes):
+    builder.PrependUint64Slot(34, diskWriteBytes, 0)
+
 def AddDiskWriteBytes(builder, diskWriteBytes):
-    return MNodeLogAddDiskWriteBytes(builder, diskWriteBytes)
-def MNodeLogAddDiskWriteCount(builder, diskWriteCount): builder.PrependUint64Slot(35, diskWriteCount, 0)
+    MNodeLogAddDiskWriteBytes(builder, diskWriteBytes)
+
+def MNodeLogAddDiskWriteCount(builder, diskWriteCount):
+    builder.PrependUint64Slot(35, diskWriteCount, 0)
+
 def AddDiskWriteCount(builder, diskWriteCount):
-    return MNodeLogAddDiskWriteCount(builder, diskWriteCount)
-def MNodeLogAddDiskWriteMergedCount(builder, diskWriteMergedCount): builder.PrependUint64Slot(36, diskWriteMergedCount, 0)
+    MNodeLogAddDiskWriteCount(builder, diskWriteCount)
+
+def MNodeLogAddDiskWriteMergedCount(builder, diskWriteMergedCount):
+    builder.PrependUint64Slot(36, diskWriteMergedCount, 0)
+
 def AddDiskWriteMergedCount(builder, diskWriteMergedCount):
-    return MNodeLogAddDiskWriteMergedCount(builder, diskWriteMergedCount)
-def MNodeLogAddDiskWriteTime(builder, diskWriteTime): builder.PrependUint64Slot(37, diskWriteTime, 0)
+    MNodeLogAddDiskWriteMergedCount(builder, diskWriteMergedCount)
+
+def MNodeLogAddDiskWriteTime(builder, diskWriteTime):
+    builder.PrependUint64Slot(37, diskWriteTime, 0)
+
 def AddDiskWriteTime(builder, diskWriteTime):
-    return MNodeLogAddDiskWriteTime(builder, diskWriteTime)
-def MNodeLogAddMemoryActive(builder, memoryActive): builder.PrependUint64Slot(38, memoryActive, 0)
+    MNodeLogAddDiskWriteTime(builder, diskWriteTime)
+
+def MNodeLogAddMemoryActive(builder, memoryActive):
+    builder.PrependUint64Slot(38, memoryActive, 0)
+
 def AddMemoryActive(builder, memoryActive):
-    return MNodeLogAddMemoryActive(builder, memoryActive)
-def MNodeLogAddMemoryAvailable(builder, memoryAvailable): builder.PrependUint64Slot(39, memoryAvailable, 0)
+    MNodeLogAddMemoryActive(builder, memoryActive)
+
+def MNodeLogAddMemoryAvailable(builder, memoryAvailable):
+    builder.PrependUint64Slot(39, memoryAvailable, 0)
+
 def AddMemoryAvailable(builder, memoryAvailable):
-    return MNodeLogAddMemoryAvailable(builder, memoryAvailable)
-def MNodeLogAddMemoryBuffers(builder, memoryBuffers): builder.PrependUint64Slot(40, memoryBuffers, 0)
+    MNodeLogAddMemoryAvailable(builder, memoryAvailable)
+
+def MNodeLogAddMemoryBuffers(builder, memoryBuffers):
+    builder.PrependUint64Slot(40, memoryBuffers, 0)
+
 def AddMemoryBuffers(builder, memoryBuffers):
-    return MNodeLogAddMemoryBuffers(builder, memoryBuffers)
-def MNodeLogAddMemoryCached(builder, memoryCached): builder.PrependUint64Slot(41, memoryCached, 0)
+    MNodeLogAddMemoryBuffers(builder, memoryBuffers)
+
+def MNodeLogAddMemoryCached(builder, memoryCached):
+    builder.PrependUint64Slot(41, memoryCached, 0)
+
 def AddMemoryCached(builder, memoryCached):
-    return MNodeLogAddMemoryCached(builder, memoryCached)
-def MNodeLogAddMemoryFree(builder, memoryFree): builder.PrependUint64Slot(42, memoryFree, 0)
+    MNodeLogAddMemoryCached(builder, memoryCached)
+
+def MNodeLogAddMemoryFree(builder, memoryFree):
+    builder.PrependUint64Slot(42, memoryFree, 0)
+
 def AddMemoryFree(builder, memoryFree):
-    return MNodeLogAddMemoryFree(builder, memoryFree)
-def MNodeLogAddMemoryInactive(builder, memoryInactive): builder.PrependUint64Slot(43, memoryInactive, 0)
+    MNodeLogAddMemoryFree(builder, memoryFree)
+
+def MNodeLogAddMemoryInactive(builder, memoryInactive):
+    builder.PrependUint64Slot(43, memoryInactive, 0)
+
 def AddMemoryInactive(builder, memoryInactive):
-    return MNodeLogAddMemoryInactive(builder, memoryInactive)
-def MNodeLogAddMemoryPercent(builder, memoryPercent): builder.PrependFloat32Slot(44, memoryPercent, 0.0)
+    MNodeLogAddMemoryInactive(builder, memoryInactive)
+
+def MNodeLogAddMemoryPercent(builder, memoryPercent):
+    builder.PrependFloat32Slot(44, memoryPercent, 0.0)
+
 def AddMemoryPercent(builder, memoryPercent):
-    return MNodeLogAddMemoryPercent(builder, memoryPercent)
-def MNodeLogAddMemoryShared(builder, memoryShared): builder.PrependUint64Slot(45, memoryShared, 0)
+    MNodeLogAddMemoryPercent(builder, memoryPercent)
+
+def MNodeLogAddMemoryShared(builder, memoryShared):
+    builder.PrependUint64Slot(45, memoryShared, 0)
+
 def AddMemoryShared(builder, memoryShared):
-    return MNodeLogAddMemoryShared(builder, memoryShared)
-def MNodeLogAddMemorySlab(builder, memorySlab): builder.PrependUint64Slot(46, memorySlab, 0)
+    MNodeLogAddMemoryShared(builder, memoryShared)
+
+def MNodeLogAddMemorySlab(builder, memorySlab):
+    builder.PrependUint64Slot(46, memorySlab, 0)
+
 def AddMemorySlab(builder, memorySlab):
-    return MNodeLogAddMemorySlab(builder, memorySlab)
-def MNodeLogAddMemoryTotal(builder, memoryTotal): builder.PrependUint64Slot(47, memoryTotal, 0)
+    MNodeLogAddMemorySlab(builder, memorySlab)
+
+def MNodeLogAddMemoryTotal(builder, memoryTotal):
+    builder.PrependUint64Slot(47, memoryTotal, 0)
+
 def AddMemoryTotal(builder, memoryTotal):
-    return MNodeLogAddMemoryTotal(builder, memoryTotal)
-def MNodeLogAddMemoryUsed(builder, memoryUsed): builder.PrependUint64Slot(48, memoryUsed, 0)
+    MNodeLogAddMemoryTotal(builder, memoryTotal)
+
+def MNodeLogAddMemoryUsed(builder, memoryUsed):
+    builder.PrependUint64Slot(48, memoryUsed, 0)
+
 def AddMemoryUsed(builder, memoryUsed):
-    return MNodeLogAddMemoryUsed(builder, memoryUsed)
-def MNodeLogAddNetworkBytesRecv(builder, networkBytesRecv): builder.PrependUint64Slot(49, networkBytesRecv, 0)
+    MNodeLogAddMemoryUsed(builder, memoryUsed)
+
+def MNodeLogAddNetworkBytesRecv(builder, networkBytesRecv):
+    builder.PrependUint64Slot(49, networkBytesRecv, 0)
+
 def AddNetworkBytesRecv(builder, networkBytesRecv):
-    return MNodeLogAddNetworkBytesRecv(builder, networkBytesRecv)
-def MNodeLogAddNetworkBytesSent(builder, networkBytesSent): builder.PrependUint64Slot(50, networkBytesSent, 0)
+    MNodeLogAddNetworkBytesRecv(builder, networkBytesRecv)
+
+def MNodeLogAddNetworkBytesSent(builder, networkBytesSent):
+    builder.PrependUint64Slot(50, networkBytesSent, 0)
+
 def AddNetworkBytesSent(builder, networkBytesSent):
-    return MNodeLogAddNetworkBytesSent(builder, networkBytesSent)
-def MNodeLogAddNetworkConnectionAfInet(builder, networkConnectionAfInet): builder.PrependUint32Slot(51, networkConnectionAfInet, 0)
+    MNodeLogAddNetworkBytesSent(builder, networkBytesSent)
+
+def MNodeLogAddNetworkConnectionAfInet(builder, networkConnectionAfInet):
+    builder.PrependUint32Slot(51, networkConnectionAfInet, 0)
+
 def AddNetworkConnectionAfInet(builder, networkConnectionAfInet):
-    return MNodeLogAddNetworkConnectionAfInet(builder, networkConnectionAfInet)
-def MNodeLogAddNetworkConnectionAfInet6(builder, networkConnectionAfInet6): builder.PrependUint32Slot(52, networkConnectionAfInet6, 0)
+    MNodeLogAddNetworkConnectionAfInet(builder, networkConnectionAfInet)
+
+def MNodeLogAddNetworkConnectionAfInet6(builder, networkConnectionAfInet6):
+    builder.PrependUint32Slot(52, networkConnectionAfInet6, 0)
+
 def AddNetworkConnectionAfInet6(builder, networkConnectionAfInet6):
-    return MNodeLogAddNetworkConnectionAfInet6(builder, networkConnectionAfInet6)
-def MNodeLogAddNetworkConnectionAfUnix(builder, networkConnectionAfUnix): builder.PrependUint32Slot(53, networkConnectionAfUnix, 0)
+    MNodeLogAddNetworkConnectionAfInet6(builder, networkConnectionAfInet6)
+
+def MNodeLogAddNetworkConnectionAfUnix(builder, networkConnectionAfUnix):
+    builder.PrependUint32Slot(53, networkConnectionAfUnix, 0)
+
 def AddNetworkConnectionAfUnix(builder, networkConnectionAfUnix):
-    return MNodeLogAddNetworkConnectionAfUnix(builder, networkConnectionAfUnix)
-def MNodeLogAddNetworkDropin(builder, networkDropin): builder.PrependUint32Slot(54, networkDropin, 0)
+    MNodeLogAddNetworkConnectionAfUnix(builder, networkConnectionAfUnix)
+
+def MNodeLogAddNetworkDropin(builder, networkDropin):
+    builder.PrependUint32Slot(54, networkDropin, 0)
+
 def AddNetworkDropin(builder, networkDropin):
-    return MNodeLogAddNetworkDropin(builder, networkDropin)
-def MNodeLogAddNetworkDropout(builder, networkDropout): builder.PrependUint32Slot(55, networkDropout, 0)
+    MNodeLogAddNetworkDropin(builder, networkDropin)
+
+def MNodeLogAddNetworkDropout(builder, networkDropout):
+    builder.PrependUint32Slot(55, networkDropout, 0)
+
 def AddNetworkDropout(builder, networkDropout):
-    return MNodeLogAddNetworkDropout(builder, networkDropout)
-def MNodeLogAddNetworkErrin(builder, networkErrin): builder.PrependUint32Slot(56, networkErrin, 0)
+    MNodeLogAddNetworkDropout(builder, networkDropout)
+
+def MNodeLogAddNetworkErrin(builder, networkErrin):
+    builder.PrependUint32Slot(56, networkErrin, 0)
+
 def AddNetworkErrin(builder, networkErrin):
-    return MNodeLogAddNetworkErrin(builder, networkErrin)
-def MNodeLogAddNetworkErrout(builder, networkErrout): builder.PrependUint32Slot(57, networkErrout, 0)
+    MNodeLogAddNetworkErrin(builder, networkErrin)
+
+def MNodeLogAddNetworkErrout(builder, networkErrout):
+    builder.PrependUint32Slot(57, networkErrout, 0)
+
 def AddNetworkErrout(builder, networkErrout):
-    return MNodeLogAddNetworkErrout(builder, networkErrout)
-def MNodeLogAddNetworkPacketsRecv(builder, networkPacketsRecv): builder.PrependUint64Slot(58, networkPacketsRecv, 0)
+    MNodeLogAddNetworkErrout(builder, networkErrout)
+
+def MNodeLogAddNetworkPacketsRecv(builder, networkPacketsRecv):
+    builder.PrependUint64Slot(58, networkPacketsRecv, 0)
+
 def AddNetworkPacketsRecv(builder, networkPacketsRecv):
-    return MNodeLogAddNetworkPacketsRecv(builder, networkPacketsRecv)
-def MNodeLogAddNetworkPacketsSent(builder, networkPacketsSent): builder.PrependUint64Slot(59, networkPacketsSent, 0)
+    MNodeLogAddNetworkPacketsRecv(builder, networkPacketsRecv)
+
+def MNodeLogAddNetworkPacketsSent(builder, networkPacketsSent):
+    builder.PrependUint64Slot(59, networkPacketsSent, 0)
+
 def AddNetworkPacketsSent(builder, networkPacketsSent):
-    return MNodeLogAddNetworkPacketsSent(builder, networkPacketsSent)
-def MNodeLogEnd(builder): return builder.EndObject()
+    MNodeLogAddNetworkPacketsSent(builder, networkPacketsSent)
+
+def MNodeLogEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return MNodeLogEnd(builder)

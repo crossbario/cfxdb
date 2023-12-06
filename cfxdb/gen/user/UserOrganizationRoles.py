@@ -53,15 +53,26 @@ class UserOrganizationRoles(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         return o == 0
 
-def UserOrganizationRolesStart(builder): builder.StartObject(1)
+def UserOrganizationRolesStart(builder):
+    builder.StartObject(1)
+
 def Start(builder):
-    return UserOrganizationRolesStart(builder)
-def UserOrganizationRolesAddRoles(builder, roles): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roles), 0)
+    UserOrganizationRolesStart(builder)
+
+def UserOrganizationRolesAddRoles(builder, roles):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roles), 0)
+
 def AddRoles(builder, roles):
-    return UserOrganizationRolesAddRoles(builder, roles)
-def UserOrganizationRolesStartRolesVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartRolesVector(builder, numElems):
+    UserOrganizationRolesAddRoles(builder, roles)
+
+def UserOrganizationRolesStartRolesVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartRolesVector(builder, numElems: int) -> int:
     return UserOrganizationRolesStartRolesVector(builder, numElems)
-def UserOrganizationRolesEnd(builder): return builder.EndObject()
+
+def UserOrganizationRolesEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return UserOrganizationRolesEnd(builder)

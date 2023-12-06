@@ -152,39 +152,74 @@ class Reaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
-def ReactionStart(builder): builder.StartObject(6)
+def ReactionStart(builder):
+    builder.StartObject(6)
+
 def Start(builder):
-    return ReactionStart(builder)
-def ReactionAddTableOid(builder, tableOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+    ReactionStart(builder)
+
+def ReactionAddTableOid(builder, tableOid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 def AddTableOid(builder, tableOid):
-    return ReactionAddTableOid(builder, tableOid)
-def ReactionStartTableOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTableOidVector(builder, numElems):
+    ReactionAddTableOid(builder, tableOid)
+
+def ReactionStartTableOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTableOidVector(builder, numElems: int) -> int:
     return ReactionStartTableOidVector(builder, numElems)
-def ReactionAddObjectOid(builder, objectOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
+def ReactionAddObjectOid(builder, objectOid):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 def AddObjectOid(builder, objectOid):
-    return ReactionAddObjectOid(builder, objectOid)
-def ReactionStartObjectOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartObjectOidVector(builder, numElems):
+    ReactionAddObjectOid(builder, objectOid)
+
+def ReactionStartObjectOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartObjectOidVector(builder, numElems: int) -> int:
     return ReactionStartObjectOidVector(builder, numElems)
-def ReactionAddVoterOid(builder, voterOid): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(voterOid), 0)
+
+def ReactionAddVoterOid(builder, voterOid):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(voterOid), 0)
+
 def AddVoterOid(builder, voterOid):
-    return ReactionAddVoterOid(builder, voterOid)
-def ReactionStartVoterOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartVoterOidVector(builder, numElems):
+    ReactionAddVoterOid(builder, voterOid)
+
+def ReactionStartVoterOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartVoterOidVector(builder, numElems: int) -> int:
     return ReactionStartVoterOidVector(builder, numElems)
-def ReactionAddReaction(builder, reaction): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(reaction), 0)
+
+def ReactionAddReaction(builder, reaction):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(reaction), 0)
+
 def AddReaction(builder, reaction):
-    return ReactionAddReaction(builder, reaction)
-def ReactionAddReacted(builder, reacted): builder.PrependUint64Slot(4, reacted, 0)
+    ReactionAddReaction(builder, reaction)
+
+def ReactionAddReacted(builder, reacted):
+    builder.PrependUint64Slot(4, reacted, 0)
+
 def AddReacted(builder, reacted):
-    return ReactionAddReacted(builder, reacted)
-def ReactionAddExtra(builder, extra): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
+    ReactionAddReacted(builder, reacted)
+
+def ReactionAddExtra(builder, extra):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
+
 def AddExtra(builder, extra):
-    return ReactionAddExtra(builder, extra)
-def ReactionStartExtraVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartExtraVector(builder, numElems):
+    ReactionAddExtra(builder, extra)
+
+def ReactionStartExtraVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartExtraVector(builder, numElems: int) -> int:
     return ReactionStartExtraVector(builder, numElems)
-def ReactionEnd(builder): return builder.EndObject()
+
+def ReactionEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return ReactionEnd(builder)

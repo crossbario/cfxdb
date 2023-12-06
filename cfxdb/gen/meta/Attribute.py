@@ -125,33 +125,62 @@ class Attribute(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-def AttributeStart(builder): builder.StartObject(5)
+def AttributeStart(builder):
+    builder.StartObject(5)
+
 def Start(builder):
-    return AttributeStart(builder)
-def AttributeAddTableOid(builder, tableOid): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+    AttributeStart(builder)
+
+def AttributeAddTableOid(builder, tableOid):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 def AddTableOid(builder, tableOid):
-    return AttributeAddTableOid(builder, tableOid)
-def AttributeStartTableOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTableOidVector(builder, numElems):
+    AttributeAddTableOid(builder, tableOid)
+
+def AttributeStartTableOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTableOidVector(builder, numElems: int) -> int:
     return AttributeStartTableOidVector(builder, numElems)
-def AttributeAddObjectOid(builder, objectOid): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
+def AttributeAddObjectOid(builder, objectOid):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 def AddObjectOid(builder, objectOid):
-    return AttributeAddObjectOid(builder, objectOid)
-def AttributeStartObjectOidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartObjectOidVector(builder, numElems):
+    AttributeAddObjectOid(builder, objectOid)
+
+def AttributeStartObjectOidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartObjectOidVector(builder, numElems: int) -> int:
     return AttributeStartObjectOidVector(builder, numElems)
-def AttributeAddAttribute(builder, attribute): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(attribute), 0)
+
+def AttributeAddAttribute(builder, attribute):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(attribute), 0)
+
 def AddAttribute(builder, attribute):
-    return AttributeAddAttribute(builder, attribute)
-def AttributeAddModified(builder, modified): builder.PrependUint64Slot(3, modified, 0)
+    AttributeAddAttribute(builder, attribute)
+
+def AttributeAddModified(builder, modified):
+    builder.PrependUint64Slot(3, modified, 0)
+
 def AddModified(builder, modified):
-    return AttributeAddModified(builder, modified)
-def AttributeAddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+    AttributeAddModified(builder, modified)
+
+def AttributeAddValue(builder, value):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 def AddValue(builder, value):
-    return AttributeAddValue(builder, value)
-def AttributeStartValueVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartValueVector(builder, numElems):
+    AttributeAddValue(builder, value)
+
+def AttributeStartValueVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartValueVector(builder, numElems: int) -> int:
     return AttributeStartValueVector(builder, numElems)
-def AttributeEnd(builder): return builder.EndObject()
+
+def AttributeEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return AttributeEnd(builder)

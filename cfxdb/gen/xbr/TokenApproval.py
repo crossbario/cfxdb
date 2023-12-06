@@ -165,39 +165,74 @@ class TokenApproval(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-def TokenApprovalStart(builder): builder.StartObject(5)
+def TokenApprovalStart(builder):
+    builder.StartObject(5)
+
 def Start(builder):
-    return TokenApprovalStart(builder)
-def TokenApprovalAddTxHash(builder, txHash): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
+    TokenApprovalStart(builder)
+
+def TokenApprovalAddTxHash(builder, txHash):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
+
 def AddTxHash(builder, txHash):
-    return TokenApprovalAddTxHash(builder, txHash)
-def TokenApprovalStartTxHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTxHashVector(builder, numElems):
+    TokenApprovalAddTxHash(builder, txHash)
+
+def TokenApprovalStartTxHashVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTxHashVector(builder, numElems: int) -> int:
     return TokenApprovalStartTxHashVector(builder, numElems)
-def TokenApprovalAddBlockHash(builder, blockHash): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
+def TokenApprovalAddBlockHash(builder, blockHash):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
 def AddBlockHash(builder, blockHash):
-    return TokenApprovalAddBlockHash(builder, blockHash)
-def TokenApprovalStartBlockHashVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartBlockHashVector(builder, numElems):
+    TokenApprovalAddBlockHash(builder, blockHash)
+
+def TokenApprovalStartBlockHashVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartBlockHashVector(builder, numElems: int) -> int:
     return TokenApprovalStartBlockHashVector(builder, numElems)
-def TokenApprovalAddOwnerAddress(builder, ownerAddress): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(ownerAddress), 0)
+
+def TokenApprovalAddOwnerAddress(builder, ownerAddress):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(ownerAddress), 0)
+
 def AddOwnerAddress(builder, ownerAddress):
-    return TokenApprovalAddOwnerAddress(builder, ownerAddress)
-def TokenApprovalStartOwnerAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOwnerAddressVector(builder, numElems):
+    TokenApprovalAddOwnerAddress(builder, ownerAddress)
+
+def TokenApprovalStartOwnerAddressVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOwnerAddressVector(builder, numElems: int) -> int:
     return TokenApprovalStartOwnerAddressVector(builder, numElems)
-def TokenApprovalAddSpenderAddress(builder, spenderAddress): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(spenderAddress), 0)
+
+def TokenApprovalAddSpenderAddress(builder, spenderAddress):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(spenderAddress), 0)
+
 def AddSpenderAddress(builder, spenderAddress):
-    return TokenApprovalAddSpenderAddress(builder, spenderAddress)
-def TokenApprovalStartSpenderAddressVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartSpenderAddressVector(builder, numElems):
+    TokenApprovalAddSpenderAddress(builder, spenderAddress)
+
+def TokenApprovalStartSpenderAddressVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartSpenderAddressVector(builder, numElems: int) -> int:
     return TokenApprovalStartSpenderAddressVector(builder, numElems)
-def TokenApprovalAddValue(builder, value): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
+def TokenApprovalAddValue(builder, value):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 def AddValue(builder, value):
-    return TokenApprovalAddValue(builder, value)
-def TokenApprovalStartValueVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartValueVector(builder, numElems):
+    TokenApprovalAddValue(builder, value)
+
+def TokenApprovalStartValueVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartValueVector(builder, numElems: int) -> int:
     return TokenApprovalStartValueVector(builder, numElems)
-def TokenApprovalEnd(builder): return builder.EndObject()
+
+def TokenApprovalEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return TokenApprovalEnd(builder)

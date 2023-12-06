@@ -97,33 +97,62 @@ class ApplicationRealm(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
-def ApplicationRealmStart(builder): builder.StartObject(8)
+def ApplicationRealmStart(builder):
+    builder.StartObject(8)
+
 def Start(builder):
-    return ApplicationRealmStart(builder)
-def ApplicationRealmAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    ApplicationRealmStart(builder)
+
+def ApplicationRealmAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return ApplicationRealmAddOid(builder, oid)
-def ApplicationRealmAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+    ApplicationRealmAddOid(builder, oid)
+
+def ApplicationRealmAddCreated(builder, created):
+    builder.PrependUint64Slot(1, created, 0)
+
 def AddCreated(builder, created):
-    return ApplicationRealmAddCreated(builder, created)
-def ApplicationRealmAddOwner(builder, owner): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+    ApplicationRealmAddCreated(builder, created)
+
+def ApplicationRealmAddOwner(builder, owner):
+    builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 def AddOwner(builder, owner):
-    return ApplicationRealmAddOwner(builder, owner)
-def ApplicationRealmAddName(builder, name): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+    ApplicationRealmAddOwner(builder, owner)
+
+def ApplicationRealmAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return ApplicationRealmAddName(builder, name)
-def ApplicationRealmAddEventDispatchingChunkSize(builder, eventDispatchingChunkSize): builder.PrependUint32Slot(4, eventDispatchingChunkSize, 0)
+    ApplicationRealmAddName(builder, name)
+
+def ApplicationRealmAddEventDispatchingChunkSize(builder, eventDispatchingChunkSize):
+    builder.PrependUint32Slot(4, eventDispatchingChunkSize, 0)
+
 def AddEventDispatchingChunkSize(builder, eventDispatchingChunkSize):
-    return ApplicationRealmAddEventDispatchingChunkSize(builder, eventDispatchingChunkSize)
-def ApplicationRealmAddUriCheck(builder, uriCheck): builder.PrependInt8Slot(5, uriCheck, 0)
+    ApplicationRealmAddEventDispatchingChunkSize(builder, eventDispatchingChunkSize)
+
+def ApplicationRealmAddUriCheck(builder, uriCheck):
+    builder.PrependInt8Slot(5, uriCheck, 0)
+
 def AddUriCheck(builder, uriCheck):
-    return ApplicationRealmAddUriCheck(builder, uriCheck)
-def ApplicationRealmAddEnableMetaApi(builder, enableMetaApi): builder.PrependBoolSlot(6, enableMetaApi, 0)
+    ApplicationRealmAddUriCheck(builder, uriCheck)
+
+def ApplicationRealmAddEnableMetaApi(builder, enableMetaApi):
+    builder.PrependBoolSlot(6, enableMetaApi, 0)
+
 def AddEnableMetaApi(builder, enableMetaApi):
-    return ApplicationRealmAddEnableMetaApi(builder, enableMetaApi)
-def ApplicationRealmAddBridgeMetaApi(builder, bridgeMetaApi): builder.PrependBoolSlot(7, bridgeMetaApi, 0)
+    ApplicationRealmAddEnableMetaApi(builder, enableMetaApi)
+
+def ApplicationRealmAddBridgeMetaApi(builder, bridgeMetaApi):
+    builder.PrependBoolSlot(7, bridgeMetaApi, 0)
+
 def AddBridgeMetaApi(builder, bridgeMetaApi):
-    return ApplicationRealmAddBridgeMetaApi(builder, bridgeMetaApi)
-def ApplicationRealmEnd(builder): return builder.EndObject()
+    ApplicationRealmAddBridgeMetaApi(builder, bridgeMetaApi)
+
+def ApplicationRealmEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return ApplicationRealmEnd(builder)

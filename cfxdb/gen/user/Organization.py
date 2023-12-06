@@ -98,33 +98,62 @@ class Organization(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
-def OrganizationStart(builder): builder.StartObject(7)
+def OrganizationStart(builder):
+    builder.StartObject(7)
+
 def Start(builder):
-    return OrganizationStart(builder)
-def OrganizationAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    OrganizationStart(builder)
+
+def OrganizationAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return OrganizationAddOid(builder, oid)
-def OrganizationAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    OrganizationAddOid(builder, oid)
+
+def OrganizationAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return OrganizationAddLabel(builder, label)
-def OrganizationAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    OrganizationAddLabel(builder, label)
+
+def OrganizationAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return OrganizationAddDescription(builder, description)
-def OrganizationAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    OrganizationAddDescription(builder, description)
+
+def OrganizationAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return OrganizationAddTags(builder, tags)
-def OrganizationStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    OrganizationAddTags(builder, tags)
+
+def OrganizationStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return OrganizationStartTagsVector(builder, numElems)
-def OrganizationAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def OrganizationAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return OrganizationAddName(builder, name)
-def OrganizationAddOtype(builder, otype): builder.PrependInt8Slot(5, otype, 0)
+    OrganizationAddName(builder, name)
+
+def OrganizationAddOtype(builder, otype):
+    builder.PrependInt8Slot(5, otype, 0)
+
 def AddOtype(builder, otype):
-    return OrganizationAddOtype(builder, otype)
-def OrganizationAddRegistered(builder, registered): builder.PrependUint64Slot(6, registered, 0)
+    OrganizationAddOtype(builder, otype)
+
+def OrganizationAddRegistered(builder, registered):
+    builder.PrependUint64Slot(6, registered, 0)
+
 def AddRegistered(builder, registered):
-    return OrganizationAddRegistered(builder, registered)
-def OrganizationEnd(builder): return builder.EndObject()
+    OrganizationAddRegistered(builder, registered)
+
+def OrganizationEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return OrganizationEnd(builder)

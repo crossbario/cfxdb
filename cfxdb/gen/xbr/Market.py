@@ -337,81 +337,158 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
         return o == 0
 
-def MarketStart(builder): builder.StartObject(14)
+def MarketStart(builder):
+    builder.StartObject(14)
+
 def Start(builder):
-    return MarketStart(builder)
-def MarketAddMarket(builder, market): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(market), 0)
+    MarketStart(builder)
+
+def MarketAddMarket(builder, market):
+    builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(market), 0)
+
 def AddMarket(builder, market):
-    return MarketAddMarket(builder, market)
-def MarketStartMarketVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartMarketVector(builder, numElems):
+    MarketAddMarket(builder, market)
+
+def MarketStartMarketVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartMarketVector(builder, numElems: int) -> int:
     return MarketStartMarketVector(builder, numElems)
-def MarketAddTimestamp(builder, timestamp): builder.PrependUint64Slot(1, timestamp, 0)
+
+def MarketAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(1, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return MarketAddTimestamp(builder, timestamp)
-def MarketAddCreated(builder, created): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
+    MarketAddTimestamp(builder, timestamp)
+
+def MarketAddCreated(builder, created):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
+
 def AddCreated(builder, created):
-    return MarketAddCreated(builder, created)
-def MarketStartCreatedVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartCreatedVector(builder, numElems):
+    MarketAddCreated(builder, created)
+
+def MarketStartCreatedVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartCreatedVector(builder, numElems: int) -> int:
     return MarketStartCreatedVector(builder, numElems)
-def MarketAddSeq(builder, seq): builder.PrependUint32Slot(3, seq, 0)
+
+def MarketAddSeq(builder, seq):
+    builder.PrependUint32Slot(3, seq, 0)
+
 def AddSeq(builder, seq):
-    return MarketAddSeq(builder, seq)
-def MarketAddOwner(builder, owner): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+    MarketAddSeq(builder, seq)
+
+def MarketAddOwner(builder, owner):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 def AddOwner(builder, owner):
-    return MarketAddOwner(builder, owner)
-def MarketStartOwnerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOwnerVector(builder, numElems):
+    MarketAddOwner(builder, owner)
+
+def MarketStartOwnerVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOwnerVector(builder, numElems: int) -> int:
     return MarketStartOwnerVector(builder, numElems)
-def MarketAddCoin(builder, coin): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(coin), 0)
+
+def MarketAddCoin(builder, coin):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(coin), 0)
+
 def AddCoin(builder, coin):
-    return MarketAddCoin(builder, coin)
-def MarketStartCoinVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartCoinVector(builder, numElems):
+    MarketAddCoin(builder, coin)
+
+def MarketStartCoinVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartCoinVector(builder, numElems: int) -> int:
     return MarketStartCoinVector(builder, numElems)
-def MarketAddTerms(builder, terms): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
+
+def MarketAddTerms(builder, terms):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
+
 def AddTerms(builder, terms):
-    return MarketAddTerms(builder, terms)
-def MarketAddMeta(builder, meta): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+    MarketAddTerms(builder, terms)
+
+def MarketAddMeta(builder, meta):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+
 def AddMeta(builder, meta):
-    return MarketAddMeta(builder, meta)
-def MarketAddMaker(builder, maker): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(maker), 0)
+    MarketAddMeta(builder, meta)
+
+def MarketAddMaker(builder, maker):
+    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(maker), 0)
+
 def AddMaker(builder, maker):
-    return MarketAddMaker(builder, maker)
-def MarketStartMakerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartMakerVector(builder, numElems):
+    MarketAddMaker(builder, maker)
+
+def MarketStartMakerVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartMakerVector(builder, numElems: int) -> int:
     return MarketStartMakerVector(builder, numElems)
-def MarketAddProviderSecurity(builder, providerSecurity): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(providerSecurity), 0)
+
+def MarketAddProviderSecurity(builder, providerSecurity):
+    builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(providerSecurity), 0)
+
 def AddProviderSecurity(builder, providerSecurity):
-    return MarketAddProviderSecurity(builder, providerSecurity)
-def MarketStartProviderSecurityVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartProviderSecurityVector(builder, numElems):
+    MarketAddProviderSecurity(builder, providerSecurity)
+
+def MarketStartProviderSecurityVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartProviderSecurityVector(builder, numElems: int) -> int:
     return MarketStartProviderSecurityVector(builder, numElems)
-def MarketAddConsumerSecurity(builder, consumerSecurity): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(consumerSecurity), 0)
+
+def MarketAddConsumerSecurity(builder, consumerSecurity):
+    builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(consumerSecurity), 0)
+
 def AddConsumerSecurity(builder, consumerSecurity):
-    return MarketAddConsumerSecurity(builder, consumerSecurity)
-def MarketStartConsumerSecurityVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartConsumerSecurityVector(builder, numElems):
+    MarketAddConsumerSecurity(builder, consumerSecurity)
+
+def MarketStartConsumerSecurityVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartConsumerSecurityVector(builder, numElems: int) -> int:
     return MarketStartConsumerSecurityVector(builder, numElems)
-def MarketAddMarketFee(builder, marketFee): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(marketFee), 0)
+
+def MarketAddMarketFee(builder, marketFee):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(marketFee), 0)
+
 def AddMarketFee(builder, marketFee):
-    return MarketAddMarketFee(builder, marketFee)
-def MarketStartMarketFeeVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartMarketFeeVector(builder, numElems):
+    MarketAddMarketFee(builder, marketFee)
+
+def MarketStartMarketFeeVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartMarketFeeVector(builder, numElems: int) -> int:
     return MarketStartMarketFeeVector(builder, numElems)
-def MarketAddTid(builder, tid): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
+def MarketAddTid(builder, tid):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 def AddTid(builder, tid):
-    return MarketAddTid(builder, tid)
-def MarketStartTidVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartTidVector(builder, numElems):
+    MarketAddTid(builder, tid)
+
+def MarketStartTidVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartTidVector(builder, numElems: int) -> int:
     return MarketStartTidVector(builder, numElems)
-def MarketAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
+def MarketAddSignature(builder, signature):
+    builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 def AddSignature(builder, signature):
-    return MarketAddSignature(builder, signature)
-def MarketStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartSignatureVector(builder, numElems):
+    MarketAddSignature(builder, signature)
+
+def MarketStartSignatureVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartSignatureVector(builder, numElems: int) -> int:
     return MarketStartSignatureVector(builder, numElems)
-def MarketEnd(builder): return builder.EndObject()
+
+def MarketEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return MarketEnd(builder)

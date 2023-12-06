@@ -125,42 +125,80 @@ class ManagementRealm(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-def ManagementRealmStart(builder): builder.StartObject(10)
+def ManagementRealmStart(builder):
+    builder.StartObject(10)
+
 def Start(builder):
-    return ManagementRealmStart(builder)
-def ManagementRealmAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    ManagementRealmStart(builder)
+
+def ManagementRealmAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return ManagementRealmAddOid(builder, oid)
-def ManagementRealmAddLabel(builder, label): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+    ManagementRealmAddOid(builder, oid)
+
+def ManagementRealmAddLabel(builder, label):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 def AddLabel(builder, label):
-    return ManagementRealmAddLabel(builder, label)
-def ManagementRealmAddDescription(builder, description): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+    ManagementRealmAddLabel(builder, label)
+
+def ManagementRealmAddDescription(builder, description):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 def AddDescription(builder, description):
-    return ManagementRealmAddDescription(builder, description)
-def ManagementRealmAddTags(builder, tags): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+    ManagementRealmAddDescription(builder, description)
+
+def ManagementRealmAddTags(builder, tags):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 def AddTags(builder, tags):
-    return ManagementRealmAddTags(builder, tags)
-def ManagementRealmStartTagsVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartTagsVector(builder, numElems):
+    ManagementRealmAddTags(builder, tags)
+
+def ManagementRealmStartTagsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartTagsVector(builder, numElems: int) -> int:
     return ManagementRealmStartTagsVector(builder, numElems)
-def ManagementRealmAddName(builder, name): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
+def ManagementRealmAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return ManagementRealmAddName(builder, name)
-def ManagementRealmAddCreated(builder, created): builder.PrependUint64Slot(5, created, 0)
+    ManagementRealmAddName(builder, name)
+
+def ManagementRealmAddCreated(builder, created):
+    builder.PrependUint64Slot(5, created, 0)
+
 def AddCreated(builder, created):
-    return ManagementRealmAddCreated(builder, created)
-def ManagementRealmAddOwner(builder, owner): builder.PrependStructSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+    ManagementRealmAddCreated(builder, created)
+
+def ManagementRealmAddOwner(builder, owner):
+    builder.PrependStructSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 def AddOwner(builder, owner):
-    return ManagementRealmAddOwner(builder, owner)
-def ManagementRealmAddCfNode(builder, cfNode): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(cfNode), 0)
+    ManagementRealmAddOwner(builder, owner)
+
+def ManagementRealmAddCfNode(builder, cfNode):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(cfNode), 0)
+
 def AddCfNode(builder, cfNode):
-    return ManagementRealmAddCfNode(builder, cfNode)
-def ManagementRealmAddCfRouterWorker(builder, cfRouterWorker): builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(cfRouterWorker), 0)
+    ManagementRealmAddCfNode(builder, cfNode)
+
+def ManagementRealmAddCfRouterWorker(builder, cfRouterWorker):
+    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(cfRouterWorker), 0)
+
 def AddCfRouterWorker(builder, cfRouterWorker):
-    return ManagementRealmAddCfRouterWorker(builder, cfRouterWorker)
-def ManagementRealmAddCfContainerWorker(builder, cfContainerWorker): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(cfContainerWorker), 0)
+    ManagementRealmAddCfRouterWorker(builder, cfRouterWorker)
+
+def ManagementRealmAddCfContainerWorker(builder, cfContainerWorker):
+    builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(cfContainerWorker), 0)
+
 def AddCfContainerWorker(builder, cfContainerWorker):
-    return ManagementRealmAddCfContainerWorker(builder, cfContainerWorker)
-def ManagementRealmEnd(builder): return builder.EndObject()
+    ManagementRealmAddCfContainerWorker(builder, cfContainerWorker)
+
+def ManagementRealmEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return ManagementRealmEnd(builder)

@@ -119,36 +119,68 @@ class Role(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
-def RoleStart(builder): builder.StartObject(7)
+def RoleStart(builder):
+    builder.StartObject(7)
+
 def Start(builder):
-    return RoleStart(builder)
-def RoleAddOid(builder, oid): builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+    RoleStart(builder)
+
+def RoleAddOid(builder, oid):
+    builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 def AddOid(builder, oid):
-    return RoleAddOid(builder, oid)
-def RoleAddCreated(builder, created): builder.PrependUint64Slot(1, created, 0)
+    RoleAddOid(builder, oid)
+
+def RoleAddCreated(builder, created):
+    builder.PrependUint64Slot(1, created, 0)
+
 def AddCreated(builder, created):
-    return RoleAddCreated(builder, created)
-def RoleAddOwner(builder, owner): builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+    RoleAddCreated(builder, created)
+
+def RoleAddOwner(builder, owner):
+    builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 def AddOwner(builder, owner):
-    return RoleAddOwner(builder, owner)
-def RoleAddName(builder, name): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+    RoleAddOwner(builder, owner)
+
+def RoleAddName(builder, name):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 def AddName(builder, name):
-    return RoleAddName(builder, name)
-def RoleAddPermissions(builder, permissions): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(permissions), 0)
+    RoleAddName(builder, name)
+
+def RoleAddPermissions(builder, permissions):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(permissions), 0)
+
 def AddPermissions(builder, permissions):
-    return RoleAddPermissions(builder, permissions)
-def RoleStartPermissionsVector(builder, numElems): return builder.StartVector(9, numElems, 1)
-def StartPermissionsVector(builder, numElems):
+    RoleAddPermissions(builder, permissions)
+
+def RoleStartPermissionsVector(builder, numElems):
+    return builder.StartVector(9, numElems, 1)
+
+def StartPermissionsVector(builder, numElems: int) -> int:
     return RoleStartPermissionsVector(builder, numElems)
-def RoleAddPermissionUris(builder, permissionUris): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(permissionUris), 0)
+
+def RoleAddPermissionUris(builder, permissionUris):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(permissionUris), 0)
+
 def AddPermissionUris(builder, permissionUris):
-    return RoleAddPermissionUris(builder, permissionUris)
-def RoleStartPermissionUrisVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartPermissionUrisVector(builder, numElems):
+    RoleAddPermissionUris(builder, permissionUris)
+
+def RoleStartPermissionUrisVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartPermissionUrisVector(builder, numElems: int) -> int:
     return RoleStartPermissionUrisVector(builder, numElems)
-def RoleAddAuthorizer(builder, authorizer): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(authorizer), 0)
+
+def RoleAddAuthorizer(builder, authorizer):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(authorizer), 0)
+
 def AddAuthorizer(builder, authorizer):
-    return RoleAddAuthorizer(builder, authorizer)
-def RoleEnd(builder): return builder.EndObject()
+    RoleAddAuthorizer(builder, authorizer)
+
+def RoleEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return RoleEnd(builder)

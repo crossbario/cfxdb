@@ -349,96 +349,188 @@ class Publication(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
-def PublicationStart(builder): builder.StartObject(19)
+def PublicationStart(builder):
+    builder.StartObject(19)
+
 def Start(builder):
-    return PublicationStart(builder)
-def PublicationAddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
+    PublicationStart(builder)
+
+def PublicationAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(0, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return PublicationAddTimestamp(builder, timestamp)
-def PublicationAddPublication(builder, publication): builder.PrependUint64Slot(1, publication, 0)
+    PublicationAddTimestamp(builder, timestamp)
+
+def PublicationAddPublication(builder, publication):
+    builder.PrependUint64Slot(1, publication, 0)
+
 def AddPublication(builder, publication):
-    return PublicationAddPublication(builder, publication)
-def PublicationAddPublisher(builder, publisher): builder.PrependUint64Slot(2, publisher, 0)
+    PublicationAddPublication(builder, publication)
+
+def PublicationAddPublisher(builder, publisher):
+    builder.PrependUint64Slot(2, publisher, 0)
+
 def AddPublisher(builder, publisher):
-    return PublicationAddPublisher(builder, publisher)
-def PublicationAddTopic(builder, topic): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(topic), 0)
+    PublicationAddPublisher(builder, publisher)
+
+def PublicationAddTopic(builder, topic):
+    builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(topic), 0)
+
 def AddTopic(builder, topic):
-    return PublicationAddTopic(builder, topic)
-def PublicationAddArgs(builder, args): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(args), 0)
+    PublicationAddTopic(builder, topic)
+
+def PublicationAddArgs(builder, args):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(args), 0)
+
 def AddArgs(builder, args):
-    return PublicationAddArgs(builder, args)
-def PublicationStartArgsVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartArgsVector(builder, numElems):
+    PublicationAddArgs(builder, args)
+
+def PublicationStartArgsVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartArgsVector(builder, numElems: int) -> int:
     return PublicationStartArgsVector(builder, numElems)
-def PublicationAddKwargs(builder, kwargs): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(kwargs), 0)
+
+def PublicationAddKwargs(builder, kwargs):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(kwargs), 0)
+
 def AddKwargs(builder, kwargs):
-    return PublicationAddKwargs(builder, kwargs)
-def PublicationStartKwargsVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartKwargsVector(builder, numElems):
+    PublicationAddKwargs(builder, kwargs)
+
+def PublicationStartKwargsVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartKwargsVector(builder, numElems: int) -> int:
     return PublicationStartKwargsVector(builder, numElems)
-def PublicationAddPayload(builder, payload): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(payload), 0)
+
+def PublicationAddPayload(builder, payload):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(payload), 0)
+
 def AddPayload(builder, payload):
-    return PublicationAddPayload(builder, payload)
-def PublicationStartPayloadVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPayloadVector(builder, numElems):
+    PublicationAddPayload(builder, payload)
+
+def PublicationStartPayloadVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPayloadVector(builder, numElems: int) -> int:
     return PublicationStartPayloadVector(builder, numElems)
-def PublicationAddAcknowledge(builder, acknowledge): builder.PrependBoolSlot(7, acknowledge, 0)
+
+def PublicationAddAcknowledge(builder, acknowledge):
+    builder.PrependBoolSlot(7, acknowledge, 0)
+
 def AddAcknowledge(builder, acknowledge):
-    return PublicationAddAcknowledge(builder, acknowledge)
-def PublicationAddRetain(builder, retain): builder.PrependBoolSlot(8, retain, 0)
+    PublicationAddAcknowledge(builder, acknowledge)
+
+def PublicationAddRetain(builder, retain):
+    builder.PrependBoolSlot(8, retain, 0)
+
 def AddRetain(builder, retain):
-    return PublicationAddRetain(builder, retain)
-def PublicationAddExcludeMe(builder, excludeMe): builder.PrependBoolSlot(9, excludeMe, 0)
+    PublicationAddRetain(builder, retain)
+
+def PublicationAddExcludeMe(builder, excludeMe):
+    builder.PrependBoolSlot(9, excludeMe, 0)
+
 def AddExcludeMe(builder, excludeMe):
-    return PublicationAddExcludeMe(builder, excludeMe)
-def PublicationAddExclude(builder, exclude): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(exclude), 0)
+    PublicationAddExcludeMe(builder, excludeMe)
+
+def PublicationAddExclude(builder, exclude):
+    builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(exclude), 0)
+
 def AddExclude(builder, exclude):
-    return PublicationAddExclude(builder, exclude)
-def PublicationStartExcludeVector(builder, numElems): return builder.StartVector(8, numElems, 8)
-def StartExcludeVector(builder, numElems):
+    PublicationAddExclude(builder, exclude)
+
+def PublicationStartExcludeVector(builder, numElems):
+    return builder.StartVector(8, numElems, 8)
+
+def StartExcludeVector(builder, numElems: int) -> int:
     return PublicationStartExcludeVector(builder, numElems)
-def PublicationAddExcludeAuthid(builder, excludeAuthid): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(excludeAuthid), 0)
+
+def PublicationAddExcludeAuthid(builder, excludeAuthid):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(excludeAuthid), 0)
+
 def AddExcludeAuthid(builder, excludeAuthid):
-    return PublicationAddExcludeAuthid(builder, excludeAuthid)
-def PublicationStartExcludeAuthidVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartExcludeAuthidVector(builder, numElems):
+    PublicationAddExcludeAuthid(builder, excludeAuthid)
+
+def PublicationStartExcludeAuthidVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartExcludeAuthidVector(builder, numElems: int) -> int:
     return PublicationStartExcludeAuthidVector(builder, numElems)
-def PublicationAddExcludeAuthrole(builder, excludeAuthrole): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(excludeAuthrole), 0)
+
+def PublicationAddExcludeAuthrole(builder, excludeAuthrole):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(excludeAuthrole), 0)
+
 def AddExcludeAuthrole(builder, excludeAuthrole):
-    return PublicationAddExcludeAuthrole(builder, excludeAuthrole)
-def PublicationStartExcludeAuthroleVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartExcludeAuthroleVector(builder, numElems):
+    PublicationAddExcludeAuthrole(builder, excludeAuthrole)
+
+def PublicationStartExcludeAuthroleVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartExcludeAuthroleVector(builder, numElems: int) -> int:
     return PublicationStartExcludeAuthroleVector(builder, numElems)
-def PublicationAddEligible(builder, eligible): builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(eligible), 0)
+
+def PublicationAddEligible(builder, eligible):
+    builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(eligible), 0)
+
 def AddEligible(builder, eligible):
-    return PublicationAddEligible(builder, eligible)
-def PublicationStartEligibleVector(builder, numElems): return builder.StartVector(8, numElems, 8)
-def StartEligibleVector(builder, numElems):
+    PublicationAddEligible(builder, eligible)
+
+def PublicationStartEligibleVector(builder, numElems):
+    return builder.StartVector(8, numElems, 8)
+
+def StartEligibleVector(builder, numElems: int) -> int:
     return PublicationStartEligibleVector(builder, numElems)
-def PublicationAddEligibleAuthid(builder, eligibleAuthid): builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(eligibleAuthid), 0)
+
+def PublicationAddEligibleAuthid(builder, eligibleAuthid):
+    builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(eligibleAuthid), 0)
+
 def AddEligibleAuthid(builder, eligibleAuthid):
-    return PublicationAddEligibleAuthid(builder, eligibleAuthid)
-def PublicationStartEligibleAuthidVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartEligibleAuthidVector(builder, numElems):
+    PublicationAddEligibleAuthid(builder, eligibleAuthid)
+
+def PublicationStartEligibleAuthidVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartEligibleAuthidVector(builder, numElems: int) -> int:
     return PublicationStartEligibleAuthidVector(builder, numElems)
-def PublicationAddEligibleAuthrole(builder, eligibleAuthrole): builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(eligibleAuthrole), 0)
+
+def PublicationAddEligibleAuthrole(builder, eligibleAuthrole):
+    builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(eligibleAuthrole), 0)
+
 def AddEligibleAuthrole(builder, eligibleAuthrole):
-    return PublicationAddEligibleAuthrole(builder, eligibleAuthrole)
-def PublicationStartEligibleAuthroleVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartEligibleAuthroleVector(builder, numElems):
+    PublicationAddEligibleAuthrole(builder, eligibleAuthrole)
+
+def PublicationStartEligibleAuthroleVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartEligibleAuthroleVector(builder, numElems: int) -> int:
     return PublicationStartEligibleAuthroleVector(builder, numElems)
-def PublicationAddEncAlgo(builder, encAlgo): builder.PrependUint8Slot(16, encAlgo, 0)
+
+def PublicationAddEncAlgo(builder, encAlgo):
+    builder.PrependUint8Slot(16, encAlgo, 0)
+
 def AddEncAlgo(builder, encAlgo):
-    return PublicationAddEncAlgo(builder, encAlgo)
-def PublicationAddEncKey(builder, encKey): builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(encKey), 0)
+    PublicationAddEncAlgo(builder, encAlgo)
+
+def PublicationAddEncKey(builder, encKey):
+    builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(encKey), 0)
+
 def AddEncKey(builder, encKey):
-    return PublicationAddEncKey(builder, encKey)
-def PublicationStartEncKeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartEncKeyVector(builder, numElems):
+    PublicationAddEncKey(builder, encKey)
+
+def PublicationStartEncKeyVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartEncKeyVector(builder, numElems: int) -> int:
     return PublicationStartEncKeyVector(builder, numElems)
-def PublicationAddEncSerializer(builder, encSerializer): builder.PrependUint8Slot(18, encSerializer, 0)
+
+def PublicationAddEncSerializer(builder, encSerializer):
+    builder.PrependUint8Slot(18, encSerializer, 0)
+
 def AddEncSerializer(builder, encSerializer):
-    return PublicationAddEncSerializer(builder, encSerializer)
-def PublicationEnd(builder): return builder.EndObject()
+    PublicationAddEncSerializer(builder, encSerializer)
+
+def PublicationEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return PublicationEnd(builder)

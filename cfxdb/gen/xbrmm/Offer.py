@@ -299,81 +299,158 @@ class Offer(object):
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
-def OfferStart(builder): builder.StartObject(16)
+def OfferStart(builder):
+    builder.StartObject(16)
+
 def Start(builder):
-    return OfferStart(builder)
-def OfferAddTimestamp(builder, timestamp): builder.PrependUint64Slot(0, timestamp, 0)
+    OfferStart(builder)
+
+def OfferAddTimestamp(builder, timestamp):
+    builder.PrependUint64Slot(0, timestamp, 0)
+
 def AddTimestamp(builder, timestamp):
-    return OfferAddTimestamp(builder, timestamp)
-def OfferAddOffer(builder, offer): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(offer), 0)
+    OfferAddTimestamp(builder, timestamp)
+
+def OfferAddOffer(builder, offer):
+    builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(offer), 0)
+
 def AddOffer(builder, offer):
-    return OfferAddOffer(builder, offer)
-def OfferStartOfferVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartOfferVector(builder, numElems):
+    OfferAddOffer(builder, offer)
+
+def OfferStartOfferVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartOfferVector(builder, numElems: int) -> int:
     return OfferStartOfferVector(builder, numElems)
-def OfferAddSeller(builder, seller): builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(seller), 0)
+
+def OfferAddSeller(builder, seller):
+    builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(seller), 0)
+
 def AddSeller(builder, seller):
-    return OfferAddSeller(builder, seller)
-def OfferStartSellerVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartSellerVector(builder, numElems):
+    OfferAddSeller(builder, seller)
+
+def OfferStartSellerVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartSellerVector(builder, numElems: int) -> int:
     return OfferStartSellerVector(builder, numElems)
-def OfferAddSellerSessionId(builder, sellerSessionId): builder.PrependUint64Slot(3, sellerSessionId, 0)
+
+def OfferAddSellerSessionId(builder, sellerSessionId):
+    builder.PrependUint64Slot(3, sellerSessionId, 0)
+
 def AddSellerSessionId(builder, sellerSessionId):
-    return OfferAddSellerSessionId(builder, sellerSessionId)
-def OfferAddSellerAuthid(builder, sellerAuthid): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(sellerAuthid), 0)
+    OfferAddSellerSessionId(builder, sellerSessionId)
+
+def OfferAddSellerAuthid(builder, sellerAuthid):
+    builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(sellerAuthid), 0)
+
 def AddSellerAuthid(builder, sellerAuthid):
-    return OfferAddSellerAuthid(builder, sellerAuthid)
-def OfferAddKey(builder, key): builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+    OfferAddSellerAuthid(builder, sellerAuthid)
+
+def OfferAddKey(builder, key):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(key), 0)
+
 def AddKey(builder, key):
-    return OfferAddKey(builder, key)
-def OfferStartKeyVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartKeyVector(builder, numElems):
+    OfferAddKey(builder, key)
+
+def OfferStartKeyVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartKeyVector(builder, numElems: int) -> int:
     return OfferStartKeyVector(builder, numElems)
-def OfferAddApi(builder, api): builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(api), 0)
+
+def OfferAddApi(builder, api):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(api), 0)
+
 def AddApi(builder, api):
-    return OfferAddApi(builder, api)
-def OfferStartApiVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartApiVector(builder, numElems):
+    OfferAddApi(builder, api)
+
+def OfferStartApiVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartApiVector(builder, numElems: int) -> int:
     return OfferStartApiVector(builder, numElems)
-def OfferAddUri(builder, uri): builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(uri), 0)
+
+def OfferAddUri(builder, uri):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(uri), 0)
+
 def AddUri(builder, uri):
-    return OfferAddUri(builder, uri)
-def OfferAddValidFrom(builder, validFrom): builder.PrependUint64Slot(8, validFrom, 0)
+    OfferAddUri(builder, uri)
+
+def OfferAddValidFrom(builder, validFrom):
+    builder.PrependUint64Slot(8, validFrom, 0)
+
 def AddValidFrom(builder, validFrom):
-    return OfferAddValidFrom(builder, validFrom)
-def OfferAddSignature(builder, signature): builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+    OfferAddValidFrom(builder, validFrom)
+
+def OfferAddSignature(builder, signature):
+    builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 def AddSignature(builder, signature):
-    return OfferAddSignature(builder, signature)
-def OfferStartSignatureVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartSignatureVector(builder, numElems):
+    OfferAddSignature(builder, signature)
+
+def OfferStartSignatureVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartSignatureVector(builder, numElems: int) -> int:
     return OfferStartSignatureVector(builder, numElems)
-def OfferAddPrice(builder, price): builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(price), 0)
+
+def OfferAddPrice(builder, price):
+    builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(price), 0)
+
 def AddPrice(builder, price):
-    return OfferAddPrice(builder, price)
-def OfferStartPriceVector(builder, numElems): return builder.StartVector(1, numElems, 1)
-def StartPriceVector(builder, numElems):
+    OfferAddPrice(builder, price)
+
+def OfferStartPriceVector(builder, numElems):
+    return builder.StartVector(1, numElems, 1)
+
+def StartPriceVector(builder, numElems: int) -> int:
     return OfferStartPriceVector(builder, numElems)
-def OfferAddCategoriesKey(builder, categoriesKey): builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesKey), 0)
+
+def OfferAddCategoriesKey(builder, categoriesKey):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesKey), 0)
+
 def AddCategoriesKey(builder, categoriesKey):
-    return OfferAddCategoriesKey(builder, categoriesKey)
-def OfferStartCategoriesKeyVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartCategoriesKeyVector(builder, numElems):
+    OfferAddCategoriesKey(builder, categoriesKey)
+
+def OfferStartCategoriesKeyVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartCategoriesKeyVector(builder, numElems: int) -> int:
     return OfferStartCategoriesKeyVector(builder, numElems)
-def OfferAddCategoriesValue(builder, categoriesValue): builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesValue), 0)
+
+def OfferAddCategoriesValue(builder, categoriesValue):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(categoriesValue), 0)
+
 def AddCategoriesValue(builder, categoriesValue):
-    return OfferAddCategoriesValue(builder, categoriesValue)
-def OfferStartCategoriesValueVector(builder, numElems): return builder.StartVector(4, numElems, 4)
-def StartCategoriesValueVector(builder, numElems):
+    OfferAddCategoriesValue(builder, categoriesValue)
+
+def OfferStartCategoriesValueVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartCategoriesValueVector(builder, numElems: int) -> int:
     return OfferStartCategoriesValueVector(builder, numElems)
-def OfferAddExpires(builder, expires): builder.PrependUint64Slot(13, expires, 0)
+
+def OfferAddExpires(builder, expires):
+    builder.PrependUint64Slot(13, expires, 0)
+
 def AddExpires(builder, expires):
-    return OfferAddExpires(builder, expires)
-def OfferAddCopies(builder, copies): builder.PrependUint32Slot(14, copies, 0)
+    OfferAddExpires(builder, expires)
+
+def OfferAddCopies(builder, copies):
+    builder.PrependUint32Slot(14, copies, 0)
+
 def AddCopies(builder, copies):
-    return OfferAddCopies(builder, copies)
-def OfferAddRemaining(builder, remaining): builder.PrependUint32Slot(15, remaining, 0)
+    OfferAddCopies(builder, copies)
+
+def OfferAddRemaining(builder, remaining):
+    builder.PrependUint32Slot(15, remaining, 0)
+
 def AddRemaining(builder, remaining):
-    return OfferAddRemaining(builder, remaining)
-def OfferEnd(builder): return builder.EndObject()
+    OfferAddRemaining(builder, remaining)
+
+def OfferEnd(builder):
+    return builder.EndObject()
+
 def End(builder):
     return OfferEnd(builder)
