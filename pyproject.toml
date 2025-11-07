@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cfxdb"
-version = "23.12.1"
+version = "25.11.1"
 description = "Crossbar.io Database - Core database access classes for Crossbar.io"
 readme = "README.rst"
 requires-python = ">=3.11"
