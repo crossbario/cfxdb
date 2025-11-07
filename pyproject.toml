@@ -1,0 +1,153 @@
+[build-system]
+requires = ["setuptools>=80.9.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cfxdb"
+version = "23.12.1"
+description = "Crossbar.io Database - Core database access classes for Crossbar.io"
+readme = "README.rst"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "typedef int GmbH", email = "contact@typedefint.eu"}
+]
+keywords = ["crossbar", "wamp", "database", "lmdb", "xbr", "ethereum", "web3"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: No Input/Output (Daemon)",
+    "Framework :: Twisted",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Communications",
+    "Topic :: Database",
+    "Topic :: Internet",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Object Brokering",
+    "Topic :: System :: Distributed Computing",
+]
+
+dependencies = [
+    # WAMP ecosystem packages
+    "autobahn[all]>=25.10.2",
+    "zlmdb>=25.10.1",
+
+    # Ethereum/Web3 stack
+    "eth-abi>=5.1.0",
+    "eth-account>=0.13.0",
+    "web3>=7.6.0",
+
+    # Additional dependencies
+    "parsimonious>=0.10.0",
+    "argon2-cffi>=25.1.0",
+]
+
+[project.optional-dependencies]
+# Development dependencies
+dev = [
+    # Build tools
+    "build>=1.0.0",
+    "wheel>=0.36.2",
+    "twine>=3.3.0",
+
+    # Testing
+    "pytest>=3.4.2",
+    "pytest-runner>=2.11.1",
+    "coverage>=5.0.0",
+    "tox>=2.9.1",
+    "tox-gh-actions>=2.2.0",
+
+    # Code quality
+    "ruff>=0.1.0",  # Fast Python linter and formatter
+    "mypy>=1.0.0",  # Static type checker
+    "types-PyYAML>=6.0.0",  # Type stubs
+
+    # Documentation
+    "sphinx>=1.7.1",
+    "sphinx-rtd-theme>=0.1.9",
+    "sphinxcontrib-spelling>=7.0.0",
+    "sphinxcontrib-images>=0.9.0",
+    "sphinx-autoapi>=2.0.0",
+    "pyenchant>=3.0.0",
+
+    # Utilities
+    "humanize>=0.5.1",
+    "cytoolz>=0.12.1",
+    "watchdog>=0.8.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/crossbario/cfxdb"
+Documentation = "https://cfxdb.readthedocs.io"
+Repository = "https://github.com/crossbario/cfxdb"
+Issues = "https://github.com/crossbario/cfxdb/issues"
+
+[tool.setuptools]
+zip-safe = true
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cfxdb*"]
+exclude = ["tests*", "docs*", ".ai*", ".cicd*", "work*"]
+
+[tool.setuptools.package-data]
+cfxdb = ["py.typed"]
+
+# Ruff configuration (replaces flake8, black, yapf)
+[tool.ruff]
+line-length = 119
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",  # isort
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+testpaths = ["cfxdb"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["cfxdb"]
+omit = ["*/tests/*", "*/test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
