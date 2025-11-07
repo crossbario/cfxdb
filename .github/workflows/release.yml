@@ -1,0 +1,144 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write      # Required for PyPI trusted publishing (OIDC)
+  contents: write      # Required for creating GitHub releases
+  discussions: write   # Required for posting to discussions
+
+jobs:
+  check-tag:
+    name: Check if tag matches package version
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify tag matches package version
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          PACKAGE_VERSION=$(grep -E '^__version__' cfxdb/_version.py | cut -d "'" -f 2)
+          echo "Tag version: v$TAG_VERSION"
+          echo "Package version: $PACKAGE_VERSION"
+          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "ERROR: Tag version (v$TAG_VERSION) does not match package version ($PACKAGE_VERSION)"
+            exit 1
+          fi
+          echo "✓ Version check passed"
+
+  build:
+    name: Build source distribution and wheel
+    needs: [check-tag]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Check package
+        run: twine check dist/*
+
+      - name: List built packages
+        run: |
+          echo "Built packages:"
+          ls -lh dist/
+
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > CHECKSUMS-ALL.sha256
+          cat CHECKSUMS-ALL.sha256
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 5
+
+  release:
+    name: Create GitHub Release and Publish to PyPI
+    needs: [build]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: List artifacts
+        run: ls -lh dist/
+
+      - name: Get version
+        id: get_version
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ steps.get_version.outputs.version }}
+          body: |
+            ## cfxdb v${{ steps.get_version.outputs.version }}
+
+            Crossbar.io Database - Core database access classes
+
+            **Installation:**
+            ```bash
+            pip install cfxdb==${{ steps.get_version.outputs.version }}
+            ```
+
+            **Links:**
+            - 📦 PyPI: https://pypi.org/project/cfxdb/${{ steps.get_version.outputs.version }}/
+            - 📖 Docs: https://cfxdb.readthedocs.io/
+            - 💻 Source: https://github.com/crossbario/cfxdb/tree/v${{ steps.get_version.outputs.version }}
+
+            See [CHANGELOG](https://github.com/crossbario/cfxdb/blob/master/CHANGELOG.md) for details.
+
+            Also published to PyPI: https://pypi.org/project/cfxdb/
+          files: dist/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove non-PyPI files before upload
+        run: |
+          echo "======================================================================"
+          echo "Removing files that PyPI doesn't accept"
+          echo "======================================================================"
+          rm -f dist/CHECKSUMS*.sha256
+          echo ""
+          echo "Files to upload to PyPI:"
+          ls -lh dist/
+          echo "======================================================================"
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Use OIDC trusted publishing (no password needed)
+          # Automatically generates and uploads attestations
+          packages-dir: dist/
+          verify-metadata: true
+          skip-existing: false
+          print-hash: true
+          attestations: true

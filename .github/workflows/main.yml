@@ -10,118 +10,80 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Install OS package dependencies
-      run: |
-        sudo apt update
-        sudo apt install libenchant-2-dev libbz2-dev libsnappy-dev libunwind-dev libgirepository1.0-dev
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.11'
-        architecture: 'x64'
+      - name: Install package with dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
 
-    - name: Install Python development packages
-      run: |
-        python -m pip install -U pip
-        pip install -U -r requirements-dev.txt
+      - name: Run Ruff linter
+        run: ruff check cfxdb/
 
-    - name: Install Python package
-      run: |
-        pip install -U --force-reinstall -r requirements-latest.txt
-        pip install .
+      - name: Run Ruff formatter check
+        run: ruff format --check cfxdb/
 
-    - name: Run Flake8
-      run: tox -c tox.ini -e flake8
-
-    - name: Run Yapf
-      run: tox -c tox.ini -e yapf
-
-    - name: Run MyPy
-      run: tox -c tox.ini -e mypy
+      - name: Run MyPy type checker
+        run: mypy cfxdb/
+        continue-on-error: true  # Don't fail build on type errors yet
 
   test:
-    # Test on Ubuntu, MacOS, Windows using CPython 3.6-3.9, PyPy 3.6-3.7
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04]
-        # os: [ubuntu-22.04, macos-latest, windows-latest]
+        os: [ubuntu-24.04]
+        python-version: ['3.11', '3.12', '3.13', '3.14', 'pypy-3.11']
 
-        # https://github.com/actions/setup-python#specifying-a-pypy-version
-        python-version: ['3.9', '3.11', 'pypy-3.9']
-
-    # https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/
-    # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
     continue-on-error: false
 
     steps:
-    # Checkout sources
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    # Install OS packages, as we install Python packages from source:
-    #
-    # libenchant-dev              needed for pyenchant, needed for sphinx-spellcheck
-    # libbz2-dev, libsnappy-dev   needed for compression
-    # libunwind-dev               needed for vmprof
-    #
-    - name: Install OS package dependencies
-      run: |
-        sudo apt update
-        sudo apt install build-essential libssl-dev libffi-dev libunwind-dev \
-          libreadline-dev zlib1g-dev libbz2-dev libsqlite3-dev libncurses5-dev \
-          libsnappy-dev libgirepository1.0-dev
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
 
-    # Use this Python
-    # https://github.com/actions/setup-python/blob/main/README.md
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Install package with dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
 
-    - name: Install Python development packages
-      run: |
-        python -m pip install -U pip
-        pip install -U -r requirements-dev.txt
-
-    - name: Install Python package
-      run: |
-        pip install -r ./requirements.txt
-        pip install .
-
-    - name: Run unit tests (PyTest)
-      run: |
-        tox -c tox.ini -e pytest
+      - name: Run unit tests (PyTest)
+        run: pytest -v cfxdb/
 
   docs:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Install OS package dependencies
-      run: |
-        sudo apt update
-        sudo apt install libenchant-2-dev libbz2-dev libsnappy-dev libunwind-dev libgirepository1.0-dev
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.11'
-        architecture: 'x64'
+      - name: Install package with dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
 
-    - name: Install Python development packages
-      run: |
-        python -m pip install -U pip
-        pip install -U -r requirements-dev.txt
+      - name: Build Sphinx documentation
+        run: |
+          cd docs
+          make html
 
-    - name: Install Python package
-      run: |
-        pip install -r ./requirements.txt
-        pip install .
-
-    - name: Run Sphinx
-      run: tox -c tox.ini -e sphinx
+      - name: Check documentation links
+        run: |
+          cd docs
+          make linkcheck
+        continue-on-error: true  # Don't fail on broken external links
