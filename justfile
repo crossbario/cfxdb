@@ -149,11 +149,11 @@ create venv="":
     if [ -z "${VENV_NAME}" ]; then
         VENV_NAME=$(just --quiet _get-system-venv-name)
     fi
-    SPEC=$(just --quiet _get-spec ${VENV_NAME})
+    PYTHON_SPEC=$(just --quiet _get-spec ${VENV_NAME})
     VENV_PATH="{{VENV_DIR}}/${VENV_NAME}"
-    echo "==> Creating venv for ${VENV_NAME} (${SPEC})..."
+    echo "==> Creating venv for ${VENV_NAME} (${PYTHON_SPEC})..."
     if [ ! -d "${VENV_PATH}" ]; then
-        uv venv --python ${SPEC} ${VENV_PATH} --allow-existing
+        uv venv --seed --python "${PYTHON_SPEC}" "${VENV_PATH}"
         echo "--> Created venv at ${VENV_PATH}"
     else
         echo "--> Venv already exists at ${VENV_PATH}"
