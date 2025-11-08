@@ -178,47 +178,36 @@ jobs:
           fi
 
       - name: Create development GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.identifiers.outputs.release_name }}
+          name: Development Build ${{ needs.identifiers.outputs.release_name }}
+          body: |
+            ## cfxdb Development Build
+
+            **Release:** ${{ needs.identifiers.outputs.release_name }}
+            **Type:** ${{ needs.identifiers.outputs.release_type }}
+            **Branch:** ${{ needs.identifiers.outputs.base_branch }}
+            **Commit:** ${{ needs.identifiers.outputs.head_sha }}
+
+            This is an automated development/nightly build for testing purposes.
+
+            **Installation:**
+            ```bash
+            pip install https://github.com/crossbario/cfxdb/releases/download/${{ needs.identifiers.outputs.release_name }}/cfxdb-*.whl
+            ```
+
+            **Files:**
+            - Universal wheel (py2.py3-none-any or py3-none-any)
+            - Source distribution (.tar.gz)
+            - SHA256 checksums (CHECKSUMS-ALL.sha256)
+
+            ⚠️  This is a development build - for production use, install from PyPI.
+          files: dist/*
+          draft: false
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: ${{ needs.identifiers.outputs.base_branch }}
-          HEAD_SHA: ${{ needs.identifiers.outputs.head_sha }}
-        run: |
-          echo "==> Creating development/nightly GitHub release..."
-          echo "Release type: $RELEASE_TYPE"
-          echo "Release name: $RELEASE_NAME"
-
-          # Delete existing release if it exists (development builds may be rebuilt)
-          gh release delete "$RELEASE_NAME" --repo "$GITHUB_REPOSITORY" --yes || true
-
-          # Create the release
-          gh release create "$RELEASE_NAME" \
-            --repo "$GITHUB_REPOSITORY" \
-            --title "Development Build $RELEASE_NAME" \
-            --notes "## cfxdb Development Build
-
-**Release:** $RELEASE_NAME
-**Type:** $RELEASE_TYPE
-**Branch:** $BASE_BRANCH
-**Commit:** $HEAD_SHA
-
-This is an automated development/nightly build for testing purposes.
-
-**Installation:**
-\`\`\`bash
-pip install https://github.com/crossbario/cfxdb/releases/download/$RELEASE_NAME/cfxdb-*.whl
-\`\`\`
-
-**Files:**
-- Universal wheel (py2.py3-none-any or py3-none-any)
-- Source distribution (.tar.gz)
-- SHA256 checksums (CHECKSUMS-ALL.sha256)
-
-⚠️  This is a development build - for production use, install from PyPI.
-" \
-            --prerelease \
-            dist/*
-
-          echo "✅ Release $RELEASE_NAME created successfully"
 
   # Production releases (for tagged stable builds) - GitHub + PyPI
   release-production:
