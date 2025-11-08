@@ -1,9 +1,13 @@
 name: release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  # Auto-trigger after main workflow completes
+  workflow_run:
+    workflows: ["main"]
+    types: [completed]
+
+  # Manual dispatch for debugging
+  workflow_dispatch:
 
 permissions:
   id-token: write      # Required for PyPI trusted publishing (OIDC)
@@ -11,30 +15,84 @@ permissions:
   discussions: write   # Required for posting to discussions
 
 jobs:
-  check-tag:
-    name: Check if tag matches package version
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
+  identifiers:
+    uses: wamp-proto/wamp-cicd/.github/workflows/identifiers.yml@main
 
-      - name: Verify tag matches package version
-        run: |
-          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
-          PACKAGE_VERSION=$(grep -E '^__version__' cfxdb/_version.py | cut -d "'" -f 2)
-          echo "Tag version: v$TAG_VERSION"
-          echo "Package version: $PACKAGE_VERSION"
-          if [ "$TAG_VERSION" != "$PACKAGE_VERSION" ]; then
-            echo "ERROR: Tag version (v$TAG_VERSION) does not match package version ($PACKAGE_VERSION)"
-            exit 1
-          fi
-          echo "✓ Version check passed"
+  check-main-workflow:
+    name: Check if main workflow completed successfully
+    needs: [identifiers]
+    runs-on: ubuntu-latest
+    outputs:
+      main_run_id: ${{ steps.check.outputs.main_run_id }}
+      should_proceed: ${{ steps.check.outputs.should_proceed }}
 
-  build:
-    name: Build source distribution and wheel
-    needs: [check-tag]
-    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Check main workflow completion
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commitSha = context.payload.workflow_run?.head_sha || context.sha;
+            const triggeredBy = context.payload.workflow_run?.name || 'manual (workflow_dispatch)';
+
+            console.log('─────────────────────────────────────────────────');
+            console.log('🔍 Checking main workflow completion status');
+            console.log('─────────────────────────────────────────────────');
+            console.log(`Event: ${context.eventName}`);
+            console.log(`Commit SHA: ${commitSha}`);
+            console.log(`Triggered by: ${triggeredBy}`);
+            console.log('');
+
+            // Get workflow runs for this commit
+            const { data: runs } = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: commitSha,
+              per_page: 100
+            });
+
+            // Find latest main workflow run
+            const mainRun = runs.workflow_runs
+              .filter(run => run.name === 'main')
+              .sort((a, b) => b.id - a.id)[0];
+
+            const mainComplete = mainRun && mainRun.status === 'completed' && mainRun.conclusion === 'success';
+            const status = mainRun ? `${mainRun.status}/${mainRun.conclusion}` : 'not found';
+
+            console.log(`Main workflow: ${status}`);
+            console.log('');
+
+            if (!mainComplete) {
+              console.log('⏳ Main workflow not complete yet - exiting early');
+              console.log('   This is normal! Release will proceed once main workflow finishes.');
+            } else {
+              console.log('✅ Main workflow complete - proceeding with release!');
+            }
+            console.log('─────────────────────────────────────────────────');
+
+            core.setOutput('should_proceed', mainComplete ? 'true' : 'false');
+            core.setOutput('main_run_id', mainRun?.id || '');
+
+  # Development/Nightly GitHub releases (for untagged master builds)
+  release-development:
+    name: Development/Nightly GitHub Release
+    needs: [identifiers, check-main-workflow]
+    runs-on: ubuntu-24.04
+
+    # Only create releases for development/nightly builds (not stable tags)
+    if: |
+      needs.check-main-workflow.outputs.should_proceed == 'true' &&
+      (needs.identifiers.outputs.release_type == 'development' || needs.identifiers.outputs.release_type == 'nightly')
+
+    env:
+      RELEASE_TYPE: ${{ needs.identifiers.outputs.release_type }}
+      RELEASE_NAME: ${{ needs.identifiers.outputs.release_name }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -67,28 +125,156 @@ jobs:
           sha256sum * > CHECKSUMS-ALL.sha256
           cat CHECKSUMS-ALL.sha256
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 5
+      - name: Validate release fileset for GitHub
+        run: |
+          echo "======================================================================"
+          echo "==> Validating Release Fileset for GitHub Release"
+          echo "======================================================================"
+          echo ""
 
-  release:
-    name: Create GitHub Release and Publish to PyPI
-    needs: [build]
+          # Count wheels and source distributions
+          WHEEL_COUNT=$(find dist -name "*.whl" -type f | wc -l)
+          SDIST_COUNT=$(find dist -name "*.tar.gz" -type f ! -name "CHECKSUMS*.sha256" | wc -l)
+
+          echo "Found:"
+          echo "  - Wheels: $WHEEL_COUNT"
+          echo "  - Source distributions: $SDIST_COUNT"
+          echo ""
+
+          # Validate counts
+          HAS_ERRORS=0
+
+          if [ "$WHEEL_COUNT" -ne 1 ]; then
+            echo "❌ ERROR: Expected exactly 1 wheel, found $WHEEL_COUNT"
+            HAS_ERRORS=1
+          else
+            WHEEL_FILE=$(find dist -name "*.whl" -type f)
+            echo "✅ Wheel: $(basename $WHEEL_FILE)"
+
+            # Verify it's a universal wheel
+            if [[ "$WHEEL_FILE" != *"-py2.py3-none-any.whl" ]] && [[ "$WHEEL_FILE" != *"-py3-none-any.whl" ]]; then
+              echo "⚠️  WARNING: Wheel is not universal (py2.py3-none-any or py3-none-any)"
+            fi
+          fi
+
+          if [ "$SDIST_COUNT" -ne 1 ]; then
+            echo "❌ ERROR: Expected exactly 1 source distribution, found $SDIST_COUNT"
+            HAS_ERRORS=1
+          else
+            SDIST_FILE=$(find dist -name "*.tar.gz" -type f ! -name "CHECKSUMS*.sha256")
+            echo "✅ Source: $(basename $SDIST_FILE)"
+          fi
+
+          echo ""
+          if [ $HAS_ERRORS -eq 1 ]; then
+            echo "======================================================================"
+            echo "❌ VALIDATION FAILED"
+            echo "======================================================================"
+            exit 1
+          else
+            echo "======================================================================"
+            echo "✅ VALIDATION PASSED - Keeping all files (including CHECKSUMS)"
+            echo "======================================================================"
+          fi
+
+      - name: Create development GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "==> Creating development/nightly GitHub release..."
+          echo "Release type: $RELEASE_TYPE"
+          echo "Release name: $RELEASE_NAME"
+
+          # Delete existing release if it exists (development builds may be rebuilt)
+          gh release delete "$RELEASE_NAME" --repo "$GITHUB_REPOSITORY" --yes || true
+
+          # Create the release
+          gh release create "$RELEASE_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Development Build $RELEASE_NAME" \
+            --notes "## cfxdb Development Build
+
+**Release:** $RELEASE_NAME
+**Type:** $RELEASE_TYPE
+**Branch:** ${{ needs.identifiers.outputs.base_branch }}
+**Commit:** ${{ needs.identifiers.outputs.head_sha }}
+
+This is an automated development/nightly build for testing purposes.
+
+**Installation:**
+\`\`\`bash
+pip install https://github.com/crossbario/cfxdb/releases/download/$RELEASE_NAME/cfxdb-*.whl
+\`\`\`
+
+**Files:**
+- Universal wheel (py2.py3-none-any or py3-none-any)
+- Source distribution (.tar.gz)
+- SHA256 checksums (CHECKSUMS-ALL.sha256)
+
+⚠️  This is a development build - for production use, install from PyPI.
+" \
+            --prerelease \
+            dist/*
+
+          echo "✅ Release $RELEASE_NAME created successfully"
+
+  # Production releases (for tagged stable builds) - GitHub + PyPI
+  release-production:
+    name: Production Release (GitHub + PyPI)
+    needs: [identifiers, check-main-workflow]
     runs-on: ubuntu-24.04
+
+    # Only publish to PyPI for stable releases (explicit tag check)
+    if: |
+      needs.check-main-workflow.outputs.should_proceed == 'true' &&
+      needs.identifiers.outputs.release_type == 'stable'
+
+    env:
+      RELEASE_TYPE: ${{ needs.identifiers.outputs.release_type }}
+      RELEASE_NAME: ${{ needs.identifiers.outputs.release_name }}
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/cfxdb
+    permissions:
+      id-token: write  # For trusted publishing
+
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          name: dist
-          path: dist/
+          submodules: recursive
 
-      - name: List artifacts
-        run: ls -lh dist/
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python 3.11
+        run: uv python install 3.11
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Create venv and install build tools
+        run: |
+          just create cpy311
+          just install-build-tools cpy311
+
+      - name: Build distribution packages
+        run: just dist cpy311
+
+      - name: Verify packages
+        run: just verify-dist cpy311
+
+      - name: List built packages
+        run: |
+          echo "Built packages:"
+          ls -lh dist/
+
+      - name: Generate checksums (for GitHub release)
+        run: |
+          cd dist
+          sha256sum * > CHECKSUMS-ALL.sha256
+          cat CHECKSUMS-ALL.sha256
 
       - name: Validate release fileset
         run: |
@@ -99,7 +285,7 @@ jobs:
 
           # Count wheels and source distributions
           WHEEL_COUNT=$(find dist -name "*.whl" -type f | wc -l)
-          SDIST_COUNT=$(find dist -name "*.tar.gz" -type f | wc -l)
+          SDIST_COUNT=$(find dist -name "*.tar.gz" -type f ! -name "CHECKSUMS*.sha256" | wc -l)
 
           echo "Found:"
           echo "  - Wheels: $WHEEL_COUNT"
@@ -145,7 +331,7 @@ jobs:
       - name: Get version
         id: get_version
         run: |
-          VERSION="${GITHUB_REF#refs/tags/v}"
+          VERSION="${RELEASE_NAME#v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
 
