@@ -83,7 +83,7 @@ def db(scratch=True):
 
 
 def test_stats(db):
-    dbs = GlobalSchema.attach(db)
+    _dbs = GlobalSchema.attach(db)  # noqa: F841
 
     # {'branch_pages': 0,
     # 'current_size': 10485760,

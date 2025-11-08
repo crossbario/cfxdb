@@ -120,6 +120,8 @@ select = [
 ]
 ignore = [
     "E501",  # line too long (handled by formatter)
+    "E721",  # type() comparison instead of isinstance() - deliberate style choice
+    "E402",  # module level import not at top (intentional in test files)
 ]
 
 # MyPy configuration
