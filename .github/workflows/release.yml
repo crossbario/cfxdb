@@ -13,6 +13,7 @@ permissions:
   id-token: write      # Required for PyPI trusted publishing (OIDC)
   contents: write      # Required for creating GitHub releases
   discussions: write   # Required for posting to discussions
+  pull-requests: read  # Required for identifiers workflow
 
 jobs:
   identifiers:
