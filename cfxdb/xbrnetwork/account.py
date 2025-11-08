@@ -10,9 +10,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
-from cfxdb import unpack_uint256, pack_uint256
+from zlmdb import MapBytes20Uuid, MapStringUuid, MapUuidFlatBuffers, table
+
+from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbrnetwork import Account as AccountGen
-from zlmdb import table, MapUuidFlatBuffers, MapStringUuid, MapBytes20Uuid
 
 
 class _AccountGen(AccountGen.Account):
@@ -21,6 +22,7 @@ class _AccountGen(AccountGen.Account):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsAccount(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +35,7 @@ class _AccountGen(AccountGen.Account):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def WalletAddressAsBytes(self):
@@ -41,7 +43,7 @@ class _AccountGen(AccountGen.Account):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def RegisteredAsBytes(self):
@@ -49,7 +51,7 @@ class _AccountGen(AccountGen.Account):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -119,24 +121,25 @@ class Account(object):
     """
 
     WALLET_TYPE_TO_STRING = {
-        0: 'none',
-        1: 'imported',
-        2: 'metamask',
-        3: 'hosted',
+        0: "none",
+        1: "imported",
+        2: "metamask",
+        3: "hosted",
     }
     """
     Map of ``wallet-type-code`` to ``wallet-type-name``.
     """
 
     WALLET_TYPE_FROM_STRING = {
-        'none': 0,
-        'imported': 1,
-        'metamask': 2,
-        'hosted': 3,
+        "none": 0,
+        "imported": 1,
+        "metamask": 2,
+        "hosted": 3,
     }
     """
     Map of ``wallet-type-name`` to ``wallet-type-code``.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -190,25 +193,25 @@ class Account(object):
 
     def marshal(self):
         obj = {
-            'oid': self.oid.bytes if self.oid else None,
-            'created': int(self.created) if self.created else None,
-            'username': self.username,
-            'email': self.email,
-            'email_verified': int(self.email_verified) if self.email_verified is not None else None,
-            'wallet_type': self.wallet_type,
-            'wallet_address': bytes(self.wallet_address) if self.wallet_address else None,
-            'registered': int(self.registered) if self.registered else None,
-            'eula': self.eula,
-            'profile': self.profile,
-            'level': self.level,
-            'recovery_algo': self.recovery_algo,
-            'recovery_data': self.recovery_data,
-            'recovery_salt': self.recovery_salt,
+            "oid": self.oid.bytes if self.oid else None,
+            "created": int(self.created) if self.created else None,
+            "username": self.username,
+            "email": self.email,
+            "email_verified": int(self.email_verified) if self.email_verified is not None else None,
+            "wallet_type": self.wallet_type,
+            "wallet_address": bytes(self.wallet_address) if self.wallet_address else None,
+            "registered": int(self.registered) if self.registered else None,
+            "eula": self.eula,
+            "profile": self.profile,
+            "level": self.level,
+            "recovery_algo": self.recovery_algo,
+            "recovery_data": self.recovery_data,
+            "recovery_salt": self.recovery_salt,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def recovery_algo(self) -> np.datetime64:
@@ -216,7 +219,7 @@ class Account(object):
         Timestamp (epoch time in ns) of initial creation of this record.
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @recovery_algo.setter
@@ -264,7 +267,7 @@ class Account(object):
                 _oid = self._from_fbs.OidAsBytes()
                 self._oid = uuid.UUID(bytes=bytes(_oid))
             else:
-                self._oid = uuid.UUID(bytes=b'\x00' * 20)
+                self._oid = uuid.UUID(bytes=b"\x00" * 20)
         return self._oid
 
     @oid.setter
@@ -278,7 +281,7 @@ class Account(object):
         Timestamp (epoch time in ns) of initial creation of this record.
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @created.setter
@@ -294,7 +297,7 @@ class Account(object):
         if self._username is None and self._from_fbs:
             username = self._from_fbs.Username()
             if username:
-                self._username = username.decode('utf8')
+                self._username = username.decode("utf8")
         return self._username
 
     @username.setter
@@ -310,7 +313,7 @@ class Account(object):
         if self._email is None and self._from_fbs:
             email = self._from_fbs.Email()
             if email:
-                self._email = email.decode('utf8')
+                self._email = email.decode("utf8")
         return self._email
 
     @email.setter
@@ -324,7 +327,7 @@ class Account(object):
         Timestamp (epoch time in ns) when the user email was (last) verified or 0 if unverified.
         """
         if self._email_verified is None and self._from_fbs:
-            self._email_verified = np.datetime64(self._from_fbs.EmailVerified(), 'ns')
+            self._email_verified = np.datetime64(self._from_fbs.EmailVerified(), "ns")
         return self._email_verified
 
     @email_verified.setter
@@ -387,7 +390,7 @@ class Account(object):
         if self._eula is None and self._from_fbs:
             eula = self._from_fbs.Eula()
             if eula:
-                self._eula = eula.decode('utf8')
+                self._eula = eula.decode("utf8")
         return self._eula
 
     @eula.setter
@@ -403,7 +406,7 @@ class Account(object):
         if self._profile is None and self._from_fbs:
             profile = self._from_fbs.Profile()
             if profile:
-                self._profile = profile.decode('utf8')
+                self._profile = profile.decode("utf8")
         return self._profile
 
     @profile.setter
@@ -430,7 +433,6 @@ class Account(object):
         return Account(_AccountGen.GetRootAsAccount(buf, 0))
 
     def build(self, builder):
-
         oid = self.oid.bytes if self.oid else None
         if oid:
             oid = builder.CreateString(oid)
@@ -499,11 +501,12 @@ class Account(object):
         return final
 
 
-@table('d155dff2-ac36-4c69-b1b0-254ce2eb237d', build=Account.build, cast=Account.cast)
+@table("d155dff2-ac36-4c69-b1b0-254ce2eb237d", build=Account.build, cast=Account.cast)
 class Accounts(MapUuidFlatBuffers):
     """
     Database table for XBR member accounts.
     """
+
     @staticmethod
     def parse(data):
         """
@@ -512,59 +515,59 @@ class Accounts(MapUuidFlatBuffers):
         :return:
         """
         oid = None
-        if 'oid' in data:
-            assert type(data['oid'] == bytes and len(data['oid']) == 16)
-            oid = uuid.UUID(bytes=data['oid'])
+        if "oid" in data:
+            assert type(data["oid"] == bytes and len(data["oid"]) == 16)
+            oid = uuid.UUID(bytes=data["oid"])
 
         created = None
-        if 'created' in data:
-            assert type(data['created'] == int)
-            created = np.datetime64(data['created'], 'ns')
+        if "created" in data:
+            assert type(data["created"] == int)
+            created = np.datetime64(data["created"], "ns")
 
         username = None
-        if 'username' in data:
-            assert type(data['username'] == str)
-            username = data['username']
+        if "username" in data:
+            assert type(data["username"] == str)
+            username = data["username"]
 
         email = None
-        if 'email' in data:
-            assert type(data['email'] == str)
-            email = data['email']
+        if "email" in data:
+            assert type(data["email"] == str)
+            email = data["email"]
 
         email_verified = None
-        if 'email_verified' in data:
-            assert type(data['email_verified'] == int)
-            email_verified = np.datetime64(data['email_verified'], 'ns')
+        if "email_verified" in data:
+            assert type(data["email_verified"] == int)
+            email_verified = np.datetime64(data["email_verified"], "ns")
 
         wallet_type = None
-        if 'wallet_type' in data:
-            assert type(data['wallet_type'] == int)
-            wallet_type = data['wallet_type']
+        if "wallet_type" in data:
+            assert type(data["wallet_type"] == int)
+            wallet_type = data["wallet_type"]
 
         wallet_address = None
-        if 'wallet_address' in data:
-            assert type(data['wallet_address'] == bytes and len(data['wallet_address']) == 20)
-            wallet_address = data['wallet_address']
+        if "wallet_address" in data:
+            assert type(data["wallet_address"] == bytes and len(data["wallet_address"]) == 20)
+            wallet_address = data["wallet_address"]
 
         registered = None
-        if 'registered' in data:
-            assert type(data['registered'] == int)
-            registered = data['registered']
+        if "registered" in data:
+            assert type(data["registered"] == int)
+            registered = data["registered"]
 
         eula = None
-        if 'eula' in data:
-            assert type(data['eula'] == str)
-            eula = data['eula']
+        if "eula" in data:
+            assert type(data["eula"] == str)
+            eula = data["eula"]
 
         profile = None
-        if 'profile' in data:
-            assert type(data['profile'] == str)
-            profile = data['profile']
+        if "profile" in data:
+            assert type(data["profile"] == str)
+            profile = data["profile"]
 
         level = None
-        if 'level' in data:
-            assert type(data['level'] == int)
-            level = data['level']
+        if "level" in data:
+            assert type(data["level"] == int)
+            level = data["level"]
 
         obj = Account()
         obj.oid = oid
@@ -582,21 +585,21 @@ class Accounts(MapUuidFlatBuffers):
         return obj
 
 
-@table('760d42a0-110e-474b-ab85-6e2396af035d')
+@table("760d42a0-110e-474b-ab85-6e2396af035d")
 class IndexAccountsByUsername(MapStringUuid):
     """
     Database (index) table for username-to-account mapping.
     """
 
 
-@table('76706b89-8639-491e-8989-afc5a7c8a5b4')
+@table("76706b89-8639-491e-8989-afc5a7c8a5b4")
 class IndexAccountsByEmail(MapStringUuid):
     """
     Database (index) table for (user-)email-to-account mapping.
     """
 
 
-@table('432ae4fa-a23e-45d7-b2a4-c9ae868df2b3')
+@table("432ae4fa-a23e-45d7-b2a4-c9ae868df2b3")
 class IndexAccountsByWallet(MapBytes20Uuid):
     """
     Database (index) table for (user-)wallet-to-account mapping.

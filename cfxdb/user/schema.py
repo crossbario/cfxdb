@@ -15,6 +15,7 @@ class Schema(object):
     """
     user database schema for ZLMDB.
     """
+
     def __init__(self, db):
         self.db = db
 

@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class Reaction(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class Reaction(object):
     def GetRootAsReaction(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Reaction
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -30,7 +33,9 @@ class Reaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Reaction
@@ -58,7 +63,9 @@ class Reaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Reaction
@@ -86,7 +93,9 @@ class Reaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Reaction
@@ -130,7 +139,9 @@ class Reaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Reaction
@@ -152,74 +163,98 @@ class Reaction(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
+
 def ReactionStart(builder):
     builder.StartObject(6)
+
 
 def Start(builder):
     ReactionStart(builder)
 
+
 def ReactionAddTableOid(builder, tableOid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 
 def AddTableOid(builder, tableOid):
     ReactionAddTableOid(builder, tableOid)
 
+
 def ReactionStartTableOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTableOidVector(builder, numElems: int) -> int:
     return ReactionStartTableOidVector(builder, numElems)
 
+
 def ReactionAddObjectOid(builder, objectOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 
 def AddObjectOid(builder, objectOid):
     ReactionAddObjectOid(builder, objectOid)
 
+
 def ReactionStartObjectOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartObjectOidVector(builder, numElems: int) -> int:
     return ReactionStartObjectOidVector(builder, numElems)
 
+
 def ReactionAddVoterOid(builder, voterOid):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(voterOid), 0)
+
 
 def AddVoterOid(builder, voterOid):
     ReactionAddVoterOid(builder, voterOid)
 
+
 def ReactionStartVoterOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartVoterOidVector(builder, numElems: int) -> int:
     return ReactionStartVoterOidVector(builder, numElems)
 
+
 def ReactionAddReaction(builder, reaction):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(reaction), 0)
+
 
 def AddReaction(builder, reaction):
     ReactionAddReaction(builder, reaction)
 
+
 def ReactionAddReacted(builder, reacted):
     builder.PrependUint64Slot(4, reacted, 0)
+
 
 def AddReacted(builder, reacted):
     ReactionAddReacted(builder, reacted)
 
+
 def ReactionAddExtra(builder, extra):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(extra), 0)
+
 
 def AddExtra(builder, extra):
     ReactionAddExtra(builder, extra)
 
+
 def ReactionStartExtraVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartExtraVector(builder, numElems: int) -> int:
     return ReactionStartExtraVector(builder, numElems)
 
+
 def ReactionEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ReactionEnd(builder)

@@ -6,6 +6,7 @@
 ##############################################################################
 
 from pprint import pformat
+
 from cfxdb.gen.user.UserRole import UserRole
 
 
@@ -13,6 +14,7 @@ class UserMrealmRole(object):
     """
     Database class for CFC user roles on a management realm using CBOR.
     """
+
     def __init__(self, roles=None, _unknown=None):
         self.roles = roles
 
@@ -30,7 +32,7 @@ class UserMrealmRole(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pformat(self.marshal()))
+        return "\n{}\n".format(pformat(self.marshal()))
 
     def copy(self, other):
         self.roles = other.roles[:]
@@ -44,7 +46,7 @@ class UserMrealmRole(object):
             assert role in [UserRole.OWNER, UserRole.ADMIN, UserRole.USER, UserRole.GUEST]
 
         obj = {
-            'roles': self.roles,
+            "roles": self.roles,
         }
 
         if self._unknown:
@@ -62,10 +64,10 @@ class UserMrealmRole(object):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['roles']:
+            if k not in ["roles"]:
                 _unknown[k] = data[k]
 
-        roles = data.get('roles', None)
+        roles = data.get("roles", None)
         assert type(roles) == list
 
         for role in roles:

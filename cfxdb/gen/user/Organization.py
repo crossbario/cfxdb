@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # A CFC organization.
 class Organization(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Organization(object):
     def GetRootAsOrganization(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Organization
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -32,6 +35,7 @@ class Organization(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -98,62 +102,82 @@ class Organization(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
+
 def OrganizationStart(builder):
     builder.StartObject(7)
+
 
 def Start(builder):
     OrganizationStart(builder)
 
+
 def OrganizationAddOid(builder, oid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     OrganizationAddOid(builder, oid)
 
+
 def OrganizationAddLabel(builder, label):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 
 def AddLabel(builder, label):
     OrganizationAddLabel(builder, label)
 
+
 def OrganizationAddDescription(builder, description):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 
 def AddDescription(builder, description):
     OrganizationAddDescription(builder, description)
 
+
 def OrganizationAddTags(builder, tags):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 
 def AddTags(builder, tags):
     OrganizationAddTags(builder, tags)
 
+
 def OrganizationStartTagsVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartTagsVector(builder, numElems: int) -> int:
     return OrganizationStartTagsVector(builder, numElems)
 
+
 def OrganizationAddName(builder, name):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 
 def AddName(builder, name):
     OrganizationAddName(builder, name)
 
+
 def OrganizationAddOtype(builder, otype):
     builder.PrependInt8Slot(5, otype, 0)
+
 
 def AddOtype(builder, otype):
     OrganizationAddOtype(builder, otype)
 
+
 def OrganizationAddRegistered(builder, registered):
     builder.PrependUint64Slot(6, registered, 0)
+
 
 def AddRegistered(builder, registered):
     OrganizationAddRegistered(builder, registered)
 
+
 def OrganizationEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return OrganizationEnd(builder)

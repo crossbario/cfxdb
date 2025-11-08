@@ -10,6 +10,7 @@ import random
 import timeit
 
 import txaio
+
 txaio.use_twisted()  # noqa
 
 import flatbuffers
@@ -26,14 +27,14 @@ def fill_token_approval(token_approval):
     token_approval.value = random.randint(1, 2**256 - 1)
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def token_approval():
     _token_approval = TokenApproval()
     fill_token_approval(_token_approval)
     return _token_approval
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -60,7 +61,7 @@ def test_token_approval_roundtrip_perf(token_approval, builder):
     obj = token_approval.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _token_approval = TokenApproval.cast(data)
@@ -71,23 +72,23 @@ def test_token_approval_roundtrip_perf(token_approval, builder):
             assert _token_approval.spender_address == token_approval.spender_address
             assert _token_approval.value == token_approval.value
 
-            scratch['value'] += int(_token_approval.tx_hash[0])
-            scratch['value'] += int(_token_approval.tx_hash[7])
-            scratch['value'] += int(_token_approval.tx_hash[19])
+            scratch["value"] += int(_token_approval.tx_hash[0])
+            scratch["value"] += int(_token_approval.tx_hash[7])
+            scratch["value"] += int(_token_approval.tx_hash[19])
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

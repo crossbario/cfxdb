@@ -9,9 +9,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
-from cfxdb.gen.xbr import Api as ApiGen
-from zlmdb import table, MapUuidFlatBuffers, MapBytes16TimestampUuid
+from zlmdb import MapBytes16TimestampUuid, MapUuidFlatBuffers, table
+
 from cfxdb import pack_uint256, unpack_uint256
+from cfxdb.gen.xbr import Api as ApiGen
 
 
 class _ApiGen(ApiGen.Api):
@@ -27,7 +28,7 @@ class _ApiGen(ApiGen.Api):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CatalogOidAsBytes(self):
@@ -35,7 +36,7 @@ class _ApiGen(ApiGen.Api):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PublishedAsBytes(self):
@@ -43,7 +44,7 @@ class _ApiGen(ApiGen.Api):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def TidAsBytes(self):
@@ -51,7 +52,7 @@ class _ApiGen(ApiGen.Api):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -59,7 +60,7 @@ class _ApiGen(ApiGen.Api):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -67,6 +68,7 @@ class Api(object):
     """
     ``XBRNetwork.Api`` database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -96,19 +98,19 @@ class Api(object):
 
     def marshal(self) -> dict:
         obj = {
-            'oid': self.oid.bytes if self.oid else None,
-            'catalog_oid': self.catalog_oid.bytes if self.catalog_oid else None,
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'published': pack_uint256(self.published) if self.published else None,
-            'schema': self.schema,
-            'meta': self.meta,
-            'tid': bytes(self.tid) if self.tid else None,
-            'signature': bytes(self.signature) if self.signature else None,
+            "oid": self.oid.bytes if self.oid else None,
+            "catalog_oid": self.catalog_oid.bytes if self.catalog_oid else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "published": pack_uint256(self.published) if self.published else None,
+            "schema": self.schema,
+            "meta": self.meta,
+            "tid": bytes(self.tid) if self.tid else None,
+            "signature": bytes(self.signature) if self.signature else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def oid(self) -> uuid.UUID:
@@ -148,7 +150,7 @@ class Api(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -182,7 +184,7 @@ class Api(object):
         if self._schema is None and self._from_fbs:
             schema = self._from_fbs.Schema()
             if schema:
-                self._schema = schema.decode('utf8')
+                self._schema = schema.decode("utf8")
         return self._schema
 
     @schema.setter
@@ -198,7 +200,7 @@ class Api(object):
         if self._meta is None and self._from_fbs:
             meta = self._from_fbs.Meta()
             if meta:
-                self._meta = meta.decode('utf8')
+                self._meta = meta.decode("utf8")
         return self._meta
 
     @meta.setter
@@ -241,7 +243,6 @@ class Api(object):
         return Api(_ApiGen.GetRootAsApi(buf, 0))
 
     def build(self, builder):
-
         oid = self.oid.bytes if self.oid else None
         if oid:
             oid = builder.CreateString(oid)
@@ -301,14 +302,14 @@ class Api(object):
         return final
 
 
-@table('9f87bad9-695e-439d-86ad-9e23695d3f67', build=Api.build, cast=Api.cast)
+@table("9f87bad9-695e-439d-86ad-9e23695d3f67", build=Api.build, cast=Api.cast)
 class Apis(MapUuidFlatBuffers):
     """
     Apis table, mapping from ``oid|UUID`` to :class:`cfxdb.xbr.Api`
     """
 
 
-@table('57ae5d83-57b0-4214-8481-a1853f7faf87')
+@table("57ae5d83-57b0-4214-8481-a1853f7faf87")
 class IndexApiByCatalog(MapBytes16TimestampUuid):
     """
     Api-by-FbsRepository, index with ``(catalog_oid|bytes[16], created|int) -> api_oid|UUID`` mapping.

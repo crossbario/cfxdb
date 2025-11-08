@@ -10,8 +10,9 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapBytes32FlatBuffers, MapUuidTimestampBytes32, table
+
 from cfxdb.gen.xbrnetwork import UserKey as UserKeyGen
-from zlmdb import table, MapBytes32FlatBuffers, MapUuidTimestampBytes32
 
 
 class _UserKeyGen(UserKeyGen.UserKey):
@@ -20,6 +21,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsUserKey(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -32,7 +34,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OwnerAsBytes(self):
@@ -40,7 +42,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -48,6 +50,7 @@ class UserKey(object):
     """
     User client (public) keys.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -65,14 +68,14 @@ class UserKey(object):
 
     def marshal(self):
         obj = {
-            'pubkey': bytes(self.pubkey),
-            'created': int(self.created),
-            'owner': self.owner.bytes,
+            "pubkey": bytes(self.pubkey),
+            "created": int(self.created),
+            "owner": self.owner.bytes,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def pubkey(self) -> bytes:
@@ -95,7 +98,7 @@ class UserKey(object):
         Timestamp (epoch time in ns) of initial creation of this record.
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @created.setter
@@ -113,7 +116,7 @@ class UserKey(object):
                 _owner = self._from_fbs.OwnerAsBytes()
                 self._owner = uuid.UUID(bytes=bytes(_owner))
             else:
-                self._owner = uuid.UUID(bytes=b'\x00' * 20)
+                self._owner = uuid.UUID(bytes=b"\x00" * 20)
         return self._owner
 
     @owner.setter
@@ -126,7 +129,6 @@ class UserKey(object):
         return UserKey(_UserKeyGen.GetRootAsUserKey(buf, 0))
 
     def build(self, builder):
-
         owner = self.owner.bytes if self.owner else None
         if owner:
             owner = builder.CreateString(owner)
@@ -151,11 +153,12 @@ class UserKey(object):
         return final
 
 
-@table('5b5d0ce7-33f4-4421-a6ab-ed77cafc763a', build=UserKey.build, cast=UserKey.cast)
+@table("5b5d0ce7-33f4-4421-a6ab-ed77cafc763a", build=UserKey.build, cast=UserKey.cast)
 class UserKeys(MapBytes32FlatBuffers):
     """
     Database table for user client keys.
     """
+
     @staticmethod
     def parse(data):
         """
@@ -164,19 +167,19 @@ class UserKeys(MapBytes32FlatBuffers):
         :return:
         """
         pubkey = None
-        if 'pubkey' in data:
-            assert type(data['pubkey']) == bytes and len(data['pubkey']) == 32
-            pubkey = data['pubkey']
+        if "pubkey" in data:
+            assert type(data["pubkey"]) == bytes and len(data["pubkey"]) == 32
+            pubkey = data["pubkey"]
 
         created = None
-        if 'created' in data:
-            assert type(data['created'] == int)
-            created = np.datetime64(data['created'], 'ns')
+        if "created" in data:
+            assert type(data["created"] == int)
+            created = np.datetime64(data["created"], "ns")
 
         owner = None
-        if 'owner' in data:
-            assert type(data['owner'] == bytes and len(data['owner']) == 16)
-            owner = uuid.UUID(bytes=data['owner'])
+        if "owner" in data:
+            assert type(data["owner"] == bytes and len(data["owner"]) == 16)
+            owner = uuid.UUID(bytes=data["owner"])
 
         obj = UserKey()
         obj.pubkey = pubkey
@@ -186,7 +189,7 @@ class UserKeys(MapBytes32FlatBuffers):
         return obj
 
 
-@table('68b736f8-27df-4e3e-b80f-1b855ae5596f')
+@table("68b736f8-27df-4e3e-b80f-1b855ae5596f")
 class IndexUserKeyByAccount(MapUuidTimestampBytes32):
     """
     Database (index) table for (member_oid, created) -> userkey mapping.

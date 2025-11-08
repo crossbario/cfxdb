@@ -10,9 +10,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapUuidFlatBuffers, table
+
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbrmm import Transaction as TransactionGen
-from zlmdb import table, MapUuidFlatBuffers
 
 
 class _TransactionGen(TransactionGen.Transaction):
@@ -21,6 +22,7 @@ class _TransactionGen(TransactionGen.Transaction):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsTransaction(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +35,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OfferAsBytes(self):
@@ -41,7 +43,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AmountAsBytes(self):
@@ -49,7 +51,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PaymentChannelAsBytes(self):
@@ -57,7 +59,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PayingChannelAsBytes(self):
@@ -65,7 +67,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def KeyAsBytes(self):
@@ -73,7 +75,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def BuyerPubkeyAsBytes(self):
@@ -81,7 +83,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PaymentChannelAfterAsBytes(self):
@@ -89,7 +91,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PayingChannelAfterAsBytes(self):
@@ -97,7 +99,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PaymentMmSigAsBytes(self):
@@ -105,7 +107,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PaymentDelSigAsBytes(self):
@@ -113,7 +115,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PayingMmSigAsBytes(self):
@@ -121,7 +123,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PayingDelSigAsBytes(self):
@@ -129,7 +131,7 @@ class _TransactionGen(TransactionGen.Transaction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -157,6 +159,7 @@ class Transaction(object):
     """
     The transaction has completed with success
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -222,33 +225,31 @@ class Transaction(object):
 
     def marshal(self):
         obj = {
-            'tid': str(self.tid) if self.tid else None,
-            'created': self.created,
-            'created_payment_channel_seq': self._created_payment_channel_seq,
-            'created_paying_channel_seq': self._created_paying_channel_seq,
-            'offer': str(self.offer) if self.offer else None,
-            'amount': pack_uint256(self.amount) if self.amount else 0,
-            'payment_channel': self.payment_channel.bytes if self.payment_channel else None,
-            'paying_channel': self.paying_channel.bytes if self.paying_channel else None,
-            'state': self.state,
-            'completed': self.completed,
-            'completed_payment_channel_seq': self._completed_payment_channel_seq,
-            'completed_paying_channel_seq': self._completed_paying_channel_seq,
-            'key': self.key.bytes if self.key else None,
-            'buyer_pubkey': self.buyer_pubkey,
-            'payment_channel_after':
-            pack_uint256(self.payment_channel_after) if self.payment_channel_after else None,
-            'paying_channel_after':
-            pack_uint256(self.paying_channel_after) if self.paying_channel_after else None,
-            'payment_mm_sig': self.payment_mm_sig,
-            'payment_del_sig': self.payment_del_sig,
-            'paying_mm_sig': self.paying_mm_sig,
-            'paying_del_sig': self.paying_del_sig,
+            "tid": str(self.tid) if self.tid else None,
+            "created": self.created,
+            "created_payment_channel_seq": self._created_payment_channel_seq,
+            "created_paying_channel_seq": self._created_paying_channel_seq,
+            "offer": str(self.offer) if self.offer else None,
+            "amount": pack_uint256(self.amount) if self.amount else 0,
+            "payment_channel": self.payment_channel.bytes if self.payment_channel else None,
+            "paying_channel": self.paying_channel.bytes if self.paying_channel else None,
+            "state": self.state,
+            "completed": self.completed,
+            "completed_payment_channel_seq": self._completed_payment_channel_seq,
+            "completed_paying_channel_seq": self._completed_paying_channel_seq,
+            "key": self.key.bytes if self.key else None,
+            "buyer_pubkey": self.buyer_pubkey,
+            "payment_channel_after": pack_uint256(self.payment_channel_after) if self.payment_channel_after else None,
+            "paying_channel_after": pack_uint256(self.paying_channel_after) if self.paying_channel_after else None,
+            "payment_mm_sig": self.payment_mm_sig,
+            "payment_del_sig": self.payment_del_sig,
+            "paying_mm_sig": self.paying_mm_sig,
+            "paying_del_sig": self.paying_del_sig,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def tid(self) -> uuid.UUID:
@@ -272,7 +273,7 @@ class Transaction(object):
         Creation time of the transaction (epoch time in ns).
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @created.setter
@@ -392,7 +393,7 @@ class Transaction(object):
         Completion time of the transaction (epoch time in ns)
         """
         if self._completed is None and self._from_fbs:
-            self._completed = np.datetime64(self._from_fbs.Completed(), 'ns')
+            self._completed = np.datetime64(self._from_fbs.Completed(), "ns")
         return self._completed
 
     @completed.setter
@@ -560,7 +561,6 @@ class Transaction(object):
         return Transaction(_TransactionGen.GetRootAsTransaction(buf, 0))
 
     def build(self, builder):
-
         tid = self.tid.bytes if self.tid else None
         if tid:
             tid = builder.CreateString(tid)
@@ -646,8 +646,7 @@ class Transaction(object):
             TransactionGen.TransactionAddCompleted(builder, int(self.completed))
 
         if self.completed_payment_channel_seq:
-            TransactionGen.TransactionAddCompletedPaymentChannelSeq(builder,
-                                                                    self.completed_payment_channel_seq)
+            TransactionGen.TransactionAddCompletedPaymentChannelSeq(builder, self.completed_payment_channel_seq)
 
         if self.completed_paying_channel_seq:
             TransactionGen.TransactionAddCompletedPayingChannelSeq(builder, self.completed_paying_channel_seq)
@@ -681,7 +680,7 @@ class Transaction(object):
         return final
 
 
-@table('87cf8eac-10d8-470d-a645-23e11343e065', build=Transaction.build, cast=Transaction.cast)
+@table("87cf8eac-10d8-470d-a645-23e11343e065", build=Transaction.build, cast=Transaction.cast)
 class Transactions(MapUuidFlatBuffers):
     """
     Data encryption key (off-chain) market transactions.

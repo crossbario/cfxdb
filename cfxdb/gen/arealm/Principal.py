@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Application realm client principals.
 class Principal(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Principal(object):
     def GetRootAsPrincipal(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Principal
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -32,6 +35,7 @@ class Principal(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -52,6 +56,7 @@ class Principal(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -72,6 +77,7 @@ class Principal(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -83,7 +89,9 @@ class Principal(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Principal
@@ -105,56 +113,74 @@ class Principal(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
+
 def PrincipalStart(builder):
     builder.StartObject(6)
+
 
 def Start(builder):
     PrincipalStart(builder)
 
+
 def PrincipalAddOid(builder, oid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     PrincipalAddOid(builder, oid)
 
+
 def PrincipalAddModified(builder, modified):
     builder.PrependInt32Slot(1, modified, 0)
+
 
 def AddModified(builder, modified):
     PrincipalAddModified(builder, modified)
 
+
 def PrincipalAddArealmOid(builder, arealmOid):
     builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+
 
 def AddArealmOid(builder, arealmOid):
     PrincipalAddArealmOid(builder, arealmOid)
 
+
 def PrincipalAddAuthid(builder, authid):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 
 def AddAuthid(builder, authid):
     PrincipalAddAuthid(builder, authid)
 
+
 def PrincipalAddRoleOid(builder, roleOid):
     builder.PrependStructSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+
 
 def AddRoleOid(builder, roleOid):
     PrincipalAddRoleOid(builder, roleOid)
 
+
 def PrincipalAddAuthextra(builder, authextra):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+
 
 def AddAuthextra(builder, authextra):
     PrincipalAddAuthextra(builder, authextra)
 
+
 def PrincipalStartAuthextraVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAuthextraVector(builder, numElems: int) -> int:
     return PrincipalStartAuthextraVector(builder, numElems)
 
+
 def PrincipalEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return PrincipalEnd(builder)

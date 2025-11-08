@@ -8,9 +8,11 @@
 import pprint
 
 import flatbuffers
-from cfxdb import unpack_uint256, pack_uint256
-from cfxdb.gen.xbr import TokenApproval as TokenApprovalGen, TokenTransfer as TokenTransferGen
-from zlmdb import table, MapBytes32FlatBuffers
+from zlmdb import MapBytes32FlatBuffers, table
+
+from cfxdb import pack_uint256, unpack_uint256
+from cfxdb.gen.xbr import TokenApproval as TokenApprovalGen
+from cfxdb.gen.xbr import TokenTransfer as TokenTransferGen
 
 
 class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
@@ -19,6 +21,7 @@ class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsTokenApproval(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -31,7 +34,7 @@ class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def BlockHashAsBytes(self):
@@ -39,7 +42,7 @@ class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OwnerAddressAsBytes(self):
@@ -47,7 +50,7 @@ class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SpenderAddressAsBytes(self):
@@ -55,7 +58,7 @@ class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ValueAsBytes(self):
@@ -63,7 +66,7 @@ class _TokenApprovalGen(TokenApprovalGen.TokenApproval):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -71,6 +74,7 @@ class TokenApproval(object):
     """
     ``IERC20.TokenApproval`` event database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -82,16 +86,16 @@ class TokenApproval(object):
 
     def marshal(self) -> dict:
         obj = {
-            'tx_hash': bytes(self._tx_hash) if self._tx_hash else None,
-            'block_hash': bytes(self._block_hash) if self._block_hash else None,
-            'from_address': bytes(self._owner_address) if self._owner_address else None,
-            'to_address': bytes(self._spender_address) if self._spender_address else None,
-            'value': self._value,
+            "tx_hash": bytes(self._tx_hash) if self._tx_hash else None,
+            "block_hash": bytes(self._block_hash) if self._block_hash else None,
+            "from_address": bytes(self._owner_address) if self._owner_address else None,
+            "to_address": bytes(self._spender_address) if self._spender_address else None,
+            "value": self._value,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def tx_hash(self) -> bytes:
@@ -126,7 +130,7 @@ class TokenApproval(object):
     @property
     def owner_address(self) -> bytes:
         """
-         XBR token sending address.
+        XBR token sending address.
         """
         if self._owner_address is None and self._from_fbs:
             if self._from_fbs.OwnerAddressLength():
@@ -176,7 +180,6 @@ class TokenApproval(object):
         return TokenApproval(_TokenApprovalGen.GetRootAsTokenApproval(buf, 0))
 
     def build(self, builder):
-
         tx_hash = self.tx_hash
         if tx_hash:
             tx_hash = builder.CreateString(tx_hash)
@@ -219,7 +222,7 @@ class TokenApproval(object):
         return final
 
 
-@table('f3d1f052-7160-48a7-b36a-221035fc9373', build=TokenApproval.build, cast=TokenApproval.cast)
+@table("f3d1f052-7160-48a7-b36a-221035fc9373", build=TokenApproval.build, cast=TokenApproval.cast)
 class TokenApprovals(MapBytes32FlatBuffers):
     """
     Persisted token approvals archive.
@@ -234,6 +237,7 @@ class _TokenTransferGen(TokenTransferGen.TokenTransfer):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsTokenTransfer(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -246,7 +250,7 @@ class _TokenTransferGen(TokenTransferGen.TokenTransfer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def BlockHashAsBytes(self):
@@ -254,7 +258,7 @@ class _TokenTransferGen(TokenTransferGen.TokenTransfer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def FromAddressAsBytes(self):
@@ -262,7 +266,7 @@ class _TokenTransferGen(TokenTransferGen.TokenTransfer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ToAddressAsBytes(self):
@@ -270,7 +274,7 @@ class _TokenTransferGen(TokenTransferGen.TokenTransfer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ValueAsBytes(self):
@@ -278,7 +282,7 @@ class _TokenTransferGen(TokenTransferGen.TokenTransfer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -286,6 +290,7 @@ class TokenTransfer(object):
     """
     ``IERC20.TokenTransfer`` event database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -297,16 +302,16 @@ class TokenTransfer(object):
 
     def marshal(self) -> dict:
         obj = {
-            'tx_hash': self._tx_hash,
-            'block_hash': self._block_hash,
-            'from_address': self._from_address,
-            'to_address': self._to_address,
-            'value': self._value,
+            "tx_hash": self._tx_hash,
+            "block_hash": self._block_hash,
+            "from_address": self._from_address,
+            "to_address": self._to_address,
+            "value": self._value,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def tx_hash(self) -> bytes:
@@ -391,7 +396,6 @@ class TokenTransfer(object):
         return TokenTransfer(_TokenTransferGen.GetRootAsTokenTransfer(buf, 0))
 
     def build(self, builder):
-
         tx_hash = self.tx_hash
         if tx_hash:
             tx_hash = builder.CreateString(tx_hash)
@@ -434,7 +438,7 @@ class TokenTransfer(object):
         return final
 
 
-@table('7dcfffd2-4859-45d6-b9cd-ba7930a7a107', build=TokenTransfer.build, cast=TokenTransfer.cast)
+@table("7dcfffd2-4859-45d6-b9cd-ba7930a7a107", build=TokenTransfer.build, cast=TokenTransfer.cast)
 class TokenTransfers(MapBytes32FlatBuffers):
     """
     Persisted token transfers archive.

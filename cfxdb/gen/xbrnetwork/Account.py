@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR Network members.
 class Account(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Account(object):
     def GetRootAsAccount(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Account
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Account(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Account
@@ -99,7 +104,9 @@ class Account(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Account
@@ -127,7 +134,9 @@ class Account(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Account
@@ -173,98 +182,130 @@ class Account(object):
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, o + self._tab.Pos)
         return 0
 
+
 def AccountStart(builder):
     builder.StartObject(11)
+
 
 def Start(builder):
     AccountStart(builder)
 
+
 def AccountAddOid(builder, oid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     AccountAddOid(builder, oid)
 
+
 def AccountStartOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOidVector(builder, numElems: int) -> int:
     return AccountStartOidVector(builder, numElems)
 
+
 def AccountAddCreated(builder, created):
     builder.PrependUint64Slot(1, created, 0)
+
 
 def AddCreated(builder, created):
     AccountAddCreated(builder, created)
 
+
 def AccountAddUsername(builder, username):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(username), 0)
+
 
 def AddUsername(builder, username):
     AccountAddUsername(builder, username)
 
+
 def AccountAddEmail(builder, email):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+
 
 def AddEmail(builder, email):
     AccountAddEmail(builder, email)
 
+
 def AccountAddEmailVerified(builder, emailVerified):
     builder.PrependUint64Slot(4, emailVerified, 0)
+
 
 def AddEmailVerified(builder, emailVerified):
     AccountAddEmailVerified(builder, emailVerified)
 
+
 def AccountAddWalletType(builder, walletType):
     builder.PrependUint8Slot(5, walletType, 0)
+
 
 def AddWalletType(builder, walletType):
     AccountAddWalletType(builder, walletType)
 
+
 def AccountAddWalletAddress(builder, walletAddress):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(walletAddress), 0)
+
 
 def AddWalletAddress(builder, walletAddress):
     AccountAddWalletAddress(builder, walletAddress)
 
+
 def AccountStartWalletAddressVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartWalletAddressVector(builder, numElems: int) -> int:
     return AccountStartWalletAddressVector(builder, numElems)
 
+
 def AccountAddRegistered(builder, registered):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(registered), 0)
+
 
 def AddRegistered(builder, registered):
     AccountAddRegistered(builder, registered)
 
+
 def AccountStartRegisteredVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartRegisteredVector(builder, numElems: int) -> int:
     return AccountStartRegisteredVector(builder, numElems)
 
+
 def AccountAddEula(builder, eula):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(eula), 0)
+
 
 def AddEula(builder, eula):
     AccountAddEula(builder, eula)
 
+
 def AccountAddProfile(builder, profile):
     builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(profile), 0)
+
 
 def AddProfile(builder, profile):
     AccountAddProfile(builder, profile)
 
+
 def AccountAddLevel(builder, level):
     builder.PrependUint8Slot(10, level, 0)
+
 
 def AddLevel(builder, level):
     AccountAddLevel(builder, level)
 
+
 def AccountEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return AccountEnd(builder)

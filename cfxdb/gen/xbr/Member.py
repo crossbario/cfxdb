@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR Network members.
 class Member(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Member(object):
     def GetRootAsMember(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Member
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Member
@@ -59,7 +64,9 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Member
@@ -95,7 +102,9 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Member
@@ -147,7 +156,9 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Member
@@ -175,7 +186,9 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Member
@@ -197,98 +210,130 @@ class Member(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
+
 def MemberStart(builder):
     builder.StartObject(9)
+
 
 def Start(builder):
     MemberStart(builder)
 
+
 def MemberAddAddress(builder, address):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(address), 0)
+
 
 def AddAddress(builder, address):
     MemberAddAddress(builder, address)
 
+
 def MemberStartAddressVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAddressVector(builder, numElems: int) -> int:
     return MemberStartAddressVector(builder, numElems)
 
+
 def MemberAddAccountOid(builder, accountOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(accountOid), 0)
+
 
 def AddAccountOid(builder, accountOid):
     MemberAddAccountOid(builder, accountOid)
 
+
 def MemberStartAccountOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAccountOidVector(builder, numElems: int) -> int:
     return MemberStartAccountOidVector(builder, numElems)
 
+
 def MemberAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(2, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     MemberAddTimestamp(builder, timestamp)
 
+
 def MemberAddRegistered(builder, registered):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(registered), 0)
+
 
 def AddRegistered(builder, registered):
     MemberAddRegistered(builder, registered)
 
+
 def MemberStartRegisteredVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartRegisteredVector(builder, numElems: int) -> int:
     return MemberStartRegisteredVector(builder, numElems)
 
+
 def MemberAddEula(builder, eula):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(eula), 0)
+
 
 def AddEula(builder, eula):
     MemberAddEula(builder, eula)
 
+
 def MemberAddProfile(builder, profile):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(profile), 0)
+
 
 def AddProfile(builder, profile):
     MemberAddProfile(builder, profile)
 
+
 def MemberAddLevel(builder, level):
     builder.PrependUint8Slot(6, level, 0)
+
 
 def AddLevel(builder, level):
     MemberAddLevel(builder, level)
 
+
 def MemberAddTid(builder, tid):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 
 def AddTid(builder, tid):
     MemberAddTid(builder, tid)
 
+
 def MemberStartTidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTidVector(builder, numElems: int) -> int:
     return MemberStartTidVector(builder, numElems)
 
+
 def MemberAddSignature(builder, signature):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 
 def AddSignature(builder, signature):
     MemberAddSignature(builder, signature)
 
+
 def MemberStartSignatureVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSignatureVector(builder, numElems: int) -> int:
     return MemberStartSignatureVector(builder, numElems)
 
+
 def MemberEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return MemberEnd(builder)

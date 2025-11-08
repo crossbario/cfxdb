@@ -6,15 +6,25 @@
 ##############################################################################
 
 import pprint
-
 from uuid import UUID
-import numpy as np
 
 import flatbuffers
-from cfxdb import unpack_uint256, pack_uint256
-from cfxdb.gen.xbrmm import ChannelType as ChannelTypeGen, ChannelState as ChannelStateGen, \
-    Channel as ChannelGen, ChannelBalance as ChannelBalanceGen
-from zlmdb import table, MapUuidFlatBuffers, MapBytes20TimestampUuid
+import numpy as np
+from zlmdb import MapBytes20TimestampUuid, MapUuidFlatBuffers, table
+
+from cfxdb import pack_uint256, unpack_uint256
+from cfxdb.gen.xbrmm import (
+    Channel as ChannelGen,
+)
+from cfxdb.gen.xbrmm import (
+    ChannelBalance as ChannelBalanceGen,
+)
+from cfxdb.gen.xbrmm import (
+    ChannelState as ChannelStateGen,
+)
+from cfxdb.gen.xbrmm import (
+    ChannelType as ChannelTypeGen,
+)
 
 ChannelType = ChannelTypeGen.ChannelType
 ChannelState = ChannelStateGen.ChannelState
@@ -26,6 +36,7 @@ class _ChannelGen(ChannelGen.Channel):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsChannel(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -38,7 +49,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MemberOidAsBytes(self):
@@ -46,7 +57,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ChannelOidAsBytes(self):
@@ -54,7 +65,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OpenAtAsBytes(self):
@@ -62,7 +73,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MarketmakerAsBytes(self):
@@ -70,7 +81,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ActorAsBytes(self):
@@ -78,7 +89,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def DelegateAsBytes(self):
@@ -86,7 +97,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def RecipientAsBytes(self):
@@ -94,7 +105,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AmountAsBytes(self):
@@ -102,7 +113,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ClosingAtAsBytes(self):
@@ -110,7 +121,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ClosedAtAsBytes(self):
@@ -118,7 +129,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CloseMmSigAsBytes(self):
@@ -126,7 +137,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CloseDelSigAsBytes(self):
@@ -134,7 +145,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CloseBalanceAsBytes(self):
@@ -142,7 +153,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ClosedTxAsBytes(self):
@@ -150,7 +161,7 @@ class _ChannelGen(ChannelGen.Channel):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -158,6 +169,7 @@ class Channel(object):
     """
     XBR off-chain payment or paying channel.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -186,33 +198,33 @@ class Channel(object):
 
     def marshal(self) -> dict:
         obj = {
-            'market_oid': self.market_oid.bytes if self.market_oid else None,
-            'member_oid': self.member_oid.bytes if self.member_oid else None,
-            'channel_oid': self.channel_oid.bytes if self.channel_oid else None,
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'open_at': pack_uint256(self.open_at) if self.open_at else None,
-            'seq': self.seq,
-            'channel_type': self.channel_type,
-            'marketmaker': bytes(self.marketmaker) if self.marketmaker else None,
-            'actor': bytes(self.actor) if self.actor else None,
-            'delegate': bytes(self.delegate) if self.delegate else None,
-            'recipient': bytes(self.recipient) if self.recipient else None,
-            'amount': pack_uint256(self.amount) if self.amount else 0,
-            'timeout': self.timeout,
-            'state': self.state,
-            'closing_at': pack_uint256(self.closing_at) if self.closing_at else None,
-            'closed_at': pack_uint256(self.closed_at) if self.closed_at else None,
-            'close_mm_sig': bytes(self.close_mm_sig) if self.close_mm_sig else None,
-            'close_del_sig': bytes(self.close_del_sig) if self.close_del_sig else None,
-            'close_channel_seq': self.close_channel_seq,
-            'close_balance': pack_uint256(self.close_balance),
-            'close_is_final': self.close_is_final,
-            'closed_tx': bytes(self.closed_tx) if self.closed_tx else None,
+            "market_oid": self.market_oid.bytes if self.market_oid else None,
+            "member_oid": self.member_oid.bytes if self.member_oid else None,
+            "channel_oid": self.channel_oid.bytes if self.channel_oid else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "open_at": pack_uint256(self.open_at) if self.open_at else None,
+            "seq": self.seq,
+            "channel_type": self.channel_type,
+            "marketmaker": bytes(self.marketmaker) if self.marketmaker else None,
+            "actor": bytes(self.actor) if self.actor else None,
+            "delegate": bytes(self.delegate) if self.delegate else None,
+            "recipient": bytes(self.recipient) if self.recipient else None,
+            "amount": pack_uint256(self.amount) if self.amount else 0,
+            "timeout": self.timeout,
+            "state": self.state,
+            "closing_at": pack_uint256(self.closing_at) if self.closing_at else None,
+            "closed_at": pack_uint256(self.closed_at) if self.closed_at else None,
+            "close_mm_sig": bytes(self.close_mm_sig) if self.close_mm_sig else None,
+            "close_del_sig": bytes(self.close_del_sig) if self.close_del_sig else None,
+            "close_channel_seq": self.close_channel_seq,
+            "close_balance": pack_uint256(self.close_balance),
+            "close_is_final": self.close_is_final,
+            "closed_tx": bytes(self.closed_tx) if self.closed_tx else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def market_oid(self) -> UUID:
@@ -268,7 +280,7 @@ class Channel(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -535,7 +547,7 @@ class Channel(object):
         Flag indication if close is final (happens immediately without a channel timeout).
         """
         if self._close_is_final is None and self._from_fbs:
-            self._close_is_final = (self._from_fbs.CloseIsFinal() is True)
+            self._close_is_final = self._from_fbs.CloseIsFinal() is True
         return self._close_is_final
 
     @close_is_final.setter
@@ -563,7 +575,6 @@ class Channel(object):
         return Channel(_ChannelGen.GetRootAsChannel(buf, 0))
 
     def build(self, builder):
-
         market_oid = self.market_oid
         if market_oid:
             market_oid = builder.CreateString(market_oid.bytes)
@@ -696,7 +707,7 @@ class Channel(object):
         return final
 
 
-@table('b3d01946-85ae-49f3-ad96-b78194eb82fe', build=Channel.build, cast=Channel.cast)
+@table("b3d01946-85ae-49f3-ad96-b78194eb82fe", build=Channel.build, cast=Channel.cast)
 class PaymentChannels(MapUuidFlatBuffers):
     """
     XBR payment channels by ``channel_oid``.
@@ -705,21 +716,21 @@ class PaymentChannels(MapUuidFlatBuffers):
     """
 
 
-@table('cffd5253-72f8-41a9-8b76-5e6ff3654e67')
+@table("cffd5253-72f8-41a9-8b76-5e6ff3654e67")
 class IndexPaymentChannelByDelegate(MapBytes20TimestampUuid):
     """
     Index: ``(delegate_adr, created_timestamp) -> channel_oid``
     """
 
 
-@table('c78e0113-3b40-42b1-a15f-0b478ccf0de4')
+@table("c78e0113-3b40-42b1-a15f-0b478ccf0de4")
 class IndexPaymentChannelByActor(MapBytes20TimestampUuid):
     """
     Index: ``(actor_adr, created_timestamp) -> channel_oid``
     """
 
 
-@table('4e7e7c8d-db0d-4dea-8409-ac8f21ce1e10', build=Channel.build, cast=Channel.cast)
+@table("4e7e7c8d-db0d-4dea-8409-ac8f21ce1e10", build=Channel.build, cast=Channel.cast)
 class PayingChannels(MapUuidFlatBuffers):
     """
     XBR paying channels by ``channel_oid``.
@@ -728,14 +739,14 @@ class PayingChannels(MapUuidFlatBuffers):
     """
 
 
-@table('cee954be-fdb2-43cc-8891-529d6c7a0c3b')
+@table("cee954be-fdb2-43cc-8891-529d6c7a0c3b")
 class IndexPayingChannelByDelegate(MapBytes20TimestampUuid):
     """
     Index: ``(delegate_adr, created_timestamp) -> channel_oid``
     """
 
 
-@table('655a9d5f-0bdf-4c2a-8102-208f6da4a566')
+@table("655a9d5f-0bdf-4c2a-8102-208f6da4a566")
 class IndexPayingChannelByRecipient(MapBytes20TimestampUuid):
     """
     Index: ``(recipient_adr, created_timestamp) -> channel_oid``
@@ -748,6 +759,7 @@ class _ChannelBalanceGen(ChannelBalanceGen.ChannelBalance):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsChannelBalance(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -760,7 +772,7 @@ class _ChannelBalanceGen(ChannelBalanceGen.ChannelBalance):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def InflightAsBytes(self):
@@ -768,7 +780,7 @@ class _ChannelBalanceGen(ChannelBalanceGen.ChannelBalance):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -776,6 +788,7 @@ class ChannelBalance(object):
     """
     XBR payment channel current (off-chain) balance. The sum of ``Balance.remaining`` and ``Balance.inflight`` equals ``Channel.amount``.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -789,18 +802,18 @@ class ChannelBalance(object):
 
         obj = ChannelBalance()
 
-        if 'remaining' in data:
-            remaining = data['remaining']
+        if "remaining" in data:
+            remaining = data["remaining"]
             assert type(remaining) == bytes and len(remaining) == 32
             obj._remaining = unpack_uint256(remaining)
 
-        if 'inflight' in data:
-            inflight = data['inflight']
+        if "inflight" in data:
+            inflight = data["inflight"]
             assert type(inflight) == bytes and len(inflight) == 32
             obj._inflight = unpack_uint256(inflight)
 
-        if 'seq' in data:
-            seq = data['seq']
+        if "seq" in data:
+            seq = data["seq"]
             assert type(seq) == int
             obj._seq = unpack_uint256(seq)
 
@@ -808,14 +821,14 @@ class ChannelBalance(object):
 
     def marshal(self) -> dict:
         obj = {
-            'remaining': pack_uint256(self.remaining) if self.remaining else 0,
-            'inflight': pack_uint256(self.inflight) if self.inflight else 0,
-            'seq': self.seq or 0
+            "remaining": pack_uint256(self.remaining) if self.remaining else 0,
+            "inflight": pack_uint256(self.inflight) if self.inflight else 0,
+            "seq": self.seq or 0,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def remaining(self) -> int:
@@ -872,7 +885,6 @@ class ChannelBalance(object):
         return ChannelBalance(_ChannelBalanceGen.GetRootAsChannelBalance(buf, 0))
 
     def build(self, builder):
-
         remaining = self.remaining
         if remaining:
             remaining = builder.CreateString(pack_uint256(remaining))
@@ -897,7 +909,7 @@ class ChannelBalance(object):
         return final
 
 
-@table('878ac002-a830-488b-bfe9-f06371b8eecb', build=ChannelBalance.build, cast=ChannelBalance.cast)
+@table("878ac002-a830-488b-bfe9-f06371b8eecb", build=ChannelBalance.build, cast=ChannelBalance.cast)
 class PaymentChannelBalances(MapUuidFlatBuffers):
     """
     XBR payment channels current balances by ``channel_oid``.
@@ -906,7 +918,7 @@ class PaymentChannelBalances(MapUuidFlatBuffers):
     """
 
 
-@table('c0931d5d-6d5d-4f9c-b2a3-29664a0f4c07', build=ChannelBalance.build, cast=ChannelBalance.cast)
+@table("c0931d5d-6d5d-4f9c-b2a3-29664a0f4c07", build=ChannelBalance.build, cast=ChannelBalance.cast)
 class PayingChannelBalances(MapUuidFlatBuffers):
     """
     XBR paying channels current balances by ``channel_oid``.

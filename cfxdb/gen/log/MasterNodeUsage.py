@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Aggregate usage metering records for management realms. Primary key: (timestamp, mrealm_id).
 class MasterNodeUsage(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class MasterNodeUsage(object):
     def GetRootAsMasterNodeUsage(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # MasterNodeUsage
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -39,7 +42,9 @@ class MasterNodeUsage(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # MasterNodeUsage
@@ -75,7 +80,9 @@ class MasterNodeUsage(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # MasterNodeUsage
@@ -103,7 +110,9 @@ class MasterNodeUsage(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # MasterNodeUsage
@@ -187,7 +196,9 @@ class MasterNodeUsage(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # MasterNodeUsage
@@ -393,254 +404,338 @@ class MasterNodeUsage(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
+
 def MasterNodeUsageStart(builder):
     builder.StartObject(36)
+
 
 def Start(builder):
     MasterNodeUsageStart(builder)
 
+
 def MasterNodeUsageAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(0, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     MasterNodeUsageAddTimestamp(builder, timestamp)
 
+
 def MasterNodeUsageAddMrealmId(builder, mrealmId):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(mrealmId), 0)
+
 
 def AddMrealmId(builder, mrealmId):
     MasterNodeUsageAddMrealmId(builder, mrealmId)
 
+
 def MasterNodeUsageStartMrealmIdVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMrealmIdVector(builder, numElems: int) -> int:
     return MasterNodeUsageStartMrealmIdVector(builder, numElems)
 
+
 def MasterNodeUsageAddTimestampFrom(builder, timestampFrom):
     builder.PrependUint64Slot(2, timestampFrom, 0)
+
 
 def AddTimestampFrom(builder, timestampFrom):
     MasterNodeUsageAddTimestampFrom(builder, timestampFrom)
 
+
 def MasterNodeUsageAddPubkey(builder, pubkey):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 
 def AddPubkey(builder, pubkey):
     MasterNodeUsageAddPubkey(builder, pubkey)
 
+
 def MasterNodeUsageStartPubkeyVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartPubkeyVector(builder, numElems: int) -> int:
     return MasterNodeUsageStartPubkeyVector(builder, numElems)
 
+
 def MasterNodeUsageAddClientIpAddress(builder, clientIpAddress):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(clientIpAddress), 0)
+
 
 def AddClientIpAddress(builder, clientIpAddress):
     MasterNodeUsageAddClientIpAddress(builder, clientIpAddress)
 
+
 def MasterNodeUsageStartClientIpAddressVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartClientIpAddressVector(builder, numElems: int) -> int:
     return MasterNodeUsageStartClientIpAddressVector(builder, numElems)
 
+
 def MasterNodeUsageAddClientIpVersion(builder, clientIpVersion):
     builder.PrependUint8Slot(5, clientIpVersion, 0)
+
 
 def AddClientIpVersion(builder, clientIpVersion):
     MasterNodeUsageAddClientIpVersion(builder, clientIpVersion)
 
+
 def MasterNodeUsageAddClientIpPort(builder, clientIpPort):
     builder.PrependUint16Slot(6, clientIpPort, 0)
+
 
 def AddClientIpPort(builder, clientIpPort):
     MasterNodeUsageAddClientIpPort(builder, clientIpPort)
 
+
 def MasterNodeUsageAddSeq(builder, seq):
     builder.PrependUint64Slot(7, seq, 0)
+
 
 def AddSeq(builder, seq):
     MasterNodeUsageAddSeq(builder, seq)
 
+
 def MasterNodeUsageAddSent(builder, sent):
     builder.PrependUint64Slot(8, sent, 0)
+
 
 def AddSent(builder, sent):
     MasterNodeUsageAddSent(builder, sent)
 
+
 def MasterNodeUsageAddProcessed(builder, processed):
     builder.PrependUint64Slot(9, processed, 0)
+
 
 def AddProcessed(builder, processed):
     MasterNodeUsageAddProcessed(builder, processed)
 
+
 def MasterNodeUsageAddStatus(builder, status):
     builder.PrependUint8Slot(10, status, 0)
+
 
 def AddStatus(builder, status):
     MasterNodeUsageAddStatus(builder, status)
 
+
 def MasterNodeUsageAddStatusMessage(builder, statusMessage):
     builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(statusMessage), 0)
+
 
 def AddStatusMessage(builder, statusMessage):
     MasterNodeUsageAddStatusMessage(builder, statusMessage)
 
+
 def MasterNodeUsageAddMeteringId(builder, meteringId):
     builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(meteringId), 0)
+
 
 def AddMeteringId(builder, meteringId):
     MasterNodeUsageAddMeteringId(builder, meteringId)
 
+
 def MasterNodeUsageStartMeteringIdVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMeteringIdVector(builder, numElems: int) -> int:
     return MasterNodeUsageStartMeteringIdVector(builder, numElems)
 
+
 def MasterNodeUsageAddCount(builder, count):
     builder.PrependUint64Slot(13, count, 0)
+
 
 def AddCount(builder, count):
     MasterNodeUsageAddCount(builder, count)
 
+
 def MasterNodeUsageAddTotal(builder, total):
     builder.PrependUint64Slot(14, total, 0)
+
 
 def AddTotal(builder, total):
     MasterNodeUsageAddTotal(builder, total)
 
+
 def MasterNodeUsageAddNodes(builder, nodes):
     builder.PrependUint64Slot(15, nodes, 0)
+
 
 def AddNodes(builder, nodes):
     MasterNodeUsageAddNodes(builder, nodes)
 
+
 def MasterNodeUsageAddControllers(builder, controllers):
     builder.PrependUint64Slot(16, controllers, 0)
+
 
 def AddControllers(builder, controllers):
     MasterNodeUsageAddControllers(builder, controllers)
 
+
 def MasterNodeUsageAddHostmonitors(builder, hostmonitors):
     builder.PrependUint64Slot(17, hostmonitors, 0)
+
 
 def AddHostmonitors(builder, hostmonitors):
     MasterNodeUsageAddHostmonitors(builder, hostmonitors)
 
+
 def MasterNodeUsageAddRouters(builder, routers):
     builder.PrependUint64Slot(18, routers, 0)
+
 
 def AddRouters(builder, routers):
     MasterNodeUsageAddRouters(builder, routers)
 
+
 def MasterNodeUsageAddContainers(builder, containers):
     builder.PrependUint64Slot(19, containers, 0)
+
 
 def AddContainers(builder, containers):
     MasterNodeUsageAddContainers(builder, containers)
 
+
 def MasterNodeUsageAddGuests(builder, guests):
     builder.PrependUint64Slot(20, guests, 0)
+
 
 def AddGuests(builder, guests):
     MasterNodeUsageAddGuests(builder, guests)
 
+
 def MasterNodeUsageAddProxies(builder, proxies):
     builder.PrependUint64Slot(21, proxies, 0)
+
 
 def AddProxies(builder, proxies):
     MasterNodeUsageAddProxies(builder, proxies)
 
+
 def MasterNodeUsageAddMarketmakers(builder, marketmakers):
     builder.PrependUint64Slot(22, marketmakers, 0)
+
 
 def AddMarketmakers(builder, marketmakers):
     MasterNodeUsageAddMarketmakers(builder, marketmakers)
 
+
 def MasterNodeUsageAddSessions(builder, sessions):
     builder.PrependUint64Slot(23, sessions, 0)
+
 
 def AddSessions(builder, sessions):
     MasterNodeUsageAddSessions(builder, sessions)
 
+
 def MasterNodeUsageAddMsgsCall(builder, msgsCall):
     builder.PrependUint64Slot(24, msgsCall, 0)
+
 
 def AddMsgsCall(builder, msgsCall):
     MasterNodeUsageAddMsgsCall(builder, msgsCall)
 
+
 def MasterNodeUsageAddMsgsYield(builder, msgsYield):
     builder.PrependUint64Slot(25, msgsYield, 0)
+
 
 def AddMsgsYield(builder, msgsYield):
     MasterNodeUsageAddMsgsYield(builder, msgsYield)
 
+
 def MasterNodeUsageAddMsgsInvocation(builder, msgsInvocation):
     builder.PrependUint64Slot(26, msgsInvocation, 0)
+
 
 def AddMsgsInvocation(builder, msgsInvocation):
     MasterNodeUsageAddMsgsInvocation(builder, msgsInvocation)
 
+
 def MasterNodeUsageAddMsgsResult(builder, msgsResult):
     builder.PrependUint64Slot(27, msgsResult, 0)
+
 
 def AddMsgsResult(builder, msgsResult):
     MasterNodeUsageAddMsgsResult(builder, msgsResult)
 
+
 def MasterNodeUsageAddMsgsError(builder, msgsError):
     builder.PrependUint64Slot(28, msgsError, 0)
+
 
 def AddMsgsError(builder, msgsError):
     MasterNodeUsageAddMsgsError(builder, msgsError)
 
+
 def MasterNodeUsageAddMsgsPublish(builder, msgsPublish):
     builder.PrependUint64Slot(29, msgsPublish, 0)
+
 
 def AddMsgsPublish(builder, msgsPublish):
     MasterNodeUsageAddMsgsPublish(builder, msgsPublish)
 
+
 def MasterNodeUsageAddMsgsPublished(builder, msgsPublished):
     builder.PrependUint64Slot(30, msgsPublished, 0)
+
 
 def AddMsgsPublished(builder, msgsPublished):
     MasterNodeUsageAddMsgsPublished(builder, msgsPublished)
 
+
 def MasterNodeUsageAddMsgsEvent(builder, msgsEvent):
     builder.PrependUint64Slot(31, msgsEvent, 0)
+
 
 def AddMsgsEvent(builder, msgsEvent):
     MasterNodeUsageAddMsgsEvent(builder, msgsEvent)
 
+
 def MasterNodeUsageAddMsgsRegister(builder, msgsRegister):
     builder.PrependUint64Slot(32, msgsRegister, 0)
+
 
 def AddMsgsRegister(builder, msgsRegister):
     MasterNodeUsageAddMsgsRegister(builder, msgsRegister)
 
+
 def MasterNodeUsageAddMsgsRegistered(builder, msgsRegistered):
     builder.PrependUint64Slot(33, msgsRegistered, 0)
+
 
 def AddMsgsRegistered(builder, msgsRegistered):
     MasterNodeUsageAddMsgsRegistered(builder, msgsRegistered)
 
+
 def MasterNodeUsageAddMsgsSubscribe(builder, msgsSubscribe):
     builder.PrependUint64Slot(34, msgsSubscribe, 0)
+
 
 def AddMsgsSubscribe(builder, msgsSubscribe):
     MasterNodeUsageAddMsgsSubscribe(builder, msgsSubscribe)
 
+
 def MasterNodeUsageAddMsgsSubscribed(builder, msgsSubscribed):
     builder.PrependUint64Slot(35, msgsSubscribed, 0)
+
 
 def AddMsgsSubscribed(builder, msgsSubscribed):
     MasterNodeUsageAddMsgsSubscribed(builder, msgsSubscribed)
 
+
 def MasterNodeUsageEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return MasterNodeUsageEnd(builder)

@@ -5,16 +5,17 @@
 #
 ##############################################################################
 
-import pytest
 import random
 import timeit
 
 import flatbuffers
-from txaio import with_twisted  # noqa
-
-from txaio import time_ns
-from autobahn import util
+import pytest
 import zlmdb
+from autobahn import util
+from txaio import (
+    time_ns,
+    with_twisted,  # noqa
+)
 
 from cfxdb.realmstore import Event
 
@@ -30,13 +31,13 @@ def fill_event(event):
     event.acknowledged_delivery = random.choice([True, False])
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def event():
     _event = Event()
     fill_event(_event)
@@ -63,7 +64,7 @@ def test_event_roundtrip_perf(event, builder):
     obj = event.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'timestamp': 0}
+    scratch = {"timestamp": 0}
 
     def loop():
         _event = Event.cast(data)
@@ -75,21 +76,21 @@ def test_event_roundtrip_perf(event, builder):
             assert _event.retained == event.retained
             assert _event.acknowledged_delivery == event.acknowledged_delivery
 
-            scratch['timestamp'] += event.timestamp
+            scratch["timestamp"] += event.timestamp
 
     N = 5
     M = 100000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    assert scratch['timestamp'] > 0
+    assert scratch["timestamp"] > 0

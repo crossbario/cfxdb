@@ -5,9 +5,9 @@
 #
 ##############################################################################
 
-from typing import Optional, List, Any, Dict
-from uuid import UUID
 import pprint
+from typing import Any, Dict, List, Optional
+from uuid import UUID
 
 import numpy as np
 
@@ -21,25 +21,25 @@ class ApplicationRealm(ConfigurationElement):
     """
 
     STATUS_BY_CODE = {
-        ApplicationRealmStatus.NONE: 'NONE',
-        ApplicationRealmStatus.STOPPED: 'STOPPED',
-        ApplicationRealmStatus.STARTING: 'STARTING',
-        ApplicationRealmStatus.RUNNING: 'RUNNING',
-        ApplicationRealmStatus.PAUSED: 'PAUSED',
-        ApplicationRealmStatus.STOPPING: 'STOPPING',
-        ApplicationRealmStatus.ERROR: 'ERROR',
-        ApplicationRealmStatus.DEGRADED: 'DEGRADED',
+        ApplicationRealmStatus.NONE: "NONE",
+        ApplicationRealmStatus.STOPPED: "STOPPED",
+        ApplicationRealmStatus.STARTING: "STARTING",
+        ApplicationRealmStatus.RUNNING: "RUNNING",
+        ApplicationRealmStatus.PAUSED: "PAUSED",
+        ApplicationRealmStatus.STOPPING: "STOPPING",
+        ApplicationRealmStatus.ERROR: "ERROR",
+        ApplicationRealmStatus.DEGRADED: "DEGRADED",
     }
 
     STATUS_BY_NAME = {
-        'NONE': ApplicationRealmStatus.NONE,
-        'STOPPED': ApplicationRealmStatus.STOPPED,
-        'STARTING': ApplicationRealmStatus.STARTING,
-        'RUNNING': ApplicationRealmStatus.RUNNING,
-        'PAUSED': ApplicationRealmStatus.PAUSED,
-        'STOPPING': ApplicationRealmStatus.STOPPING,
-        'ERROR': ApplicationRealmStatus.ERROR,
-        'DEGRADED': ApplicationRealmStatus.DEGRADED,
+        "NONE": ApplicationRealmStatus.NONE,
+        "STOPPED": ApplicationRealmStatus.STOPPED,
+        "STARTING": ApplicationRealmStatus.STARTING,
+        "RUNNING": ApplicationRealmStatus.RUNNING,
+        "PAUSED": ApplicationRealmStatus.PAUSED,
+        "STOPPING": ApplicationRealmStatus.STOPPING,
+        "ERROR": ApplicationRealmStatus.ERROR,
+        "DEGRADED": ApplicationRealmStatus.DEGRADED,
     }
 
     STATUS_STOPPED = ApplicationRealmStatus.STOPPED
@@ -50,19 +50,21 @@ class ApplicationRealm(ConfigurationElement):
     STATUS_ERROR = ApplicationRealmStatus.ERROR
     STATUS_DEGRADED = ApplicationRealmStatus.DEGRADED
 
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 name: Optional[str] = None,
-                 status: Optional[int] = None,
-                 workergroup_oid: Optional[UUID] = None,
-                 webcluster_oid: Optional[UUID] = None,
-                 datamarket_oid: Optional[UUID] = None,
-                 changed: Optional[np.datetime64] = None,
-                 owner_oid: Optional[UUID] = None,
-                 _unknown: Optional[Any] = None):
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        status: Optional[int] = None,
+        workergroup_oid: Optional[UUID] = None,
+        webcluster_oid: Optional[UUID] = None,
+        datamarket_oid: Optional[UUID] = None,
+        changed: Optional[np.datetime64] = None,
+        owner_oid: Optional[UUID] = None,
+        _unknown: Optional[Any] = None,
+    ):
         """
 
         :param oid: Object ID of application realm
@@ -129,7 +131,7 @@ class ApplicationRealm(ConfigurationElement):
     def __str__(self) -> str:
         return pprint.pformat(self.marshal())
 
-    def copy(self, other: 'ApplicationRealm', overwrite: bool = False):
+    def copy(self, other: "ApplicationRealm", overwrite: bool = False):
         """
         Copy over other object.
 
@@ -161,25 +163,20 @@ class ApplicationRealm(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'oid':
-            str(self.oid) if self.oid else None,
-            'name':
-            self.name,
-            'status':
-            ApplicationRealm.STATUS_BY_CODE[self.status]
-            if self.status in ApplicationRealm.STATUS_BY_CODE else None,
-            'workergroup_oid':
-            str(self.workergroup_oid) if self.workergroup_oid else None,
-            'webcluster_oid':
-            str(self.webcluster_oid) if self.webcluster_oid else None,
-            'datamarket_oid':
-            str(self.datamarket_oid) if self.datamarket_oid else None,
-            'changed':
-            int(self.changed) if self.changed else None,
-            'owner_oid':
-            str(self.owner_oid) if self.owner_oid else None,
-        })
+        obj.update(
+            {
+                "oid": str(self.oid) if self.oid else None,
+                "name": self.name,
+                "status": ApplicationRealm.STATUS_BY_CODE[self.status]
+                if self.status in ApplicationRealm.STATUS_BY_CODE
+                else None,
+                "workergroup_oid": str(self.workergroup_oid) if self.workergroup_oid else None,
+                "webcluster_oid": str(self.webcluster_oid) if self.webcluster_oid else None,
+                "datamarket_oid": str(self.datamarket_oid) if self.datamarket_oid else None,
+                "changed": int(self.changed) if self.changed else None,
+                "owner_oid": str(self.owner_oid) if self.owner_oid else None,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -188,7 +185,7 @@ class ApplicationRealm(ConfigurationElement):
         return obj
 
     @staticmethod
-    def parse(data: Dict[str, Any]) -> 'ApplicationRealm':
+    def parse(data: Dict[str, Any]) -> "ApplicationRealm":
         """
         Parse generic host language object into an object of this class.
 
@@ -203,59 +200,62 @@ class ApplicationRealm(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in [
-                    'oid', 'name', 'status', 'workergroup_oid', 'webcluster_oid', 'owner_oid', 'changed'
-            ]:
+            if k not in ["oid", "name", "status", "workergroup_oid", "webcluster_oid", "owner_oid", "changed"]:
                 _unknown[k] = data[k]
 
-        name = data.get('name', 'arealm-{}'.format(str(obj.oid)[:8]))
+        name = data.get("name", "arealm-{}".format(str(obj.oid)[:8]))
         assert type(name) == str
 
-        status = data.get('status', None)
+        status = data.get("status", None)
         assert status is None or (type(status) == str)
         status = ApplicationRealm.STATUS_BY_NAME[status] if status in ApplicationRealm.STATUS_BY_NAME else None
 
         workergroup_oid = None
-        if 'workergroup_oid' in data and data['workergroup_oid'] is not None:
-            assert type(
-                data['workergroup_oid']) == str, 'workergroup_oid must be a string, but was {}'.format(
-                    type(data['workergroup_oid']))
-            workergroup_oid = UUID(data['workergroup_oid'])
+        if "workergroup_oid" in data and data["workergroup_oid"] is not None:
+            assert type(data["workergroup_oid"]) == str, "workergroup_oid must be a string, but was {}".format(
+                type(data["workergroup_oid"])
+            )
+            workergroup_oid = UUID(data["workergroup_oid"])
 
         webcluster_oid = None
-        if 'webcluster_oid' in data and data['webcluster_oid'] is not None:
-            assert type(data['webcluster_oid']) == str, 'webcluster_oid must be a string, but was {}'.format(
-                type(data['webcluster_oid']))
-            webcluster_oid = UUID(data['webcluster_oid'])
+        if "webcluster_oid" in data and data["webcluster_oid"] is not None:
+            assert type(data["webcluster_oid"]) == str, "webcluster_oid must be a string, but was {}".format(
+                type(data["webcluster_oid"])
+            )
+            webcluster_oid = UUID(data["webcluster_oid"])
 
         datamarket_oid = None
-        if 'datamarket_oid' in data and data['datamarket_oid'] is not None:
-            assert type(data['datamarket_oid']) == str, 'datamarket_oid must be a string, but was {}'.format(
-                type(data['datamarket_oid']))
-            datamarket_oid = UUID(data['datamarket_oid'])
+        if "datamarket_oid" in data and data["datamarket_oid"] is not None:
+            assert type(data["datamarket_oid"]) == str, "datamarket_oid must be a string, but was {}".format(
+                type(data["datamarket_oid"])
+            )
+            datamarket_oid = UUID(data["datamarket_oid"])
 
         owner_oid = None
-        if 'owner_oid' in data and data['owner_oid'] is not None:
-            assert type(data['owner_oid']) == str, 'owner_oid must be a string, but was {}'.format(
-                type(data['owner_oid']))
-            owner_oid = UUID(data['owner_oid'])
+        if "owner_oid" in data and data["owner_oid"] is not None:
+            assert type(data["owner_oid"]) == str, "owner_oid must be a string, but was {}".format(
+                type(data["owner_oid"])
+            )
+            owner_oid = UUID(data["owner_oid"])
 
-        changed = data.get('changed', None)
+        changed = data.get("changed", None)
         assert changed is None or type(changed) == int
         if changed:
-            changed = np.datetime64(changed, 'ns')
+            changed = np.datetime64(changed, "ns")
 
-        obj = ApplicationRealm(oid=obj.oid,
-                               label=obj.label,
-                               description=obj.description,
-                               tags=obj.tags,
-                               name=name,
-                               workergroup_oid=workergroup_oid,
-                               webcluster_oid=webcluster_oid,
-                               datamarket_oid=datamarket_oid,
-                               status=status,
-                               owner_oid=owner_oid,
-                               changed=changed,
-                               _unknown=_unknown)
+        obj = ApplicationRealm(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=name,
+            workergroup_oid=workergroup_oid,
+            webcluster_oid=webcluster_oid,
+            datamarket_oid=datamarket_oid,
+            status=status,
+            owner_oid=owner_oid,
+            changed=changed,
+            _unknown=_unknown,
+        )
 
         return obj

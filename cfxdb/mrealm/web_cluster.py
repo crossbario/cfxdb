@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -18,32 +18,35 @@ class WebCluster(Cluster):
     """
     Web cluster database configuration object.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 name: Optional[str] = None,
-                 status: Optional[int] = None,
-                 owner_oid: Optional[UUID] = None,
-                 changed: Optional[np.datetime64] = None,
-                 tcp_version: Optional[int] = None,
-                 tcp_port: Optional[int] = None,
-                 tcp_shared: Optional[bool] = None,
-                 tcp_interface: Optional[str] = None,
-                 tcp_backlog: Optional[int] = None,
-                 tls_key: Optional[str] = None,
-                 tls_certificate: Optional[str] = None,
-                 tls_chain_certificates: Optional[List[str]] = None,
-                 tls_ca_certificates: Optional[List[str]] = None,
-                 tls_dhparam: Optional[str] = None,
-                 tls_ciphers: Optional[str] = None,
-                 http_client_timeout: Optional[int] = None,
-                 http_hsts: Optional[bool] = None,
-                 http_hsts_max_age: Optional[int] = None,
-                 http_access_log: Optional[bool] = None,
-                 http_display_tracebacks: Optional[bool] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        status: Optional[int] = None,
+        owner_oid: Optional[UUID] = None,
+        changed: Optional[np.datetime64] = None,
+        tcp_version: Optional[int] = None,
+        tcp_port: Optional[int] = None,
+        tcp_shared: Optional[bool] = None,
+        tcp_interface: Optional[str] = None,
+        tcp_backlog: Optional[int] = None,
+        tls_key: Optional[str] = None,
+        tls_certificate: Optional[str] = None,
+        tls_chain_certificates: Optional[List[str]] = None,
+        tls_ca_certificates: Optional[List[str]] = None,
+        tls_dhparam: Optional[str] = None,
+        tls_ciphers: Optional[str] = None,
+        http_client_timeout: Optional[int] = None,
+        http_hsts: Optional[bool] = None,
+        http_hsts_max_age: Optional[int] = None,
+        http_access_log: Optional[bool] = None,
+        http_display_tracebacks: Optional[bool] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of node
@@ -86,16 +89,18 @@ class WebCluster(Cluster):
 
         :param http_display_tracebacks: enable tracebacks when running into Web errors
         """
-        Cluster.__init__(self,
-                         oid=oid,
-                         label=label,
-                         description=description,
-                         tags=tags,
-                         name=name,
-                         status=status,
-                         owner_oid=owner_oid,
-                         changed=changed,
-                         _unknown=_unknown)
+        Cluster.__init__(
+            self,
+            oid=oid,
+            label=label,
+            description=description,
+            tags=tags,
+            name=name,
+            status=status,
+            owner_oid=owner_oid,
+            changed=changed,
+            _unknown=_unknown,
+        )
         self.tcp_version = tcp_version
         self.tcp_port = tcp_port
         self.tcp_shared = tcp_shared
@@ -166,24 +171,26 @@ class WebCluster(Cluster):
         """
         obj = Cluster.marshal(self)
 
-        obj.update({
-            'tcp_version': self.tcp_version,
-            'tcp_port': self.tcp_port,
-            'tcp_shared': self.tcp_shared,
-            'tcp_interface': self.tcp_interface,
-            'tcp_backlog': self.tcp_backlog,
-            'tls_key': self.tls_key,
-            'tls_certificate': self.tls_certificate,
-            'tls_chain_certificates': self.tls_chain_certificates,
-            'tls_ca_certificates': self.tls_ca_certificates,
-            'tls_dhparam': self.tls_dhparam,
-            'tls_ciphers': self.tls_ciphers,
-            'http_client_timeout': self.http_client_timeout,
-            'http_hsts': self.http_hsts,
-            'http_hsts_max_age': self.http_hsts_max_age,
-            'http_access_log': self.http_access_log,
-            'http_display_tracebacks': self.http_display_tracebacks,
-        })
+        obj.update(
+            {
+                "tcp_version": self.tcp_version,
+                "tcp_port": self.tcp_port,
+                "tcp_shared": self.tcp_shared,
+                "tcp_interface": self.tcp_interface,
+                "tcp_backlog": self.tcp_backlog,
+                "tls_key": self.tls_key,
+                "tls_certificate": self.tls_certificate,
+                "tls_chain_certificates": self.tls_chain_certificates,
+                "tls_ca_certificates": self.tls_ca_certificates,
+                "tls_dhparam": self.tls_dhparam,
+                "tls_ciphers": self.tls_ciphers,
+                "http_client_timeout": self.http_client_timeout,
+                "http_hsts": self.http_hsts,
+                "http_hsts_max_age": self.http_hsts_max_age,
+                "http_access_log": self.http_access_log,
+                "http_display_tracebacks": self.http_display_tracebacks,
+            }
+        )
 
         return obj
 
@@ -206,85 +213,99 @@ class WebCluster(Cluster):
         _unknown = {}
         for k in data:
             if k not in [
-                    'tcp_version', 'tcp_port', 'tcp_shared', 'tcp_interface', 'tcp_backlog', 'tls_key',
-                    'tls_certificate', 'tls_chain_certificates', 'tls_ca_certificates', 'tls_dhparam',
-                    'tls_ciphers', 'http_client_timeout', 'http_hsts', 'http_hsts_max_age', 'http_access_log',
-                    'http_display_tracebacks'
+                "tcp_version",
+                "tcp_port",
+                "tcp_shared",
+                "tcp_interface",
+                "tcp_backlog",
+                "tls_key",
+                "tls_certificate",
+                "tls_chain_certificates",
+                "tls_ca_certificates",
+                "tls_dhparam",
+                "tls_ciphers",
+                "http_client_timeout",
+                "http_hsts",
+                "http_hsts_max_age",
+                "http_access_log",
+                "http_display_tracebacks",
             ]:
                 _unknown[k] = data[k]
 
-        tcp_version = data.get('tcp_version', None)
+        tcp_version = data.get("tcp_version", None)
         assert tcp_version is None or (type(tcp_version) == int)
 
-        tcp_port = data.get('tcp_port', None)
+        tcp_port = data.get("tcp_port", None)
         assert tcp_port is None or (type(tcp_port) == int)
 
-        tcp_shared = data.get('tcp_shared', None)
+        tcp_shared = data.get("tcp_shared", None)
         assert tcp_shared is None or (type(tcp_shared) == bool)
 
-        tcp_interface = data.get('tcp_interface', None)
+        tcp_interface = data.get("tcp_interface", None)
         assert tcp_interface is None or (type(tcp_interface) == str)
 
-        tcp_backlog = data.get('tcp_backlog', None)
+        tcp_backlog = data.get("tcp_backlog", None)
         assert tcp_backlog is None or (type(tcp_backlog) == int)
 
-        tls_key = data.get('tls_key', None)
+        tls_key = data.get("tls_key", None)
         assert tls_key is None or (type(tls_key) == str)
 
-        tls_certificate = data.get('tls_certificate', None)
+        tls_certificate = data.get("tls_certificate", None)
         assert tls_certificate is None or (type(tls_certificate) == str)
 
-        tls_chain_certificates = data.get('tls_chain_certificates', None)
+        tls_chain_certificates = data.get("tls_chain_certificates", None)
         assert tls_chain_certificates is None or (type(tls_chain_certificates) == list)
 
-        tls_ca_certificates = data.get('tls_ca_certificates', None)
+        tls_ca_certificates = data.get("tls_ca_certificates", None)
         assert tls_ca_certificates is None or (type(tls_ca_certificates) == list)
 
-        tls_dhparam = data.get('tls_dhparam', None)
+        tls_dhparam = data.get("tls_dhparam", None)
         assert tls_dhparam is None or (type(tls_dhparam) == str)
 
-        tls_ciphers = data.get('tls_ciphers', None)
+        tls_ciphers = data.get("tls_ciphers", None)
         assert tls_ciphers is None or (type(tls_ciphers) == str)
 
-        http_client_timeout = data.get('http_client_timeout', None)
+        http_client_timeout = data.get("http_client_timeout", None)
         assert http_client_timeout is None or (type(http_client_timeout) == int)
 
-        http_hsts = data.get('http_hsts', None)
+        http_hsts = data.get("http_hsts", None)
         assert http_hsts is None or (type(http_hsts) == bool)
 
-        http_hsts_max_age = data.get('http_hsts_max_age', None)
+        http_hsts_max_age = data.get("http_hsts_max_age", None)
         assert http_hsts_max_age is None or (type(http_hsts_max_age) == int)
 
-        http_access_log = data.get('http_access_log', None)
+        http_access_log = data.get("http_access_log", None)
         assert http_access_log is None or (type(http_access_log) == bool)
 
-        http_display_tracebacks = data.get('http_display_tracebacks', None)
+        http_display_tracebacks = data.get("http_display_tracebacks", None)
         assert http_display_tracebacks is None or (type(http_display_tracebacks) == bool)
 
-        obj = WebCluster(oid=obj.oid,
-                         label=obj.label,
-                         description=obj.description,
-                         tags=obj.tags,
-                         name=obj.name,
-                         status=obj.status,
-                         owner_oid=obj.owner_oid,
-                         changed=obj.changed,
-                         tcp_version=tcp_version,
-                         tcp_port=tcp_port,
-                         tcp_shared=tcp_shared,
-                         tcp_interface=tcp_interface,
-                         tcp_backlog=tcp_backlog,
-                         tls_key=tls_key,
-                         tls_certificate=tls_certificate,
-                         tls_chain_certificates=tls_chain_certificates,
-                         tls_ca_certificates=tls_ca_certificates,
-                         tls_dhparam=tls_dhparam,
-                         tls_ciphers=tls_ciphers,
-                         http_client_timeout=http_client_timeout,
-                         http_hsts=http_hsts,
-                         http_hsts_max_age=http_hsts_max_age,
-                         http_access_log=http_access_log,
-                         http_display_tracebacks=http_display_tracebacks,
-                         _unknown=_unknown)
+        obj = WebCluster(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=obj.name,
+            status=obj.status,
+            owner_oid=obj.owner_oid,
+            changed=obj.changed,
+            tcp_version=tcp_version,
+            tcp_port=tcp_port,
+            tcp_shared=tcp_shared,
+            tcp_interface=tcp_interface,
+            tcp_backlog=tcp_backlog,
+            tls_key=tls_key,
+            tls_certificate=tls_certificate,
+            tls_chain_certificates=tls_chain_certificates,
+            tls_ca_certificates=tls_ca_certificates,
+            tls_dhparam=tls_dhparam,
+            tls_ciphers=tls_ciphers,
+            http_client_timeout=http_client_timeout,
+            http_hsts=http_hsts,
+            http_hsts_max_age=http_hsts_max_age,
+            http_access_log=http_access_log,
+            http_display_tracebacks=http_display_tracebacks,
+            _unknown=_unknown,
+        )
 
         return obj

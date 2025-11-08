@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-import uuid
 import pprint
+import uuid
 from typing import Optional
 
 import numpy as np
@@ -19,16 +19,19 @@ class RouterWorkerGroupClusterPlacement(object):
     Placement of router worker groups onto router clusters, specifically **router workers**
     and **xbrmm workers** running as part of router worker groups.
     """
-    def __init__(self,
-                 oid: Optional[uuid.UUID] = None,
-                 worker_group_oid: Optional[uuid.UUID] = None,
-                 cluster_oid: Optional[uuid.UUID] = None,
-                 node_oid: Optional[uuid.UUID] = None,
-                 worker_name: Optional[str] = None,
-                 status: Optional[int] = None,
-                 changed: Optional[np.datetime64] = None,
-                 tcp_listening_port: Optional[int] = None,
-                 _unknown: Optional[dict] = None):
+
+    def __init__(
+        self,
+        oid: Optional[uuid.UUID] = None,
+        worker_group_oid: Optional[uuid.UUID] = None,
+        cluster_oid: Optional[uuid.UUID] = None,
+        node_oid: Optional[uuid.UUID] = None,
+        worker_name: Optional[str] = None,
+        status: Optional[int] = None,
+        changed: Optional[np.datetime64] = None,
+        tcp_listening_port: Optional[int] = None,
+        _unknown: Optional[dict] = None,
+    ):
         """
 
         :param oid: Object ID of this placement itself.
@@ -95,14 +98,14 @@ class RouterWorkerGroupClusterPlacement(object):
         :return: dict
         """
         obj = {
-            'oid': str(self.oid) if self.oid else None,
-            'worker_group_oid': str(self.worker_group_oid),
-            'cluster_oid': str(self.cluster_oid),
-            'node_oid': str(self.node_oid),
-            'worker_name': self.worker_name,
-            'status': STATUS_BY_CODE[self.status] if self.status else None,
-            'changed': int(self.changed) if self.changed else None,
-            'tcp_listening_port': self.tcp_listening_port,
+            "oid": str(self.oid) if self.oid else None,
+            "worker_group_oid": str(self.worker_group_oid),
+            "cluster_oid": str(self.cluster_oid),
+            "node_oid": str(self.node_oid),
+            "worker_name": self.worker_name,
+            "status": STATUS_BY_CODE[self.status] if self.status else None,
+            "changed": int(self.changed) if self.changed else None,
+            "tcp_listening_port": self.tcp_listening_port,
         }
         return obj
 
@@ -122,57 +125,64 @@ class RouterWorkerGroupClusterPlacement(object):
         _unknown = {}
         for k in data:
             if k not in [
-                    'oid', 'worker_group_oid', 'cluster_oid', 'node_oid', 'worker_name', 'status', 'changed',
-                    'tcp_listening_port'
+                "oid",
+                "worker_group_oid",
+                "cluster_oid",
+                "node_oid",
+                "worker_name",
+                "status",
+                "changed",
+                "tcp_listening_port",
             ]:
                 _unknown[k] = data[k]
 
         oid = None
-        if 'oid' in data:
-            assert type(data['oid']) == str
-            oid = uuid.UUID(data['oid'])
+        if "oid" in data:
+            assert type(data["oid"]) == str
+            oid = uuid.UUID(data["oid"])
 
         worker_group_oid = None
-        if 'worker_group_oid' in data:
-            assert type(data['worker_group_oid']) == str
-            worker_group_oid = uuid.UUID(data['worker_group_oid'])
+        if "worker_group_oid" in data:
+            assert type(data["worker_group_oid"]) == str
+            worker_group_oid = uuid.UUID(data["worker_group_oid"])
 
         cluster_oid = None
-        if 'cluster_oid' in data:
-            assert type(data['cluster_oid']) == str
-            cluster_oid = uuid.UUID(data['cluster_oid'])
+        if "cluster_oid" in data:
+            assert type(data["cluster_oid"]) == str
+            cluster_oid = uuid.UUID(data["cluster_oid"])
 
         node_oid = None
-        if 'node_oid' in data:
-            assert type(data['node_oid']) == str
-            node_oid = uuid.UUID(data['node_oid'])
+        if "node_oid" in data:
+            assert type(data["node_oid"]) == str
+            node_oid = uuid.UUID(data["node_oid"])
 
         worker_name = None
-        if 'worker_name' in data:
-            assert type(data['worker_name']) == str
-            worker_name = data['worker_name']
+        if "worker_name" in data:
+            assert type(data["worker_name"]) == str
+            worker_name = data["worker_name"]
 
-        status = data.get('status', None)
+        status = data.get("status", None)
         assert status is None or (type(status) == str)
         status = STATUS_BY_NAME.get(status, None)
 
-        changed = data.get('changed', None)
+        changed = data.get("changed", None)
         assert changed is None or (type(changed) == int)
         if changed:
-            changed = np.datetime64(changed, 'ns')
+            changed = np.datetime64(changed, "ns")
 
-        tcp_listening_port = data.get('tcp_listening_port', None)
-        assert tcp_listening_port is None or (type(tcp_listening_port) == int
-                                              and 0 <= tcp_listening_port < 65536)
+        tcp_listening_port = data.get("tcp_listening_port", None)
+        assert tcp_listening_port is None or (type(tcp_listening_port) == int and 0 <= tcp_listening_port < 65536)
 
-        obj = RouterWorkerGroupClusterPlacement(oid=oid,
-                                                worker_group_oid=worker_group_oid,
-                                                cluster_oid=cluster_oid,
-                                                worker_name=worker_name,
-                                                node_oid=node_oid,
-                                                status=status,
-                                                changed=changed,
-                                                tcp_listening_port=tcp_listening_port,
-                                                _unknown=_unknown)
+        obj = RouterWorkerGroupClusterPlacement(
+            oid=oid,
+            worker_group_oid=worker_group_oid,
+            cluster_oid=cluster_oid,
+            worker_name=worker_name,
+            node_oid=node_oid,
+            status=status,
+            changed=changed,
+            tcp_listening_port=tcp_listening_port,
+            _unknown=_unknown,
+        )
 
         return obj

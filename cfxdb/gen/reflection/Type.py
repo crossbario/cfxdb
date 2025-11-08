@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class Type(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class Type(object):
     def GetRootAsType(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     @classmethod
     def TypeBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x42\x46\x42\x53", size_prefixed=size_prefixed)
@@ -56,38 +59,50 @@ class Type(object):
             return self._tab.Get(flatbuffers.number_types.Uint16Flags, o + self._tab.Pos)
         return 0
 
+
 def TypeStart(builder):
     builder.StartObject(4)
+
 
 def Start(builder):
     TypeStart(builder)
 
+
 def TypeAddBaseType(builder, baseType):
     builder.PrependInt8Slot(0, baseType, 0)
+
 
 def AddBaseType(builder, baseType):
     TypeAddBaseType(builder, baseType)
 
+
 def TypeAddElement(builder, element):
     builder.PrependInt8Slot(1, element, 0)
+
 
 def AddElement(builder, element):
     TypeAddElement(builder, element)
 
+
 def TypeAddIndex(builder, index):
     builder.PrependInt32Slot(2, index, -1)
+
 
 def AddIndex(builder, index):
     TypeAddIndex(builder, index)
 
+
 def TypeAddFixedLength(builder, fixedLength):
     builder.PrependUint16Slot(3, fixedLength, 0)
+
 
 def AddFixedLength(builder, fixedLength):
     TypeAddFixedLength(builder, fixedLength)
 
+
 def TypeEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return TypeEnd(builder)

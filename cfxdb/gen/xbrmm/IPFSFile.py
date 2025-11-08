@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class IPFSFile(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class IPFSFile(object):
     def GetRootAsIPFSFile(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # IPFSFile
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -56,38 +59,50 @@ class IPFSFile(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
+
 def IPFSFileStart(builder):
     builder.StartObject(4)
+
 
 def Start(builder):
     IPFSFileStart(builder)
 
+
 def IPFSFileAddFileHash(builder, fileHash):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(fileHash), 0)
+
 
 def AddFileHash(builder, fileHash):
     IPFSFileAddFileHash(builder, fileHash)
 
+
 def IPFSFileAddDownloaded(builder, downloaded):
     builder.PrependBoolSlot(1, downloaded, 0)
+
 
 def AddDownloaded(builder, downloaded):
     IPFSFileAddDownloaded(builder, downloaded)
 
+
 def IPFSFileAddRetries(builder, retries):
     builder.PrependUint32Slot(2, retries, 0)
+
 
 def AddRetries(builder, retries):
     IPFSFileAddRetries(builder, retries)
 
+
 def IPFSFileAddErroredAt(builder, erroredAt):
     builder.PrependUint64Slot(3, erroredAt, 0)
+
 
 def AddErroredAt(builder, erroredAt):
     IPFSFileAddErroredAt(builder, erroredAt)
 
+
 def IPFSFileEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return IPFSFileEnd(builder)

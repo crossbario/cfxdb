@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR data consent set by market actors.
 class Consent(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Consent(object):
     def GetRootAsConsent(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Consent
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -59,7 +64,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -87,7 +94,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -123,7 +132,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -159,7 +170,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -203,7 +216,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -231,7 +246,9 @@ class Consent(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Consent
@@ -261,128 +278,170 @@ class Consent(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
+
 def ConsentStart(builder):
     builder.StartObject(12)
+
 
 def Start(builder):
     ConsentStart(builder)
 
+
 def ConsentAddMarketOid(builder, marketOid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(marketOid), 0)
+
 
 def AddMarketOid(builder, marketOid):
     ConsentAddMarketOid(builder, marketOid)
 
+
 def ConsentStartMarketOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMarketOidVector(builder, numElems: int) -> int:
     return ConsentStartMarketOidVector(builder, numElems)
 
+
 def ConsentAddMember(builder, member):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(member), 0)
+
 
 def AddMember(builder, member):
     ConsentAddMember(builder, member)
 
+
 def ConsentStartMemberVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMemberVector(builder, numElems: int) -> int:
     return ConsentStartMemberVector(builder, numElems)
 
+
 def ConsentAddDelegate(builder, delegate):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(delegate), 0)
+
 
 def AddDelegate(builder, delegate):
     ConsentAddDelegate(builder, delegate)
 
+
 def ConsentStartDelegateVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartDelegateVector(builder, numElems: int) -> int:
     return ConsentStartDelegateVector(builder, numElems)
 
+
 def ConsentAddDelegateType(builder, delegateType):
     builder.PrependUint8Slot(3, delegateType, 0)
+
 
 def AddDelegateType(builder, delegateType):
     ConsentAddDelegateType(builder, delegateType)
 
+
 def ConsentAddCatalogOid(builder, catalogOid):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(catalogOid), 0)
+
 
 def AddCatalogOid(builder, catalogOid):
     ConsentAddCatalogOid(builder, catalogOid)
 
+
 def ConsentStartCatalogOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCatalogOidVector(builder, numElems: int) -> int:
     return ConsentStartCatalogOidVector(builder, numElems)
 
+
 def ConsentAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(5, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     ConsentAddTimestamp(builder, timestamp)
 
+
 def ConsentAddUpdated(builder, updated):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(updated), 0)
+
 
 def AddUpdated(builder, updated):
     ConsentAddUpdated(builder, updated)
 
+
 def ConsentStartUpdatedVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartUpdatedVector(builder, numElems: int) -> int:
     return ConsentStartUpdatedVector(builder, numElems)
 
+
 def ConsentAddConsent(builder, consent):
     builder.PrependBoolSlot(7, consent, 0)
+
 
 def AddConsent(builder, consent):
     ConsentAddConsent(builder, consent)
 
+
 def ConsentAddServicePrefix(builder, servicePrefix):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(servicePrefix), 0)
+
 
 def AddServicePrefix(builder, servicePrefix):
     ConsentAddServicePrefix(builder, servicePrefix)
 
+
 def ConsentAddTid(builder, tid):
     builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 
 def AddTid(builder, tid):
     ConsentAddTid(builder, tid)
 
+
 def ConsentStartTidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTidVector(builder, numElems: int) -> int:
     return ConsentStartTidVector(builder, numElems)
 
+
 def ConsentAddSignature(builder, signature):
     builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 
 def AddSignature(builder, signature):
     ConsentAddSignature(builder, signature)
 
+
 def ConsentStartSignatureVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSignatureVector(builder, numElems: int) -> int:
     return ConsentStartSignatureVector(builder, numElems)
 
+
 def ConsentAddSynced(builder, synced):
     builder.PrependBoolSlot(11, synced, 0)
+
 
 def AddSynced(builder, synced):
     ConsentAddSynced(builder, synced)
 
+
 def ConsentEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ConsentEnd(builder)

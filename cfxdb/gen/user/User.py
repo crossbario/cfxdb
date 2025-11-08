@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # A CFC user.
 class User(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class User(object):
     def GetRootAsUser(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # User
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -32,6 +35,7 @@ class User(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -98,62 +102,82 @@ class User(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
+
 def UserStart(builder):
     builder.StartObject(7)
+
 
 def Start(builder):
     UserStart(builder)
 
+
 def UserAddOid(builder, oid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     UserAddOid(builder, oid)
 
+
 def UserAddLabel(builder, label):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 
 def AddLabel(builder, label):
     UserAddLabel(builder, label)
 
+
 def UserAddDescription(builder, description):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 
 def AddDescription(builder, description):
     UserAddDescription(builder, description)
 
+
 def UserAddTags(builder, tags):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 
 def AddTags(builder, tags):
     UserAddTags(builder, tags)
 
+
 def UserStartTagsVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartTagsVector(builder, numElems: int) -> int:
     return UserStartTagsVector(builder, numElems)
 
+
 def UserAddEmail(builder, email):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+
 
 def AddEmail(builder, email):
     UserAddEmail(builder, email)
 
+
 def UserAddRegistered(builder, registered):
     builder.PrependUint64Slot(5, registered, 0)
+
 
 def AddRegistered(builder, registered):
     UserAddRegistered(builder, registered)
 
+
 def UserAddPubkey(builder, pubkey):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 
 def AddPubkey(builder, pubkey):
     UserAddPubkey(builder, pubkey)
 
+
 def UserEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return UserEnd(builder)

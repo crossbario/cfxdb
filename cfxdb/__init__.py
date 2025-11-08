@@ -29,21 +29,23 @@
 # https://github.com/ethereum/eth-abi/pull/161
 # ImportError: cannot import name 'encode_single' from 'eth_abi' (/home/oberstet/cpy311_2/lib/python3.11/site-packages/eth_abi/__init__.py)
 import eth_abi
-if not hasattr(eth_abi, 'encode_abi') and hasattr(eth_abi, 'encode'):
+
+if not hasattr(eth_abi, "encode_abi") and hasattr(eth_abi, "encode"):
     eth_abi.encode_abi = eth_abi.encode
-if not hasattr(eth_abi, 'encode_single') and hasattr(eth_abi, 'encode'):
+if not hasattr(eth_abi, "encode_single") and hasattr(eth_abi, "encode"):
     eth_abi.encode_single = eth_abi.encode
 
 # monkey patch web3 for master branch / upcoming v6 (which we need for python 3.11)
 # AttributeError: type object 'Web3' has no attribute 'toChecksumAddress'. Did you mean: 'to_checksum_address'?
 import web3
-if not hasattr(web3.Web3, 'toChecksumAddress') and hasattr(web3.Web3, 'to_checksum_address'):
+
+if not hasattr(web3.Web3, "toChecksumAddress") and hasattr(web3.Web3, "to_checksum_address"):
     web3.Web3.toChecksumAddress = web3.Web3.to_checksum_address
-if not hasattr(web3.Web3, 'isConnected') and hasattr(web3.Web3, 'is_connected'):
+if not hasattr(web3.Web3, "isConnected") and hasattr(web3.Web3, "is_connected"):
     web3.Web3.isConnected = web3.Web3.is_connected
-if not hasattr(web3.Web3, 'toBytes') and hasattr(web3.Web3, 'to_bytes'):
+if not hasattr(web3.Web3, "toBytes") and hasattr(web3.Web3, "to_bytes"):
     web3.Web3.toBytes = web3.Web3.to_bytes
-if not hasattr(web3.Web3, 'toInt') and hasattr(web3.Web3, 'to_int'):
+if not hasattr(web3.Web3, "toInt") and hasattr(web3.Web3, "to_int"):
     web3.Web3.toInt = web3.Web3.to_int
 
 import txaio
@@ -60,25 +62,25 @@ from . import meta, mrealm, xbr, xbrmm, xbrnetwork  # noqa
 from . import globalschema, mrealmschema, cookiestore, realmstore  # noqa
 
 __all__ = (
-    '__version__',
-    'meta',
-    'mrealm',
-    'cookiestore',
-    'realmstore',
-    'xbr',
-    'xbrmm',
-    'xbrnetwork',
-    'address',
-    'uint256',
-    'pack_uint256',
-    'unpack_uint256',
-    'uint128',
-    'pack_uint128',
-    'unpack_uint128',
-    'uint64',
-    'pack_uint64',
-    'unpack_uint64',
-    'globalschema',
-    'mrealmschema',
-    'InvalidConfigException',
+    "__version__",
+    "meta",
+    "mrealm",
+    "cookiestore",
+    "realmstore",
+    "xbr",
+    "xbrmm",
+    "xbrnetwork",
+    "address",
+    "uint256",
+    "pack_uint256",
+    "unpack_uint256",
+    "uint128",
+    "pack_uint128",
+    "unpack_uint128",
+    "uint64",
+    "pack_uint64",
+    "unpack_uint64",
+    "globalschema",
+    "mrealmschema",
+    "InvalidConfigException",
 )

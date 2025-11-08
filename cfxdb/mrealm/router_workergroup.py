@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -19,17 +19,20 @@ class RouterWorkerGroup(ConfigurationElement):
     """
     Router worker group database configuration object.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 cluster_oid: Optional[UUID] = None,
-                 name: Optional[str] = None,
-                 scale: Optional[int] = None,
-                 status: Optional[int] = None,
-                 changed: Optional[np.datetime64] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        cluster_oid: Optional[UUID] = None,
+        name: Optional[str] = None,
+        scale: Optional[int] = None,
+        status: Optional[int] = None,
+        changed: Optional[np.datetime64] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of router worker group.
@@ -40,12 +43,9 @@ class RouterWorkerGroup(ConfigurationElement):
 
         :param tags: Optional list of user tags on router worker group.
         """
-        ConfigurationElement.__init__(self,
-                                      oid=oid,
-                                      label=label,
-                                      description=description,
-                                      tags=tags,
-                                      _unknown=_unknown)
+        ConfigurationElement.__init__(
+            self, oid=oid, label=label, description=description, tags=tags, _unknown=_unknown
+        )
         self.cluster_oid = cluster_oid
         self.name = name
         self.scale = scale or 1
@@ -83,13 +83,15 @@ class RouterWorkerGroup(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'cluster_oid': str(self.cluster_oid) if self.cluster_oid else None,
-            'name': self.name,
-            'scale': self.scale,
-            'status': STATUS_BY_CODE[self.status] if self.status else None,
-            'changed': int(self.changed) if self.changed else None,
-        })
+        obj.update(
+            {
+                "cluster_oid": str(self.cluster_oid) if self.cluster_oid else None,
+                "name": self.name,
+                "scale": self.scale,
+                "status": STATUS_BY_CODE[self.status] if self.status else None,
+                "changed": int(self.changed) if self.changed else None,
+            }
+        )
 
         return obj
 
@@ -111,38 +113,41 @@ class RouterWorkerGroup(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = dict()
         for k in data:
-            if k not in ['cluster_oid', 'name', 'scale', 'status', 'changed']:
+            if k not in ["cluster_oid", "name", "scale", "status", "changed"]:
                 _unknown[k] = data[k]
 
-        cluster_oid = data.get('cluster_oid', None)
+        cluster_oid = data.get("cluster_oid", None)
         assert cluster_oid is None or (type(cluster_oid) == str)
         cluster_oid = UUID(cluster_oid)
 
-        name = data.get('name', None)
+        name = data.get("name", None)
         assert name is None or (type(name) == str)
 
-        scale = data.get('scale', 1)
-        assert scale is None or (type(scale) == int and scale >= 1 and scale <= 128
-                                 ), 'scale must be an integer from 1 to 128, but was {}'.format(scale)
+        scale = data.get("scale", 1)
+        assert scale is None or (type(scale) == int and scale >= 1 and scale <= 128), (
+            "scale must be an integer from 1 to 128, but was {}".format(scale)
+        )
 
-        status = data.get('status', None)
+        status = data.get("status", None)
         assert status is None or (type(status) == str)
         status = STATUS_BY_NAME.get(status, None)
 
-        changed = data.get('changed', None)
+        changed = data.get("changed", None)
         assert changed is None or (type(changed) == int)
         if changed:
-            changed = np.datetime64(changed, 'ns')
+            changed = np.datetime64(changed, "ns")
 
-        obj = RouterWorkerGroup(oid=obj.oid,
-                                label=obj.label,
-                                description=obj.description,
-                                tags=obj.tags,
-                                cluster_oid=cluster_oid,
-                                name=name,
-                                scale=scale,
-                                status=status,
-                                changed=changed,
-                                _unknown=_unknown)
+        obj = RouterWorkerGroup(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            cluster_oid=cluster_oid,
+            name=name,
+            scale=scale,
+            status=status,
+            changed=changed,
+            _unknown=_unknown,
+        )
 
         return obj

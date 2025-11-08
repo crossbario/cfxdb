@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Heartbeat log record from managed node workers. Primary key: (timestamp, node_id, worker_id).
 class MWorkerLog(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class MWorkerLog(object):
     def GetRootAsMWorkerLog(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # MWorkerLog
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -39,7 +42,9 @@ class MWorkerLog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # MWorkerLog
@@ -83,7 +88,9 @@ class MWorkerLog(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # MWorkerLog
@@ -431,326 +438,434 @@ class MWorkerLog(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
+
 def MWorkerLogStart(builder):
     builder.StartObject(50)
+
 
 def Start(builder):
     MWorkerLogStart(builder)
 
+
 def MWorkerLogAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(0, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     MWorkerLogAddTimestamp(builder, timestamp)
 
+
 def MWorkerLogAddNodeId(builder, nodeId):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(nodeId), 0)
+
 
 def AddNodeId(builder, nodeId):
     MWorkerLogAddNodeId(builder, nodeId)
 
+
 def MWorkerLogStartNodeIdVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartNodeIdVector(builder, numElems: int) -> int:
     return MWorkerLogStartNodeIdVector(builder, numElems)
 
+
 def MWorkerLogAddWorkerId(builder, workerId):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(workerId), 0)
+
 
 def AddWorkerId(builder, workerId):
     MWorkerLogAddWorkerId(builder, workerId)
 
+
 def MWorkerLogAddPeriod(builder, period):
     builder.PrependUint32Slot(3, period, 0)
+
 
 def AddPeriod(builder, period):
     MWorkerLogAddPeriod(builder, period)
 
+
 def MWorkerLogAddMrealmId(builder, mrealmId):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(mrealmId), 0)
+
 
 def AddMrealmId(builder, mrealmId):
     MWorkerLogAddMrealmId(builder, mrealmId)
 
+
 def MWorkerLogStartMrealmIdVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMrealmIdVector(builder, numElems: int) -> int:
     return MWorkerLogStartMrealmIdVector(builder, numElems)
 
+
 def MWorkerLogAddType(builder, type):
     builder.PrependUint8Slot(5, type, 0)
+
 
 def AddType(builder, type):
     MWorkerLogAddType(builder, type)
 
+
 def MWorkerLogAddState(builder, state):
     builder.PrependUint8Slot(6, state, 0)
+
 
 def AddState(builder, state):
     MWorkerLogAddState(builder, state)
 
+
 def MWorkerLogAddSent(builder, sent):
     builder.PrependUint64Slot(7, sent, 0)
+
 
 def AddSent(builder, sent):
     MWorkerLogAddSent(builder, sent)
 
+
 def MWorkerLogAddSeq(builder, seq):
     builder.PrependUint64Slot(8, seq, 0)
+
 
 def AddSeq(builder, seq):
     MWorkerLogAddSeq(builder, seq)
 
+
 def MWorkerLogAddNumFds(builder, numFds):
     builder.PrependUint32Slot(9, numFds, 0)
+
 
 def AddNumFds(builder, numFds):
     MWorkerLogAddNumFds(builder, numFds)
 
+
 def MWorkerLogAddNumThreads(builder, numThreads):
     builder.PrependUint16Slot(10, numThreads, 0)
+
 
 def AddNumThreads(builder, numThreads):
     MWorkerLogAddNumThreads(builder, numThreads)
 
+
 def MWorkerLogAddNumCtxSwitchesInvoluntary(builder, numCtxSwitchesInvoluntary):
     builder.PrependUint64Slot(11, numCtxSwitchesInvoluntary, 0)
+
 
 def AddNumCtxSwitchesInvoluntary(builder, numCtxSwitchesInvoluntary):
     MWorkerLogAddNumCtxSwitchesInvoluntary(builder, numCtxSwitchesInvoluntary)
 
+
 def MWorkerLogAddNumCtxSwitchesInvoluntaryPerSec(builder, numCtxSwitchesInvoluntaryPerSec):
     builder.PrependUint32Slot(12, numCtxSwitchesInvoluntaryPerSec, 0)
+
 
 def AddNumCtxSwitchesInvoluntaryPerSec(builder, numCtxSwitchesInvoluntaryPerSec):
     MWorkerLogAddNumCtxSwitchesInvoluntaryPerSec(builder, numCtxSwitchesInvoluntaryPerSec)
 
+
 def MWorkerLogAddNumCtxSwitchesVoluntary(builder, numCtxSwitchesVoluntary):
     builder.PrependUint64Slot(13, numCtxSwitchesVoluntary, 0)
+
 
 def AddNumCtxSwitchesVoluntary(builder, numCtxSwitchesVoluntary):
     MWorkerLogAddNumCtxSwitchesVoluntary(builder, numCtxSwitchesVoluntary)
 
+
 def MWorkerLogAddNumCtxSwitchesVoluntaryPerSec(builder, numCtxSwitchesVoluntaryPerSec):
     builder.PrependUint32Slot(14, numCtxSwitchesVoluntaryPerSec, 0)
+
 
 def AddNumCtxSwitchesVoluntaryPerSec(builder, numCtxSwitchesVoluntaryPerSec):
     MWorkerLogAddNumCtxSwitchesVoluntaryPerSec(builder, numCtxSwitchesVoluntaryPerSec)
 
+
 def MWorkerLogAddCpuSystem(builder, cpuSystem):
     builder.PrependFloat32Slot(15, cpuSystem, 0.0)
+
 
 def AddCpuSystem(builder, cpuSystem):
     MWorkerLogAddCpuSystem(builder, cpuSystem)
 
+
 def MWorkerLogAddCpuSystemPerSec(builder, cpuSystemPerSec):
     builder.PrependFloat32Slot(16, cpuSystemPerSec, 0.0)
+
 
 def AddCpuSystemPerSec(builder, cpuSystemPerSec):
     MWorkerLogAddCpuSystemPerSec(builder, cpuSystemPerSec)
 
+
 def MWorkerLogAddCpuWait(builder, cpuWait):
     builder.PrependFloat32Slot(17, cpuWait, 0.0)
+
 
 def AddCpuWait(builder, cpuWait):
     MWorkerLogAddCpuWait(builder, cpuWait)
 
+
 def MWorkerLogAddCpuWaitPerSec(builder, cpuWaitPerSec):
     builder.PrependFloat32Slot(18, cpuWaitPerSec, 0.0)
+
 
 def AddCpuWaitPerSec(builder, cpuWaitPerSec):
     MWorkerLogAddCpuWaitPerSec(builder, cpuWaitPerSec)
 
+
 def MWorkerLogAddCpuUser(builder, cpuUser):
     builder.PrependFloat32Slot(19, cpuUser, 0.0)
+
 
 def AddCpuUser(builder, cpuUser):
     MWorkerLogAddCpuUser(builder, cpuUser)
 
+
 def MWorkerLogAddCpuUserPerSec(builder, cpuUserPerSec):
     builder.PrependFloat32Slot(20, cpuUserPerSec, 0.0)
+
 
 def AddCpuUserPerSec(builder, cpuUserPerSec):
     MWorkerLogAddCpuUserPerSec(builder, cpuUserPerSec)
 
+
 def MWorkerLogAddReadBytes(builder, readBytes):
     builder.PrependUint64Slot(21, readBytes, 0)
+
 
 def AddReadBytes(builder, readBytes):
     MWorkerLogAddReadBytes(builder, readBytes)
 
+
 def MWorkerLogAddReadBytesPerSec(builder, readBytesPerSec):
     builder.PrependUint64Slot(22, readBytesPerSec, 0)
+
 
 def AddReadBytesPerSec(builder, readBytesPerSec):
     MWorkerLogAddReadBytesPerSec(builder, readBytesPerSec)
 
+
 def MWorkerLogAddReadIos(builder, readIos):
     builder.PrependUint64Slot(23, readIos, 0)
+
 
 def AddReadIos(builder, readIos):
     MWorkerLogAddReadIos(builder, readIos)
 
+
 def MWorkerLogAddReadIosPerSec(builder, readIosPerSec):
     builder.PrependUint64Slot(24, readIosPerSec, 0)
+
 
 def AddReadIosPerSec(builder, readIosPerSec):
     MWorkerLogAddReadIosPerSec(builder, readIosPerSec)
 
+
 def MWorkerLogAddWriteBytes(builder, writeBytes):
     builder.PrependUint64Slot(25, writeBytes, 0)
+
 
 def AddWriteBytes(builder, writeBytes):
     MWorkerLogAddWriteBytes(builder, writeBytes)
 
+
 def MWorkerLogAddWriteBytesPerSec(builder, writeBytesPerSec):
     builder.PrependUint64Slot(26, writeBytesPerSec, 0)
+
 
 def AddWriteBytesPerSec(builder, writeBytesPerSec):
     MWorkerLogAddWriteBytesPerSec(builder, writeBytesPerSec)
 
+
 def MWorkerLogAddWriteIos(builder, writeIos):
     builder.PrependUint64Slot(27, writeIos, 0)
+
 
 def AddWriteIos(builder, writeIos):
     MWorkerLogAddWriteIos(builder, writeIos)
 
+
 def MWorkerLogAddWriteIosPerSec(builder, writeIosPerSec):
     builder.PrependUint64Slot(28, writeIosPerSec, 0)
+
 
 def AddWriteIosPerSec(builder, writeIosPerSec):
     MWorkerLogAddWriteIosPerSec(builder, writeIosPerSec)
 
+
 def MWorkerLogAddSentBytes(builder, sentBytes):
     builder.PrependUint64Slot(29, sentBytes, 0)
+
 
 def AddSentBytes(builder, sentBytes):
     MWorkerLogAddSentBytes(builder, sentBytes)
 
+
 def MWorkerLogAddSentBytesPerSec(builder, sentBytesPerSec):
     builder.PrependUint64Slot(30, sentBytesPerSec, 0)
+
 
 def AddSentBytesPerSec(builder, sentBytesPerSec):
     MWorkerLogAddSentBytesPerSec(builder, sentBytesPerSec)
 
+
 def MWorkerLogAddSentIos(builder, sentIos):
     builder.PrependUint64Slot(31, sentIos, 0)
+
 
 def AddSentIos(builder, sentIos):
     MWorkerLogAddSentIos(builder, sentIos)
 
+
 def MWorkerLogAddSentIosPerSec(builder, sentIosPerSec):
     builder.PrependUint64Slot(32, sentIosPerSec, 0)
+
 
 def AddSentIosPerSec(builder, sentIosPerSec):
     MWorkerLogAddSentIosPerSec(builder, sentIosPerSec)
 
+
 def MWorkerLogAddRecvBytes(builder, recvBytes):
     builder.PrependUint64Slot(33, recvBytes, 0)
+
 
 def AddRecvBytes(builder, recvBytes):
     MWorkerLogAddRecvBytes(builder, recvBytes)
 
+
 def MWorkerLogAddRecvBytesPerSec(builder, recvBytesPerSec):
     builder.PrependUint64Slot(34, recvBytesPerSec, 0)
+
 
 def AddRecvBytesPerSec(builder, recvBytesPerSec):
     MWorkerLogAddRecvBytesPerSec(builder, recvBytesPerSec)
 
+
 def MWorkerLogAddRecvIos(builder, recvIos):
     builder.PrependUint64Slot(35, recvIos, 0)
+
 
 def AddRecvIos(builder, recvIos):
     MWorkerLogAddRecvIos(builder, recvIos)
 
+
 def MWorkerLogAddRecvIosPerSec(builder, recvIosPerSec):
     builder.PrependUint64Slot(36, recvIosPerSec, 0)
+
 
 def AddRecvIosPerSec(builder, recvIosPerSec):
     MWorkerLogAddRecvIosPerSec(builder, recvIosPerSec)
 
+
 def MWorkerLogAddRouterRoles(builder, routerRoles):
     builder.PrependUint64Slot(37, routerRoles, 0)
+
 
 def AddRouterRoles(builder, routerRoles):
     MWorkerLogAddRouterRoles(builder, routerRoles)
 
+
 def MWorkerLogAddRouterSessions(builder, routerSessions):
     builder.PrependUint64Slot(38, routerSessions, 0)
+
 
 def AddRouterSessions(builder, routerSessions):
     MWorkerLogAddRouterSessions(builder, routerSessions)
 
+
 def MWorkerLogAddRecvCall(builder, recvCall):
     builder.PrependUint64Slot(39, recvCall, 0)
+
 
 def AddRecvCall(builder, recvCall):
     MWorkerLogAddRecvCall(builder, recvCall)
 
+
 def MWorkerLogAddRecvYield(builder, recvYield):
     builder.PrependUint64Slot(40, recvYield, 0)
+
 
 def AddRecvYield(builder, recvYield):
     MWorkerLogAddRecvYield(builder, recvYield)
 
+
 def MWorkerLogAddSentInvocation(builder, sentInvocation):
     builder.PrependUint64Slot(41, sentInvocation, 0)
+
 
 def AddSentInvocation(builder, sentInvocation):
     MWorkerLogAddSentInvocation(builder, sentInvocation)
 
+
 def MWorkerLogAddSentResult(builder, sentResult):
     builder.PrependUint64Slot(42, sentResult, 0)
+
 
 def AddSentResult(builder, sentResult):
     MWorkerLogAddSentResult(builder, sentResult)
 
+
 def MWorkerLogAddRecvPublish(builder, recvPublish):
     builder.PrependUint64Slot(43, recvPublish, 0)
+
 
 def AddRecvPublish(builder, recvPublish):
     MWorkerLogAddRecvPublish(builder, recvPublish)
 
+
 def MWorkerLogAddSentPublished(builder, sentPublished):
     builder.PrependUint64Slot(44, sentPublished, 0)
+
 
 def AddSentPublished(builder, sentPublished):
     MWorkerLogAddSentPublished(builder, sentPublished)
 
+
 def MWorkerLogAddSentEvent(builder, sentEvent):
     builder.PrependUint64Slot(45, sentEvent, 0)
+
 
 def AddSentEvent(builder, sentEvent):
     MWorkerLogAddSentEvent(builder, sentEvent)
 
+
 def MWorkerLogAddRecvRegister(builder, recvRegister):
     builder.PrependUint64Slot(46, recvRegister, 0)
+
 
 def AddRecvRegister(builder, recvRegister):
     MWorkerLogAddRecvRegister(builder, recvRegister)
 
+
 def MWorkerLogAddSentRegistered(builder, sentRegistered):
     builder.PrependUint64Slot(47, sentRegistered, 0)
+
 
 def AddSentRegistered(builder, sentRegistered):
     MWorkerLogAddSentRegistered(builder, sentRegistered)
 
+
 def MWorkerLogAddRecvSubscribe(builder, recvSubscribe):
     builder.PrependUint64Slot(48, recvSubscribe, 0)
+
 
 def AddRecvSubscribe(builder, recvSubscribe):
     MWorkerLogAddRecvSubscribe(builder, recvSubscribe)
 
+
 def MWorkerLogAddSentSubscribed(builder, sentSubscribed):
     builder.PrependUint64Slot(49, sentSubscribed, 0)
+
 
 def AddSentSubscribed(builder, sentSubscribed):
     MWorkerLogAddSentSubscribed(builder, sentSubscribed)
 
+
 def MWorkerLogEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return MWorkerLogEnd(builder)

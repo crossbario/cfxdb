@@ -10,8 +10,9 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapBytes32FlatBuffers, MapUuidTimestampBytes32, table
+
 from cfxdb.gen.xbrmm import UserKey as UserKeyGen
-from zlmdb import table, MapBytes32FlatBuffers, MapUuidTimestampBytes32
 
 
 class _UserKeyGen(UserKeyGen.UserKey):
@@ -20,6 +21,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsUserKey(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -32,7 +34,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OwnerAsBytes(self):
@@ -40,7 +42,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def WalletAddressAsBytes(self):
@@ -48,7 +50,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -56,7 +58,7 @@ class _UserKeyGen(UserKeyGen.UserKey):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -64,6 +66,7 @@ class UserKey:
     """
     User client (public) keys.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -89,16 +92,16 @@ class UserKey:
 
     def marshal(self):
         obj = {
-            'pubkey': bytes(self.pubkey),
-            'created': int(self.created),
-            'owner': self.owner.bytes,
-            'wallet_address': self.wallet_address if self.wallet_address else None,
-            'signature': bytes(self.signature) if self.signature else None
+            "pubkey": bytes(self.pubkey),
+            "created": int(self.created),
+            "owner": self.owner.bytes,
+            "wallet_address": self.wallet_address if self.wallet_address else None,
+            "signature": bytes(self.signature) if self.signature else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def pubkey(self) -> bytes:
@@ -121,7 +124,7 @@ class UserKey:
         Timestamp (epoch time in ns) of initial creation of this record.
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @created.setter
@@ -139,7 +142,7 @@ class UserKey:
                 _owner = self._from_fbs.OwnerAsBytes()
                 self._owner = uuid.UUID(bytes=bytes(_owner))
             else:
-                self._owner = uuid.UUID(bytes=b'\x00' * 20)
+                self._owner = uuid.UUID(bytes=b"\x00" * 20)
         return self._owner
 
     @owner.setter
@@ -182,7 +185,6 @@ class UserKey:
         return UserKey(_UserKeyGen.GetRootAsUserKey(buf, 0))
 
     def build(self, builder):
-
         owner = self.owner.bytes if self.owner else None
         if owner:
             owner = builder.CreateString(owner)
@@ -221,14 +223,14 @@ class UserKey:
         return final
 
 
-@table('62d140f6-c1f4-4f38-bfde-e450f29d0f95', build=UserKey.build, cast=UserKey.cast)
+@table("62d140f6-c1f4-4f38-bfde-e450f29d0f95", build=UserKey.build, cast=UserKey.cast)
 class UserKeys(MapBytes32FlatBuffers):
     """
     Database table for user client keys.
     """
 
 
-@table('d4476238-c642-4625-8844-780137152ddd')
+@table("d4476238-c642-4625-8844-780137152ddd")
 class IndexUserKeyByMember(MapUuidTimestampBytes32):
     """
     Database (index) table for (member_oid, created) -> userkey mapping.

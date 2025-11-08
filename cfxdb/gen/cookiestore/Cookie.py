@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Persistent cookies, as used in WAMP-Cookie authentication by router and proxy workers.
 class Cookie(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Cookie(object):
     def GetRootAsCookie(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Cookie
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Cookie(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Cookie
@@ -99,7 +104,9 @@ class Cookie(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Cookie
@@ -135,7 +142,9 @@ class Cookie(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Cookie
@@ -219,7 +228,9 @@ class Cookie(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(36))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Cookie
@@ -241,140 +252,188 @@ class Cookie(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(36))
         return o == 0
 
+
 def CookieStart(builder):
     builder.StartObject(17)
+
 
 def Start(builder):
     CookieStart(builder)
 
+
 def CookieAddOid(builder, oid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     CookieAddOid(builder, oid)
 
+
 def CookieStartOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOidVector(builder, numElems: int) -> int:
     return CookieStartOidVector(builder, numElems)
 
+
 def CookieAddCreated(builder, created):
     builder.PrependUint64Slot(1, created, 0)
+
 
 def AddCreated(builder, created):
     CookieAddCreated(builder, created)
 
+
 def CookieAddMaxAge(builder, maxAge):
     builder.PrependUint64Slot(2, maxAge, 0)
+
 
 def AddMaxAge(builder, maxAge):
     CookieAddMaxAge(builder, maxAge)
 
+
 def CookieAddName(builder, name):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 
 def AddName(builder, name):
     CookieAddName(builder, name)
 
+
 def CookieAddValue(builder, value):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 
 def AddValue(builder, value):
     CookieAddValue(builder, value)
 
+
 def CookieAddAuthenticated(builder, authenticated):
     builder.PrependUint64Slot(5, authenticated, 0)
+
 
 def AddAuthenticated(builder, authenticated):
     CookieAddAuthenticated(builder, authenticated)
 
+
 def CookieAddAuthenticatedOnNode(builder, authenticatedOnNode):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedOnNode), 0)
+
 
 def AddAuthenticatedOnNode(builder, authenticatedOnNode):
     CookieAddAuthenticatedOnNode(builder, authenticatedOnNode)
 
+
 def CookieStartAuthenticatedOnNodeVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAuthenticatedOnNodeVector(builder, numElems: int) -> int:
     return CookieStartAuthenticatedOnNodeVector(builder, numElems)
 
+
 def CookieAddAuthenticatedOnWorker(builder, authenticatedOnWorker):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedOnWorker), 0)
+
 
 def AddAuthenticatedOnWorker(builder, authenticatedOnWorker):
     CookieAddAuthenticatedOnWorker(builder, authenticatedOnWorker)
 
+
 def CookieAddAuthenticatedTransportInfo(builder, authenticatedTransportInfo):
-    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedTransportInfo), 0)
+    builder.PrependUOffsetTRelativeSlot(
+        8, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedTransportInfo), 0
+    )
+
 
 def AddAuthenticatedTransportInfo(builder, authenticatedTransportInfo):
     CookieAddAuthenticatedTransportInfo(builder, authenticatedTransportInfo)
 
+
 def CookieStartAuthenticatedTransportInfoVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAuthenticatedTransportInfoVector(builder, numElems: int) -> int:
     return CookieStartAuthenticatedTransportInfoVector(builder, numElems)
 
+
 def CookieAddAuthenticatedSession(builder, authenticatedSession):
     builder.PrependUint64Slot(9, authenticatedSession, 0)
+
 
 def AddAuthenticatedSession(builder, authenticatedSession):
     CookieAddAuthenticatedSession(builder, authenticatedSession)
 
+
 def CookieAddAuthenticatedJoinedAt(builder, authenticatedJoinedAt):
     builder.PrependUint64Slot(10, authenticatedJoinedAt, 0)
+
 
 def AddAuthenticatedJoinedAt(builder, authenticatedJoinedAt):
     CookieAddAuthenticatedJoinedAt(builder, authenticatedJoinedAt)
 
+
 def CookieAddAuthenticatedAuthmethod(builder, authenticatedAuthmethod):
     builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(authenticatedAuthmethod), 0)
+
 
 def AddAuthenticatedAuthmethod(builder, authenticatedAuthmethod):
     CookieAddAuthenticatedAuthmethod(builder, authenticatedAuthmethod)
 
+
 def CookieAddAuthid(builder, authid):
     builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 
 def AddAuthid(builder, authid):
     CookieAddAuthid(builder, authid)
 
+
 def CookieAddAuthrole(builder, authrole):
     builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(authrole), 0)
+
 
 def AddAuthrole(builder, authrole):
     CookieAddAuthrole(builder, authrole)
 
+
 def CookieAddAuthmethod(builder, authmethod):
     builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(authmethod), 0)
+
 
 def AddAuthmethod(builder, authmethod):
     CookieAddAuthmethod(builder, authmethod)
 
+
 def CookieAddAuthrealm(builder, authrealm):
     builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(authrealm), 0)
+
 
 def AddAuthrealm(builder, authrealm):
     CookieAddAuthrealm(builder, authrealm)
 
+
 def CookieAddAuthextra(builder, authextra):
     builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+
 
 def AddAuthextra(builder, authextra):
     CookieAddAuthextra(builder, authextra)
 
+
 def CookieStartAuthextraVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAuthextraVector(builder, numElems: int) -> int:
     return CookieStartAuthextraVector(builder, numElems)
 
+
 def CookieEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return CookieEnd(builder)

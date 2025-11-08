@@ -17,16 +17,19 @@ class ActivationToken(object):
     """
     CFC user activation token database class for CBOR.
     """
-    def __init__(self,
-                 oid=None,
-                 atype=None,
-                 status=None,
-                 created=None,
-                 completed=None,
-                 code=None,
-                 email=None,
-                 pubkey=None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid=None,
+        atype=None,
+        status=None,
+        created=None,
+        completed=None,
+        code=None,
+        email=None,
+        pubkey=None,
+        _unknown=None,
+    ):
         self.oid = oid
         self.atype = atype
         self.status = status
@@ -64,20 +67,20 @@ class ActivationToken(object):
         assert self.pubkey is None or (type(self.pubkey) == str and len(self.pubkey) == 64)
         assert self._unknown is None or type(self._unknown) == dict
 
-        created = float(self.created.timestamp()) * 1000000.
+        created = float(self.created.timestamp()) * 1000000.0
         completed = None
         if self.completed:
-            completed = float(self.completed.timestamp()) * 1000000.
+            completed = float(self.completed.timestamp()) * 1000000.0
 
         obj = {
-            u'oid': str(self.oid),
-            u'atype': self.atype,
-            u'status': self.status,
-            u'created': created,
-            u'completed': completed,
-            u'code': self.code,
-            u'email': self.email,
-            u'pubkey': self.pubkey
+            "oid": str(self.oid),
+            "atype": self.atype,
+            "status": self.status,
+            "created": created,
+            "completed": completed,
+            "code": self.code,
+            "email": self.email,
+            "pubkey": self.pubkey,
         }
 
         if self._unknown:
@@ -93,54 +96,56 @@ class ActivationToken(object):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['oid', 'atype', 'status', 'created', 'completed', 'code', 'email', 'pubkey']:
+            if k not in ["oid", "atype", "status", "created", "completed", "code", "email", "pubkey"]:
                 val = data.pop(k)
                 _unknown[k] = val
 
-        oid = data.get('oid', None)
+        oid = data.get("oid", None)
         assert type(oid) == str
         oid = uuid.UUID(oid)
 
-        atype = data.get('atype', None)
+        atype = data.get("atype", None)
         assert type(atype) == int
 
-        status = data.get('status', None)
+        status = data.get("status", None)
         assert type(status) == int
 
-        created = data.get('created', None)
+        created = data.get("created", None)
         assert type(created) == float or type(created) == int
 
-        created = datetime.fromtimestamp(float(created) / 1000000.)
+        created = datetime.fromtimestamp(float(created) / 1000000.0)
         # created = datetime.utcfromtimestamp(float(created) / 1000000.)
 
-        completed = data.get('completed', None)
+        completed = data.get("completed", None)
         assert completed is None or type(completed) == float or type(completed) == int
         if completed:
             # https://docs.python.org
             # /3/library/time.html#time.time_ns
             # https://docs.python.org/3/library/datetime.html#datetime.datetime.timestamp
 
-            completed = datetime.fromtimestamp(float(completed) / 1000000.)
+            completed = datetime.fromtimestamp(float(completed) / 1000000.0)
             # completed = datetime.utcfromtimestamp(float(completed) / 1000000.)
 
-        code = data.get('code', None)
+        code = data.get("code", None)
         assert type(code) == str
 
-        email = data.get('email', None)
+        email = data.get("email", None)
         assert email is None or type(email) == str
 
-        pubkey = data.get('pubkey', None)
+        pubkey = data.get("pubkey", None)
         assert pubkey is None or type(pubkey) == str
         if pubkey:
             assert len(pubkey) == 64
 
-        obj = ActivationToken(oid=oid,
-                              atype=atype,
-                              status=status,
-                              created=created,
-                              completed=completed,
-                              code=code,
-                              email=email,
-                              pubkey=pubkey,
-                              _unknown=_unknown)
+        obj = ActivationToken(
+            oid=oid,
+            atype=atype,
+            status=status,
+            created=created,
+            completed=completed,
+            code=code,
+            email=email,
+            pubkey=pubkey,
+            _unknown=_unknown,
+        )
         return obj

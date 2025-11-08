@@ -7,15 +7,15 @@
 
 import os
 import random
-import uuid
 import shutil
 import tempfile
-from txaio import time_ns
+import uuid
 
 import numpy as np
 import pytest
-
 import txaio
+from txaio import time_ns
+
 txaio.use_twisted()
 
 import zlmdb
@@ -25,9 +25,9 @@ from cfxdb.usage import MasterNodeUsage
 
 
 def fill_usage(usage):
-    usage.timestamp = np.datetime64(time_ns(), 'ns')
+    usage.timestamp = np.datetime64(time_ns(), "ns")
     usage.mrealm_id = uuid.uuid4()
-    usage.timestamp_from = np.datetime64(usage.timestamp - np.timedelta64(10, 'm'), 'ns')
+    usage.timestamp_from = np.datetime64(usage.timestamp - np.timedelta64(10, "m"), "ns")
     usage.pubkey = os.urandom(32)
 
     usage.client_ip_version = random.choice([4, 6])
@@ -38,10 +38,10 @@ def fill_usage(usage):
     usage.client_ip_port = random.randint(1, 2**16 - 1)
 
     usage.seq = random.randint(0, 1000000)
-    usage.sent = np.datetime64(time_ns() - random.randint(0, 10**10), 'ns')
-    usage.processed = np.datetime64(time_ns() + random.randint(0, 10**10), 'ns')
+    usage.sent = np.datetime64(time_ns() - random.randint(0, 10**10), "ns")
+    usage.processed = np.datetime64(time_ns() + random.randint(0, 10**10), "ns")
     usage.status = random.randint(0, 3)
-    usage.status_message = 'hello world {}'.format(uuid.uuid4())
+    usage.status_message = "hello world {}".format(uuid.uuid4())
     usage.metering_id = uuid.uuid4()
 
     usage.count = random.randint(0, 100000)
@@ -72,9 +72,9 @@ def fill_usage(usage):
     usage.msgs_subscribed = random.randint(0, 100000)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db(scratch=True):
-    dbpath = os.path.join(tempfile.gettempdir(), 'testdb')
+    dbpath = os.path.join(tempfile.gettempdir(), "testdb")
     if scratch and os.path.exists(dbpath):
         shutil.rmtree(dbpath)
     db = zlmdb.Database(dbpath=dbpath, writemap=True)
@@ -108,25 +108,25 @@ def test_stats(db):
     stats = db.stats()
 
     # check default maximum size
-    assert stats['max_size'] == 10485760
+    assert stats["max_size"] == 10485760
 
     # check current size, which is maxsize when writemap==True (which it is by default)
-    assert stats['current_size'] == 10485760
+    assert stats["current_size"] == 10485760
 
     # however, the DB is empty ..
-    assert stats['pages'] == 1
-    assert stats['free'] == 0.999609375
+    assert stats["pages"] == 1
+    assert stats["free"] == 0.999609375
 
     # GlobalSchema has 14 tables
-    assert stats['num_slots'] == 14
+    assert stats["num_slots"] == 14
 
 
 def test_usage_stats(db):
     dbs: GlobalSchema = GlobalSchema.attach(db)
 
     stats_begin = db.stats()
-    assert stats_begin['pages'] == 1
-    assert stats_begin['free'] == 0.999609375
+    assert stats_begin["pages"] == 1
+    assert stats_begin["free"] == 0.999609375
 
     with db.begin(write=True) as txn:
         for i in range(10000):
@@ -135,5 +135,5 @@ def test_usage_stats(db):
             dbs.usage[txn, (usage.timestamp, usage.mrealm_id)] = usage
 
     stats_end = db.stats()
-    assert stats_end['pages'] == 1684
-    assert stats_end['free'] == 0.3421875
+    assert stats_end["pages"] == 1684
+    assert stats_end["free"] == 0.3421875

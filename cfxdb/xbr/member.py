@@ -10,10 +10,11 @@ import uuid
 
 import flatbuffers
 import numpy as np
-from cfxdb import unpack_uint256, pack_uint256
+from zlmdb import MapBytes20FlatBuffers, table
+
+from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Member as MemberGen
 from cfxdb.gen.xbr.MemberLevel import MemberLevel
-from zlmdb import table, MapBytes20FlatBuffers
 
 
 class _MemberGen(MemberGen.Member):
@@ -22,6 +23,7 @@ class _MemberGen(MemberGen.Member):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsMember(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -34,7 +36,7 @@ class _MemberGen(MemberGen.Member):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AccountOidAsBytes(self):
@@ -42,7 +44,7 @@ class _MemberGen(MemberGen.Member):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def RegisteredAsBytes(self):
@@ -50,7 +52,7 @@ class _MemberGen(MemberGen.Member):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def TidAsBytes(self):
@@ -58,7 +60,7 @@ class _MemberGen(MemberGen.Member):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -66,7 +68,7 @@ class _MemberGen(MemberGen.Member):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -74,6 +76,7 @@ class Member(object):
     """
     XBR Network member database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -106,20 +109,20 @@ class Member(object):
 
     def marshal(self) -> dict:
         obj = {
-            'address': bytes(self.address) if self._address else None,
-            'account_oid': self._account_oid.bytes if self._account_oid else None,
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'registered': self.registered,
-            'eula': self.eula,
-            'profile': self.profile,
-            'level': self.level,
-            'tid': bytes(self.tid) if self.tid else None,
-            'signature': bytes(self.signature) if self.signature else None,
+            "address": bytes(self.address) if self._address else None,
+            "account_oid": self._account_oid.bytes if self._account_oid else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "registered": self.registered,
+            "eula": self.eula,
+            "profile": self.profile,
+            "level": self.level,
+            "tid": bytes(self.tid) if self.tid else None,
+            "signature": bytes(self.signature) if self.signature else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def address(self) -> bytes:
@@ -146,7 +149,7 @@ class Member(object):
                 _account_oid = self._from_fbs.AccountOidAsBytes()
                 self._account_oid = uuid.UUID(bytes=bytes(_account_oid))
             else:
-                self._account_oid = uuid.UUID(bytes=b'\x00' * 16)
+                self._account_oid = uuid.UUID(bytes=b"\x00" * 16)
         return self._account_oid
 
     @account_oid.setter
@@ -160,7 +163,7 @@ class Member(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -194,7 +197,7 @@ class Member(object):
         if self._eula is None and self._from_fbs:
             eula = self._from_fbs.Eula()
             if eula:
-                self._eula = eula.decode('utf8')
+                self._eula = eula.decode("utf8")
         return self._eula
 
     @eula.setter
@@ -210,7 +213,7 @@ class Member(object):
         if self._profile is None and self._from_fbs:
             profile = self._from_fbs.Profile()
             if profile:
-                self._profile = profile.decode('utf8')
+                self._profile = profile.decode("utf8")
         return self._profile
 
     @profile.setter
@@ -231,8 +234,12 @@ class Member(object):
     def level(self, value: int):
         assert value is None or type(value) == int
         assert value in [
-            MemberLevel.NONE, MemberLevel.ACTIVE, MemberLevel.VERIFIED, MemberLevel.RETIRED,
-            MemberLevel.PENALTY, MemberLevel.BLOCKED
+            MemberLevel.NONE,
+            MemberLevel.ACTIVE,
+            MemberLevel.VERIFIED,
+            MemberLevel.RETIRED,
+            MemberLevel.PENALTY,
+            MemberLevel.BLOCKED,
         ]
         self._level = value
 
@@ -271,7 +278,6 @@ class Member(object):
         return Member(_MemberGen.GetRootAsMember(buf, 0))
 
     def build(self, builder):
-
         address = self.address
         if address:
             address = builder.CreateString(address)
@@ -334,7 +340,7 @@ class Member(object):
         return final
 
 
-@table('d1808139-5a3b-4a4e-abad-152dd4cd1131', build=Member.build, cast=Member.cast)
+@table("d1808139-5a3b-4a4e-abad-152dd4cd1131", build=Member.build, cast=Member.cast)
 class Members(MapBytes20FlatBuffers):
     """
     XBR members by ``member_adr``.

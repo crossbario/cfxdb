@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # User activation tokens.
 class ActivationToken(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class ActivationToken(object):
     def GetRootAsActivationToken(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # ActivationToken
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -89,62 +92,82 @@ class ActivationToken(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
+
 def ActivationTokenStart(builder):
     builder.StartObject(8)
+
 
 def Start(builder):
     ActivationTokenStart(builder)
 
+
 def ActivationTokenAddOid(builder, oid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     ActivationTokenAddOid(builder, oid)
 
+
 def ActivationTokenAddAtype(builder, atype):
     builder.PrependInt8Slot(1, atype, 0)
+
 
 def AddAtype(builder, atype):
     ActivationTokenAddAtype(builder, atype)
 
+
 def ActivationTokenAddStatus(builder, status):
     builder.PrependInt8Slot(2, status, 0)
+
 
 def AddStatus(builder, status):
     ActivationTokenAddStatus(builder, status)
 
+
 def ActivationTokenAddCreated(builder, created):
     builder.PrependUint64Slot(3, created, 0)
+
 
 def AddCreated(builder, created):
     ActivationTokenAddCreated(builder, created)
 
+
 def ActivationTokenAddCompleted(builder, completed):
     builder.PrependUint64Slot(4, completed, 0)
+
 
 def AddCompleted(builder, completed):
     ActivationTokenAddCompleted(builder, completed)
 
+
 def ActivationTokenAddCode(builder, code):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(code), 0)
+
 
 def AddCode(builder, code):
     ActivationTokenAddCode(builder, code)
 
+
 def ActivationTokenAddEmail(builder, email):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(email), 0)
+
 
 def AddEmail(builder, email):
     ActivationTokenAddEmail(builder, email)
 
+
 def ActivationTokenAddPubkey(builder, pubkey):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 
 def AddPubkey(builder, pubkey):
     ActivationTokenAddPubkey(builder, pubkey)
 
+
 def ActivationTokenEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ActivationTokenEnd(builder)

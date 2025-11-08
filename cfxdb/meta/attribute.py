@@ -11,8 +11,9 @@ from uuid import UUID
 import cbor2
 import flatbuffers
 import numpy as np
+from zlmdb import MapUuidUuidStringFlatBuffers, table
+
 from cfxdb.gen.meta import Attribute as AttributeGen
-from zlmdb import table, MapUuidUuidStringFlatBuffers
 
 
 class _AttributeGen(AttributeGen.Attribute):
@@ -21,6 +22,7 @@ class _AttributeGen(AttributeGen.Attribute):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsAttribute(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +35,7 @@ class _AttributeGen(AttributeGen.Attribute):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ObjectOidAsBytes(self):
@@ -41,7 +43,7 @@ class _AttributeGen(AttributeGen.Attribute):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ValueAsBytes(self):
@@ -49,7 +51,7 @@ class _AttributeGen(AttributeGen.Attribute):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -57,6 +59,7 @@ class Attribute(object):
     """
     Generic meta-data attributes that can be stored on objects in tables.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -77,16 +80,16 @@ class Attribute(object):
 
     def marshal(self) -> dict:
         obj = {
-            'table_oid': self.table_oid.bytes if self.object_oid else None,
-            'object_oid': self.object_oid.bytes if self.object_oid else None,
-            'attribute': self.attribute,
-            'modified': int(self.modified) if self.modified else None,
-            'value': bytes(self._value) if self._value else None,
+            "table_oid": self.table_oid.bytes if self.object_oid else None,
+            "object_oid": self.object_oid.bytes if self.object_oid else None,
+            "attribute": self.attribute,
+            "modified": int(self.modified) if self.modified else None,
+            "value": bytes(self._value) if self._value else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def table_oid(self) -> UUID:
@@ -128,7 +131,7 @@ class Attribute(object):
         if self._attribute is None and self._from_fbs:
             attribute = self._from_fbs.Attribute()
             if attribute:
-                self._attribute = attribute.decode('utf8')
+                self._attribute = attribute.decode("utf8")
         return self._attribute
 
     @attribute.setter
@@ -142,7 +145,7 @@ class Attribute(object):
         Timestamp when the attribute was last modified (or first created).
         """
         if self._modified is None and self._from_fbs:
-            self._modified = np.datetime64(self._from_fbs.Modified(), 'ns')
+            self._modified = np.datetime64(self._from_fbs.Modified(), "ns")
         return self._modified
 
     @modified.setter
@@ -171,7 +174,6 @@ class Attribute(object):
         return Attribute(_AttributeGen.GetRootAsAttribute(buf, 0))
 
     def build(self, builder):
-
         table_oid = self.table_oid.bytes if self.table_oid else None
         if table_oid:
             table_oid = builder.CreateString(table_oid)
@@ -210,7 +212,7 @@ class Attribute(object):
         return final
 
 
-@table('42b1ca1f-f135-4761-8d10-f96a43612178', build=Attribute.build, cast=Attribute.cast)
+@table("42b1ca1f-f135-4761-8d10-f96a43612178", build=Attribute.build, cast=Attribute.cast)
 class Attributes(MapUuidUuidStringFlatBuffers):
     """
     Generic meta-data attributes that can be stored on objects in tables. Primary key of this table is ``(table_oid, object_oid, attribute)``.

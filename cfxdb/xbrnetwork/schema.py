@@ -7,8 +7,8 @@
 
 import json
 
-from .account import Accounts, IndexAccountsByUsername, IndexAccountsByEmail, IndexAccountsByWallet
-from .userkey import UserKeys, IndexUserKeyByAccount
+from .account import Accounts, IndexAccountsByEmail, IndexAccountsByUsername, IndexAccountsByWallet
+from .userkey import IndexUserKeyByAccount, UserKeys
 from .vaction import VerifiedActions
 
 
@@ -16,6 +16,7 @@ class Schema(object):
     """
     XBR Network backend database schema.
     """
+
     accounts: Accounts
     """
     Member accounts database table :class:`xbrnetwork.Accounts`.
@@ -54,6 +55,7 @@ class Schema(object):
     EXPORTED = None
     """
     """
+
     def __init__(self, db):
         self.db = db
 
@@ -89,23 +91,22 @@ class Schema(object):
         schema.accounts = db.attach_table(Accounts)
 
         schema.idx_accounts_by_username = db.attach_table(IndexAccountsByUsername)
-        schema.accounts.attach_index('idx1', schema.idx_accounts_by_username,
-                                     lambda account: account.username)
+        schema.accounts.attach_index("idx1", schema.idx_accounts_by_username, lambda account: account.username)
 
         schema.idx_accounts_by_email = db.attach_table(IndexAccountsByEmail)
-        schema.accounts.attach_index('idx2', schema.idx_accounts_by_email, lambda account: account.email)
+        schema.accounts.attach_index("idx2", schema.idx_accounts_by_email, lambda account: account.email)
 
         schema.idx_accounts_by_wallet = db.attach_table(IndexAccountsByWallet)
-        schema.accounts.attach_index('idx3', schema.idx_accounts_by_wallet,
-                                     lambda account: account.wallet_address)
+        schema.accounts.attach_index("idx3", schema.idx_accounts_by_wallet, lambda account: account.wallet_address)
 
         schema.verified_actions = db.attach_table(VerifiedActions)
 
         schema.user_keys = db.attach_table(UserKeys)
 
         schema.idx_user_key_by_account = db.attach_table(IndexUserKeyByAccount)
-        schema.user_keys.attach_index('idx1', schema.idx_user_key_by_account, lambda user_key:
-                                      (user_key.owner, user_key.created))
+        schema.user_keys.attach_index(
+            "idx1", schema.idx_user_key_by_account, lambda user_key: (user_key.owner, user_key.created)
+        )
 
         schema.EXPORTED = [schema.accounts, schema.verified_actions, schema.user_keys]
 

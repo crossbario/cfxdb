@@ -9,9 +9,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapBytes20TimestampUuid, MapUuidBytes20Bytes20Uint8UuidFlatBuffers, table
+
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Consent as ConsentGen
-from zlmdb import table, MapBytes20TimestampUuid, MapUuidBytes20Bytes20Uint8UuidFlatBuffers
 
 
 class _ConsentGen(ConsentGen.Consent):
@@ -27,7 +28,7 @@ class _ConsentGen(ConsentGen.Consent):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MarketOidAsBytes(self):
@@ -56,6 +57,7 @@ class Consent(object):
     """
     ``XBRNetwork.Consent`` database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -97,23 +99,23 @@ class Consent(object):
 
     def marshal(self) -> dict:
         obj = {
-            'market_oid': self.market_oid.bytes if self.market_oid else None,
-            'member': bytes(self.member) if self.member else None,
-            'delegate': bytes(self.delegate) if self.delegate else None,
-            'delegate_type': int(self.delegate_type) if self.delegate_type else None,
-            'catalog_oid': self.catalog_oid.bytes if self.catalog_oid else None,
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'updated': pack_uint256(self.updated) if self.updated else None,
-            'consent': self.consent,
-            'service_prefix': self.service_prefix if self.service_prefix else None,
-            'tid': bytes(self.tid) if self.tid else None,
-            'signature': bytes(self.signature) if self.signature else None,
-            'synced': self.synced,
+            "market_oid": self.market_oid.bytes if self.market_oid else None,
+            "member": bytes(self.member) if self.member else None,
+            "delegate": bytes(self.delegate) if self.delegate else None,
+            "delegate_type": int(self.delegate_type) if self.delegate_type else None,
+            "catalog_oid": self.catalog_oid.bytes if self.catalog_oid else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "updated": pack_uint256(self.updated) if self.updated else None,
+            "consent": self.consent,
+            "service_prefix": self.service_prefix if self.service_prefix else None,
+            "tid": bytes(self.tid) if self.tid else None,
+            "signature": bytes(self.signature) if self.signature else None,
+            "synced": self.synced,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def market_oid(self) -> uuid.UUID:
@@ -197,7 +199,7 @@ class Consent(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -242,7 +244,7 @@ class Consent(object):
         if self._service_prefix is None and self._from_fbs:
             service_prefix = self._from_fbs.ServicePrefix()
             if service_prefix:
-                self.service_prefix = service_prefix.decode('utf8')
+                self.service_prefix = service_prefix.decode("utf8")
         return self._service_prefix
 
     @service_prefix.setter
@@ -299,7 +301,6 @@ class Consent(object):
         return Consent(_ConsentGen.GetRootAsConsent(buf, 0))
 
     def build(self, builder):
-
         market_oid = self.market_oid.bytes if self.market_oid else None
         if market_oid:
             market_oid = builder.CreateString(market_oid)
@@ -374,14 +375,14 @@ class Consent(object):
         return final
 
 
-@table('8b10071b-5b2a-478f-8101-52dfbaf0760a', build=Consent.build, cast=Consent.cast)
+@table("8b10071b-5b2a-478f-8101-52dfbaf0760a", build=Consent.build, cast=Consent.cast)
 class Consents(MapUuidBytes20Bytes20Uint8UuidFlatBuffers):
     """
     Consents table
     """
 
 
-@table('7cdac5f2-bddf-4fda-8e3c-21938a0c3667')
+@table("7cdac5f2-bddf-4fda-8e3c-21938a0c3667")
 class IndexConsentByMemberAddress(MapBytes20TimestampUuid):
     """
     Consent-by-member-address index with ``(member_adr|bytes[20], timestamp|int) -> consent_oid|UUID`` mapping.

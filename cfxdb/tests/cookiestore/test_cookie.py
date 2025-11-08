@@ -10,12 +10,13 @@ import timeit
 import uuid
 
 import txaio
+
 txaio.use_twisted()  # noqa
 
-from autobahn import util
 import flatbuffers
-import pytest
 import numpy as np
+import pytest
+from autobahn import util
 from txaio import time_ns
 
 from cfxdb.cookiestore import Cookie
@@ -23,22 +24,22 @@ from cfxdb.cookiestore import Cookie
 
 def fill_cookie(cookie):
     cookie.oid = uuid.uuid4()
-    cookie.created = np.datetime64(time_ns(), 'ns')
+    cookie.created = np.datetime64(time_ns(), "ns")
     cookie.max_age = random.randint(1, 10**10)
-    cookie.name = random.choice(['cbtid1', 'cbtid2', 'cbtid3'])
+    cookie.name = random.choice(["cbtid1", "cbtid2", "cbtid3"])
     cookie.value = util.newid(24)
-    cookie.authenticated = np.datetime64(time_ns(), 'ns')
+    cookie.authenticated = np.datetime64(time_ns(), "ns")
     cookie.authenticated_on_node = uuid.uuid4()
-    cookie.authenticated_on_worker = random.choice(['worker1', 'worker2', 'worker3'])
-    cookie.authenticated_transport_info = {'xoo': 'yar', 'zaz': [9, 8, 7]}
+    cookie.authenticated_on_worker = random.choice(["worker1", "worker2", "worker3"])
+    cookie.authenticated_transport_info = {"xoo": "yar", "zaz": [9, 8, 7]}
     cookie.authenticated_session = util.id()
-    cookie.authenticated_joined_at = np.datetime64(time_ns(), 'ns')
-    cookie.authenticated_authmethod = random.choice(['meth1', 'meth2', 'meth3'])
+    cookie.authenticated_joined_at = np.datetime64(time_ns(), "ns")
+    cookie.authenticated_authmethod = random.choice(["meth1", "meth2", "meth3"])
     cookie.authid = util.generate_token(4, 3)
-    cookie.authrole = random.choice(['role1', 'role2', 'role3'])
-    cookie.authmethod = random.choice(['method1', 'method2', 'method3'])
-    cookie.authrealm = random.choice(['realm1', 'realm2', 'realm3'])
-    cookie.authextra = {'foo': 'bar', 'baz': [1, 2, 3]}
+    cookie.authrole = random.choice(["role1", "role2", "role3"])
+    cookie.authmethod = random.choice(["method1", "method2", "method3"])
+    cookie.authrealm = random.choice(["realm1", "realm2", "realm3"])
+    cookie.authextra = {"foo": "bar", "baz": [1, 2, 3]}
 
 
 def fill_cookie_empty(cookie):
@@ -61,14 +62,14 @@ def fill_cookie_empty(cookie):
     cookie.authextra = None
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def cookie():
     _cookie = Cookie()
     fill_cookie(_cookie)
     return _cookie
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -116,7 +117,7 @@ def test_cookie_empty(builder):
     # create python object from bytes (flatbuffes)
     _cookie = Cookie.cast(data)
 
-    unix_zero = np.datetime64(0, 'ns')
+    unix_zero = np.datetime64(0, "ns")
 
     assert _cookie.oid is None
     assert _cookie.created == unix_zero
@@ -141,7 +142,7 @@ def test_cookie_roundtrip_perf(cookie, builder):
     obj = cookie.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _cookie = Cookie.cast(data)
@@ -164,21 +165,21 @@ def test_cookie_roundtrip_perf(cookie, builder):
         assert _cookie.authrealm == cookie.authrealm
         assert _cookie.authextra == cookie.authextra
 
-        scratch['value'] += _cookie.authenticated_session
+        scratch["value"] += _cookie.authenticated_session
 
     N = 7
     M = 20000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

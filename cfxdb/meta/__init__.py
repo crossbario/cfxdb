@@ -5,8 +5,9 @@
 #
 ##############################################################################
 
-from .schema import Schema
-from .attribute import Attribute, Attributes
 from cfxdb.gen.meta.DocFormat import DocFormat
 
-__all__ = ('Schema', 'Attribute', 'Attributes', 'DocFormat')
+from .attribute import Attribute, Attributes
+from .schema import Schema
+
+__all__ = ("Schema", "Attribute", "Attributes", "DocFormat")

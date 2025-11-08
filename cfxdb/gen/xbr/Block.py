@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # This table stores information about the series of Ethereum blocks that make up the blockchain.
 class Block(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Block(object):
     def GetRootAsBlock(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Block
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -39,7 +42,9 @@ class Block(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Block
@@ -67,7 +72,9 @@ class Block(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Block
@@ -97,50 +104,66 @@ class Block(object):
             return self._tab.Get(flatbuffers.number_types.Uint32Flags, o + self._tab.Pos)
         return 0
 
+
 def BlockStart(builder):
     builder.StartObject(4)
+
 
 def Start(builder):
     BlockStart(builder)
 
+
 def BlockAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(0, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     BlockAddTimestamp(builder, timestamp)
 
+
 def BlockAddBlockNumber(builder, blockNumber):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockNumber), 0)
+
 
 def AddBlockNumber(builder, blockNumber):
     BlockAddBlockNumber(builder, blockNumber)
 
+
 def BlockStartBlockNumberVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartBlockNumberVector(builder, numElems: int) -> int:
     return BlockStartBlockNumberVector(builder, numElems)
 
+
 def BlockAddBlockHash(builder, blockHash):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
 
 def AddBlockHash(builder, blockHash):
     BlockAddBlockHash(builder, blockHash)
 
+
 def BlockStartBlockHashVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartBlockHashVector(builder, numElems: int) -> int:
     return BlockStartBlockHashVector(builder, numElems)
 
+
 def BlockAddCntEvents(builder, cntEvents):
     builder.PrependUint32Slot(3, cntEvents, 0)
+
 
 def AddCntEvents(builder, cntEvents):
     BlockAddCntEvents(builder, cntEvents)
 
+
 def BlockEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return BlockEnd(builder)

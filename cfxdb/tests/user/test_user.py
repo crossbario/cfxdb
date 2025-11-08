@@ -5,15 +5,14 @@
 #
 ##############################################################################
 
+import binascii
 import os
 import uuid
-import binascii
 from datetime import datetime
 
-import pytest
 import cbor2
 import flatbuffers
-
+import pytest
 import txaio
 
 from cfxdb.user import User, UserFbs
@@ -21,7 +20,7 @@ from cfxdb.user import User, UserFbs
 txaio.use_twisted()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -30,23 +29,23 @@ def builder():
 def fill_user(user):
     user.oid = uuid.uuid4()
 
-    user.label = 'Homer the 3rd'
-    user.description = 'My motto as a user is: never read the f** manual;)'
-    user.tags = ['geek', 'pythonista', 'lemon']
+    user.label = "Homer the 3rd"
+    user.description = "My motto as a user is: never read the f** manual;)"
+    user.tags = ["geek", "pythonista", "lemon"]
 
-    user.email = 'homer.simpson@example.com'
+    user.email = "homer.simpson@example.com"
     user.registered = datetime.utcnow()
     user.pubkey = binascii.b2a_hex(os.urandom(32)).decode()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def user_fbs():
     _user = UserFbs()
     fill_user(_user)
     return _user
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def user_cbor():
     _user = User()
     fill_user(_user)

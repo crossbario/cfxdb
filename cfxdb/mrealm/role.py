@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -19,15 +19,18 @@ class Role(ConfigurationElement):
     Roles created for use with application-level authorization and permissions
     in application realms.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 name: Optional[str] = None,
-                 created: Optional[np.datetime64] = None,
-                 owner: Optional[UUID] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        created: Optional[np.datetime64] = None,
+        owner: Optional[UUID] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of role
@@ -98,12 +101,14 @@ class Role(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'oid': str(self.oid) if self.oid else None,
-            'name': self.name,
-            'created': int(self.created) if self.created else None,
-            'owner': str(self.owner) if self.owner else None,
-        })
+        obj.update(
+            {
+                "oid": str(self.oid) if self.oid else None,
+                "name": self.name,
+                "created": int(self.created) if self.created else None,
+                "owner": str(self.owner) if self.owner else None,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -129,29 +134,31 @@ class Role(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['oid', 'name', 'owner', 'created']:
+            if k not in ["oid", "name", "owner", "created"]:
                 _unknown[k] = data[k]
 
-        name = data.get('name', None)
+        name = data.get("name", None)
         assert name is None or type(name) == str
 
-        owner = data.get('owner', None)
+        owner = data.get("owner", None)
         assert owner is None or type(owner) == str
         if owner:
             owner = UUID(owner)
 
-        created = data.get('created', None)
+        created = data.get("created", None)
         assert created is None or type(created) == int
         if created:
-            created = np.datetime64(created, 'ns')
+            created = np.datetime64(created, "ns")
 
-        obj = Role(oid=obj.oid,
-                   label=obj.label,
-                   description=obj.description,
-                   tags=obj.tags,
-                   name=name,
-                   owner=owner,
-                   created=created,
-                   _unknown=_unknown)
+        obj = Role(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=name,
+            owner=owner,
+            created=created,
+            _unknown=_unknown,
+        )
 
         return obj

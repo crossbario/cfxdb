@@ -2,6 +2,7 @@
 
 # namespace: xbrnetwork
 
+
 class VerificationStatus(object):
     # Unset
     NONE = 0

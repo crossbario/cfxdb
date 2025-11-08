@@ -5,26 +5,24 @@
 #
 ##############################################################################
 
-import os
-import uuid
-import timeit
 import binascii
+import os
+import timeit
+import uuid
 from datetime import datetime
-
-import pytest
 
 import cbor2
 import flatbuffers
-
+import pytest
 import txaio
 from autobahn import util
 
-from cfxdb.user import UserFbs, User, ActivationTokenFbs, ActivationToken
+from cfxdb.user import ActivationToken, ActivationTokenFbs, User, UserFbs
 
 txaio.use_twisted()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -43,18 +41,18 @@ def fill_token(token):
     token.created = datetime.utcnow()
     token.completed = None
     token.code = util.generate_activation_code()
-    token.email = 'homer.simpson@example.com'
+    token.email = "homer.simpson@example.com"
     token.pubkey = binascii.b2a_hex(os.urandom(32)).decode()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def token_fbs():
     _token = ActivationTokenFbs()
     fill_token(_token)
     return _token
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def token_cbor():
     _token = ActivationToken()
     fill_token(_token)
@@ -84,16 +82,16 @@ def test_token_fbs_roundtrip_perf(token_fbs, builder):
     N = 5
     M = 50000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
 
@@ -119,16 +117,16 @@ def test_token_cbor_roundtrip_perf(token_cbor):
     N = 5
     M = 50000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
 
@@ -141,23 +139,23 @@ def test_token_cbor_roundtrip_perf(token_cbor):
 def fill_user(user):
     user.oid = uuid.uuid4()
 
-    user.label = 'Homer the 3rd'
-    user.description = 'My motto as a user is: never read the f** manual;)'
-    user.tags = ['geek', 'pythonista', 'lemon']
+    user.label = "Homer the 3rd"
+    user.description = "My motto as a user is: never read the f** manual;)"
+    user.tags = ["geek", "pythonista", "lemon"]
 
-    user.email = 'homer.simpson@example.com'
+    user.email = "homer.simpson@example.com"
     user.registered = datetime.utcnow()
     user.pubkey = binascii.b2a_hex(os.urandom(32)).decode()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def user_fbs():
     _user = UserFbs()
     fill_user(_user)
     return _user
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def user_cbor():
     _user = User()
     fill_user(_user)
@@ -188,16 +186,16 @@ def test_user_fbs_roundtrip_perf(user_fbs, builder):
     N = 5
     M = 50000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
 
@@ -223,15 +221,15 @@ def test_user_cbor_roundtrip_perf(user_cbor):
     N = 5
     M = 50000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000

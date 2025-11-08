@@ -9,8 +9,7 @@ import pprint
 
 import cbor2
 import flatbuffers
-
-from zlmdb import table, MapOidFlatBuffers
+from zlmdb import MapOidFlatBuffers, table
 
 from cfxdb.gen.realmstore import Publication as PublicationGen
 
@@ -21,6 +20,7 @@ class _Publication(PublicationGen.Publication):
 
     FIXME: comes up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsPublication(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +33,7 @@ class _Publication(PublicationGen.Publication):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def KwargsAsBytes(self):
@@ -41,7 +41,7 @@ class _Publication(PublicationGen.Publication):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PayloadAsBytes(self):
@@ -49,7 +49,7 @@ class _Publication(PublicationGen.Publication):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def EncKeyAsBytes(self):
@@ -57,7 +57,7 @@ class _Publication(PublicationGen.Publication):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -65,6 +65,7 @@ class Publication(object):
     """
     Persisted publication database object.
     """
+
     ENC_ALGO_NONE = 0
     ENC_ALGO_CRYPTOBOX = 1
     ENC_ALGO_MQTT = 2
@@ -79,26 +80,26 @@ class Publication(object):
     ENC_SER_FLATBUFFERS = 6
 
     __slots__ = (
-        '_from_fbs',
-        '_timestamp',
-        '_publication',
-        '_publisher',
-        '_topic',
-        '_args',
-        '_kwargs',
-        '_payload',
-        '_acknowledge',
-        '_retain',
-        '_exclude_me',
-        '_exclude',
-        '_exclude_authid',
-        '_exclude_authrole',
-        '_eligible',
-        '_eligible_authid',
-        '_eligible_authrole',
-        '_enc_algo',
-        '_enc_key',
-        '_enc_serializer',
+        "_from_fbs",
+        "_timestamp",
+        "_publication",
+        "_publisher",
+        "_topic",
+        "_args",
+        "_kwargs",
+        "_payload",
+        "_acknowledge",
+        "_retain",
+        "_exclude_me",
+        "_exclude",
+        "_exclude_authid",
+        "_exclude_authrole",
+        "_eligible",
+        "_eligible_authid",
+        "_eligible_authrole",
+        "_enc_algo",
+        "_enc_key",
+        "_enc_serializer",
     )
 
     def __init__(self, from_fbs=None):
@@ -126,30 +127,30 @@ class Publication(object):
 
     def marshal(self):
         obj = {
-            'timestamp': self.timestamp,
-            'publication': self.publication,
-            'publisher': self.publisher,
-            'topic': self.topic,
-            'args': self.args,
-            'kwargs': self.kwargs,
-            'payload': self.payload,
-            'acknowledge': self.acknowledge,
-            'retain': self.retain,
-            'exclude_me': self.exclude_me,
-            'exclude': self.exclude,
-            'exclude_authid': self.exclude_authid,
-            'exclude_authrole': self.exclude_authrole,
-            'eligible': self.eligible,
-            'eligible_authid': self.eligible_authid,
-            'eligible_authrole': self.eligible_authrole,
-            'enc_algo': self.enc_algo,
-            'enc_key': self.enc_key,
-            'enc_serializer': self.enc_serializer,
+            "timestamp": self.timestamp,
+            "publication": self.publication,
+            "publisher": self.publisher,
+            "topic": self.topic,
+            "args": self.args,
+            "kwargs": self.kwargs,
+            "payload": self.payload,
+            "acknowledge": self.acknowledge,
+            "retain": self.retain,
+            "exclude_me": self.exclude_me,
+            "exclude": self.exclude,
+            "exclude_authid": self.exclude_authid,
+            "exclude_authrole": self.exclude_authrole,
+            "eligible": self.eligible,
+            "eligible_authid": self.eligible_authid,
+            "eligible_authrole": self.eligible_authrole,
+            "enc_algo": self.enc_algo,
+            "enc_key": self.enc_key,
+            "enc_serializer": self.enc_serializer,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self):
@@ -211,7 +212,7 @@ class Publication(object):
         :rtype: str
         """
         if self._topic is None and self._from_fbs:
-            self._topic = self._from_fbs.Topic().decode('utf8')
+            self._topic = self._from_fbs.Topic().decode("utf8")
         return self._topic
 
     @topic.setter
@@ -372,7 +373,7 @@ class Publication(object):
             if self._from_fbs.ExcludeAuthidLength():
                 exclude_authid = []
                 for j in range(self._from_fbs.ExcludeAuthidLength()):
-                    exclude_authid.append(self._from_fbs.ExcludeAuthid(j).decode('utf8'))
+                    exclude_authid.append(self._from_fbs.ExcludeAuthid(j).decode("utf8"))
                 self._exclude_authid = exclude_authid
         return self._exclude_authid
 
@@ -396,7 +397,7 @@ class Publication(object):
             if self._from_fbs.ExcludeAuthroleLength():
                 exclude_authrole = []
                 for j in range(self._from_fbs.ExcludeAuthroleLength()):
-                    exclude_authrole.append(self._from_fbs.ExcludeAuthrole(j).decode('utf8'))
+                    exclude_authrole.append(self._from_fbs.ExcludeAuthrole(j).decode("utf8"))
                 self._exclude_authrole = exclude_authrole
         return self._exclude_authrole
 
@@ -448,7 +449,7 @@ class Publication(object):
             if self._from_fbs.EligibleAuthidLength():
                 eligible_authid = []
                 for j in range(self._from_fbs.EligibleAuthidLength()):
-                    eligible_authid.append(self._from_fbs.EligibleAuthid(j).decode('utf8'))
+                    eligible_authid.append(self._from_fbs.EligibleAuthid(j).decode("utf8"))
                 self._eligible_authid = eligible_authid
         return self._eligible_authid
 
@@ -472,7 +473,7 @@ class Publication(object):
             if self._from_fbs.EligibleAuthroleLength():
                 eligible_authrole = []
                 for j in range(self._from_fbs.EligibleAuthroleLength()):
-                    eligible_authrole.append(self._from_fbs.EligibleAuthrole(j).decode('utf8'))
+                    eligible_authrole.append(self._from_fbs.EligibleAuthrole(j).decode("utf8"))
                 self._eligible_authrole = eligible_authrole
         return self._eligible_authrole
 
@@ -538,7 +539,10 @@ class Publication(object):
     @enc_serializer.setter
     def enc_serializer(self, value):
         assert value is None or value in [
-            self.ENC_SER_JSON, self.ENC_SER_MSGPACK, self.ENC_SER_CBOR, self.ENC_SER_UBJSON
+            self.ENC_SER_JSON,
+            self.ENC_SER_MSGPACK,
+            self.ENC_SER_CBOR,
+            self.ENC_SER_UBJSON,
         ]
         self._enc_serializer = value
 
@@ -547,7 +551,6 @@ class Publication(object):
         return Publication(_Publication.GetRootAsPublication(buf, 0))
 
     def build(self, builder):
-
         args = self.args
         if args:
             args = builder.CreateString(cbor2.dumps(args))
@@ -682,7 +685,7 @@ class Publication(object):
         return final
 
 
-@table('dd04931a-753b-4fde-8140-d66b93519c73', build=Publication.build, cast=Publication.cast)
+@table("dd04931a-753b-4fde-8140-d66b93519c73", build=Publication.build, cast=Publication.cast)
 class Publications(MapOidFlatBuffers):
     """
     Persisted publications archive.

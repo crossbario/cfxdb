@@ -11,20 +11,21 @@ import timeit
 import uuid
 
 import txaio
+
 txaio.use_twisted()  # noqa
 
 import flatbuffers
-import pytest
 import numpy as np
+import pytest
 from txaio import time_ns
 
-from cfxdb.xbr import Market
 from cfxdb.tests._util import _gen_ipfs_hash
+from cfxdb.xbr import Market
 
 
 def fill_market(market):
     market.market = uuid.uuid4()
-    market.timestamp = np.datetime64(time_ns(), 'ns')
+    market.timestamp = np.datetime64(time_ns(), "ns")
     market.seq = random.randint(1, 2**32 - 1)
     market.owner = os.urandom(20)
     market.coin = os.urandom(20)
@@ -38,14 +39,14 @@ def fill_market(market):
     market.signature = os.urandom(65)
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def market():
     _market = Market()
     fill_market(_market)
     return _market
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -80,7 +81,7 @@ def test_market_roundtrip_perf(market, builder):
     obj = market.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _market = Market.cast(data)
@@ -99,21 +100,21 @@ def test_market_roundtrip_perf(market, builder):
             assert _market.tid == market.tid
             assert _market.signature == market.signature
 
-            scratch['value'] += _market.seq
+            scratch["value"] += _market.seq
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

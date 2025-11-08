@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class Comment(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class Comment(object):
     def GetRootAsComment(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Comment
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -30,7 +33,9 @@ class Comment(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Comment
@@ -58,7 +63,9 @@ class Comment(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Comment
@@ -86,7 +93,9 @@ class Comment(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Comment
@@ -114,7 +123,9 @@ class Comment(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Comment
@@ -142,7 +153,9 @@ class Comment(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Comment
@@ -180,86 +193,114 @@ class Comment(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
+
 def CommentStart(builder):
     builder.StartObject(7)
+
 
 def Start(builder):
     CommentStart(builder)
 
+
 def CommentAddOid(builder, oid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     CommentAddOid(builder, oid)
 
+
 def CommentStartOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOidVector(builder, numElems: int) -> int:
     return CommentStartOidVector(builder, numElems)
 
+
 def CommentAddTableOid(builder, tableOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 
 def AddTableOid(builder, tableOid):
     CommentAddTableOid(builder, tableOid)
 
+
 def CommentStartTableOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTableOidVector(builder, numElems: int) -> int:
     return CommentStartTableOidVector(builder, numElems)
 
+
 def CommentAddObjectOid(builder, objectOid):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 
 def AddObjectOid(builder, objectOid):
     CommentAddObjectOid(builder, objectOid)
 
+
 def CommentStartObjectOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartObjectOidVector(builder, numElems: int) -> int:
     return CommentStartObjectOidVector(builder, numElems)
 
+
 def CommentAddAuthorOid(builder, authorOid):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(authorOid), 0)
+
 
 def AddAuthorOid(builder, authorOid):
     CommentAddAuthorOid(builder, authorOid)
 
+
 def CommentStartAuthorOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAuthorOidVector(builder, numElems: int) -> int:
     return CommentStartAuthorOidVector(builder, numElems)
 
+
 def CommentAddReplyTo(builder, replyTo):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(replyTo), 0)
+
 
 def AddReplyTo(builder, replyTo):
     CommentAddReplyTo(builder, replyTo)
 
+
 def CommentStartReplyToVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartReplyToVector(builder, numElems: int) -> int:
     return CommentStartReplyToVector(builder, numElems)
 
+
 def CommentAddComment(builder, comment):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(comment), 0)
+
 
 def AddComment(builder, comment):
     CommentAddComment(builder, comment)
 
+
 def CommentAddPosted(builder, posted):
     builder.PrependUint64Slot(6, posted, 0)
+
 
 def AddPosted(builder, posted):
     CommentAddPosted(builder, posted)
 
+
 def CommentEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return CommentEnd(builder)

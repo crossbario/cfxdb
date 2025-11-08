@@ -5,8 +5,7 @@
 #
 ##############################################################################
 
-from zlmdb import table
-from zlmdb import MapUuidCbor, MapSlotUuidUuid
+from zlmdb import MapSlotUuidUuid, MapUuidCbor, table
 
 from .attribute import Attributes
 
@@ -14,7 +13,7 @@ from .attribute import Attributes
 #
 # Docs metadata
 #
-@table('e11680d5-e20c-40b1-97d9-380b5ace1cb3', marshal=(lambda x: x), parse=(lambda x: x))
+@table("e11680d5-e20c-40b1-97d9-380b5ace1cb3", marshal=(lambda x: x), parse=(lambda x: x))
 class Docs(MapUuidCbor):
     """
     * Database table: ``doc_oid -> doc``
@@ -24,7 +23,7 @@ class Docs(MapUuidCbor):
     """
 
 
-@table('d1de0b8c-3b6d-488b-8778-5bac8528ab4b')
+@table("d1de0b8c-3b6d-488b-8778-5bac8528ab4b")
 class IndexObjectToDoc(MapSlotUuidUuid):
     """
     * Database index table ``(object_slot, object_oid) -> doc_oid``
@@ -59,6 +58,7 @@ class Schema(object):
 
     * Database table :class:`cfxdb.mrealmschema.IndexObjectToDoc`
     """
+
     def __init__(self, db):
         self.db = db
 
@@ -76,6 +76,6 @@ class Schema(object):
 
         schema.docs = db.attach_table(Docs)
         schema.idx_object_to_doc = db.attach_table(IndexObjectToDoc)
-        schema.docs.attach_index('idx1', schema.idx_object_to_doc, lambda obj: obj.oid)
+        schema.docs.attach_index("idx1", schema.idx_object_to_doc, lambda obj: obj.oid)
 
         return schema

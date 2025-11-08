@@ -7,22 +7,21 @@
 
 import os
 import random
-import pytest
 import timeit
 import uuid
 
-import numpy as np
 import flatbuffers
-
+import numpy as np
+import pytest
+import txaio
 import zlmdb
 
-import txaio
 txaio.use_twisted()  # noqa
 
 from txaio import time_ns
 
-from cfxdb.xbr.consent import Consent
 from cfxdb.tests._util import _gen_ipfs_hash
+from cfxdb.xbr.consent import Consent
 
 zlmdb.TABLES_BY_UUID = {}
 
@@ -33,7 +32,7 @@ def fill_consent(consent):
     consent.delegate = os.urandom(20)
     consent.delegate_type = random.randint(1, 3)
     consent.catalog_oid = uuid.uuid4()
-    consent.timestamp = np.datetime64(time_ns(), 'ns')
+    consent.timestamp = np.datetime64(time_ns(), "ns")
     consent.updated = random.randint(1, 2**256 - 1)
     consent.consent = True
     consent.synced = True
@@ -42,13 +41,13 @@ def fill_consent(consent):
     consent.signature = os.urandom(65)
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def consent():
     _consent = Consent()
     fill_consent(_consent)
@@ -83,7 +82,7 @@ def test_consent_roundtrip_perf(consent, builder):
     obj = consent.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _consent = Consent.cast(data)
@@ -101,21 +100,21 @@ def test_consent_roundtrip_perf(consent, builder):
             assert _consent.signature == consent.signature
             assert _consent.synced == consent.synced
 
-            scratch['value'] += _consent.updated
+            scratch["value"] += _consent.updated
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

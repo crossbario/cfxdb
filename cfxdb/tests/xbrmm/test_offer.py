@@ -11,12 +11,13 @@ import timeit
 import uuid
 
 import txaio
+
 txaio.use_twisted()  # noqa
 
-from autobahn import util
 import flatbuffers
-import pytest
 import numpy as np
+import pytest
+from autobahn import util
 from txaio import time_ns
 
 from cfxdb.xbrmm import Offer
@@ -24,22 +25,22 @@ from cfxdb.xbrmm import Offer
 
 def fill_offer(offer):
     now = time_ns()
-    offer.timestamp = np.datetime64(now, 'ns')
+    offer.timestamp = np.datetime64(now, "ns")
     offer.offer = uuid.uuid4()
     offer.seller = os.urandom(20)
     offer.seller_session_id = random.randint(0, 2**53)
     offer.seller_authid = util.generate_token(5, 4)
     offer.key = uuid.uuid4()
     offer.api = uuid.uuid4()
-    offer.uri = 'com.example.something.add2'
-    offer.valid_from = np.datetime64(now, 'ns')
+    offer.uri = "com.example.something.add2"
+    offer.valid_from = np.datetime64(now, "ns")
     offer.signature = os.urandom(64)
     offer.price = random.randint(0, 2**256 - 1)
     offer.categories = {
-        'xtile': '{:05}'.format(random.randint(0, 99999)),
-        'ytile': '{:05}'.format(random.randint(0, 99999)),
+        "xtile": "{:05}".format(random.randint(0, 99999)),
+        "ytile": "{:05}".format(random.randint(0, 99999)),
     }
-    offer.expires = np.datetime64(now + 60 * 60 * 10**9, 'ns')
+    offer.expires = np.datetime64(now + 60 * 60 * 10**9, "ns")
     offer.copies = 1000
     offer.remaining = random.randint(0, 1000)
 
@@ -62,14 +63,14 @@ def fill_offer_empty(offer):
     offer.remaining = None
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def offer():
     _offer = Offer()
     fill_offer(_offer)
     return _offer
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -115,7 +116,7 @@ def test_offer_empty(builder):
     # create python object from bytes (flatbuffes)
     _offer = Offer.cast(data)
 
-    unix_zero = np.datetime64(0, 'ns')
+    unix_zero = np.datetime64(0, "ns")
 
     assert _offer.timestamp == unix_zero
     assert _offer.offer is None
@@ -138,7 +139,7 @@ def test_offer_roundtrip_perf(offer, builder):
     obj = offer.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _offer = Offer.cast(data)
@@ -159,21 +160,21 @@ def test_offer_roundtrip_perf(offer, builder):
             assert _offer.copies == offer.copies
             assert _offer.remaining == offer.remaining
 
-            scratch['value'] += _offer.price
+            scratch["value"] += _offer.price
 
     N = 7
     M = 20000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

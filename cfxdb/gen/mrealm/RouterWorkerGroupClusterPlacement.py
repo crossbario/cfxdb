@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class RouterWorkerGroupClusterPlacement(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class RouterWorkerGroupClusterPlacement(object):
     def GetRootAsRouterWorkerGroupClusterPlacement(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # RouterWorkerGroupClusterPlacement
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,6 +34,7 @@ class RouterWorkerGroupClusterPlacement(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -43,6 +47,7 @@ class RouterWorkerGroupClusterPlacement(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -55,6 +60,7 @@ class RouterWorkerGroupClusterPlacement(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -67,6 +73,7 @@ class RouterWorkerGroupClusterPlacement(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -80,44 +87,58 @@ class RouterWorkerGroupClusterPlacement(object):
             return self._tab.String(o + self._tab.Pos)
         return None
 
+
 def RouterWorkerGroupClusterPlacementStart(builder):
     builder.StartObject(5)
+
 
 def Start(builder):
     RouterWorkerGroupClusterPlacementStart(builder)
 
+
 def RouterWorkerGroupClusterPlacementAddOid(builder, oid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     RouterWorkerGroupClusterPlacementAddOid(builder, oid)
 
+
 def RouterWorkerGroupClusterPlacementAddWorkerGroupOid(builder, workerGroupOid):
     builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(workerGroupOid), 0)
+
 
 def AddWorkerGroupOid(builder, workerGroupOid):
     RouterWorkerGroupClusterPlacementAddWorkerGroupOid(builder, workerGroupOid)
 
+
 def RouterWorkerGroupClusterPlacementAddClusterOid(builder, clusterOid):
     builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(clusterOid), 0)
+
 
 def AddClusterOid(builder, clusterOid):
     RouterWorkerGroupClusterPlacementAddClusterOid(builder, clusterOid)
 
+
 def RouterWorkerGroupClusterPlacementAddNodeOid(builder, nodeOid):
     builder.PrependStructSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(nodeOid), 0)
+
 
 def AddNodeOid(builder, nodeOid):
     RouterWorkerGroupClusterPlacementAddNodeOid(builder, nodeOid)
 
+
 def RouterWorkerGroupClusterPlacementAddWorkerName(builder, workerName):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(workerName), 0)
+
 
 def AddWorkerName(builder, workerName):
     RouterWorkerGroupClusterPlacementAddWorkerName(builder, workerName)
 
+
 def RouterWorkerGroupClusterPlacementEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return RouterWorkerGroupClusterPlacementEnd(builder)

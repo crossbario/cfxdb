@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -15,25 +15,25 @@ from cfxdb.common import ConfigurationElement
 from cfxdb.gen.mrealm.ClusterStatus import ClusterStatus
 
 STATUS_BY_CODE = {
-    ClusterStatus.NONE: 'NONE',
-    ClusterStatus.STOPPED: 'STOPPED',
-    ClusterStatus.STARTING: 'STARTING',
-    ClusterStatus.RUNNING: 'RUNNING',
-    ClusterStatus.PAUSED: 'PAUSED',
-    ClusterStatus.STOPPING: 'STOPPING',
-    ClusterStatus.ERROR: 'ERROR',
-    ClusterStatus.DEGRADED: 'DEGRADED',
+    ClusterStatus.NONE: "NONE",
+    ClusterStatus.STOPPED: "STOPPED",
+    ClusterStatus.STARTING: "STARTING",
+    ClusterStatus.RUNNING: "RUNNING",
+    ClusterStatus.PAUSED: "PAUSED",
+    ClusterStatus.STOPPING: "STOPPING",
+    ClusterStatus.ERROR: "ERROR",
+    ClusterStatus.DEGRADED: "DEGRADED",
 }
 
 STATUS_BY_NAME = {
-    'NONE': ClusterStatus.NONE,
-    'STOPPED': ClusterStatus.STOPPED,
-    'STARTING': ClusterStatus.STARTING,
-    'RUNNING': ClusterStatus.RUNNING,
-    'PAUSED': ClusterStatus.PAUSED,
-    'STOPPING': ClusterStatus.STOPPING,
-    'ERROR': ClusterStatus.ERROR,
-    'DEGRADED': ClusterStatus.DEGRADED,
+    "NONE": ClusterStatus.NONE,
+    "STOPPED": ClusterStatus.STOPPED,
+    "STARTING": ClusterStatus.STARTING,
+    "RUNNING": ClusterStatus.RUNNING,
+    "PAUSED": ClusterStatus.PAUSED,
+    "STOPPING": ClusterStatus.STOPPING,
+    "ERROR": ClusterStatus.ERROR,
+    "DEGRADED": ClusterStatus.DEGRADED,
 }
 
 STATUS_STOPPED = ClusterStatus.STOPPED
@@ -49,16 +49,19 @@ class Cluster(ConfigurationElement):
     """
     CFC Cluster database configuration object.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 name: Optional[str] = None,
-                 status: Optional[int] = None,
-                 owner_oid: Optional[UUID] = None,
-                 changed: Optional[np.datetime64] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        status: Optional[int] = None,
+        owner_oid: Optional[UUID] = None,
+        changed: Optional[np.datetime64] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of this cluster
@@ -69,12 +72,9 @@ class Cluster(ConfigurationElement):
 
         :param tags: Optional list of user tags on this cluster
         """
-        ConfigurationElement.__init__(self,
-                                      oid=oid,
-                                      label=label,
-                                      description=description,
-                                      tags=tags,
-                                      _unknown=_unknown)
+        ConfigurationElement.__init__(
+            self, oid=oid, label=label, description=description, tags=tags, _unknown=_unknown
+        )
         self.name = name
         self.status = status
         self.owner_oid = owner_oid
@@ -109,12 +109,14 @@ class Cluster(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'name': self.name,
-            'status': STATUS_BY_CODE[self.status] if self.status else None,
-            'owner_oid': str(self.owner_oid) if self.owner_oid else None,
-            'changed': int(self.changed) if self.changed else None,
-        })
+        obj.update(
+            {
+                "name": self.name,
+                "status": STATUS_BY_CODE[self.status] if self.status else None,
+                "owner_oid": str(self.owner_oid) if self.owner_oid else None,
+                "changed": int(self.changed) if self.changed else None,
+            }
+        )
 
         return obj
 
@@ -136,34 +138,36 @@ class Cluster(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = dict()
         for k in data:
-            if k not in ['name', 'status', 'owner_oid', 'changed']:
+            if k not in ["name", "status", "owner_oid", "changed"]:
                 _unknown[k] = data[k]
 
-        name = data.get('name', None)
+        name = data.get("name", None)
         assert name is None or (type(name) == str)
 
-        status = data.get('status', None)
+        status = data.get("status", None)
         assert status is None or (type(status) == str)
         status = STATUS_BY_NAME.get(status, None)
 
-        owner_oid = data.get('owner_oid', None)
+        owner_oid = data.get("owner_oid", None)
         assert owner_oid is None or (type(owner_oid) == str)
         if owner_oid:
             owner_oid = UUID(owner_oid)
 
-        changed = data.get('changed', None)
+        changed = data.get("changed", None)
         assert changed is None or (type(changed) == int)
         if changed:
-            changed = np.datetime64(changed, 'ns')
+            changed = np.datetime64(changed, "ns")
 
-        obj = Cluster(oid=obj.oid,
-                      label=obj.label,
-                      description=obj.description,
-                      tags=obj.tags,
-                      name=name,
-                      status=status,
-                      owner_oid=owner_oid,
-                      changed=changed,
-                      _unknown=_unknown)
+        obj = Cluster(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=name,
+            status=status,
+            owner_oid=owner_oid,
+            changed=changed,
+            _unknown=_unknown,
+        )
 
         return obj

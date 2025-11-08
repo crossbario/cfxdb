@@ -9,9 +9,10 @@ import pprint
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapBytes32FlatBuffers, table
+
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Block as BlockGen
-from zlmdb import table, MapBytes32FlatBuffers
 
 
 class _BlockGen(BlockGen.Block):
@@ -20,6 +21,7 @@ class _BlockGen(BlockGen.Block):
 
     FIXME: come up with a PR for fla_CatalogGentc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsBlock(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -32,7 +34,7 @@ class _BlockGen(BlockGen.Block):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def BlockHashAsBytes(self):
@@ -40,7 +42,7 @@ class _BlockGen(BlockGen.Block):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -48,6 +50,7 @@ class Block(object):
     """
     Blockchain blocks. This table stores information about the series of Ethereum blocks that make up the blockchain.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -65,15 +68,15 @@ class Block(object):
 
     def marshal(self) -> dict:
         obj = {
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'block_number': pack_uint256(self.block_number) if self.block_number else 0,
-            'block_hash': bytes(self.block_hash) if self.block_hash else None,
-            'cnt_events': self.cnt_events,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "block_number": pack_uint256(self.block_number) if self.block_number else 0,
+            "block_hash": bytes(self.block_hash) if self.block_hash else None,
+            "cnt_events": self.cnt_events,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self) -> np.datetime64:
@@ -81,7 +84,7 @@ class Block(object):
         Timestamp when record was inserted (Unix epoch time in ns).
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -141,7 +144,6 @@ class Block(object):
         return Block(_BlockGen.GetRootAsBlock(buf, 0))
 
     def build(self, builder):
-
         block_number = self.block_number
         if block_number:
             block_number = builder.CreateString(pack_uint256(block_number))
@@ -169,7 +171,7 @@ class Block(object):
         return final
 
 
-@table('a4a0553e-24fa-4280-9959-5805f034d861', build=Block.build, cast=Block.cast)
+@table("a4a0553e-24fa-4280-9959-5805f034d861", build=Block.build, cast=Block.cast)
 class Blocks(MapBytes32FlatBuffers):
     """
     Blockchain blocks processed.

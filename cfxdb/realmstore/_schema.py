@@ -8,9 +8,10 @@
 from typing import Optional
 
 import zlmdb
-from cfxdb.realmstore._session import Sessions, IndexSessionsBySessionId
-from cfxdb.realmstore._publication import Publications
+
 from cfxdb.realmstore._event import Events
+from cfxdb.realmstore._publication import Publications
+from cfxdb.realmstore._session import IndexSessionsBySessionId, Sessions
 
 
 class RealmStore(object):
@@ -19,11 +20,11 @@ class RealmStore(object):
     """
 
     __slots__ = (
-        '_db',
-        '_sessions',
-        '_idx_sessions_by_session_id',
-        '_publications',
-        '_events',
+        "_db",
+        "_sessions",
+        "_idx_sessions_by_session_id",
+        "_publications",
+        "_events",
     )
 
     def __init__(self, db):
@@ -69,7 +70,7 @@ class RealmStore(object):
         return self._events
 
     @staticmethod
-    def attach(db: zlmdb.Database) -> 'RealmStore':
+    def attach(db: zlmdb.Database) -> "RealmStore":
         schema = RealmStore(db)
 
         schema._sessions = db.attach_table(Sessions)
@@ -77,8 +78,9 @@ class RealmStore(object):
         assert schema._sessions is not None
 
         schema._idx_sessions_by_session_id = db.attach_table(IndexSessionsBySessionId)
-        schema._sessions.attach_index('idx1', schema._idx_sessions_by_session_id, lambda session:
-                                      (session.session, session.joined_at))
+        schema._sessions.attach_index(
+            "idx1", schema._idx_sessions_by_session_id, lambda session: (session.session, session.joined_at)
+        )
 
         schema._publications = db.attach_table(Publications)
         schema._events = db.attach_table(Events)

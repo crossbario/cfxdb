@@ -9,9 +9,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapBytes20TimestampUuid, MapBytes20Uuid, MapUuidFlatBuffers, table
+
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Market as MarketGen
-from zlmdb import table, MapUuidFlatBuffers, MapBytes20TimestampUuid, MapBytes20Uuid
 
 
 class _MarketGen(MarketGen.Market):
@@ -20,6 +21,7 @@ class _MarketGen(MarketGen.Market):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsMarket(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -32,7 +34,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CreatedAsBytes(self):
@@ -40,7 +42,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OwnerAsBytes(self):
@@ -48,7 +50,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CoinAsBytes(self):
@@ -56,7 +58,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MakerAsBytes(self):
@@ -64,7 +66,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ProviderSecurityAsBytes(self):
@@ -72,7 +74,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ConsumerSecurityAsBytes(self):
@@ -80,7 +82,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MarketFeeAsBytes(self):
@@ -88,7 +90,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def TidAsBytes(self):
@@ -96,7 +98,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -104,7 +106,7 @@ class _MarketGen(MarketGen.Market):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -112,6 +114,7 @@ class Market(object):
     """
     ``XBRNetwork.Market`` database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -159,25 +162,25 @@ class Market(object):
 
     def marshal(self) -> dict:
         obj = {
-            'market': self.market.bytes if self.market else None,
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'created': pack_uint256(self.created) if self.created else None,
-            'seq': self.seq,
-            'owner': bytes(self.owner) if self.owner else None,
-            'coin': bytes(self.coin) if self.coin else None,
-            'terms': self.terms,
-            'meta': self.meta,
-            'maker': bytes(self.maker) if self.maker else None,
-            'provider_security': pack_uint256(self.provider_security) if self.provider_security else None,
-            'consumer_security': pack_uint256(self.consumer_security) if self.consumer_security else None,
-            'market_fee': pack_uint256(self.market_fee) if self.market_fee else None,
-            'tid': bytes(self.tid) if self.tid else None,
-            'signature': bytes(self.signature) if self.signature else None,
+            "market": self.market.bytes if self.market else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "created": pack_uint256(self.created) if self.created else None,
+            "seq": self.seq,
+            "owner": bytes(self.owner) if self.owner else None,
+            "coin": bytes(self.coin) if self.coin else None,
+            "terms": self.terms,
+            "meta": self.meta,
+            "maker": bytes(self.maker) if self.maker else None,
+            "provider_security": pack_uint256(self.provider_security) if self.provider_security else None,
+            "consumer_security": pack_uint256(self.consumer_security) if self.consumer_security else None,
+            "market_fee": pack_uint256(self.market_fee) if self.market_fee else None,
+            "tid": bytes(self.tid) if self.tid else None,
+            "signature": bytes(self.signature) if self.signature else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def market(self) -> uuid.UUID:
@@ -201,7 +204,7 @@ class Market(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -279,7 +282,7 @@ class Market(object):
         if self._terms is None and self._from_fbs:
             terms = self._from_fbs.Terms()
             if terms:
-                self._terms = terms.decode('utf8')
+                self._terms = terms.decode("utf8")
         return self._terms
 
     @terms.setter
@@ -295,7 +298,7 @@ class Market(object):
         if self._meta is None and self._from_fbs:
             meta = self._from_fbs.Meta()
             if meta:
-                self._meta = meta.decode('utf8')
+                self._meta = meta.decode("utf8")
         return self._meta
 
     @meta.setter
@@ -407,7 +410,6 @@ class Market(object):
         return Market(_MarketGen.GetRootAsMarket(buf, 0))
 
     def build(self, builder):
-
         market = self.market.bytes if self.market else None
         if market:
             market = builder.CreateString(market)
@@ -505,28 +507,28 @@ class Market(object):
         return final
 
 
-@table('861b0942-0c3f-4d41-bc35-d8c86af0b2c9', build=Market.build, cast=Market.cast)
+@table("861b0942-0c3f-4d41-bc35-d8c86af0b2c9", build=Market.build, cast=Market.cast)
 class Markets(MapUuidFlatBuffers):
     """
     Markets table, mapping from ``market_id|UUID`` to :class:`cfxdb.xbr.Market`
     """
 
 
-@table('7c3d67b4-35a3-449f-85a6-2695636fc63e')
+@table("7c3d67b4-35a3-449f-85a6-2695636fc63e")
 class IndexMarketsByOwner(MapBytes20TimestampUuid):
     """
     Markets-by-owner index with ``(owner_adr|bytes[20], created|int) -> market_id|UUID`` mapping.
     """
 
 
-@table('4f50a97a-4531-4eab-a91b-45cc42b3dd21')
+@table("4f50a97a-4531-4eab-a91b-45cc42b3dd21")
 class IndexMarketsByActor(MapBytes20TimestampUuid):
     """
     Markets-by-actor index with ``(actor_adr|bytes[20], joined|int) -> market_id|UUID`` mapping.
     """
 
 
-@table('d511774c-0c7b-4d3f-a2de-6748c072a56f')
+@table("d511774c-0c7b-4d3f-a2de-6748c072a56f")
 class IndexMarketsByMaker(MapBytes20Uuid):
     """
     Markets-by-maker index with ``maker_adr|bytes[20] -> market_id|UUID`` mapping.

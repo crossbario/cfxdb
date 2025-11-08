@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR channel (from XBR consumer to XBR market maker) and XBR paying channels (from XBR market maker to XBR provider).
 class Channel(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Channel(object):
     def GetRootAsChannel(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Channel
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -59,7 +64,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -87,7 +94,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -123,7 +132,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -167,7 +178,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -195,7 +208,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -223,7 +238,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -251,7 +268,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -279,7 +298,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -323,7 +344,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(32))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -351,7 +374,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(34))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -379,7 +404,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(36))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -407,7 +434,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(38))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -443,7 +472,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(42))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -479,7 +510,9 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(46))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Channel
@@ -501,236 +534,314 @@ class Channel(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(46))
         return o == 0
 
+
 def ChannelStart(builder):
     builder.StartObject(22)
+
 
 def Start(builder):
     ChannelStart(builder)
 
+
 def ChannelAddMarketOid(builder, marketOid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(marketOid), 0)
+
 
 def AddMarketOid(builder, marketOid):
     ChannelAddMarketOid(builder, marketOid)
 
+
 def ChannelStartMarketOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMarketOidVector(builder, numElems: int) -> int:
     return ChannelStartMarketOidVector(builder, numElems)
 
+
 def ChannelAddMemberOid(builder, memberOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(memberOid), 0)
+
 
 def AddMemberOid(builder, memberOid):
     ChannelAddMemberOid(builder, memberOid)
 
+
 def ChannelStartMemberOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMemberOidVector(builder, numElems: int) -> int:
     return ChannelStartMemberOidVector(builder, numElems)
 
+
 def ChannelAddChannelOid(builder, channelOid):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(channelOid), 0)
+
 
 def AddChannelOid(builder, channelOid):
     ChannelAddChannelOid(builder, channelOid)
 
+
 def ChannelStartChannelOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartChannelOidVector(builder, numElems: int) -> int:
     return ChannelStartChannelOidVector(builder, numElems)
 
+
 def ChannelAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(3, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     ChannelAddTimestamp(builder, timestamp)
 
+
 def ChannelAddOpenAt(builder, openAt):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(openAt), 0)
+
 
 def AddOpenAt(builder, openAt):
     ChannelAddOpenAt(builder, openAt)
 
+
 def ChannelStartOpenAtVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOpenAtVector(builder, numElems: int) -> int:
     return ChannelStartOpenAtVector(builder, numElems)
 
+
 def ChannelAddSeq(builder, seq):
     builder.PrependUint32Slot(5, seq, 0)
+
 
 def AddSeq(builder, seq):
     ChannelAddSeq(builder, seq)
 
+
 def ChannelAddChannelType(builder, channelType):
     builder.PrependUint8Slot(6, channelType, 0)
+
 
 def AddChannelType(builder, channelType):
     ChannelAddChannelType(builder, channelType)
 
+
 def ChannelAddMarketmaker(builder, marketmaker):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(marketmaker), 0)
+
 
 def AddMarketmaker(builder, marketmaker):
     ChannelAddMarketmaker(builder, marketmaker)
 
+
 def ChannelStartMarketmakerVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMarketmakerVector(builder, numElems: int) -> int:
     return ChannelStartMarketmakerVector(builder, numElems)
 
+
 def ChannelAddActor(builder, actor):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(actor), 0)
+
 
 def AddActor(builder, actor):
     ChannelAddActor(builder, actor)
 
+
 def ChannelStartActorVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartActorVector(builder, numElems: int) -> int:
     return ChannelStartActorVector(builder, numElems)
 
+
 def ChannelAddDelegate(builder, delegate):
     builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(delegate), 0)
+
 
 def AddDelegate(builder, delegate):
     ChannelAddDelegate(builder, delegate)
 
+
 def ChannelStartDelegateVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartDelegateVector(builder, numElems: int) -> int:
     return ChannelStartDelegateVector(builder, numElems)
 
+
 def ChannelAddRecipient(builder, recipient):
     builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(recipient), 0)
+
 
 def AddRecipient(builder, recipient):
     ChannelAddRecipient(builder, recipient)
 
+
 def ChannelStartRecipientVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartRecipientVector(builder, numElems: int) -> int:
     return ChannelStartRecipientVector(builder, numElems)
 
+
 def ChannelAddAmount(builder, amount):
     builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(amount), 0)
+
 
 def AddAmount(builder, amount):
     ChannelAddAmount(builder, amount)
 
+
 def ChannelStartAmountVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAmountVector(builder, numElems: int) -> int:
     return ChannelStartAmountVector(builder, numElems)
 
+
 def ChannelAddTimeout(builder, timeout):
     builder.PrependUint32Slot(12, timeout, 0)
+
 
 def AddTimeout(builder, timeout):
     ChannelAddTimeout(builder, timeout)
 
+
 def ChannelAddState(builder, state):
     builder.PrependUint8Slot(13, state, 0)
+
 
 def AddState(builder, state):
     ChannelAddState(builder, state)
 
+
 def ChannelAddClosingAt(builder, closingAt):
     builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(closingAt), 0)
+
 
 def AddClosingAt(builder, closingAt):
     ChannelAddClosingAt(builder, closingAt)
 
+
 def ChannelStartClosingAtVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartClosingAtVector(builder, numElems: int) -> int:
     return ChannelStartClosingAtVector(builder, numElems)
 
+
 def ChannelAddClosedAt(builder, closedAt):
     builder.PrependUOffsetTRelativeSlot(15, flatbuffers.number_types.UOffsetTFlags.py_type(closedAt), 0)
+
 
 def AddClosedAt(builder, closedAt):
     ChannelAddClosedAt(builder, closedAt)
 
+
 def ChannelStartClosedAtVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartClosedAtVector(builder, numElems: int) -> int:
     return ChannelStartClosedAtVector(builder, numElems)
 
+
 def ChannelAddCloseMmSig(builder, closeMmSig):
     builder.PrependUOffsetTRelativeSlot(16, flatbuffers.number_types.UOffsetTFlags.py_type(closeMmSig), 0)
+
 
 def AddCloseMmSig(builder, closeMmSig):
     ChannelAddCloseMmSig(builder, closeMmSig)
 
+
 def ChannelStartCloseMmSigVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCloseMmSigVector(builder, numElems: int) -> int:
     return ChannelStartCloseMmSigVector(builder, numElems)
 
+
 def ChannelAddCloseDelSig(builder, closeDelSig):
     builder.PrependUOffsetTRelativeSlot(17, flatbuffers.number_types.UOffsetTFlags.py_type(closeDelSig), 0)
+
 
 def AddCloseDelSig(builder, closeDelSig):
     ChannelAddCloseDelSig(builder, closeDelSig)
 
+
 def ChannelStartCloseDelSigVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCloseDelSigVector(builder, numElems: int) -> int:
     return ChannelStartCloseDelSigVector(builder, numElems)
 
+
 def ChannelAddCloseChannelSeq(builder, closeChannelSeq):
     builder.PrependUint32Slot(18, closeChannelSeq, 0)
+
 
 def AddCloseChannelSeq(builder, closeChannelSeq):
     ChannelAddCloseChannelSeq(builder, closeChannelSeq)
 
+
 def ChannelAddCloseBalance(builder, closeBalance):
     builder.PrependUOffsetTRelativeSlot(19, flatbuffers.number_types.UOffsetTFlags.py_type(closeBalance), 0)
+
 
 def AddCloseBalance(builder, closeBalance):
     ChannelAddCloseBalance(builder, closeBalance)
 
+
 def ChannelStartCloseBalanceVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCloseBalanceVector(builder, numElems: int) -> int:
     return ChannelStartCloseBalanceVector(builder, numElems)
 
+
 def ChannelAddCloseIsFinal(builder, closeIsFinal):
     builder.PrependBoolSlot(20, closeIsFinal, 0)
+
 
 def AddCloseIsFinal(builder, closeIsFinal):
     ChannelAddCloseIsFinal(builder, closeIsFinal)
 
+
 def ChannelAddClosedTx(builder, closedTx):
     builder.PrependUOffsetTRelativeSlot(21, flatbuffers.number_types.UOffsetTFlags.py_type(closedTx), 0)
+
 
 def AddClosedTx(builder, closedTx):
     ChannelAddClosedTx(builder, closedTx)
 
+
 def ChannelStartClosedTxVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartClosedTxVector(builder, numElems: int) -> int:
     return ChannelStartClosedTxVector(builder, numElems)
 
+
 def ChannelEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ChannelEnd(builder)

@@ -6,29 +6,28 @@
 ##############################################################################
 
 import os
-import uuid
 import random
 import timeit
-import pytest
+import uuid
 
-import numpy as np
 import flatbuffers
-
+import numpy as np
+import pytest
+import txaio
 import zlmdb
 
-import txaio
 txaio.use_twisted()  # noqa
 
-from txaio import time_ns
 from autobahn.util import generate_activation_code
-from cfxdb.xbrnetwork import Account, VerifiedAction, UserKey
+from txaio import time_ns
 
 from cfxdb.tests._util import _gen_ipfs_hash
+from cfxdb.xbrnetwork import Account, UserKey, VerifiedAction
 
 zlmdb.TABLES_BY_UUID = {}
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -42,10 +41,10 @@ def builder():
 def fill_account(account):
     now = time_ns()
     account.oid = uuid.uuid4()
-    account.created = np.datetime64(now, 'ns')
-    account.username = 'user{}'.format(random.randint(0, 1000))
-    account.email = '{}@example.com'.format(account.username)
-    account.email_verified = np.datetime64(now + random.randint(10 * 10**9, 60 * 10**9), 'ns')
+    account.created = np.datetime64(now, "ns")
+    account.username = "user{}".format(random.randint(0, 1000))
+    account.email = "{}@example.com".format(account.username)
+    account.email_verified = np.datetime64(now + random.randint(10 * 10**9, 60 * 10**9), "ns")
     account.wallet_type = random.randint(1, 3)
     account.wallet_address = os.urandom(20)
     account.registered = random.randint(0, 2**256 - 1)
@@ -54,7 +53,7 @@ def fill_account(account):
     account.level = random.randint(1, 5)
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def account():
     _account = Account()
     fill_account(_account)
@@ -88,7 +87,7 @@ def test_account_roundtrip_perf(account, builder):
     obj = account.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _account = Account.cast(data)
@@ -105,24 +104,24 @@ def test_account_roundtrip_perf(account, builder):
             assert _account.profile == account.profile
             assert _account.level == account.level
 
-            scratch['value'] += _account.level
+            scratch["value"] += _account.level
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])
 
 
 #
@@ -132,20 +131,20 @@ def test_account_roundtrip_perf(account, builder):
 
 def fill_vaction(vaction):
     vaction.oid = uuid.uuid4()
-    vaction.created = np.datetime64(time_ns(), 'ns')
+    vaction.created = np.datetime64(time_ns(), "ns")
     vaction.vtype = random.randint(1, 4)
     vaction.vstatus = random.randint(1, 4)
     vaction.vcode = generate_activation_code()
     vaction.verified_oid = uuid.uuid4()
     vaction.verified_data = {
-        'f1': os.urandom(32),
-        'f2': random.randint(1, 100),
-        'f3': list(range(10)),
-        'f4': generate_activation_code()
+        "f1": os.urandom(32),
+        "f2": random.randint(1, 100),
+        "f3": list(range(10)),
+        "f4": generate_activation_code(),
     }
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def vaction():
     _vaction = VerifiedAction()
     fill_vaction(_vaction)
@@ -175,7 +174,7 @@ def test_vaction_roundtrip_perf(vaction, builder):
     obj = vaction.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _vaction = VerifiedAction.cast(data)
@@ -188,24 +187,24 @@ def test_vaction_roundtrip_perf(vaction, builder):
             assert _vaction.verified_oid == vaction.verified_oid
             assert _vaction.verified_data == vaction.verified_data
 
-            scratch['value'] += _vaction.vstatus
+            scratch["value"] += _vaction.vstatus
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])
 
 
 #
@@ -215,11 +214,11 @@ def test_vaction_roundtrip_perf(vaction, builder):
 
 def fill_userkey(userkey):
     userkey.pubkey = os.urandom(32)
-    userkey.created = np.datetime64(time_ns(), 'ns')
+    userkey.created = np.datetime64(time_ns(), "ns")
     userkey.owner = uuid.uuid4()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def userkey():
     _userkey = UserKey()
     fill_userkey(_userkey)
@@ -245,7 +244,7 @@ def test_userkey_roundtrip_perf(userkey, builder):
     obj = userkey.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _userkey = UserKey.cast(data)
@@ -254,21 +253,21 @@ def test_userkey_roundtrip_perf(userkey, builder):
             assert _userkey.created == userkey.created
             assert _userkey.owner == userkey.owner
 
-            scratch['value'] += int(_userkey.created)
+            scratch["value"] += int(_userkey.created)
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

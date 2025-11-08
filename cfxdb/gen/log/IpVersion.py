@@ -2,6 +2,7 @@
 
 # namespace: log
 
+
 class IpVersion(object):
     # Unset IP version.
     NONE = 0

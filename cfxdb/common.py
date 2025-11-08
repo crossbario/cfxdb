@@ -5,16 +5,17 @@
 #
 ##############################################################################
 
-import web3
+import pprint
 import struct
 import uuid
-import pprint
+
+import web3
 
 
 def unpack_uint256(data):
-    assert data is None or type(data) == bytes, 'data must by bytes, was {}'.format(type(data))
+    assert data is None or type(data) == bytes, "data must by bytes, was {}".format(type(data))
     if data and type(data) == bytes:
-        assert len(data) == 32, 'data must be bytes[32], but was bytes[{}]'.format(len(data))
+        assert len(data) == 32, "data must be bytes[32], but was bytes[{}]".format(len(data))
 
     if data:
         return web3.Web3.toInt(data)
@@ -23,19 +24,20 @@ def unpack_uint256(data):
 
 
 def pack_uint256(value):
-    assert value is None or (type(value) == int and value >= 0
-                             and value < 2**256), 'value must be uint256, but was {}'.format(value)
+    assert value is None or (type(value) == int and value >= 0 and value < 2**256), (
+        "value must be uint256, but was {}".format(value)
+    )
 
     if value:
         data = web3.Web3.toBytes(value)
-        return b'\x00' * (32 - len(data)) + data
+        return b"\x00" * (32 - len(data)) + data
     else:
-        return b'\x00' * 32
+        return b"\x00" * 32
 
 
 class uint256(object):
     def __init__(self, data=None):
-        self._data = data or b'\x00' * 32
+        self._data = data or b"\x00" * 32
 
     @property
     def value(self):
@@ -63,14 +65,14 @@ def pack_uint128(value):
 
     if value:
         data = web3.Web3.toBytes(value)
-        return b'\x00' * (16 - len(data)) + data
+        return b"\x00" * (16 - len(data)) + data
     else:
-        return b'\x00' * 16
+        return b"\x00" * 16
 
 
 class uint128(object):
     def __init__(self, data=None):
-        self._data = data or b'\x00' * 16
+        self._data = data or b"\x00" * 16
 
     @property
     def value(self):
@@ -98,14 +100,14 @@ def pack_uint64(value):
 
     if value:
         data = web3.Web3.toBytes(value)
-        return b'\x00' * (8 - len(data)) + data
+        return b"\x00" * (8 - len(data)) + data
     else:
-        return b'\x00' * 8
+        return b"\x00" * 8
 
 
 class uint64(object):
     def __init__(self, data=None):
-        self._data = data or b'\x00' * 8
+        self._data = data or b"\x00" * 8
 
     @property
     def value(self):
@@ -121,22 +123,22 @@ class uint64(object):
 
 class address(object):
     def __init__(self, data=None):
-        self._data = data or b'\x00' * 20
+        self._data = data or b"\x00" * 20
 
     @property
     def value(self):
-        w2, w1, w0 = struct.unpack('>LQQ', self._data)
+        w2, w1, w0 = struct.unpack(">LQQ", self._data)
         return w2 << 16 + w1 << 8 + w0
 
     @value.setter
     def value(self, value):
-        assert (type(value) == int and value >= 0 and value < 2**160)
+        assert type(value) == int and value >= 0 and value < 2**160
         w0 = value % 2**64
         value = value >> 8
         w1 = value % 2**64
         value = value >> 8
         w2 = value % 2**32
-        self._data = struct.pack('>LQQ', w2, w1, w0)
+        self._data = struct.pack(">LQQ", w2, w1, w0)
 
     def serialize(self):
         return self._data
@@ -185,6 +187,7 @@ class ConfigurationElement(object):
     """
     User tags for object (optional free list of text portions)
     """
+
     def __init__(self, oid=None, label=None, description=None, tags=None, _unknown=None):
         self.oid = oid
 
@@ -239,10 +242,10 @@ class ConfigurationElement(object):
         assert self.tags is None or (type(self.tags) == list and type(tag) == str for tag in self.tags)
 
         obj = dict()
-        obj['oid'] = str(self.oid) if self.oid else None
-        obj['label'] = self.label
-        obj['description'] = self.description
-        obj['tags'] = self.tags
+        obj["oid"] = str(self.oid) if self.oid else None
+        obj["label"] = self.label
+        obj["description"] = self.description
+        obj["tags"] = self.tags
 
         return obj
 
@@ -253,35 +256,31 @@ class ConfigurationElement(object):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = dict()
         for k in data:
-            if k not in ['oid', 'label', 'description', 'tags']:
+            if k not in ["oid", "label", "description", "tags"]:
                 _unknown[k] = data[k]
 
         oid = None
-        if 'oid' in data and data['oid'] is not None:
-            assert type(data['oid']) == str
-            oid = uuid.UUID(data['oid'])
+        if "oid" in data and data["oid"] is not None:
+            assert type(data["oid"]) == str
+            oid = uuid.UUID(data["oid"])
 
         label = None
-        if 'label' in data and data['label'] is not None:
-            assert type(data['label']) == str
-            label = data['label']
+        if "label" in data and data["label"] is not None:
+            assert type(data["label"]) == str
+            label = data["label"]
 
         description = None
-        if 'description' in data and data['description'] is not None:
-            assert type(data['description']) == str
-            description = data['description']
+        if "description" in data and data["description"] is not None:
+            assert type(data["description"]) == str
+            description = data["description"]
 
         tags = None
-        if 'tags' in data and data['tags'] is not None:
-            assert type(data['tags']) == list
-            for tag in data['tags']:
+        if "tags" in data and data["tags"] is not None:
+            assert type(data["tags"]) == list
+            for tag in data["tags"]:
                 assert type(tag) == str
-            tags = data['tags']
+            tags = data["tags"]
 
-        obj = ConfigurationElement(oid=oid,
-                                   label=label,
-                                   description=description,
-                                   tags=tags,
-                                   _unknown=_unknown)
+        obj = ConfigurationElement(oid=oid, label=label, description=description, tags=tags, _unknown=_unknown)
 
         return obj

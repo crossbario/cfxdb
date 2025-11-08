@@ -5,10 +5,10 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
-from uuid import UUID
 from datetime import datetime
+from typing import List, Optional
+from uuid import UUID
 
 from cfxdb.common import ConfigurationElement
 
@@ -17,17 +17,20 @@ class ManagementRealm(ConfigurationElement):
     """
     Management realm database configuration object.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 name: Optional[str] = None,
-                 created: Optional[datetime] = None,
-                 owner: Optional[UUID] = None,
-                 cf_router_worker: Optional[str] = None,
-                 cf_container_worker: Optional[str] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        created: Optional[datetime] = None,
+        owner: Optional[UUID] = None,
+        cf_router_worker: Optional[str] = None,
+        cf_container_worker: Optional[str] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of management realm
@@ -79,7 +82,7 @@ class ManagementRealm(ConfigurationElement):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     def copy(self, other, overwrite=False):
         """
@@ -112,14 +115,16 @@ class ManagementRealm(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'oid': str(self.oid),
-            'name': self.name,
-            'created': int(self.created.timestamp() * 1000000) if self.created else None,
-            'owner': str(self.owner),
-            'cf_router_worker': self.cf_router_worker,
-            'cf_container_worker': self.cf_container_worker,
-        })
+        obj.update(
+            {
+                "oid": str(self.oid),
+                "name": self.name,
+                "created": int(self.created.timestamp() * 1000000) if self.created else None,
+                "owner": str(self.owner),
+                "cf_router_worker": self.cf_router_worker,
+                "cf_container_worker": self.cf_container_worker,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -145,39 +150,39 @@ class ManagementRealm(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in [
-                    'oid', 'name', 'rtype', 'owner', 'created', 'cf_router_worker', 'cf_container_worker'
-            ]:
+            if k not in ["oid", "name", "rtype", "owner", "created", "cf_router_worker", "cf_container_worker"]:
                 _unknown[k] = data[k]
 
-        name = data.get('name', None)
+        name = data.get("name", None)
         assert name is None or type(name) == str
 
-        owner = data.get('owner', None)
+        owner = data.get("owner", None)
         assert owner is None or type(owner) == str
         if owner:
             owner = UUID(owner)
 
-        created = data.get('created', None)
+        created = data.get("created", None)
         assert created is None or type(created) == float or type(created) == int
         if created:
-            created = datetime.utcfromtimestamp(float(created) / 1000000.)
+            created = datetime.utcfromtimestamp(float(created) / 1000000.0)
 
-        cf_router_worker = data.get('cf_router_worker', None)
+        cf_router_worker = data.get("cf_router_worker", None)
         assert cf_router_worker is None or type(cf_router_worker) == str
 
-        cf_container_worker = data.get('cf_container_worker', None)
+        cf_container_worker = data.get("cf_container_worker", None)
         assert cf_container_worker is None or type(cf_container_worker) == str
 
-        obj = ManagementRealm(oid=obj.oid,
-                              label=obj.label,
-                              description=obj.description,
-                              tags=obj.tags,
-                              name=name,
-                              owner=owner,
-                              created=created,
-                              cf_router_worker=cf_router_worker,
-                              cf_container_worker=cf_container_worker,
-                              _unknown=_unknown)
+        obj = ManagementRealm(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=name,
+            owner=owner,
+            created=created,
+            cf_router_worker=cf_router_worker,
+            cf_container_worker=cf_container_worker,
+            _unknown=_unknown,
+        )
 
         return obj

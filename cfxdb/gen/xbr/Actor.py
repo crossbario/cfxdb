@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR Market Actors.
 class Actor(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Actor(object):
     def GetRootAsActor(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Actor
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Actor
@@ -67,7 +72,9 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Actor
@@ -103,7 +110,9 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Actor
@@ -131,7 +140,9 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Actor
@@ -167,7 +178,9 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Actor
@@ -195,7 +208,9 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Actor
@@ -217,104 +232,138 @@ class Actor(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
+
 def ActorStart(builder):
     builder.StartObject(9)
+
 
 def Start(builder):
     ActorStart(builder)
 
+
 def ActorAddActor(builder, actor):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(actor), 0)
+
 
 def AddActor(builder, actor):
     ActorAddActor(builder, actor)
 
+
 def ActorStartActorVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartActorVector(builder, numElems: int) -> int:
     return ActorStartActorVector(builder, numElems)
 
+
 def ActorAddActorType(builder, actorType):
     builder.PrependUint8Slot(1, actorType, 0)
+
 
 def AddActorType(builder, actorType):
     ActorAddActorType(builder, actorType)
 
+
 def ActorAddMarket(builder, market):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(market), 0)
+
 
 def AddMarket(builder, market):
     ActorAddMarket(builder, market)
 
+
 def ActorStartMarketVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMarketVector(builder, numElems: int) -> int:
     return ActorStartMarketVector(builder, numElems)
 
+
 def ActorAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(3, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     ActorAddTimestamp(builder, timestamp)
 
+
 def ActorAddJoined(builder, joined):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(joined), 0)
+
 
 def AddJoined(builder, joined):
     ActorAddJoined(builder, joined)
 
+
 def ActorStartJoinedVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartJoinedVector(builder, numElems: int) -> int:
     return ActorStartJoinedVector(builder, numElems)
 
+
 def ActorAddSecurity(builder, security):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(security), 0)
+
 
 def AddSecurity(builder, security):
     ActorAddSecurity(builder, security)
 
+
 def ActorStartSecurityVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSecurityVector(builder, numElems: int) -> int:
     return ActorStartSecurityVector(builder, numElems)
 
+
 def ActorAddMeta(builder, meta):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+
 
 def AddMeta(builder, meta):
     ActorAddMeta(builder, meta)
 
+
 def ActorAddTid(builder, tid):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 
 def AddTid(builder, tid):
     ActorAddTid(builder, tid)
 
+
 def ActorStartTidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTidVector(builder, numElems: int) -> int:
     return ActorStartTidVector(builder, numElems)
 
+
 def ActorAddSignature(builder, signature):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 
 def AddSignature(builder, signature):
     ActorAddSignature(builder, signature)
 
+
 def ActorStartSignatureVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSignatureVector(builder, numElems: int) -> int:
     return ActorStartSignatureVector(builder, numElems)
 
+
 def ActorEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ActorEnd(builder)

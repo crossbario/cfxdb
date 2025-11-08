@@ -10,9 +10,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
-from cfxdb import unpack_uint256, pack_uint256
+from zlmdb import MapUuidBytes20Uint8FlatBuffers, table
+
+from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Actor as ActorGen
-from zlmdb import table, MapUuidBytes20Uint8FlatBuffers
 
 
 class _ActorGen(ActorGen.Actor):
@@ -21,6 +22,7 @@ class _ActorGen(ActorGen.Actor):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsActor(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +35,7 @@ class _ActorGen(ActorGen.Actor):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MarketAsBytes(self):
@@ -41,7 +43,7 @@ class _ActorGen(ActorGen.Actor):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def JoinedAsBytes(self):
@@ -49,7 +51,7 @@ class _ActorGen(ActorGen.Actor):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SecurityAsBytes(self):
@@ -57,7 +59,7 @@ class _ActorGen(ActorGen.Actor):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def TidAsBytes(self):
@@ -65,7 +67,7 @@ class _ActorGen(ActorGen.Actor):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -73,7 +75,7 @@ class _ActorGen(ActorGen.Actor):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -81,6 +83,7 @@ class Actor(object):
     """
     XBR Market Actors.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -113,20 +116,20 @@ class Actor(object):
 
     def marshal(self):
         obj = {
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'market': self.market.bytes if self.market else None,
-            'actor': bytes(self.actor) if self.actor else None,
-            'actor_type': self.actor_type,
-            'joined': pack_uint256(self.joined) if self.joined else None,
-            'security': pack_uint256(self.security) if self.security else None,
-            'meta': bytes(self.meta) if self.meta else None,
-            'tid': bytes(self.tid) if self.tid else None,
-            'signature': bytes(self.signature) if self.signature else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "market": self.market.bytes if self.market else None,
+            "actor": bytes(self.actor) if self.actor else None,
+            "actor_type": self.actor_type,
+            "joined": pack_uint256(self.joined) if self.joined else None,
+            "security": pack_uint256(self.security) if self.security else None,
+            "meta": bytes(self.meta) if self.meta else None,
+            "tid": bytes(self.tid) if self.tid else None,
+            "signature": bytes(self.signature) if self.signature else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self) -> np.datetime64:
@@ -134,7 +137,7 @@ class Actor(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -220,7 +223,7 @@ class Actor(object):
 
     @security.setter
     def security(self, value: int):
-        assert value is None or type(value) == int, 'security must be int, was: {}'.format(value)
+        assert value is None or type(value) == int, "security must be int, was: {}".format(value)
         self._security = value
 
     @property
@@ -231,7 +234,7 @@ class Actor(object):
         if self._meta is None and self._from_fbs:
             meta = self._from_fbs.Meta()
             if meta:
-                self._meta = meta.decode('utf8')
+                self._meta = meta.decode("utf8")
         return self._meta
 
     @meta.setter
@@ -274,7 +277,6 @@ class Actor(object):
         return Actor(_ActorGen.GetRootAsActor(buf, 0))
 
     def build(self, builder):
-
         market = self.market.bytes if self.market else None
         if market:
             market = builder.CreateString(market)
@@ -337,7 +339,7 @@ class Actor(object):
         return final
 
 
-@table('1863eb64-322a-42dd-9fce-a59c99d5b40e', build=Actor.build, cast=Actor.cast)
+@table("1863eb64-322a-42dd-9fce-a59c99d5b40e", build=Actor.build, cast=Actor.cast)
 class Actors(MapUuidBytes20Uint8FlatBuffers):
     """
     Market actors table, mapping from ``(market_id|UUID, actor_adr|bytes[20], actor_type|int)`` to :class:`cfxdb.xbr.Actor`.

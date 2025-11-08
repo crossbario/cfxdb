@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 from cfxdb.common import ConfigurationElement
@@ -18,15 +18,18 @@ class WebService(ConfigurationElement):
 
     * check_web_path_service
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 service_type: Optional[str] = None,
-                 webcluster_oid: Optional[UUID] = None,
-                 path: Optional[str] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        service_type: Optional[str] = None,
+        webcluster_oid: Optional[UUID] = None,
+        path: Optional[str] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of this web service.
@@ -39,12 +42,9 @@ class WebService(ConfigurationElement):
 
         :param path: HTTP URL path of the Web service, eg ``/myapp`` or ``/myapp/dashboard/72``.
         """
-        ConfigurationElement.__init__(self,
-                                      oid=oid,
-                                      label=label,
-                                      description=description,
-                                      tags=tags,
-                                      _unknown=_unknown)
+        ConfigurationElement.__init__(
+            self, oid=oid, label=label, description=description, tags=tags, _unknown=_unknown
+        )
         self.service_type = service_type
         self.webcluster_oid = webcluster_oid
         self.path = path
@@ -69,7 +69,7 @@ class WebService(ConfigurationElement):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     def marshal(self):
         """
@@ -79,11 +79,13 @@ class WebService(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'webcluster_oid': str(self.webcluster_oid),
-            'path': self.path,
-            'type': self.service_type,
-        })
+        obj.update(
+            {
+                "webcluster_oid": str(self.webcluster_oid),
+                "path": self.path,
+                "type": self.service_type,
+            }
+        )
 
         if self._unknown:
             obj.update(self._unknown)
@@ -108,27 +110,29 @@ class WebService(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['type', 'path', 'webcluster_oid']:
+            if k not in ["type", "path", "webcluster_oid"]:
                 _unknown[k] = data[k]
 
-        webcluster_oid = data.get('webcluster_oid', None)
+        webcluster_oid = data.get("webcluster_oid", None)
         assert webcluster_oid is None or (type(webcluster_oid) == str)
         if webcluster_oid:
             webcluster_oid = UUID(webcluster_oid)
 
-        path = data.get('path', None)
+        path = data.get("path", None)
         assert path is None or (type(path) == str)
 
-        service_type = data.get('type', None)
+        service_type = data.get("type", None)
         assert service_type is None or (type(service_type) == str)
 
-        obj = WebService(oid=obj.oid,
-                         label=obj.label,
-                         description=obj.description,
-                         tags=obj.tags,
-                         service_type=service_type,
-                         webcluster_oid=webcluster_oid,
-                         path=path,
-                         _unknown=_unknown)
+        obj = WebService(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            service_type=service_type,
+            webcluster_oid=webcluster_oid,
+            path=path,
+            _unknown=_unknown,
+        )
 
         return obj

@@ -5,40 +5,40 @@
 #
 ##############################################################################
 
-import pytest
 import os
-import random
-import uuid
-import timeit
 import platform
+import random
+import timeit
+import uuid
 
 import flatbuffers
-from txaio import with_twisted  # noqa
-
-from txaio import time_ns
-from autobahn import util
+import pytest
 import zlmdb
+from autobahn import util
+from txaio import (
+    time_ns,
+    with_twisted,  # noqa
+)
 
 from cfxdb.realmstore import Publication
 
 zlmdb.TABLES_BY_UUID = {}
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
 
 
 def fill_publication(publication):
-
     publication.timestamp = time_ns()
     publication.publication = util.id()
     publication.publisher = util.id()
-    publication.topic = 'com.example.foobar.{}.doit'.format(uuid.uuid4())
+    publication.topic = "com.example.foobar.{}.doit".format(uuid.uuid4())
 
-    publication.args = [23, 'hello', {'foo': 0.5}]
-    publication.kwargs = {'bar': 23, 'baz': [1, 2, 3]}
+    publication.args = [23, "hello", {"foo": 0.5}]
+    publication.kwargs = {"bar": 23, "baz": [1, 2, 3]}
     publication.payload = os.urandom(32)
 
     publication.acknowledge = random.choice([True, False])
@@ -47,20 +47,20 @@ def fill_publication(publication):
 
     i0 = util.id()
     publication.exclude = [i0 + j + 1000 for j in range(5)]
-    publication.exclude_authid = ['user1', 'user2', 'user3']
-    publication.exclude_authrole = ['roleA', 'roleB', 'roleC']
+    publication.exclude_authid = ["user1", "user2", "user3"]
+    publication.exclude_authrole = ["roleA", "roleB", "roleC"]
 
     i0 = util.id()
     publication.eligible = [i0 + j + 1000 for j in range(5)]
-    publication.eligible_authid = ['user4', 'user5', 'user6']
-    publication.eligible_authrole = ['roleD', 'roleE', 'roleF']
+    publication.eligible_authid = ["user4", "user5", "user6"]
+    publication.eligible_authrole = ["roleD", "roleE", "roleF"]
 
     publication.enc_algo = Publication.ENC_ALGO_XBR
     publication.enc_key = os.urandom(32)
     publication.enc_serializer = Publication.ENC_SER_CBOR
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def publication():
     _publication = Publication()
     fill_publication(_publication)
@@ -100,7 +100,7 @@ def test_publication_roundtrip_perf(publication, builder):
     obj = publication.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'timestamp': 0}
+    scratch = {"timestamp": 0}
 
     def loop():
         _publication = Publication.cast(data)
@@ -125,25 +125,25 @@ def test_publication_roundtrip_perf(publication, builder):
             assert _publication.enc_key == publication.enc_key
             assert _publication.enc_serializer == publication.enc_serializer
 
-            scratch['timestamp'] += publication.timestamp
+            scratch["timestamp"] += publication.timestamp
 
     N = 5
 
-    if platform.python_implementation() == 'PyPy':
+    if platform.python_implementation() == "PyPy":
         M = 100000
     else:
         M = 10000
     samples = []
-    print('measuring with N={}, M={}:'.format(N, M))
+    print("measuring with N={}, M={}:".format(N, M))
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance ({} objects total)'.format(ops50, N * M))
+    print("RESULT: {} objects/sec median performance ({} objects total)".format(ops50, N * M))
 
     assert ops50 > 1000
-    assert scratch['timestamp'] > 0
+    assert scratch["timestamp"] > 0

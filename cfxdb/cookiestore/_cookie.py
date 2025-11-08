@@ -5,15 +5,15 @@
 #
 ##############################################################################
 
-import uuid
 import pprint
-from typing import Optional, Dict, Any
+import uuid
+from typing import Any, Dict, Optional
 
 import cbor2
 import flatbuffers
 import numpy as np
+from zlmdb import MapStringUuid, MapUuidFlatBuffers, table
 
-from zlmdb import table, MapUuidFlatBuffers, MapStringUuid
 from cfxdb.gen.cookiestore import Cookie as CookieGen
 
 
@@ -30,7 +30,7 @@ class _CookieGen(CookieGen.Cookie):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AuthenticatedOnNodeAsBytes(self):
@@ -38,7 +38,7 @@ class _CookieGen(CookieGen.Cookie):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AuthenticatedTransportInfoAsBytes(self):
@@ -46,7 +46,7 @@ class _CookieGen(CookieGen.Cookie):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AuthExtraAsBytes(self):
@@ -54,7 +54,7 @@ class _CookieGen(CookieGen.Cookie):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -62,6 +62,7 @@ class Cookie(object):
     """
     Persistent cookies, as used in WAMP-Cookie authentication by router and proxy workers.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -118,28 +119,27 @@ class Cookie(object):
 
     def marshal(self) -> dict:
         obj = {
-            'oid': self.oid.bytes if self.oid else None,
-            'created': int(self.created) if self.created else None,
-            'max_age': self.max_age,
-            'name': self.name,
-            'value': self.value,
-            'authenticated': int(self.authenticated) if self.authenticated else None,
-            'authenticated_on_node': self.authenticated_on_node.bytes if self.authenticated_on_node else None,
-            'authenticated_on_worker': self.authenticated_on_worker,
-            'authenticated_transport_info': self.authenticated_transport_info,
-            'authenticated_session': self.authenticated_session,
-            'authenticated_joined_at':
-            int(self.authenticated_joined_at) if self.authenticated_joined_at else None,
-            'authenticated_authmethod': self.authenticated_authmethod,
-            'authid': self.authid,
-            'authrole': self.authrole,
-            'authrealm': self.authrealm,
-            'authextra': self.authextra,
+            "oid": self.oid.bytes if self.oid else None,
+            "created": int(self.created) if self.created else None,
+            "max_age": self.max_age,
+            "name": self.name,
+            "value": self.value,
+            "authenticated": int(self.authenticated) if self.authenticated else None,
+            "authenticated_on_node": self.authenticated_on_node.bytes if self.authenticated_on_node else None,
+            "authenticated_on_worker": self.authenticated_on_worker,
+            "authenticated_transport_info": self.authenticated_transport_info,
+            "authenticated_session": self.authenticated_session,
+            "authenticated_joined_at": int(self.authenticated_joined_at) if self.authenticated_joined_at else None,
+            "authenticated_authmethod": self.authenticated_authmethod,
+            "authid": self.authid,
+            "authrole": self.authrole,
+            "authrealm": self.authrealm,
+            "authextra": self.authextra,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def oid(self) -> uuid.UUID:
@@ -163,7 +163,7 @@ class Cookie(object):
         Timestamp when the cookie was created. Epoch time in ns.
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @created.setter
@@ -194,7 +194,7 @@ class Cookie(object):
         if self._name is None and self._from_fbs:
             _name = self._from_fbs.Name()
             if _name:
-                self._name = _name.decode('utf8')
+                self._name = _name.decode("utf8")
         return self._name
 
     @name.setter
@@ -209,7 +209,7 @@ class Cookie(object):
         if self._value is None and self._from_fbs:
             _value = self._from_fbs.Value()
             if _value:
-                self._value = _value.decode('utf8')
+                self._value = _value.decode("utf8")
         return self._value
 
     @value.setter
@@ -222,7 +222,7 @@ class Cookie(object):
         Timestamp when the cookie was authenticated (if any). Epoch time in ns.
         """
         if self._authenticated is None and self._from_fbs:
-            self._authenticated = np.datetime64(self._from_fbs.Authenticated(), 'ns')
+            self._authenticated = np.datetime64(self._from_fbs.Authenticated(), "ns")
         return self._authenticated
 
     @authenticated.setter
@@ -254,7 +254,7 @@ class Cookie(object):
         if self._authenticated_on_worker is None and self._from_fbs:
             _authenticated_on_worker = self._from_fbs.AuthenticatedOnWorker()
             if _authenticated_on_worker:
-                self._authenticated_on_worker = _authenticated_on_worker.decode('utf8')
+                self._authenticated_on_worker = _authenticated_on_worker.decode("utf8")
         return self._authenticated_on_worker
 
     @authenticated_on_worker.setter
@@ -299,7 +299,7 @@ class Cookie(object):
         Timestamp when the original authenticating session was welcome by the router. Epoch time in ns.
         """
         if self._authenticated_joined_at is None and self._from_fbs:
-            self._authenticated_joined_at = np.datetime64(self._from_fbs.AuthenticatedJoinedAt(), 'ns')
+            self._authenticated_joined_at = np.datetime64(self._from_fbs.AuthenticatedJoinedAt(), "ns")
         return self._authenticated_joined_at
 
     @authenticated_joined_at.setter
@@ -315,7 +315,7 @@ class Cookie(object):
         if self._authenticated_authmethod is None and self._from_fbs:
             _authenticated_authmethod = self._from_fbs.AuthenticatedAuthmethod()
             if _authenticated_authmethod:
-                self._authenticated_authmethod = _authenticated_authmethod.decode('utf8')
+                self._authenticated_authmethod = _authenticated_authmethod.decode("utf8")
         return self._authenticated_authmethod
 
     @authenticated_authmethod.setter
@@ -330,7 +330,7 @@ class Cookie(object):
         if self._authid is None and self._from_fbs:
             _authid = self._from_fbs.Authid()
             if _authid:
-                self._authid = _authid.decode('utf8')
+                self._authid = _authid.decode("utf8")
         return self._authid
 
     @authid.setter
@@ -345,7 +345,7 @@ class Cookie(object):
         if self._authrole is None and self._from_fbs:
             _authrole = self._from_fbs.Authrole()
             if _authrole:
-                self._authrole = _authrole.decode('utf8')
+                self._authrole = _authrole.decode("utf8")
         return self._authrole
 
     @authrole.setter
@@ -360,7 +360,7 @@ class Cookie(object):
         if self._authmethod is None and self._from_fbs:
             _authmethod = self._from_fbs.Authmethod()
             if _authmethod:
-                self._authmethod = _authmethod.decode('utf8')
+                self._authmethod = _authmethod.decode("utf8")
         return self._authmethod
 
     @authmethod.setter
@@ -375,7 +375,7 @@ class Cookie(object):
         if self._authrealm is None and self._from_fbs:
             _authrealm = self._from_fbs.Authrealm()
             if _authrealm:
-                self._authrealm = _authrealm.decode('utf8')
+                self._authrealm = _authrealm.decode("utf8")
         return self._authrealm
 
     @authrealm.setter
@@ -401,11 +401,10 @@ class Cookie(object):
         self._authextra = value
 
     @staticmethod
-    def cast(buf) -> 'Cookie':
+    def cast(buf) -> "Cookie":
         return Cookie(_CookieGen.GetRootAsCookie(buf, 0))
 
     def build(self, builder):
-
         oid = self.oid.bytes if self.oid else None
         if oid:
             oid = builder.CreateString(oid)
@@ -512,7 +511,7 @@ class Cookie(object):
         return final
 
 
-@table('62f8c8c9-c50b-4686-bafe-38b221c64a0c', build=Cookie.build, cast=Cookie.cast)
+@table("62f8c8c9-c50b-4686-bafe-38b221c64a0c", build=Cookie.build, cast=Cookie.cast)
 class Cookies(MapUuidFlatBuffers):
     """
     Persisted cookies table.
@@ -521,7 +520,7 @@ class Cookies(MapUuidFlatBuffers):
     """
 
 
-@table('65e1d8c1-fa8b-459d-ae43-cb320d28cc97')
+@table("65e1d8c1-fa8b-459d-ae43-cb320d28cc97")
 class IndexCookiesByValue(MapStringUuid):
     """
     Index: cookie_value -> cookie_oid

@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR data service APIs published to (part of) catalogs.
 class Api(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Api(object):
     def GetRootAsApi(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Api
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Api(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Api
@@ -59,7 +64,9 @@ class Api(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Api
@@ -95,7 +102,9 @@ class Api(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Api
@@ -139,7 +148,9 @@ class Api(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Api
@@ -167,7 +178,9 @@ class Api(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Api
@@ -189,92 +202,122 @@ class Api(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
         return o == 0
 
+
 def ApiStart(builder):
     builder.StartObject(8)
+
 
 def Start(builder):
     ApiStart(builder)
 
+
 def ApiAddOid(builder, oid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     ApiAddOid(builder, oid)
 
+
 def ApiStartOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOidVector(builder, numElems: int) -> int:
     return ApiStartOidVector(builder, numElems)
 
+
 def ApiAddCatalogOid(builder, catalogOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(catalogOid), 0)
+
 
 def AddCatalogOid(builder, catalogOid):
     ApiAddCatalogOid(builder, catalogOid)
 
+
 def ApiStartCatalogOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCatalogOidVector(builder, numElems: int) -> int:
     return ApiStartCatalogOidVector(builder, numElems)
 
+
 def ApiAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(2, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     ApiAddTimestamp(builder, timestamp)
 
+
 def ApiAddPublished(builder, published):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(published), 0)
+
 
 def AddPublished(builder, published):
     ApiAddPublished(builder, published)
 
+
 def ApiStartPublishedVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartPublishedVector(builder, numElems: int) -> int:
     return ApiStartPublishedVector(builder, numElems)
 
+
 def ApiAddSchema(builder, schema):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(schema), 0)
+
 
 def AddSchema(builder, schema):
     ApiAddSchema(builder, schema)
 
+
 def ApiAddMeta(builder, meta):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+
 
 def AddMeta(builder, meta):
     ApiAddMeta(builder, meta)
 
+
 def ApiAddTid(builder, tid):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 
 def AddTid(builder, tid):
     ApiAddTid(builder, tid)
 
+
 def ApiStartTidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTidVector(builder, numElems: int) -> int:
     return ApiStartTidVector(builder, numElems)
 
+
 def ApiAddSignature(builder, signature):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 
 def AddSignature(builder, signature):
     ApiAddSignature(builder, signature)
 
+
 def ApiStartSignatureVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSignatureVector(builder, numElems: int) -> int:
     return ApiStartSignatureVector(builder, numElems)
 
+
 def ApiEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ApiEnd(builder)

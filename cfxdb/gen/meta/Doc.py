@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Generic **object documentation** attached to objects in other tables. Primary key of this table is ``oid``.
 class Doc(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Doc(object):
     def GetRootAsDoc(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Doc
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -39,7 +42,9 @@ class Doc(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Doc
@@ -67,7 +72,9 @@ class Doc(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Doc
@@ -111,7 +118,9 @@ class Doc(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Doc
@@ -133,68 +142,90 @@ class Doc(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
+
 def DocStart(builder):
     builder.StartObject(6)
+
 
 def Start(builder):
     DocStart(builder)
 
+
 def DocAddOid(builder, oid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     DocAddOid(builder, oid)
 
+
 def DocAddTableOid(builder, tableOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 
 def AddTableOid(builder, tableOid):
     DocAddTableOid(builder, tableOid)
 
+
 def DocStartTableOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTableOidVector(builder, numElems: int) -> int:
     return DocStartTableOidVector(builder, numElems)
 
+
 def DocAddObjectOid(builder, objectOid):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 
 def AddObjectOid(builder, objectOid):
     DocAddObjectOid(builder, objectOid)
 
+
 def DocStartObjectOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartObjectOidVector(builder, numElems: int) -> int:
     return DocStartObjectOidVector(builder, numElems)
 
+
 def DocAddModified(builder, modified):
     builder.PrependUint64Slot(3, modified, 0)
+
 
 def AddModified(builder, modified):
     DocAddModified(builder, modified)
 
+
 def DocAddFormat(builder, format):
     builder.PrependUint8Slot(4, format, 0)
+
 
 def AddFormat(builder, format):
     DocAddFormat(builder, format)
 
+
 def DocAddDocument(builder, document):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(document), 0)
+
 
 def AddDocument(builder, document):
     DocAddDocument(builder, document)
 
+
 def DocStartDocumentVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartDocumentVector(builder, numElems: int) -> int:
     return DocStartDocumentVector(builder, numElems)
 
+
 def DocEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return DocEnd(builder)

@@ -11,8 +11,9 @@ import uuid
 import cbor2
 import flatbuffers
 import numpy as np
+from zlmdb import MapUuidFlatBuffers, table
+
 from cfxdb.gen.xbrnetwork import VerifiedAction as VerifiedActionGen
-from zlmdb import table, MapUuidFlatBuffers
 
 
 class _VerifiedActionGen(VerifiedActionGen.VerifiedAction):
@@ -21,6 +22,7 @@ class _VerifiedActionGen(VerifiedActionGen.VerifiedAction):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsVerifiedAction(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +35,7 @@ class _VerifiedActionGen(VerifiedActionGen.VerifiedAction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def VerifiedOidAsBytes(self):
@@ -41,7 +43,7 @@ class _VerifiedActionGen(VerifiedActionGen.VerifiedAction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def VerifiedDataAsBytes(self):
@@ -49,12 +51,11 @@ class _VerifiedActionGen(VerifiedActionGen.VerifiedAction):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
 class VerificationType(object):
-
     NONE = 0
     """
     Unset
@@ -153,6 +154,7 @@ class VerifiedAction(object):
     """
     All valid verification status codes.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -186,18 +188,18 @@ class VerifiedAction(object):
 
     def marshal(self):
         obj = {
-            'oid': self.oid.bytes if self.oid else None,
-            'created': int(self.created) if self.created else None,
-            'vtype': self.vtype,
-            'vstatus': self.vstatus,
-            'vcode': self.vcode,
-            'verified_oid': self.verified_oid.bytes if self.verified_oid.bytes else None,
-            'verified_data': cbor2.dumps(self.verified_data) if self.verified_data else None,
+            "oid": self.oid.bytes if self.oid else None,
+            "created": int(self.created) if self.created else None,
+            "vtype": self.vtype,
+            "vstatus": self.vstatus,
+            "vcode": self.vcode,
+            "verified_oid": self.verified_oid.bytes if self.verified_oid.bytes else None,
+            "verified_data": cbor2.dumps(self.verified_data) if self.verified_data else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def oid(self) -> uuid.UUID:
@@ -209,7 +211,7 @@ class VerifiedAction(object):
                 _oid = self._from_fbs.OidAsBytes()
                 self._oid = uuid.UUID(bytes=bytes(_oid))
             else:
-                self._oid = uuid.UUID(bytes=b'\x00' * 20)
+                self._oid = uuid.UUID(bytes=b"\x00" * 20)
         return self._oid
 
     @oid.setter
@@ -223,7 +225,7 @@ class VerifiedAction(object):
         Timestamp (epoch time in ns) of initial creation of this record.
         """
         if self._created is None and self._from_fbs:
-            self._created = np.datetime64(self._from_fbs.Created(), 'ns')
+            self._created = np.datetime64(self._from_fbs.Created(), "ns")
         return self._created
 
     @created.setter
@@ -267,7 +269,7 @@ class VerifiedAction(object):
         if self._vcode is None and self._from_fbs:
             vcode = self._from_fbs.Vcode()
             if vcode:
-                self._vcode = vcode.decode('utf8')
+                self._vcode = vcode.decode("utf8")
         return self._vcode
 
     @vcode.setter
@@ -285,7 +287,7 @@ class VerifiedAction(object):
                 _verified_oid = self._from_fbs.VerifiedOidAsBytes()
                 self._verified_oid = uuid.UUID(bytes=bytes(_verified_oid))
             else:
-                self._verified_oid = uuid.UUID(bytes=b'\x00' * 16)
+                self._verified_oid = uuid.UUID(bytes=b"\x00" * 16)
         return self._verified_oid
 
     @verified_oid.setter
@@ -316,7 +318,6 @@ class VerifiedAction(object):
         return VerifiedAction(_VerifiedActionGen.GetRootAsVerifiedAction(buf, 0))
 
     def build(self, builder):
-
         oid = self.oid.bytes if self.oid else None
         if oid:
             oid = builder.CreateString(oid)
@@ -361,11 +362,12 @@ class VerifiedAction(object):
         return final
 
 
-@table('84d805a7-c012-4dfa-9b95-e34760767f82', build=VerifiedAction.build, cast=VerifiedAction.cast)
+@table("84d805a7-c012-4dfa-9b95-e34760767f82", build=VerifiedAction.build, cast=VerifiedAction.cast)
 class VerifiedActions(MapUuidFlatBuffers):
     """
     Database table for verification/verified actions, eg on-boarding new XBR members.
     """
+
     @staticmethod
     def parse(data):
         """
@@ -374,39 +376,39 @@ class VerifiedActions(MapUuidFlatBuffers):
         :return:
         """
         oid = None
-        if 'oid' in data:
-            assert type(data['oid'] == bytes and len(data['oid']) == 16)
-            oid = uuid.UUID(bytes=data['oid'])
+        if "oid" in data:
+            assert type(data["oid"] == bytes and len(data["oid"]) == 16)
+            oid = uuid.UUID(bytes=data["oid"])
 
         created = None
-        if 'created' in data:
-            assert type(data['created'] == int)
-            created = np.datetime64(data['created'], 'ns')
+        if "created" in data:
+            assert type(data["created"] == int)
+            created = np.datetime64(data["created"], "ns")
 
         vtype = None
-        if 'vtype' in data:
-            assert type(data['vtype'] == int)
-            vtype = data['vtype']
+        if "vtype" in data:
+            assert type(data["vtype"] == int)
+            vtype = data["vtype"]
 
         vstatus = None
-        if 'vstatus' in data:
-            assert type(data['vstatus'] == int)
-            vstatus = data['vstatus']
+        if "vstatus" in data:
+            assert type(data["vstatus"] == int)
+            vstatus = data["vstatus"]
 
         vcode = None
-        if 'vcode' in data:
-            assert type(data['vcode'] == str)
-            vcode = data['vcode']
+        if "vcode" in data:
+            assert type(data["vcode"] == str)
+            vcode = data["vcode"]
 
         verified_oid = None
-        if 'verified_oid' in data:
-            assert type(data['verified_oid'] == bytes and len(data['verified_oid']) == 16)
-            verified_oid = uuid.UUID(bytes=data['verified_oid'])
+        if "verified_oid" in data:
+            assert type(data["verified_oid"] == bytes and len(data["verified_oid"]) == 16)
+            verified_oid = uuid.UUID(bytes=data["verified_oid"])
 
         verified_data = None
-        if 'verified_data' in data:
-            assert type(data['verified_data']) == bytes
-            verified_data = cbor2.loads(data['verified_data'])
+        if "verified_data" in data:
+            assert type(data["verified_data"]) == bytes
+            verified_data = cbor2.loads(data["verified_data"])
 
         obj = VerifiedAction()
         obj.oid = oid

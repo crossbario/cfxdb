@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional
 import pprint
+from typing import Optional
 from uuid import UUID
 
 
@@ -14,6 +14,7 @@ class ClusterNodeMembership(object):
     """
     Membership of a node in a cluster.
     """
+
     def __init__(self, cluster_oid: Optional[UUID] = None, node_oid: Optional[UUID] = None, _unknown=None):
         """
 
@@ -47,8 +48,8 @@ class ClusterNodeMembership(object):
         :return: dict
         """
         obj = {
-            'cluster_oid': str(self.cluster_oid),
-            'node_oid': str(self.node_oid),
+            "cluster_oid": str(self.cluster_oid),
+            "node_oid": str(self.node_oid),
         }
         return obj
 
@@ -67,18 +68,18 @@ class ClusterNodeMembership(object):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['cluster_oid', 'node_oid']:
+            if k not in ["cluster_oid", "node_oid"]:
                 _unknown[k] = data[k]
 
         cluster_oid = None
-        if 'cluster_oid' in data:
-            assert type(data['cluster_oid']) == str
-            cluster_oid = UUID(data['cluster_oid'])
+        if "cluster_oid" in data:
+            assert type(data["cluster_oid"]) == str
+            cluster_oid = UUID(data["cluster_oid"])
 
         node_oid = None
-        if 'node_oid' in data:
-            assert type(data['node_oid']) == str
-            node_oid = UUID(data['node_oid'])
+        if "node_oid" in data:
+            assert type(data["node_oid"]) == str
+            node_oid = UUID(data["node_oid"])
 
         obj = ClusterNodeMembership(cluster_oid=cluster_oid, node_oid=node_oid, _unknown=_unknown)
 

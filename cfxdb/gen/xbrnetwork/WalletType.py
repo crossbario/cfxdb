@@ -2,6 +2,7 @@
 
 # namespace: xbrnetwork
 
+
 class WalletType(object):
     # Unset
     NONE = 0

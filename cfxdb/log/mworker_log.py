@@ -21,6 +21,7 @@ class _MWorkerLogGen(MWorkerLogGen.MWorkerLog):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsMWorkerLog(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +34,7 @@ class _MWorkerLogGen(MWorkerLogGen.MWorkerLog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MrealmIdAsBytes(self):
@@ -41,33 +42,32 @@ class _MWorkerLogGen(MWorkerLogGen.MWorkerLog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
 class MWorkerLog(object):
-
     WORKER_TYPES = {
-        '': 0,
-        'router': 1,
-        'container': 2,
-        'guest': 3,
-        'testee': 4,
-        'proxy': 5,
-        'xbrmm': 6,
-        'hostmonitor': 7,
-        'controller': 8,
+        "": 0,
+        "router": 1,
+        "container": 2,
+        "guest": 3,
+        "testee": 4,
+        "proxy": 5,
+        "xbrmm": 6,
+        "hostmonitor": 7,
+        "controller": 8,
     }
     WORKER_TYPENAMES = {
-        0: '',
-        1: 'router',
-        2: 'container',
-        3: 'guest',
-        4: 'testee',
-        5: 'proxy',
-        6: 'xbrmm',
-        7: 'hostmonitor',
-        8: 'controller',
+        0: "",
+        1: "router",
+        2: "container",
+        3: "guest",
+        4: "testee",
+        5: "proxy",
+        6: "xbrmm",
+        7: "hostmonitor",
+        8: "controller",
     }
 
     def __init__(self, from_fbs=None):
@@ -229,139 +229,139 @@ class MWorkerLog(object):
         assert isinstance(node_id, uuid.UUID)
         assert type(worker_id) == str
         assert type(heartbeat) == dict
-        assert 'timestamp' in heartbeat and type(heartbeat['timestamp']) == int
-        assert 'seq' in heartbeat and type(heartbeat['seq']) == int
-        assert 'type' in heartbeat and type(heartbeat['type']) == str
+        assert "timestamp" in heartbeat and type(heartbeat["timestamp"]) == int
+        assert "seq" in heartbeat and type(heartbeat["seq"]) == int
+        assert "type" in heartbeat and type(heartbeat["type"]) == str
 
         obj = MWorkerLog()
-        obj._timestamp = np.datetime64(time_ns(), 'ns')
-        obj._period = heartbeat.get('period', None)
+        obj._timestamp = np.datetime64(time_ns(), "ns")
+        obj._period = heartbeat.get("period", None)
         obj._mrealm_id = mrealm_id
         obj._node_id = node_id
         obj._worker_id = worker_id
-        obj._sent = np.datetime64(heartbeat['timestamp'], 'ns') if heartbeat.get('timestamp', None) else None
-        obj._seq = heartbeat.get('seq', None)
-        obj._type = MWorkerLog.WORKER_TYPES.get(heartbeat.get('type', None), None)
-        obj._state = heartbeat.get('state', None)
+        obj._sent = np.datetime64(heartbeat["timestamp"], "ns") if heartbeat.get("timestamp", None) else None
+        obj._seq = heartbeat.get("seq", None)
+        obj._type = MWorkerLog.WORKER_TYPES.get(heartbeat.get("type", None), None)
+        obj._state = heartbeat.get("state", None)
 
-        process = heartbeat.get('process', {})
-        obj._num_fds = process.get('num_fds', 0)
-        obj._num_threads = process.get('num_threads', 0)
-        obj._num_ctx_switches_involuntary = process.get('num_ctx_switches_involuntary', 0)
-        obj._num_ctx_switches_involuntary_per_sec = process.get('num_ctx_switches_involuntary_per_sec', 0)
-        obj._num_ctx_switches_voluntary = process.get('num_ctx_switches_voluntary', 0)
-        obj._num_ctx_switches_voluntary_per_sec = process.get('num_ctx_switches_voluntary_per_sec', 0)
-        obj._cpu_system = process.get('cpu_system', 0)
-        obj._cpu_system_per_sec = process.get('cpu_system_per_sec', 0)
-        obj._cpu_wait = process.get('cpu_wait', 0)
-        obj._cpu_wait_per_sec = process.get('cpu_wait_per_sec', 0)
-        obj._cpu_user = process.get('cpu_user', 0)
-        obj._cpu_user_per_sec = process.get('cpu_user_per_sec', 0)
-        obj._read_bytes = process.get('read_bytes', 0)
-        obj._read_bytes_per_sec = process.get('read_bytes_per_sec', 0)
-        obj._read_ios = process.get('read_ios', 0)
-        obj._read_ios_per_sec = process.get('read_ios_per_sec', 0)
-        obj._write_bytes = process.get('write_bytes', 0)
-        obj._write_bytes_per_sec = process.get('write_bytes_per_sec', 0)
-        obj._write_bytes_per_sec = process.get('write_bytes_per_sec', 0)
-        obj._write_ios_per_sec = process.get('write_ios_per_sec', 0)
-        obj._sent_bytes = process.get('sent_bytes', 0)
-        obj._sent_bytes_per_sec = process.get('sent_bytes_per_sec', 0)
-        obj._sent_ios = process.get('sent_ios', 0)
-        obj._sent_ios_per_sec = process.get('sent_ios_per_sec', 0)
-        obj._recv_bytes = process.get('recv_bytes', 0)
-        obj._recv_bytes_per_sec = process.get('recv_bytes_per_sec', 0)
-        obj._recv_ios = process.get('recv_ios', 0)
-        obj._recv_ios_per_sec = process.get('recv_ios_per_sec', 0)
+        process = heartbeat.get("process", {})
+        obj._num_fds = process.get("num_fds", 0)
+        obj._num_threads = process.get("num_threads", 0)
+        obj._num_ctx_switches_involuntary = process.get("num_ctx_switches_involuntary", 0)
+        obj._num_ctx_switches_involuntary_per_sec = process.get("num_ctx_switches_involuntary_per_sec", 0)
+        obj._num_ctx_switches_voluntary = process.get("num_ctx_switches_voluntary", 0)
+        obj._num_ctx_switches_voluntary_per_sec = process.get("num_ctx_switches_voluntary_per_sec", 0)
+        obj._cpu_system = process.get("cpu_system", 0)
+        obj._cpu_system_per_sec = process.get("cpu_system_per_sec", 0)
+        obj._cpu_wait = process.get("cpu_wait", 0)
+        obj._cpu_wait_per_sec = process.get("cpu_wait_per_sec", 0)
+        obj._cpu_user = process.get("cpu_user", 0)
+        obj._cpu_user_per_sec = process.get("cpu_user_per_sec", 0)
+        obj._read_bytes = process.get("read_bytes", 0)
+        obj._read_bytes_per_sec = process.get("read_bytes_per_sec", 0)
+        obj._read_ios = process.get("read_ios", 0)
+        obj._read_ios_per_sec = process.get("read_ios_per_sec", 0)
+        obj._write_bytes = process.get("write_bytes", 0)
+        obj._write_bytes_per_sec = process.get("write_bytes_per_sec", 0)
+        obj._write_bytes_per_sec = process.get("write_bytes_per_sec", 0)
+        obj._write_ios_per_sec = process.get("write_ios_per_sec", 0)
+        obj._sent_bytes = process.get("sent_bytes", 0)
+        obj._sent_bytes_per_sec = process.get("sent_bytes_per_sec", 0)
+        obj._sent_ios = process.get("sent_ios", 0)
+        obj._sent_ios_per_sec = process.get("sent_ios_per_sec", 0)
+        obj._recv_bytes = process.get("recv_bytes", 0)
+        obj._recv_bytes_per_sec = process.get("recv_bytes_per_sec", 0)
+        obj._recv_ios = process.get("recv_ios", 0)
+        obj._recv_ios_per_sec = process.get("recv_ios_per_sec", 0)
 
-        router = heartbeat.get('router', {})
-        obj._router_roles = router.get('roles', 0)
-        obj._router_sessions = router.get('sessions', 0)
+        router = heartbeat.get("router", {})
+        obj._router_roles = router.get("roles", 0)
+        obj._router_sessions = router.get("sessions", 0)
 
-        messages = router.get('messages', {})
-        obj._recv_call = messages.get('call', 0)
-        obj._recv_yield = messages.get('yield', 0)
-        obj._sent_invocation = messages.get('invocation', 0)
-        obj._sent_result = messages.get('result', 0)
-        obj._recv_publish = messages.get('publish', 0)
-        obj._sent_published = messages.get('published', 0)
-        obj._sent_event = messages.get('event', 0)
-        obj._recv_register = messages.get('register', 0)
-        obj._sent_registered = messages.get('registered', 0)
-        obj._recv_subscribe = messages.get('subscribe', 0)
-        obj._sent_subscribed = messages.get('subscribed', 0)
+        messages = router.get("messages", {})
+        obj._recv_call = messages.get("call", 0)
+        obj._recv_yield = messages.get("yield", 0)
+        obj._sent_invocation = messages.get("invocation", 0)
+        obj._sent_result = messages.get("result", 0)
+        obj._recv_publish = messages.get("publish", 0)
+        obj._sent_published = messages.get("published", 0)
+        obj._sent_event = messages.get("event", 0)
+        obj._recv_register = messages.get("register", 0)
+        obj._sent_registered = messages.get("registered", 0)
+        obj._recv_subscribe = messages.get("subscribe", 0)
+        obj._sent_subscribed = messages.get("subscribed", 0)
 
         return obj
 
     def marshal(self):
         obj = {
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'period': self.period,
-            'mrealm_id': str(self.mrealm_id) if self.mrealm_id else None,
-            'node_id': str(self.node_id) if self.node_id else None,
-            'worker_id': self.worker_id,
-            'sent': int(self.sent) if self.sent else None,
-            'seq': self.seq,
-            'type': MWorkerLog.WORKER_TYPENAMES.get(self.type, None),
-            'state': self.state,
-            'process': {
-                'num_fds': self.num_fds,
-                'num_threads': self.num_threads,
-                'num_ctx_switches_involuntary': self.num_ctx_switches_involuntary,
-                'num_ctx_switches_involuntary_per_sec': self.num_ctx_switches_involuntary_per_sec,
-                'num_ctx_switches_voluntary': self.num_ctx_switches_voluntary,
-                'num_ctx_switches_voluntary_per_sec': self.num_ctx_switches_voluntary_per_sec,
-                'cpu_system': self.cpu_system,
-                'cpu_system_per_sec': self.cpu_system_per_sec,
-                'cpu_wait': self.cpu_wait,
-                'cpu_wait_per_sec': self.cpu_wait_per_sec,
-                'cpu_user': self.cpu_user,
-                'cpu_user_per_sec': self.cpu_user_per_sec,
-                'read_bytes': self.read_bytes,
-                'read_bytes_per_sec': self.read_bytes_per_sec,
-                'read_ios': self.read_ios,
-                'read_ios_per_sec': self.read_ios_per_sec,
-                'write_bytes': self.write_bytes,
-                'write_bytes_per_sec': self.write_bytes_per_sec,
-                'write_ios': self.write_ios,
-                'write_ios_per_sec': self.write_ios_per_sec,
-                'sent_bytes': self.sent_bytes,
-                'sent_bytes_per_sec': self.sent_bytes_per_sec,
-                'sent_ios': self.sent_ios,
-                'sent_ios_per_sec': self.sent_ios_per_sec,
-                'recv_bytes': self.recv_bytes,
-                'recv_bytes_per_sec': self.recv_bytes_per_sec,
-                'recv_ios': self.recv_ios,
-                'recv_ios_per_sec': self.recv_ios_per_sec,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "period": self.period,
+            "mrealm_id": str(self.mrealm_id) if self.mrealm_id else None,
+            "node_id": str(self.node_id) if self.node_id else None,
+            "worker_id": self.worker_id,
+            "sent": int(self.sent) if self.sent else None,
+            "seq": self.seq,
+            "type": MWorkerLog.WORKER_TYPENAMES.get(self.type, None),
+            "state": self.state,
+            "process": {
+                "num_fds": self.num_fds,
+                "num_threads": self.num_threads,
+                "num_ctx_switches_involuntary": self.num_ctx_switches_involuntary,
+                "num_ctx_switches_involuntary_per_sec": self.num_ctx_switches_involuntary_per_sec,
+                "num_ctx_switches_voluntary": self.num_ctx_switches_voluntary,
+                "num_ctx_switches_voluntary_per_sec": self.num_ctx_switches_voluntary_per_sec,
+                "cpu_system": self.cpu_system,
+                "cpu_system_per_sec": self.cpu_system_per_sec,
+                "cpu_wait": self.cpu_wait,
+                "cpu_wait_per_sec": self.cpu_wait_per_sec,
+                "cpu_user": self.cpu_user,
+                "cpu_user_per_sec": self.cpu_user_per_sec,
+                "read_bytes": self.read_bytes,
+                "read_bytes_per_sec": self.read_bytes_per_sec,
+                "read_ios": self.read_ios,
+                "read_ios_per_sec": self.read_ios_per_sec,
+                "write_bytes": self.write_bytes,
+                "write_bytes_per_sec": self.write_bytes_per_sec,
+                "write_ios": self.write_ios,
+                "write_ios_per_sec": self.write_ios_per_sec,
+                "sent_bytes": self.sent_bytes,
+                "sent_bytes_per_sec": self.sent_bytes_per_sec,
+                "sent_ios": self.sent_ios,
+                "sent_ios_per_sec": self.sent_ios_per_sec,
+                "recv_bytes": self.recv_bytes,
+                "recv_bytes_per_sec": self.recv_bytes_per_sec,
+                "recv_ios": self.recv_ios,
+                "recv_ios_per_sec": self.recv_ios_per_sec,
             },
         }
         if self.type == 1:
-            obj['router'] = {
-                'roles': self.router_roles,
-                'sessions': self.router_sessions,
-                'messages': {
-                    'call': self.recv_call,
-                    'yield': self.recv_yield,
-                    'invocation': self.sent_invocation,
-                    'result': self.sent_result,
-                    'publish': self.recv_publish,
-                    'published': self.sent_published,
-                    'event': self.sent_event,
-                    'register': self.recv_register,
-                    'registered': self.sent_registered,
-                    'subscribe': self.recv_subscribe,
-                    'subscribed': self.sent_subscribed,
-                }
+            obj["router"] = {
+                "roles": self.router_roles,
+                "sessions": self.router_sessions,
+                "messages": {
+                    "call": self.recv_call,
+                    "yield": self.recv_yield,
+                    "invocation": self.sent_invocation,
+                    "result": self.sent_result,
+                    "publish": self.recv_publish,
+                    "published": self.sent_published,
+                    "event": self.sent_event,
+                    "register": self.recv_register,
+                    "registered": self.sent_registered,
+                    "subscribe": self.recv_subscribe,
+                    "subscribed": self.sent_subscribed,
+                },
             }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self):
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -400,7 +400,7 @@ class MWorkerLog(object):
         if self._worker_id is None and self._from_fbs:
             _worker_id = self._from_fbs.WorkerId()
             if _worker_id:
-                self._worker_id = _worker_id.decode('utf8')
+                self._worker_id = _worker_id.decode("utf8")
         return self._worker_id
 
     @worker_id.setter
@@ -444,7 +444,7 @@ class MWorkerLog(object):
     @property
     def sent(self):
         if self._sent is None and self._from_fbs:
-            self._sent = np.datetime64(self._from_fbs.Sent(), 'ns')
+            self._sent = np.datetime64(self._from_fbs.Sent(), "ns")
         return self._sent
 
     @sent.setter
@@ -919,7 +919,6 @@ class MWorkerLog(object):
         return MWorkerLog(_MWorkerLogGen.GetRootAsMWorkerLog(buf, 0))
 
     def build(self, builder):
-
         mrealm_id = self.mrealm_id.bytes if self.mrealm_id else None
         if mrealm_id:
             mrealm_id = builder.CreateString(mrealm_id)
@@ -972,14 +971,14 @@ class MWorkerLog(object):
 
         if self.num_ctx_switches_involuntary_per_sec:
             MWorkerLogGen.MWorkerLogAddNumCtxSwitchesInvoluntaryPerSec(
-                builder, self.num_ctx_switches_involuntary_per_sec)
+                builder, self.num_ctx_switches_involuntary_per_sec
+            )
 
         if self.num_ctx_switches_voluntary:
             MWorkerLogGen.MWorkerLogAddNumCtxSwitchesVoluntary(builder, self.num_ctx_switches_voluntary)
 
         if self.num_ctx_switches_voluntary_per_sec:
-            MWorkerLogGen.MWorkerLogAddNumCtxSwitchesVoluntaryPerSec(builder,
-                                                                     self.num_ctx_switches_voluntary_per_sec)
+            MWorkerLogGen.MWorkerLogAddNumCtxSwitchesVoluntaryPerSec(builder, self.num_ctx_switches_voluntary_per_sec)
 
         if self.cpu_system:
             MWorkerLogGen.MWorkerLogAddCpuSystem(builder, self.cpu_system)

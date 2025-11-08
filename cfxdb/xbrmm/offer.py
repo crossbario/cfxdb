@@ -10,9 +10,10 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapUuidFlatBuffers, MapUuidUuid, table
+
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbrmm import Offer as OfferGen
-from zlmdb import table, MapUuidFlatBuffers, MapUuidUuid
 
 
 class _OfferGen(OfferGen.Offer):
@@ -21,6 +22,7 @@ class _OfferGen(OfferGen.Offer):
 
     FIXME: come up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsOffer(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -33,7 +35,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SellerAsBytes(self):
@@ -41,7 +43,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def KeyAsBytes(self):
@@ -49,7 +51,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ApiAsBytes(self):
@@ -57,7 +59,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def UriAsBytes(self):
@@ -65,7 +67,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -73,7 +75,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PriceAsBytes(self):
@@ -81,7 +83,7 @@ class _OfferGen(OfferGen.Offer):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -89,6 +91,7 @@ class Offer(object):
     """
     Data encryption key offerings by XBR providers.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -139,26 +142,26 @@ class Offer(object):
 
     def marshal(self) -> dict:
         obj = {
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'offer': self.offer.bytes if self.offer else None,
-            'seller': bytes(self.seller) if self.seller else None,
-            'seller_session_id': self.seller_session_id,
-            'seller_authid': self.seller_authid,
-            'key': self.key.bytes if self.key else None,
-            'api': self.api.bytes if self.api else None,
-            'uri': self.uri,
-            'valid_from': int(self.valid_from) if self.valid_from else None,
-            'signature': bytes(self.signature) if self.signature else None,
-            'price': pack_uint256(self.price) if self.price else 0,
-            'categories': self.categories,
-            'expires': int(self.expires) if self.expires else None,
-            'copies': self.copies,
-            'remaining': self.remaining,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "offer": self.offer.bytes if self.offer else None,
+            "seller": bytes(self.seller) if self.seller else None,
+            "seller_session_id": self.seller_session_id,
+            "seller_authid": self.seller_authid,
+            "key": self.key.bytes if self.key else None,
+            "api": self.api.bytes if self.api else None,
+            "uri": self.uri,
+            "valid_from": int(self.valid_from) if self.valid_from else None,
+            "signature": bytes(self.signature) if self.signature else None,
+            "price": pack_uint256(self.price) if self.price else 0,
+            "categories": self.categories,
+            "expires": int(self.expires) if self.expires else None,
+            "copies": self.copies,
+            "remaining": self.remaining,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self) -> np.datetime64:
@@ -166,7 +169,7 @@ class Offer(object):
         Offer transaction time (epoch time in ns)
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -227,7 +230,7 @@ class Offer(object):
         if self._seller_authid is None and self._from_fbs:
             _seller_authid = self._from_fbs.SellerAuthid()
             if _seller_authid:
-                self._seller_authid = _seller_authid.decode('utf8')
+                self._seller_authid = _seller_authid.decode("utf8")
         return self._seller_authid
 
     @seller_authid.setter
@@ -276,7 +279,7 @@ class Offer(object):
         if self._uri is None and self._from_fbs:
             _uri = self._from_fbs.Uri()
             if _uri:
-                self._uri = _uri.decode('utf8')
+                self._uri = _uri.decode("utf8")
         return self._uri
 
     @uri.setter
@@ -289,7 +292,7 @@ class Offer(object):
         Timestamp from which the offer is valid (epoch time in ns).
         """
         if self._valid_from is None and self._from_fbs:
-            self._valid_from = np.datetime64(self._from_fbs.ValidFrom(), 'ns')
+            self._valid_from = np.datetime64(self._from_fbs.ValidFrom(), "ns")
         return self._valid_from
 
     @valid_from.setter
@@ -340,8 +343,8 @@ class Offer(object):
             if num > 0:
                 categories = {}
                 for i in range(num):
-                    key = self._from_fbs.CategoriesKey(i).decode('utf8')
-                    value = self._from_fbs.CategoriesValue(i).decode('utf8')
+                    key = self._from_fbs.CategoriesKey(i).decode("utf8")
+                    value = self._from_fbs.CategoriesValue(i).decode("utf8")
                     categories[key] = value
                 self._categories = categories
         return self._categories
@@ -360,7 +363,7 @@ class Offer(object):
         Optional data at which this offer expires (epoch time in ns).
         """
         if self._expires is None and self._from_fbs:
-            self._expires = np.datetime64(self._from_fbs.Expires(), 'ns')
+            self._expires = np.datetime64(self._from_fbs.Expires(), "ns")
         return self._expires
 
     @expires.setter
@@ -401,7 +404,6 @@ class Offer(object):
         return Offer(_OfferGen.GetRootAsOffer(buf, 0))
 
     def build(self, builder):
-
         offer = self.offer.bytes if self.offer else None
         if offer:
             offer = builder.CreateString(offer)
@@ -441,10 +443,10 @@ class Offer(object):
             categories_keys = []
             categories_values = []
             for _key, _value in sorted(self._categories.items()):
-                assert type(_key) == str, 'category key must be string, but was {}: {}'.format(
-                    type(_key), _key)
-                assert type(_value) == str, 'category value must be string, but was {}: {}'.format(
-                    type(_value), _value)
+                assert type(_key) == str, "category key must be string, but was {}: {}".format(type(_key), _key)
+                assert type(_value) == str, "category value must be string, but was {}: {}".format(
+                    type(_value), _value
+                )
                 categories_keys.append(builder.CreateString(_key))
                 categories_values.append(builder.CreateString(_value))
 
@@ -513,7 +515,7 @@ class Offer(object):
         return final
 
 
-@table('dc6d175b-3dd0-4b1f-a6e8-2aec7f0e3fe5', build=Offer.build, cast=Offer.cast)
+@table("dc6d175b-3dd0-4b1f-a6e8-2aec7f0e3fe5", build=Offer.build, cast=Offer.cast)
 class Offers(MapUuidFlatBuffers):
     """
     Persisted data encryption key offers.
@@ -522,7 +524,7 @@ class Offers(MapUuidFlatBuffers):
     """
 
 
-@table('ef5f1cdc-4871-4a03-ac1c-c60e80875b8b')
+@table("ef5f1cdc-4871-4a03-ac1c-c60e80875b8b")
 class IndexOfferByKey(MapUuidUuid):
     """
     Index: key_id -> offer_id

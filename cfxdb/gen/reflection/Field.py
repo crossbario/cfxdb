@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class Field(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class Field(object):
     def GetRootAsField(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     @classmethod
     def FieldBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x42\x46\x42\x53", size_prefixed=size_prefixed)
@@ -41,6 +44,7 @@ class Field(object):
         if o != 0:
             x = self._tab.Indirect(o + self._tab.Pos)
             from reflection.Type import Type
+
             obj = Type()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -103,6 +107,7 @@ class Field(object):
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
             x = self._tab.Indirect(x)
             from reflection.KeyValue import KeyValue
+
             obj = KeyValue()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -140,92 +145,122 @@ class Field(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         return o == 0
 
+
 def FieldStart(builder):
     builder.StartObject(11)
+
 
 def Start(builder):
     FieldStart(builder)
 
+
 def FieldAddName(builder, name):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 
 def AddName(builder, name):
     FieldAddName(builder, name)
 
+
 def FieldAddType(builder, type):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(type), 0)
+
 
 def AddType(builder, type):
     FieldAddType(builder, type)
 
+
 def FieldAddId(builder, id):
     builder.PrependUint16Slot(2, id, 0)
+
 
 def AddId(builder, id):
     FieldAddId(builder, id)
 
+
 def FieldAddOffset(builder, offset):
     builder.PrependUint16Slot(3, offset, 0)
+
 
 def AddOffset(builder, offset):
     FieldAddOffset(builder, offset)
 
+
 def FieldAddDefaultInteger(builder, defaultInteger):
     builder.PrependInt64Slot(4, defaultInteger, 0)
+
 
 def AddDefaultInteger(builder, defaultInteger):
     FieldAddDefaultInteger(builder, defaultInteger)
 
+
 def FieldAddDefaultReal(builder, defaultReal):
     builder.PrependFloat64Slot(5, defaultReal, 0.0)
+
 
 def AddDefaultReal(builder, defaultReal):
     FieldAddDefaultReal(builder, defaultReal)
 
+
 def FieldAddDeprecated(builder, deprecated):
     builder.PrependBoolSlot(6, deprecated, 0)
+
 
 def AddDeprecated(builder, deprecated):
     FieldAddDeprecated(builder, deprecated)
 
+
 def FieldAddRequired(builder, required):
     builder.PrependBoolSlot(7, required, 0)
+
 
 def AddRequired(builder, required):
     FieldAddRequired(builder, required)
 
+
 def FieldAddKey(builder, key):
     builder.PrependBoolSlot(8, key, 0)
+
 
 def AddKey(builder, key):
     FieldAddKey(builder, key)
 
+
 def FieldAddAttributes(builder, attributes):
     builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(attributes), 0)
+
 
 def AddAttributes(builder, attributes):
     FieldAddAttributes(builder, attributes)
 
+
 def FieldStartAttributesVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartAttributesVector(builder, numElems: int) -> int:
     return FieldStartAttributesVector(builder, numElems)
 
+
 def FieldAddDocumentation(builder, documentation):
     builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(documentation), 0)
+
 
 def AddDocumentation(builder, documentation):
     FieldAddDocumentation(builder, documentation)
 
+
 def FieldStartDocumentationVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartDocumentationVector(builder, numElems: int) -> int:
     return FieldStartDocumentationVector(builder, numElems)
 
+
 def FieldEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return FieldEnd(builder)

@@ -5,7 +5,7 @@
 #
 ##############################################################################
 
-__all__ = ('InvalidConfigException', )
+__all__ = ("InvalidConfigException",)
 
 
 class InvalidConfigException(Exception):

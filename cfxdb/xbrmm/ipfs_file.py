@@ -9,7 +9,7 @@ import pprint
 
 import flatbuffers
 import numpy as np
-from zlmdb import table, MapStringFlatBuffers
+from zlmdb import MapStringFlatBuffers, table
 
 from cfxdb.gen.xbrmm import IPFSFile as IPFSFileGen
 
@@ -27,6 +27,7 @@ class IPFSFile:
     """
     Record of downloaded files from Infura
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
         # string (multihash)
@@ -40,16 +41,16 @@ class IPFSFile:
 
     def marshal(self):
         obj = {
-            'file_hash': self.file_hash,
-            'downloaded': self.downloaded,
-            'retries': self.retries,
-            'errored_at': self.errored_at,
+            "file_hash": self.file_hash,
+            "downloaded": self.downloaded,
+            "retries": self.retries,
+            "errored_at": self.errored_at,
         }
 
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def file_hash(self) -> str:
@@ -59,7 +60,7 @@ class IPFSFile:
         if self._file_hash is None and self._from_fbs:
             _hash = self._from_fbs.FileHash()
             if _hash:
-                self._file_hash = _hash.decode('utf8')
+                self._file_hash = _hash.decode("utf8")
         return self._file_hash
 
     @file_hash.setter
@@ -101,7 +102,7 @@ class IPFSFile:
         Time of last time when downloaded errorred.
         """
         if self._errored_at is None and self._from_fbs:
-            self._errored_at = np.datetime64(self._from_fbs.ErroredAt(), 'ns')
+            self._errored_at = np.datetime64(self._from_fbs.ErroredAt(), "ns")
         return self._errored_at
 
     @errored_at.setter
@@ -136,7 +137,7 @@ class IPFSFile:
         return final
 
 
-@table('def3af4e-190c-4852-93da-731934deef90', build=IPFSFile.build, cast=IPFSFile.cast)
+@table("def3af4e-190c-4852-93da-731934deef90", build=IPFSFile.build, cast=IPFSFile.cast)
 class IPFSFiles(MapStringFlatBuffers):
     """
     Persisted IPFS files download log

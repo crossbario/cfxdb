@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Association (N:M) between roles and application realms, both defined independently at the management realm level.
 class ApplicationRealmRole(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class ApplicationRealmRole(object):
     def GetRootAsApplicationRealmRole(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # ApplicationRealmRole
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -32,6 +35,7 @@ class ApplicationRealmRole(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -44,31 +48,40 @@ class ApplicationRealmRole(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
         return None
 
+
 def ApplicationRealmRoleStart(builder):
     builder.StartObject(2)
+
 
 def Start(builder):
     ApplicationRealmRoleStart(builder)
 
+
 def ApplicationRealmRoleAddRoleOid(builder, roleOid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(roleOid), 0)
+
 
 def AddRoleOid(builder, roleOid):
     ApplicationRealmRoleAddRoleOid(builder, roleOid)
 
+
 def ApplicationRealmRoleAddArealmOid(builder, arealmOid):
     builder.PrependStructSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(arealmOid), 0)
+
 
 def AddArealmOid(builder, arealmOid):
     ApplicationRealmRoleAddArealmOid(builder, arealmOid)
 
+
 def ApplicationRealmRoleEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ApplicationRealmRoleEnd(builder)

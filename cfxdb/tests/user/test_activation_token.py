@@ -5,24 +5,23 @@
 #
 ##############################################################################
 
+import binascii
 import os
 import uuid
-import binascii
 from datetime import datetime
 
-import pytest
 import cbor2
 import flatbuffers
-
-from autobahn import util
+import pytest
 import txaio
+from autobahn import util
 
 from cfxdb.user import ActivationToken, ActivationTokenFbs
 
 txaio.use_twisted()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -35,18 +34,18 @@ def fill_token(token):
     token.created = datetime.utcnow()
     token.completed = None
     token.code = util.generate_activation_code()
-    token.email = 'homer.simpson@example.com'
+    token.email = "homer.simpson@example.com"
     token.pubkey = binascii.b2a_hex(os.urandom(32)).decode()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def token_fbs():
     _token = ActivationTokenFbs()
     fill_token(_token)
     return _token
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def token_cbor():
     _token = ActivationToken()
     fill_token(_token)

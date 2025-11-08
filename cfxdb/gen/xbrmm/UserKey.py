@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class UserKey(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class UserKey(object):
     def GetRootAsUserKey(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # UserKey
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -30,7 +33,9 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # UserKey
@@ -66,7 +71,9 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # UserKey
@@ -94,7 +101,9 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # UserKey
@@ -122,7 +131,9 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # UserKey
@@ -144,68 +155,90 @@ class UserKey(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
+
 def UserKeyStart(builder):
     builder.StartObject(5)
+
 
 def Start(builder):
     UserKeyStart(builder)
 
+
 def UserKeyAddPubkey(builder, pubkey):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 
 def AddPubkey(builder, pubkey):
     UserKeyAddPubkey(builder, pubkey)
 
+
 def UserKeyStartPubkeyVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartPubkeyVector(builder, numElems: int) -> int:
     return UserKeyStartPubkeyVector(builder, numElems)
 
+
 def UserKeyAddCreated(builder, created):
     builder.PrependUint64Slot(1, created, 0)
+
 
 def AddCreated(builder, created):
     UserKeyAddCreated(builder, created)
 
+
 def UserKeyAddOwner(builder, owner):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 
 def AddOwner(builder, owner):
     UserKeyAddOwner(builder, owner)
 
+
 def UserKeyStartOwnerVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOwnerVector(builder, numElems: int) -> int:
     return UserKeyStartOwnerVector(builder, numElems)
 
+
 def UserKeyAddWalletAddress(builder, walletAddress):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(walletAddress), 0)
+
 
 def AddWalletAddress(builder, walletAddress):
     UserKeyAddWalletAddress(builder, walletAddress)
 
+
 def UserKeyStartWalletAddressVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartWalletAddressVector(builder, numElems: int) -> int:
     return UserKeyStartWalletAddressVector(builder, numElems)
 
+
 def UserKeyAddSignature(builder, signature):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 
 def AddSignature(builder, signature):
     UserKeyAddSignature(builder, signature)
 
+
 def UserKeyStartSignatureVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSignatureVector(builder, numElems: int) -> int:
     return UserKeyStartSignatureVector(builder, numElems)
 
+
 def UserKeyEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return UserKeyEnd(builder)

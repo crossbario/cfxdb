@@ -7,7 +7,7 @@
 
 import pprint
 
-from zlmdb import table, MapOidTimestampFlatBuffers
+from zlmdb import MapOidTimestampFlatBuffers, table
 
 from cfxdb.gen.realmstore import Event as EventGen
 
@@ -16,6 +16,7 @@ class Event(object):
     """
     Persisted event database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -28,17 +29,17 @@ class Event(object):
 
     def marshal(self):
         obj = {
-            'timestamp': self.timestamp,
-            'subscription': self.subscription,
-            'publication': self.publication,
-            'receiver': self.receiver,
-            'retained': self.retained,
-            'acknowledged_delivery': self.acknowledged_delivery,
+            "timestamp": self.timestamp,
+            "subscription": self.subscription,
+            "publication": self.publication,
+            "receiver": self.receiver,
+            "retained": self.retained,
+            "acknowledged_delivery": self.acknowledged_delivery,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self):
@@ -147,7 +148,6 @@ class Event(object):
         return Event(EventGen.Event.GetRootAsEvent(buf, 0))
 
     def build(self, builder):
-
         # now start and build a new object ..
         EventGen.EventStart(builder)
 
@@ -167,7 +167,7 @@ class Event(object):
         return final
 
 
-@table('40a9df31-6065-496f-809f-027a1879654c', build=Event.build, cast=Event.cast)
+@table("40a9df31-6065-496f-809f-027a1879654c", build=Event.build, cast=Event.cast)
 class Events(MapOidTimestampFlatBuffers):
     """
     Persisted events archive.

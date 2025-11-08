@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class Node(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class Node(object):
     def GetRootAsNode(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Node
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,6 +34,7 @@ class Node(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -112,7 +116,9 @@ class Node(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Node
@@ -134,80 +140,106 @@ class Node(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         return o == 0
 
+
 def NodeStart(builder):
     builder.StartObject(9)
+
 
 def Start(builder):
     NodeStart(builder)
 
+
 def NodeAddOid(builder, oid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     NodeAddOid(builder, oid)
 
+
 def NodeAddLabel(builder, label):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(label), 0)
+
 
 def AddLabel(builder, label):
     NodeAddLabel(builder, label)
 
+
 def NodeAddDescription(builder, description):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(description), 0)
+
 
 def AddDescription(builder, description):
     NodeAddDescription(builder, description)
 
+
 def NodeAddTags(builder, tags):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(tags), 0)
+
 
 def AddTags(builder, tags):
     NodeAddTags(builder, tags)
 
+
 def NodeStartTagsVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartTagsVector(builder, numElems: int) -> int:
     return NodeStartTagsVector(builder, numElems)
 
+
 def NodeAddName(builder, name):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 
 def AddName(builder, name):
     NodeAddName(builder, name)
 
+
 def NodeAddPubkey(builder, pubkey):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(pubkey), 0)
+
 
 def AddPubkey(builder, pubkey):
     NodeAddPubkey(builder, pubkey)
 
+
 def NodeAddRealm(builder, realm):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(realm), 0)
+
 
 def AddRealm(builder, realm):
     NodeAddRealm(builder, realm)
 
+
 def NodeAddAuthid(builder, authid):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(authid), 0)
+
 
 def AddAuthid(builder, authid):
     NodeAddAuthid(builder, authid)
 
+
 def NodeAddAuthextra(builder, authextra):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(authextra), 0)
+
 
 def AddAuthextra(builder, authextra):
     NodeAddAuthextra(builder, authextra)
 
+
 def NodeStartAuthextraVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartAuthextraVector(builder, numElems: int) -> int:
     return NodeStartAuthextraVector(builder, numElems)
 
+
 def NodeEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return NodeEnd(builder)

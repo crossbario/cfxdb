@@ -2,6 +2,7 @@
 
 # namespace: log
 
+
 class MasterNodeUsageStatus(object):
     # Unset state.
     NONE = 0

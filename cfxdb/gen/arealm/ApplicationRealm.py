@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # WAMP application realms defined.
 class ApplicationRealm(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class ApplicationRealm(object):
     def GetRootAsApplicationRealm(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # ApplicationRealm
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -32,6 +35,7 @@ class ApplicationRealm(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -52,6 +56,7 @@ class ApplicationRealm(object):
         if o != 0:
             x = o + self._tab.Pos
             from ..oid_t import oid_t
+
             obj = oid_t()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -97,62 +102,82 @@ class ApplicationRealm(object):
             return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
         return False
 
+
 def ApplicationRealmStart(builder):
     builder.StartObject(8)
+
 
 def Start(builder):
     ApplicationRealmStart(builder)
 
+
 def ApplicationRealmAddOid(builder, oid):
     builder.PrependStructSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(oid), 0)
+
 
 def AddOid(builder, oid):
     ApplicationRealmAddOid(builder, oid)
 
+
 def ApplicationRealmAddCreated(builder, created):
     builder.PrependUint64Slot(1, created, 0)
+
 
 def AddCreated(builder, created):
     ApplicationRealmAddCreated(builder, created)
 
+
 def ApplicationRealmAddOwner(builder, owner):
     builder.PrependStructSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 
 def AddOwner(builder, owner):
     ApplicationRealmAddOwner(builder, owner)
 
+
 def ApplicationRealmAddName(builder, name):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+
 
 def AddName(builder, name):
     ApplicationRealmAddName(builder, name)
 
+
 def ApplicationRealmAddEventDispatchingChunkSize(builder, eventDispatchingChunkSize):
     builder.PrependUint32Slot(4, eventDispatchingChunkSize, 0)
+
 
 def AddEventDispatchingChunkSize(builder, eventDispatchingChunkSize):
     ApplicationRealmAddEventDispatchingChunkSize(builder, eventDispatchingChunkSize)
 
+
 def ApplicationRealmAddUriCheck(builder, uriCheck):
     builder.PrependInt8Slot(5, uriCheck, 0)
+
 
 def AddUriCheck(builder, uriCheck):
     ApplicationRealmAddUriCheck(builder, uriCheck)
 
+
 def ApplicationRealmAddEnableMetaApi(builder, enableMetaApi):
     builder.PrependBoolSlot(6, enableMetaApi, 0)
+
 
 def AddEnableMetaApi(builder, enableMetaApi):
     ApplicationRealmAddEnableMetaApi(builder, enableMetaApi)
 
+
 def ApplicationRealmAddBridgeMetaApi(builder, bridgeMetaApi):
     builder.PrependBoolSlot(7, bridgeMetaApi, 0)
+
 
 def AddBridgeMetaApi(builder, bridgeMetaApi):
     ApplicationRealmAddBridgeMetaApi(builder, bridgeMetaApi)
 
+
 def ApplicationRealmEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return ApplicationRealmEnd(builder)

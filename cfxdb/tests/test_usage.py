@@ -6,16 +6,15 @@
 ##############################################################################
 
 import os
-import pytest
 import random
-import uuid
 import timeit
+import uuid
 
 import flatbuffers
 import numpy as np
-
-import zlmdb
+import pytest
 import txaio
+import zlmdb
 from txaio import time_ns
 
 from cfxdb.usage import MasterNodeUsage
@@ -24,7 +23,7 @@ zlmdb.TABLES_BY_UUID = {}
 txaio.use_twisted()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -36,9 +35,9 @@ def builder():
 
 
 def fill_usage(usage):
-    usage.timestamp = np.datetime64(time_ns(), 'ns')
+    usage.timestamp = np.datetime64(time_ns(), "ns")
     usage.mrealm_id = uuid.uuid4()
-    usage.timestamp_from = np.datetime64(usage.timestamp - np.timedelta64(10, 'm'), 'ns')
+    usage.timestamp_from = np.datetime64(usage.timestamp - np.timedelta64(10, "m"), "ns")
     usage.pubkey = os.urandom(32)
 
     usage.client_ip_version = random.choice([4, 6])
@@ -49,10 +48,10 @@ def fill_usage(usage):
     usage.client_ip_port = random.randint(1, 2**16 - 1)
 
     usage.seq = random.randint(0, 1000000)
-    usage.sent = np.datetime64(time_ns() - random.randint(0, 10**10), 'ns')
-    usage.processed = np.datetime64(time_ns() + random.randint(0, 10**10), 'ns')
+    usage.sent = np.datetime64(time_ns() - random.randint(0, 10**10), "ns")
+    usage.processed = np.datetime64(time_ns() + random.randint(0, 10**10), "ns")
     usage.status = random.randint(0, 3)
-    usage.status_message = 'hello world {}'.format(uuid.uuid4())
+    usage.status_message = "hello world {}".format(uuid.uuid4())
     usage.metering_id = uuid.uuid4()
 
     usage.count = random.randint(0, 100000)
@@ -83,7 +82,7 @@ def fill_usage(usage):
     usage.msgs_subscribed = random.randint(0, 100000)
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def usage():
     _usage = MasterNodeUsage()
     fill_usage(_usage)
@@ -148,7 +147,6 @@ def test_usage_roundtrip_perf(usage, builder):
     def loop():
         _usage = MasterNodeUsage.cast(data)
         if True:
-
             assert _usage.timestamp == _usage.timestamp
             assert _usage.mrealm_id == _usage.mrealm_id
             assert _usage.timestamp_from == _usage.timestamp_from
@@ -197,16 +195,16 @@ def test_usage_roundtrip_perf(usage, builder):
     N = 5
     M = 50000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
     assert len(scratch) > 0

@@ -10,7 +10,6 @@ import uuid
 
 import flatbuffers
 import numpy as np
-
 from txaio import time_ns
 
 from .gen.log import MasterNodeUsage as MasterNodeUsageGen
@@ -22,6 +21,7 @@ class _MasterNodeUsage(MasterNodeUsageGen.MasterNodeUsage):
 
     FIXME: comes up with a PR for flatc to generated this stuff automatically.
     """
+
     @classmethod
     def GetRootAsMasterNodeUsage(cls, buf, offset):
         n = flatbuffers.encode.Get(flatbuffers.packer.uoffset, buf, offset)
@@ -34,7 +34,7 @@ class _MasterNodeUsage(MasterNodeUsageGen.MasterNodeUsage):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def PubkeyAsBytes(self):
@@ -42,7 +42,7 @@ class _MasterNodeUsage(MasterNodeUsageGen.MasterNodeUsage):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ClientIpAddressAsBytes(self):
@@ -50,7 +50,7 @@ class _MasterNodeUsage(MasterNodeUsageGen.MasterNodeUsage):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def MeteringIdAsBytes(self):
@@ -58,7 +58,7 @@ class _MasterNodeUsage(MasterNodeUsageGen.MasterNodeUsage):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -66,6 +66,7 @@ class MasterNodeUsage(object):
     """
     Persisted master node metering record database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -116,42 +117,42 @@ class MasterNodeUsage(object):
         :return:
         """
         obj = {
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'mrealm_id': str(self.mrealm_id) if self.mrealm_id else None,
-            'timestamp_from': int(self.timestamp_from) if self.timestamp_from else None,
-            'pubkey': bytes(self.pubkey) if self.pubkey else None,
-            'client_ip_address': bytes(self.client_ip_address) if self.client_ip_address else None,
-            'client_ip_version': self.client_ip_version,
-            'client_ip_port': self.client_ip_port,
-            'seq': self.seq,
-            'sent': int(self.sent) if self.sent else None,
-            'processed': int(self.processed) if self.processed else None,
-            'status': self.status,
-            'status_message': self.status_message,
-            'metering_id': str(self.metering_id) if self.metering_id else None,
-            'count': self.count,
-            'total': self.total,
-            'nodes': self.nodes,
-            'controllers': self.controllers,
-            'hostmonitors': self.hostmonitors,
-            'routers': self.routers,
-            'containers': self.containers,
-            'guests': self.guests,
-            'proxies': self.proxies,
-            'marketmakers': self.marketmakers,
-            'sessions': self.sessions,
-            'msgs_call': self.msgs_call,
-            'msgs_yield': self.msgs_yield,
-            'msgs_invocation': self.msgs_invocation,
-            'msgs_result': self.msgs_result,
-            'msgs_error': self.msgs_error,
-            'msgs_publish': self.msgs_publish,
-            'msgs_published': self.msgs_published,
-            'msgs_event': self.msgs_event,
-            'msgs_register': self.msgs_register,
-            'msgs_registered': self.msgs_registered,
-            'msgs_subscribe': self.msgs_subscribe,
-            'msgs_subscribed': self.msgs_subscribed,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "mrealm_id": str(self.mrealm_id) if self.mrealm_id else None,
+            "timestamp_from": int(self.timestamp_from) if self.timestamp_from else None,
+            "pubkey": bytes(self.pubkey) if self.pubkey else None,
+            "client_ip_address": bytes(self.client_ip_address) if self.client_ip_address else None,
+            "client_ip_version": self.client_ip_version,
+            "client_ip_port": self.client_ip_port,
+            "seq": self.seq,
+            "sent": int(self.sent) if self.sent else None,
+            "processed": int(self.processed) if self.processed else None,
+            "status": self.status,
+            "status_message": self.status_message,
+            "metering_id": str(self.metering_id) if self.metering_id else None,
+            "count": self.count,
+            "total": self.total,
+            "nodes": self.nodes,
+            "controllers": self.controllers,
+            "hostmonitors": self.hostmonitors,
+            "routers": self.routers,
+            "containers": self.containers,
+            "guests": self.guests,
+            "proxies": self.proxies,
+            "marketmakers": self.marketmakers,
+            "sessions": self.sessions,
+            "msgs_call": self.msgs_call,
+            "msgs_yield": self.msgs_yield,
+            "msgs_invocation": self.msgs_invocation,
+            "msgs_result": self.msgs_result,
+            "msgs_error": self.msgs_error,
+            "msgs_publish": self.msgs_publish,
+            "msgs_published": self.msgs_published,
+            "msgs_event": self.msgs_event,
+            "msgs_register": self.msgs_register,
+            "msgs_registered": self.msgs_registered,
+            "msgs_subscribe": self.msgs_subscribe,
+            "msgs_subscribed": self.msgs_subscribed,
         }
         return obj
 
@@ -165,185 +166,194 @@ class MasterNodeUsage(object):
         assert type(data) == dict, 'data parsed must have type dict, but was "{}"'.format(type(data))
         obj = MasterNodeUsage()
 
-        timestamp = data.get('timestamp', None)
-        assert timestamp is None or type(
-            timestamp) == int, '"timestamp" must have type int, but was "{}"'.format(type(timestamp))
+        timestamp = data.get("timestamp", None)
+        assert timestamp is None or type(timestamp) == int, '"timestamp" must have type int, but was "{}"'.format(
+            type(timestamp)
+        )
         if timestamp is None:
             # set current time as default
-            obj._timestamp = np.datetime64(time_ns(), 'ns')
+            obj._timestamp = np.datetime64(time_ns(), "ns")
         else:
             # set the value contained in the parsed data
-            obj._timestamp = np.datetime64(timestamp, 'ns')
+            obj._timestamp = np.datetime64(timestamp, "ns")
 
-        timestamp_from = data.get('timestamp_from', None)
-        assert timestamp_from is None or type(
-            timestamp_from) == int, '"timestamp_from" must have type int, but was "{}"'.format(
-                type(timestamp_from))
-        obj._timestamp_from = np.datetime64(timestamp_from, 'ns') if timestamp_from is not None else None
+        timestamp_from = data.get("timestamp_from", None)
+        assert timestamp_from is None or type(timestamp_from) == int, (
+            '"timestamp_from" must have type int, but was "{}"'.format(type(timestamp_from))
+        )
+        obj._timestamp_from = np.datetime64(timestamp_from, "ns") if timestamp_from is not None else None
 
-        mrealm_id = data.get('mrealm_id', None)
-        assert mrealm_id is None or type(
-            mrealm_id) == str, '"mrealm_id" must have type str, but was "{}"'.format(type(mrealm_id))
+        mrealm_id = data.get("mrealm_id", None)
+        assert mrealm_id is None or type(mrealm_id) == str, '"mrealm_id" must have type str, but was "{}"'.format(
+            type(mrealm_id)
+        )
         if mrealm_id:
             obj._mrealm_id = uuid.UUID(mrealm_id)
 
-        metering_id = data.get('metering_id', None)
-        assert metering_id is None or type(
-            metering_id) == str, '"metering_id" must have type str, but was "{}"'.format(type(metering_id))
+        metering_id = data.get("metering_id", None)
+        assert metering_id is None or type(metering_id) == str, (
+            '"metering_id" must have type str, but was "{}"'.format(type(metering_id))
+        )
         if metering_id:
             obj._metering_id = uuid.UUID(metering_id)
 
-        pubkey = data.get('pubkey', None)
-        assert pubkey is None or type(pubkey) == bytes and len(
-            pubkey) == 32, '"pubkey" must have type bytes of length 32, but was "{}" of length {}'.format(
-                type(pubkey),
-                len(pubkey) if type(pubkey) == bytes else None)
+        pubkey = data.get("pubkey", None)
+        assert pubkey is None or type(pubkey) == bytes and len(pubkey) == 32, (
+            '"pubkey" must have type bytes of length 32, but was "{}" of length {}'.format(
+                type(pubkey), len(pubkey) if type(pubkey) == bytes else None
+            )
+        )
         obj._pubkey = pubkey
 
-        client_ip_address = data.get('client_ip_address', None)
-        assert client_ip_address is None or type(client_ip_address) == bytes and len(client_ip_address) in [
-            4, 16
-        ], '"client_ip_address" must have type bytes of length 4 or 16, but was "{}" of length {}'.format(
-            type(client_ip_address),
-            len(client_ip_address) if type(client_ip_address) == bytes else None)
+        client_ip_address = data.get("client_ip_address", None)
+        assert client_ip_address is None or type(client_ip_address) == bytes and len(client_ip_address) in [4, 16], (
+            '"client_ip_address" must have type bytes of length 4 or 16, but was "{}" of length {}'.format(
+                type(client_ip_address), len(client_ip_address) if type(client_ip_address) == bytes else None
+            )
+        )
         obj._client_ip_address = client_ip_address
 
-        client_ip_version = data.get('client_ip_version', None)
-        assert client_ip_version is None or client_ip_version == 0 or (
-            type(client_ip_version) == int and client_ip_version in [4, 6]
+        client_ip_version = data.get("client_ip_version", None)
+        assert (
+            client_ip_version is None
+            or client_ip_version == 0
+            or (type(client_ip_version) == int and client_ip_version in [4, 6])
         ), '"client_ip_version" must have value [4, 6], but was "{}"'.format(client_ip_version)
         obj._client_ip_version = client_ip_version
 
-        client_ip_port = data.get('client_ip_port', None)
-        assert client_ip_port is None or client_ip_port == 0 or (
-            type(client_ip_port) == int and client_ip_port in range(
-                2**16)), '"client_ip_port" must have value [0, 2**16[, but was "{}"'.format(client_ip_port)
+        client_ip_port = data.get("client_ip_port", None)
+        assert (
+            client_ip_port is None
+            or client_ip_port == 0
+            or (type(client_ip_port) == int and client_ip_port in range(2**16))
+        ), '"client_ip_port" must have value [0, 2**16[, but was "{}"'.format(client_ip_port)
         obj._client_ip_port = client_ip_port
 
-        seq = data.get('seq', None)
+        seq = data.get("seq", None)
         assert seq is None or type(seq) == int, '"seq" must have type int, but was "{}"'.format(type(seq))
         obj._seq = seq
 
-        sent = data.get('sent', None)
+        sent = data.get("sent", None)
         assert sent is None or type(sent) == int, '"sent" must have type int, but was "{}"'.format(type(sent))
         if sent is not None:
-            obj._sent = np.datetime64(sent, 'ns') if sent else None
+            obj._sent = np.datetime64(sent, "ns") if sent else None
 
-        processed = data.get('processed', None)
-        assert processed is None or type(
-            processed) == int, '"processed" must have type int, but was "{}"'.format(type(processed))
-        obj._processed = np.datetime64(processed, 'ns') if processed else None
+        processed = data.get("processed", None)
+        assert processed is None or type(processed) == int, '"processed" must have type int, but was "{}"'.format(
+            type(processed)
+        )
+        obj._processed = np.datetime64(processed, "ns") if processed else None
 
-        status = data.get('status', 0)
-        assert status is None or (type(status) == int
-                                  and status in range(4)), '"status" must have type int, but was "{}"'.format(
-                                      type(status))
+        status = data.get("status", 0)
+        assert status is None or (type(status) == int and status in range(4)), (
+            '"status" must have type int, but was "{}"'.format(type(status))
+        )
         obj._status = status
 
-        status_message = data.get('status_message', None)
-        assert status_message is None or type(
-            status_message) == str, '"status_message" must have type str, but was "{}"'.format(
-                type(status_message))
+        status_message = data.get("status_message", None)
+        assert status_message is None or type(status_message) == str, (
+            '"status_message" must have type str, but was "{}"'.format(type(status_message))
+        )
         obj._status_message = status_message
 
         # metering data:
 
-        count = data.get('count', None)
+        count = data.get("count", None)
         assert count is None or type(count) == int
         obj._count = count
 
-        total = data.get('total', None)
+        total = data.get("total", None)
         assert total is None or type(total) == int
         obj._total = total
 
-        nodes = data.get('nodes', None)
+        nodes = data.get("nodes", None)
         assert nodes is None or type(nodes) == int
         obj._nodes = nodes
 
-        controllers = data.get('controllers', None)
+        controllers = data.get("controllers", None)
         assert controllers is None or type(controllers) == int
         obj._controllers = controllers
 
-        hostmonitors = data.get('hostmonitors', None)
+        hostmonitors = data.get("hostmonitors", None)
         assert hostmonitors is None or type(hostmonitors) == int
         obj._hostmonitors = hostmonitors
 
-        routers = data.get('routers', None)
+        routers = data.get("routers", None)
         assert routers is None or type(routers) == int
         obj._routers = routers
 
-        containers = data.get('containers', None)
+        containers = data.get("containers", None)
         assert containers is None or type(containers) == int
         obj._containers = containers
 
-        guests = data.get('guests', None)
+        guests = data.get("guests", None)
         assert guests is None or type(guests) == int
         obj._guests = guests
 
-        proxies = data.get('proxies', None)
+        proxies = data.get("proxies", None)
         assert proxies is None or type(proxies) == int
         obj._proxies = proxies
 
-        marketmakers = data.get('marketmakers', None)
+        marketmakers = data.get("marketmakers", None)
         assert marketmakers is None or type(marketmakers) == int
         obj._marketmakers = marketmakers
 
-        sessions = data.get('sessions', None)
+        sessions = data.get("sessions", None)
         assert sessions is None or type(sessions) == int
         obj._sessions = sessions
 
-        msgs_call = data.get('msgs_call', None)
+        msgs_call = data.get("msgs_call", None)
         assert msgs_call is None or type(msgs_call) == int
         obj._msgs_call = msgs_call
 
-        msgs_yield = data.get('msgs_yield', None)
+        msgs_yield = data.get("msgs_yield", None)
         assert msgs_yield is None or type(msgs_yield) == int
         obj._msgs_yield = msgs_yield
 
-        msgs_invocation = data.get('msgs_invocation', None)
+        msgs_invocation = data.get("msgs_invocation", None)
         assert msgs_invocation is None or type(msgs_invocation) == int
         obj._msgs_invocation = msgs_invocation
 
-        msgs_result = data.get('msgs_result', None)
+        msgs_result = data.get("msgs_result", None)
         assert msgs_result is None or type(msgs_result) == int
         obj._msgs_result = msgs_result
 
-        msgs_error = data.get('msgs_error', None)
+        msgs_error = data.get("msgs_error", None)
         assert msgs_error is None or type(msgs_error) == int
         obj._msgs_error = msgs_error
 
-        msgs_publish = data.get('msgs_publish', None)
+        msgs_publish = data.get("msgs_publish", None)
         assert msgs_publish is None or type(msgs_publish) == int
         obj._msgs_publish = msgs_publish
 
-        msgs_published = data.get('msgs_published', None)
+        msgs_published = data.get("msgs_published", None)
         assert msgs_published is None or type(msgs_published) == int
         obj._msgs_published = msgs_published
 
-        msgs_event = data.get('msgs_event', None)
+        msgs_event = data.get("msgs_event", None)
         assert msgs_event is None or type(msgs_event) == int
         obj._msgs_event = msgs_event
 
-        msgs_register = data.get('msgs_register', None)
+        msgs_register = data.get("msgs_register", None)
         assert msgs_register is None or type(msgs_register) == int
         obj._msgs_register = msgs_register
 
-        msgs_registered = data.get('msgs_registered', None)
+        msgs_registered = data.get("msgs_registered", None)
         assert msgs_registered is None or type(msgs_registered) == int
         obj._msgs_registered = msgs_registered
 
-        msgs_subscribe = data.get('msgs_subscribe', None)
+        msgs_subscribe = data.get("msgs_subscribe", None)
         assert msgs_subscribe is None or type(msgs_subscribe) == int
         obj._msgs_subscribe = msgs_subscribe
 
-        msgs_subscribed = data.get('msgs_subscribed', None)
+        msgs_subscribed = data.get("msgs_subscribed", None)
         assert msgs_subscribed is None or type(msgs_subscribed) == int
         obj._msgs_subscribed = msgs_subscribed
 
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def timestamp(self):
@@ -352,7 +362,7 @@ class MasterNodeUsage(object):
         :return: Timestamp when usage was recorded (at the node of recording).
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -367,7 +377,7 @@ class MasterNodeUsage(object):
         :return:
         """
         if self._timestamp_from is None and self._from_fbs:
-            self._timestamp_from = np.datetime64(self._from_fbs.TimestampFrom(), 'ns')
+            self._timestamp_from = np.datetime64(self._from_fbs.TimestampFrom(), "ns")
         return self._timestamp_from
 
     @timestamp_from.setter
@@ -495,7 +505,7 @@ class MasterNodeUsage(object):
         :return:
         """
         if self._sent is None and self._from_fbs:
-            self._sent = np.datetime64(self._from_fbs.Sent(), 'ns')
+            self._sent = np.datetime64(self._from_fbs.Sent(), "ns")
         return self._sent
 
     @sent.setter
@@ -510,7 +520,7 @@ class MasterNodeUsage(object):
         :return:
         """
         if self._processed is None and self._from_fbs:
-            self._processed = np.datetime64(self._from_fbs.Processed(), 'ns')
+            self._processed = np.datetime64(self._from_fbs.Processed(), "ns")
         return self._processed
 
     @processed.setter
@@ -542,7 +552,7 @@ class MasterNodeUsage(object):
         if self._status_message is None and self._from_fbs:
             status_message = self._from_fbs.StatusMessage()
             if status_message:
-                self._status_message = status_message.decode('utf8')
+                self._status_message = status_message.decode("utf8")
         return self._status_message
 
     @status_message.setter
@@ -934,13 +944,13 @@ class MasterNodeUsage(object):
         MasterNodeUsageGen.MasterNodeUsageStart(builder)
 
         if self.timestamp is not None:
-            MasterNodeUsageGen.MasterNodeUsageAddTimestamp(builder, self.timestamp.astype('long'))
+            MasterNodeUsageGen.MasterNodeUsageAddTimestamp(builder, self.timestamp.astype("long"))
 
         if mrealm_id:
             MasterNodeUsageGen.MasterNodeUsageAddMrealmId(builder, mrealm_id)
 
         if self.timestamp_from is not None:
-            MasterNodeUsageGen.MasterNodeUsageAddTimestampFrom(builder, self.timestamp_from.astype('long'))
+            MasterNodeUsageGen.MasterNodeUsageAddTimestampFrom(builder, self.timestamp_from.astype("long"))
 
         if pubkey:
             MasterNodeUsageGen.MasterNodeUsageAddPubkey(builder, pubkey)
@@ -958,10 +968,10 @@ class MasterNodeUsage(object):
             MasterNodeUsageGen.MasterNodeUsageAddSeq(builder, self.seq)
 
         if self.sent is not None:
-            MasterNodeUsageGen.MasterNodeUsageAddSent(builder, self.sent.astype('long'))
+            MasterNodeUsageGen.MasterNodeUsageAddSent(builder, self.sent.astype("long"))
 
         if self.processed is not None:
-            MasterNodeUsageGen.MasterNodeUsageAddProcessed(builder, self.processed.astype('long'))
+            MasterNodeUsageGen.MasterNodeUsageAddProcessed(builder, self.processed.astype("long"))
 
         if self.status:
             MasterNodeUsageGen.MasterNodeUsageAddStatus(builder, self.status)

@@ -4,10 +4,12 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
 
+
 class Schema(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -20,6 +22,7 @@ class Schema(object):
     def GetRootAsSchema(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     @classmethod
     def SchemaBufferHasIdentifier(cls, buf, offset, size_prefixed=False):
         return flatbuffers.util.BufferHasIdentifier(buf, offset, b"\x42\x46\x42\x53", size_prefixed=size_prefixed)
@@ -36,6 +39,7 @@ class Schema(object):
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
             x = self._tab.Indirect(x)
             from reflection.Object import Object
+
             obj = Object()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -61,6 +65,7 @@ class Schema(object):
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
             x = self._tab.Indirect(x)
             from reflection.Enum import Enum
+
             obj = Enum()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -98,6 +103,7 @@ class Schema(object):
         if o != 0:
             x = self._tab.Indirect(o + self._tab.Pos)
             from reflection.Object import Object
+
             obj = Object()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -111,6 +117,7 @@ class Schema(object):
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
             x = self._tab.Indirect(x)
             from reflection.Service import Service
+
             obj = Service()
             obj.Init(self._tab.Bytes, x)
             return obj
@@ -128,68 +135,90 @@ class Schema(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         return o == 0
 
+
 def SchemaStart(builder):
     builder.StartObject(6)
+
 
 def Start(builder):
     SchemaStart(builder)
 
+
 def SchemaAddObjects(builder, objects):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(objects), 0)
+
 
 def AddObjects(builder, objects):
     SchemaAddObjects(builder, objects)
 
+
 def SchemaStartObjectsVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartObjectsVector(builder, numElems: int) -> int:
     return SchemaStartObjectsVector(builder, numElems)
 
+
 def SchemaAddEnums(builder, enums):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(enums), 0)
+
 
 def AddEnums(builder, enums):
     SchemaAddEnums(builder, enums)
 
+
 def SchemaStartEnumsVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartEnumsVector(builder, numElems: int) -> int:
     return SchemaStartEnumsVector(builder, numElems)
 
+
 def SchemaAddFileIdent(builder, fileIdent):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(fileIdent), 0)
+
 
 def AddFileIdent(builder, fileIdent):
     SchemaAddFileIdent(builder, fileIdent)
 
+
 def SchemaAddFileExt(builder, fileExt):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(fileExt), 0)
+
 
 def AddFileExt(builder, fileExt):
     SchemaAddFileExt(builder, fileExt)
 
+
 def SchemaAddRootTable(builder, rootTable):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(rootTable), 0)
+
 
 def AddRootTable(builder, rootTable):
     SchemaAddRootTable(builder, rootTable)
 
+
 def SchemaAddServices(builder, services):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(services), 0)
+
 
 def AddServices(builder, services):
     SchemaAddServices(builder, services)
 
+
 def SchemaStartServicesVector(builder, numElems):
     return builder.StartVector(4, numElems, 4)
+
 
 def StartServicesVector(builder, numElems: int) -> int:
     return SchemaStartServicesVector(builder, numElems)
 
+
 def SchemaEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return SchemaEnd(builder)

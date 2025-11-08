@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional
 import pprint
+from typing import Optional
 from uuid import UUID
 
 
@@ -14,6 +14,7 @@ class ApplicationRealmRoleAssociation(object):
     """
     Association of a role with an application realm.
     """
+
     def __init__(self, arealm_oid: Optional[UUID] = None, role_oid: Optional[UUID] = None, _unknown=None):
         self.arealm_oid = arealm_oid
         self.role_oid = role_oid
@@ -47,8 +48,8 @@ class ApplicationRealmRoleAssociation(object):
         :return: dict
         """
         obj = {
-            'arealm_oid': str(self.arealm_oid),
-            'role_oid': str(self.role_oid),
+            "arealm_oid": str(self.arealm_oid),
+            "role_oid": str(self.role_oid),
         }
         return obj
 
@@ -67,18 +68,18 @@ class ApplicationRealmRoleAssociation(object):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['arealm_oid', 'role_oid']:
+            if k not in ["arealm_oid", "role_oid"]:
                 _unknown[k] = data[k]
 
         arealm_oid = None
-        if 'arealm_oid' in data:
-            assert type(data['arealm_oid']) == str
-            arealm_oid = UUID(data['arealm_oid'])
+        if "arealm_oid" in data:
+            assert type(data["arealm_oid"]) == str
+            arealm_oid = UUID(data["arealm_oid"])
 
         role_oid = None
-        if 'role_oid' in data:
-            assert type(data['role_oid']) == str
-            role_oid = UUID(data['role_oid'])
+        if "role_oid" in data:
+            assert type(data["role_oid"]) == str
+            role_oid = UUID(data["role_oid"])
 
         obj = ApplicationRealmRoleAssociation(arealm_oid=arealm_oid, role_oid=role_oid, _unknown=_unknown)
 

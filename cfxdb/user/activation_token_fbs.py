@@ -17,6 +17,7 @@ class ActivationTokenFbs(object):
     """
     CFC user activation token database class for Flatbuffers.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -87,7 +88,7 @@ class ActivationTokenFbs(object):
         if self._created is None and self._from_fbs:
             val = self._from_fbs.Created()
             if val:
-                self._created = datetime.utcfromtimestamp(float(val) / 1000000.)
+                self._created = datetime.utcfromtimestamp(float(val) / 1000000.0)
 
         return self._created
 
@@ -102,7 +103,7 @@ class ActivationTokenFbs(object):
         if self._completed is None and self._from_fbs:
             val = self._from_fbs.Completed()
             if val:
-                self._completed = datetime.utcfromtimestamp(float(val) / 1000000.)
+                self._completed = datetime.utcfromtimestamp(float(val) / 1000000.0)
 
         return self._completed
 
@@ -158,7 +159,6 @@ class ActivationTokenFbs(object):
         return ActivationTokenFbs(ActivationTokenGenFbs.ActivationToken.GetRootAsActivationToken(buf, 0))
 
     def build(self, builder):
-
         oid = self.oid
         if oid:
             oid = builder.CreateString(str(oid))
@@ -187,8 +187,7 @@ class ActivationTokenFbs(object):
             ActivationTokenGenFbs.ActivationTokenAddCreated(builder, int(self.created.timestamp() * 1000000))
 
         if self.completed:
-            ActivationTokenGenFbs.ActivationTokenAddCompleted(builder,
-                                                              int(self.completed.timestamp() * 1000000))
+            ActivationTokenGenFbs.ActivationTokenAddCompleted(builder, int(self.completed.timestamp() * 1000000))
 
         if code:
             ActivationTokenGenFbs.ActivationTokenAddCode(builder, code)

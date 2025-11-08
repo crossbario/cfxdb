@@ -11,13 +11,13 @@ import timeit
 import uuid
 
 import numpy as np
-
 import txaio
+
 txaio.use_twisted()  # noqa
 
-from txaio import time_ns
 import flatbuffers
 import pytest
+from txaio import time_ns
 
 from cfxdb.xbrmm import Channel
 
@@ -26,7 +26,7 @@ def fill_channel(channel):
     channel.market_oid = uuid.uuid4()
     channel.member_oid = uuid.uuid4()
     channel.channel_oid = uuid.uuid4()
-    channel.timestamp = np.datetime64(time_ns(), 'ns')
+    channel.timestamp = np.datetime64(time_ns(), "ns")
     channel.open_at = random.randint(1, 2**256 - 1)
     channel.seq = random.randint(1, 2**32 - 1)
     channel.channel_type = random.randint(1, 2)
@@ -47,14 +47,14 @@ def fill_channel(channel):
     channel.closed_tx = os.urandom(32)
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def channel():
     _channel = Channel()
     fill_channel(_channel)
     return _channel
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
@@ -98,7 +98,7 @@ def test_channel_roundtrip_perf(channel, builder):
     obj = channel.build(builder)
     builder.Finish(obj)
     data = builder.Output()
-    scratch = {'value': 0}
+    scratch = {"value": 0}
 
     def loop():
         _channel = Channel.cast(data)
@@ -126,23 +126,23 @@ def test_channel_roundtrip_perf(channel, builder):
             assert _channel.close_balance == channel.close_balance
             assert _channel.closed_tx == channel.closed_tx
 
-            scratch['value'] += int(_channel.market_oid.bytes[0])
-            scratch['value'] += int(_channel.market_oid.bytes[7])
-            scratch['value'] += int(_channel.market_oid.bytes[15])
+            scratch["value"] += int(_channel.market_oid.bytes[0])
+            scratch["value"] += int(_channel.market_oid.bytes[7])
+            scratch["value"] += int(_channel.market_oid.bytes[15])
 
     N = 5
     M = 10000
     samples = []
-    print('measuring:')
+    print("measuring:")
     for i in range(N):
         secs = timeit.timeit(loop, number=M)
         ops = round(float(M) / secs, 1)
         samples.append(ops)
-        print('{} objects/sec performance'.format(ops))
+        print("{} objects/sec performance".format(ops))
 
     samples = sorted(samples)
     ops50 = samples[int(len(samples) / 2)]
-    print('RESULT: {} objects/sec median performance'.format(ops50))
+    print("RESULT: {} objects/sec median performance".format(ops50))
 
     assert ops50 > 1000
-    print(scratch['value'])
+    print(scratch["value"])

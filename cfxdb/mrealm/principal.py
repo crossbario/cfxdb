@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -32,17 +32,20 @@ class Principal(ConfigurationElement):
         to the ``realm`` and ``authid`` actually assigned (as defined in the :class:`cfxdb.mrealmschema.Principal`
         associated with the credential), this is allowed to differ in *general*.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 modified: Optional[int] = None,
-                 arealm_oid: Optional[UUID] = None,
-                 authid: Optional[str] = None,
-                 role_oid: Optional[UUID] = None,
-                 authextra: Optional[dict] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        modified: Optional[int] = None,
+        arealm_oid: Optional[UUID] = None,
+        authid: Optional[str] = None,
+        role_oid: Optional[UUID] = None,
+        authextra: Optional[dict] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of principal
@@ -127,14 +130,16 @@ class Principal(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'oid': str(self.oid) if self.oid else None,
-            'modified': int(self.modified) if self.modified else None,
-            'arealm_oid': str(self.arealm_oid) if self.arealm_oid else None,
-            'authid': self.authid,
-            'role_oid': str(self.role_oid) if self.role_oid else None,
-            'authextra': self.authextra,
-        })
+        obj.update(
+            {
+                "oid": str(self.oid) if self.oid else None,
+                "modified": int(self.modified) if self.modified else None,
+                "arealm_oid": str(self.arealm_oid) if self.arealm_oid else None,
+                "authid": self.authid,
+                "role_oid": str(self.role_oid) if self.role_oid else None,
+                "authextra": self.authextra,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -160,39 +165,41 @@ class Principal(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['oid', 'modified', 'arealm_oid', 'authid', 'role_oid', 'authextra']:
+            if k not in ["oid", "modified", "arealm_oid", "authid", "role_oid", "authextra"]:
                 _unknown[k] = data[k]
 
-        modified = data.get('modified', None)
+        modified = data.get("modified", None)
         assert modified is None or type(modified) == int
         if modified:
-            modified = np.datetime64(modified, 'ns')
+            modified = np.datetime64(modified, "ns")
 
-        arealm_oid = data.get('arealm_oid', None)
+        arealm_oid = data.get("arealm_oid", None)
         assert arealm_oid is None or type(arealm_oid) == str
         if arealm_oid:
             arealm_oid = UUID(arealm_oid)
 
-        authid = data.get('authid', None)
+        authid = data.get("authid", None)
         assert authid is None or type(authid) == str
 
-        role_oid = data.get('role_oid', None)
+        role_oid = data.get("role_oid", None)
         assert role_oid is None or type(role_oid) == str
         if role_oid:
             role_oid = UUID(role_oid)
 
-        authextra = data.get('authextra', None)
+        authextra = data.get("authextra", None)
         assert authextra is None or type(authextra) == dict
 
-        obj = Principal(oid=obj.oid,
-                        label=obj.label,
-                        description=obj.description,
-                        tags=obj.tags,
-                        modified=modified,
-                        arealm_oid=arealm_oid,
-                        authid=authid,
-                        role_oid=role_oid,
-                        authextra=authextra,
-                        _unknown=_unknown)
+        obj = Principal(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            modified=modified,
+            arealm_oid=arealm_oid,
+            authid=authid,
+            role_oid=role_oid,
+            authextra=authextra,
+            _unknown=_unknown,
+        )
 
         return obj

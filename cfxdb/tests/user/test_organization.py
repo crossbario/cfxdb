@@ -8,9 +8,9 @@
 import uuid
 from datetime import datetime
 
+import cbor2
 import flatbuffers
 import pytest
-import cbor2
 import txaio
 
 from cfxdb.user import Organization, OrganizationFbs
@@ -20,28 +20,28 @@ txaio.use_twisted()
 
 def fill_org(org):
     org.oid = uuid.uuid4()
-    org.label = 'My Org 1'
-    org.description = 'Personal organization, created from unit test.'
-    org.tags = ['previews', 'smb']
-    org.name = 'homer23'
+    org.label = "My Org 1"
+    org.description = "Personal organization, created from unit test."
+    org.tags = ["previews", "smb"]
+    org.name = "homer23"
     org.otype = 1
     org.registered = datetime.utcnow()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def builder():
     _builder = flatbuffers.Builder(0)
     return _builder
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def org_fbs():
     org = OrganizationFbs()
     fill_org(org)
     return org
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def org_cbor():
     org = Organization()
     fill_org(org)
@@ -106,7 +106,6 @@ def test_org_cbor_roundtrip(org_cbor):
 
 
 def test_org_copy_cbor_to_fbs(org_cbor):
-
     org_fbs = OrganizationFbs()
     org_fbs.copy(org_cbor)
 

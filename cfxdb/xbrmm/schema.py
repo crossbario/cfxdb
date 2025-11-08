@@ -6,21 +6,27 @@
 ##############################################################################
 
 from cfxdb.xbr.consent import Consents, IndexConsentByMemberAddress
-
-from cfxdb.xbrmm.channel import PaymentChannels, IndexPaymentChannelByDelegate, \
-    IndexPaymentChannelByActor, PaymentChannelBalances, PayingChannels, IndexPayingChannelByDelegate, \
-    IndexPayingChannelByRecipient, PayingChannelBalances
-
-from cfxdb.xbrmm.offer import Offers, IndexOfferByKey
-from cfxdb.xbrmm.transaction import Transactions
+from cfxdb.xbrmm.channel import (
+    IndexPayingChannelByDelegate,
+    IndexPayingChannelByRecipient,
+    IndexPaymentChannelByActor,
+    IndexPaymentChannelByDelegate,
+    PayingChannelBalances,
+    PayingChannels,
+    PaymentChannelBalances,
+    PaymentChannels,
+)
 from cfxdb.xbrmm.ipfs_file import IPFSFiles
-from cfxdb.xbrmm.userkey import UserKeys, IndexUserKeyByMember
+from cfxdb.xbrmm.offer import IndexOfferByKey, Offers
+from cfxdb.xbrmm.transaction import Transactions
+from cfxdb.xbrmm.userkey import IndexUserKeyByMember, UserKeys
 
 
 class Schema(object):
     """
     CFC edge database schema for ZLMDB.
     """
+
     def __init__(self, db):
         self.db = db
 
@@ -127,36 +133,45 @@ class Schema(object):
         schema.payment_channels = db.attach_table(PaymentChannels)
 
         schema.idx_payment_channel_by_delegate = db.attach_table(IndexPaymentChannelByDelegate)
-        schema.payment_channels.attach_index('idx1', schema.idx_payment_channel_by_delegate, lambda channel:
-                                             (bytes(channel.delegate), channel.timestamp))
+        schema.payment_channels.attach_index(
+            "idx1",
+            schema.idx_payment_channel_by_delegate,
+            lambda channel: (bytes(channel.delegate), channel.timestamp),
+        )
 
         schema.idx_payment_channel_by_actor = db.attach_table(IndexPaymentChannelByActor)
-        schema.payment_channels.attach_index('idx2', schema.idx_payment_channel_by_actor, lambda channel:
-                                             (bytes(channel.actor), channel.timestamp))
+        schema.payment_channels.attach_index(
+            "idx2", schema.idx_payment_channel_by_actor, lambda channel: (bytes(channel.actor), channel.timestamp)
+        )
 
         schema.payment_balances = db.attach_table(PaymentChannelBalances)
 
         schema.paying_channels = db.attach_table(PayingChannels)
 
         schema.idx_paying_channel_by_delegate = db.attach_table(IndexPayingChannelByDelegate)
-        schema.paying_channels.attach_index('idx1', schema.idx_paying_channel_by_delegate, lambda channel:
-                                            (bytes(channel.delegate), channel.timestamp))
+        schema.paying_channels.attach_index(
+            "idx1", schema.idx_paying_channel_by_delegate, lambda channel: (bytes(channel.delegate), channel.timestamp)
+        )
 
         schema.idx_paying_channel_by_recipient = db.attach_table(IndexPayingChannelByRecipient)
-        schema.paying_channels.attach_index('idx2', schema.idx_paying_channel_by_recipient, lambda channel:
-                                            (bytes(channel.recipient), channel.timestamp))
+        schema.paying_channels.attach_index(
+            "idx2",
+            schema.idx_paying_channel_by_recipient,
+            lambda channel: (bytes(channel.recipient), channel.timestamp),
+        )
 
         schema.paying_balances = db.attach_table(PayingChannelBalances)
 
         schema.offers = db.attach_table(Offers)
         schema.idx_offer_by_key = db.attach_table(IndexOfferByKey)
-        schema.offers.attach_index('idx1', schema.idx_offer_by_key, lambda offer: offer.key)
+        schema.offers.attach_index("idx1", schema.idx_offer_by_key, lambda offer: offer.key)
 
         schema.user_keys = db.attach_table(UserKeys)
 
         schema.idx_user_key_by_member = db.attach_table(IndexUserKeyByMember)
-        schema.user_keys.attach_index('idx1', schema.idx_user_key_by_member, lambda user_key:
-                                      (user_key.owner, user_key.created))
+        schema.user_keys.attach_index(
+            "idx1", schema.idx_user_key_by_member, lambda user_key: (user_key.owner, user_key.created)
+        )
 
         schema.transactions = db.attach_table(Transactions)
 

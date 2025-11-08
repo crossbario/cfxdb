@@ -72,7 +72,7 @@ class OrganizationFbs(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pformat(self.marshal()))
+        return "\n{}\n".format(pformat(self.marshal()))
 
     def copy(self, other):
         self.oid = other.oid
@@ -90,7 +90,7 @@ class OrganizationFbs(object):
         if self._oid is None and self._from_fbs:
             oid = self._from_fbs.Oid()
             if oid:
-                bytes = struct.pack('>Q', oid.Lsb()) + struct.pack('>Q', oid.Msb())
+                bytes = struct.pack(">Q", oid.Lsb()) + struct.pack(">Q", oid.Msb())
                 self._oid = uuid.UUID(bytes=bytes)
         return self._oid
 
@@ -167,7 +167,7 @@ class OrganizationFbs(object):
                 # utcfromtimestamp
                 # self._registered = datetime.utcfromtimestamp(float(val) / 1000000.)
                 # calendar.timegm(dt.utctimetuple())
-                self._registered = datetime.fromtimestamp(float(val) / 1000000.)
+                self._registered = datetime.fromtimestamp(float(val) / 1000000.0)
 
         return self._registered
 
@@ -195,7 +195,6 @@ class OrganizationFbs(object):
         return OrganizationFbs(OrganizationGenFbs.Organization.GetRootAsOrganization(buf, 0))
 
     def build(self, builder):
-
         # serialize all stuff we need later first (because we cannot build nested) ..
 
         # label: string
@@ -233,8 +232,8 @@ class OrganizationFbs(object):
         # oid: uuid.UUID
         if self.oid:
             bytes = self.oid.bytes
-            msb = struct.unpack('>Q', bytes[8:])[0]
-            lsb = struct.unpack('>Q', bytes[:8])[0]
+            msb = struct.unpack(">Q", bytes[8:])[0]
+            lsb = struct.unpack(">Q", bytes[:8])[0]
             oid = oid_t.Createoid_t(builder, msb=msb, lsb=lsb)
             OrganizationGenFbs.OrganizationAddOid(builder, oid)
 

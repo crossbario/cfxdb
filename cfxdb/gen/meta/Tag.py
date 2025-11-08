@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Generic **tags attached** to objects in other tables. Primary key of this table is ``(table_oid, object_oid, tag_oid)``.
 class Tag(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Tag(object):
     def GetRootAsTag(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Tag
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Tag(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Tag
@@ -59,7 +64,9 @@ class Tag(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Tag
@@ -87,7 +94,9 @@ class Tag(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Tag
@@ -117,56 +126,74 @@ class Tag(object):
             return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
         return 0
 
+
 def TagStart(builder):
     builder.StartObject(4)
+
 
 def Start(builder):
     TagStart(builder)
 
+
 def TagAddTableOid(builder, tableOid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 
 def AddTableOid(builder, tableOid):
     TagAddTableOid(builder, tableOid)
 
+
 def TagStartTableOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTableOidVector(builder, numElems: int) -> int:
     return TagStartTableOidVector(builder, numElems)
 
+
 def TagAddObjectOid(builder, objectOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 
 def AddObjectOid(builder, objectOid):
     TagAddObjectOid(builder, objectOid)
 
+
 def TagStartObjectOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartObjectOidVector(builder, numElems: int) -> int:
     return TagStartObjectOidVector(builder, numElems)
 
+
 def TagAddTagOid(builder, tagOid):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(tagOid), 0)
+
 
 def AddTagOid(builder, tagOid):
     TagAddTagOid(builder, tagOid)
 
+
 def TagStartTagOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTagOidVector(builder, numElems: int) -> int:
     return TagStartTagOidVector(builder, numElems)
 
+
 def TagAddAttached(builder, attached):
     builder.PrependUint64Slot(3, attached, 0)
+
 
 def AddAttached(builder, attached):
     TagAddAttached(builder, attached)
 
+
 def TagEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return TagEnd(builder)

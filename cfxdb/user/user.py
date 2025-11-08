@@ -5,10 +5,10 @@
 #
 ##############################################################################
 
-from uuid import UUID
 from datetime import datetime
 from pprint import pformat
-from typing import Optional, List
+from typing import List, Optional
+from uuid import UUID
 
 from cfxdb.common import ConfigurationElement
 
@@ -22,15 +22,18 @@ class User(ConfigurationElement):
         independent of management realms. A given user can be owner or authorized to
         access different management realms or resources therein.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 email: Optional[str] = None,
-                 registered: Optional[datetime] = None,
-                 pubkey: Optional[str] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        email: Optional[str] = None,
+        registered: Optional[datetime] = None,
+        pubkey: Optional[str] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of the user
@@ -77,7 +80,7 @@ class User(ConfigurationElement):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pformat(self.marshal()))
+        return "\n{}\n".format(pformat(self.marshal()))
 
     def copy(self, other):
         self.oid = other.oid
@@ -98,11 +101,13 @@ class User(ConfigurationElement):
         assert self.pubkey is None or (type(self.pubkey) == str and len(self.pubkey) == 64)
 
         registered = int(self.registered.timestamp() * 1000000) if self.registered else None
-        obj.update({
-            'email': self.email,
-            'registered': registered,
-            'pubkey': self.pubkey,
-        })
+        obj.update(
+            {
+                "email": self.email,
+                "registered": registered,
+                "pubkey": self.pubkey,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -120,29 +125,31 @@ class User(ConfigurationElement):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['email', 'registered', 'pubkey']:
+            if k not in ["email", "registered", "pubkey"]:
                 val = data.pop(k)
                 _unknown[k] = val
 
-        email = data.get('email', None)
+        email = data.get("email", None)
         assert email is None or type(email) == str
 
-        registered = data.get('registered', None)
+        registered = data.get("registered", None)
         assert registered is None or type(registered) == float or type(registered) == int
         if registered:
             # registered = datetime.utcfromtimestamp(float(registered) / 1000000.)
-            registered = datetime.fromtimestamp(float(registered) / 1000000.)
+            registered = datetime.fromtimestamp(float(registered) / 1000000.0)
 
         # hex string with 256 bit Ed25519 WAMP-cryptosign public key
-        pubkey = data.get('pubkey', None)
+        pubkey = data.get("pubkey", None)
         assert pubkey is None or (type(pubkey) == str and len(pubkey) == 64)
 
-        obj = User(oid=obj.oid,
-                   label=obj.label,
-                   description=obj.description,
-                   tags=obj.tags,
-                   email=email,
-                   registered=registered,
-                   pubkey=pubkey,
-                   _unknown=_unknown)
+        obj = User(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            email=email,
+            registered=registered,
+            pubkey=pubkey,
+            _unknown=_unknown,
+        )
         return obj

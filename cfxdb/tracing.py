@@ -5,11 +5,11 @@
 #
 ##############################################################################
 
-import uuid
 import pprint
+import uuid
 from datetime import datetime
 
-from zlmdb import table, MapUuidTimestampCbor
+from zlmdb import MapUuidTimestampCbor, table
 
 from .common import ConfigurationElement
 from .mrealm import ManagementRealm
@@ -23,18 +23,20 @@ class TracedMessage(object):
     RTYPE_MREALM = 1
     RTYPE_APP = 2
 
-    def __init__(self,
-                 oid=None,
-                 label=None,
-                 description=None,
-                 tags=None,
-                 name=None,
-                 created=None,
-                 owner=None,
-                 cf_node=None,
-                 cf_router_worker=None,
-                 cf_container_worker=None,
-                 _unknown=None):
+    def __init__(
+        self,
+        oid=None,
+        label=None,
+        description=None,
+        tags=None,
+        name=None,
+        created=None,
+        owner=None,
+        cf_node=None,
+        cf_router_worker=None,
+        cf_container_worker=None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of management realm
@@ -104,7 +106,7 @@ class TracedMessage(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     def copy(self, other, overwrite=False):
         """
@@ -147,15 +149,17 @@ class TracedMessage(object):
 
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'oid': str(self.oid),
-            'name': self.name,
-            'created': int(self.created.timestamp() * 1000000) if self.created else None,
-            'owner': str(self.owner),
-            'cf_node': str(self.cf_node) if self.cf_node else None,
-            'cf_router_worker': str(self.cf_router_worker) if self.cf_router_worker else None,
-            'cf_container_worker': str(self.cf_container_worker) if self.cf_container_worker else None,
-        })
+        obj.update(
+            {
+                "oid": str(self.oid),
+                "name": self.name,
+                "created": int(self.created.timestamp() * 1000000) if self.created else None,
+                "owner": str(self.owner),
+                "cf_node": str(self.cf_node) if self.cf_node else None,
+                "cf_router_worker": str(self.cf_router_worker) if self.cf_router_worker else None,
+                "cf_container_worker": str(self.cf_container_worker) if self.cf_container_worker else None,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -182,54 +186,62 @@ class TracedMessage(object):
         _unknown = {}
         for k in data:
             if k not in [
-                    'oid', 'name', 'rtype', 'owner', 'created', 'cf_node', 'cf_router_worker',
-                    'cf_container_worker'
+                "oid",
+                "name",
+                "rtype",
+                "owner",
+                "created",
+                "cf_node",
+                "cf_router_worker",
+                "cf_container_worker",
             ]:
                 _unknown[k] = data[k]
 
-        name = data.get('name', None)
+        name = data.get("name", None)
         assert name is None or type(name) == str
 
-        owner = data.get('owner', None)
+        owner = data.get("owner", None)
         assert type(owner) == str
         owner = uuid.UUID(owner)
 
-        created = data.get('created', None)
+        created = data.get("created", None)
         assert created is None or type(created) == float or type(created) == int
         if created:
-            created = datetime.utcfromtimestamp(float(created) / 1000000.)
+            created = datetime.utcfromtimestamp(float(created) / 1000000.0)
 
-        cf_node = data.get('cf_node', None)
+        cf_node = data.get("cf_node", None)
         assert cf_node is None or type(cf_node) == str
         if cf_node:
             cf_node = uuid.UUID(cf_node)
 
-        cf_router_worker = data.get('cf_router_worker', None)
+        cf_router_worker = data.get("cf_router_worker", None)
         assert cf_router_worker is None or type(cf_router_worker) == str
         if cf_router_worker:
             cf_router_worker = uuid.UUID(cf_router_worker)
 
-        cf_container_worker = data.get('cf_container_worker', None)
+        cf_container_worker = data.get("cf_container_worker", None)
         assert cf_container_worker is None or type(cf_container_worker) == str
         if cf_container_worker:
             cf_container_worker = uuid.UUID(cf_container_worker)
 
-        obj = ManagementRealm(oid=obj.oid,
-                              label=obj.label,
-                              description=obj.description,
-                              tags=obj.tags,
-                              name=name,
-                              owner=owner,
-                              created=created,
-                              cf_node=cf_node,
-                              cf_router_worker=cf_router_worker,
-                              cf_container_worker=cf_container_worker,
-                              _unknown=_unknown)
+        obj = ManagementRealm(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=name,
+            owner=owner,
+            created=created,
+            cf_node=cf_node,
+            cf_router_worker=cf_router_worker,
+            cf_container_worker=cf_container_worker,
+            _unknown=_unknown,
+        )
 
         return obj
 
 
-@table('7ff23263-92da-4ca3-b249-0293788bcd4c', marshal=TracedMessage.marshal, parse=TracedMessage.parse)
+@table("7ff23263-92da-4ca3-b249-0293788bcd4c", marshal=TracedMessage.marshal, parse=TracedMessage.parse)
 class TracedMessages(MapUuidTimestampCbor):
     """
     Table: trace_oid, timestamp -> traced_message

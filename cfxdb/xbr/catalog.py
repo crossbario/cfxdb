@@ -9,8 +9,9 @@ import uuid
 
 import flatbuffers
 import numpy as np
+from zlmdb import MapBytes20TimestampUuid, MapUuidFlatBuffers, table
+
 from cfxdb.gen.xbr import Catalog as CatalogGen
-from zlmdb import table, MapUuidFlatBuffers, MapBytes20TimestampUuid
 
 
 class _CatalogGen(CatalogGen.Catalog):
@@ -26,7 +27,7 @@ class _CatalogGen(CatalogGen.Catalog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def CreatedAsBytes(self):
@@ -34,7 +35,7 @@ class _CatalogGen(CatalogGen.Catalog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OwnerAsBytes(self):
@@ -42,7 +43,7 @@ class _CatalogGen(CatalogGen.Catalog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def TidAsBytes(self):
@@ -50,7 +51,7 @@ class _CatalogGen(CatalogGen.Catalog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def SignatureAsBytes(self):
@@ -58,7 +59,7 @@ class _CatalogGen(CatalogGen.Catalog):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -66,6 +67,7 @@ class Catalog(object):
     """
     ``XBRNetwork.FbsRepository`` database object.
     """
+
     def __init__(self, from_fbs=None):
         self._from_fbs = from_fbs
 
@@ -95,19 +97,19 @@ class Catalog(object):
 
     def marshal(self) -> dict:
         obj = {
-            'oid': self.oid.bytes if self.oid else None,
-            'timestamp': int(self.timestamp) if self.timestamp else None,
-            'seq': self.seq,
-            'owner': bytes(self.owner) if self.owner else None,
-            'terms': self.terms,
-            'meta': self.meta,
-            'tid': bytes(self.tid) if self.tid else None,
-            'signature': bytes(self.signature) if self.signature else None,
+            "oid": self.oid.bytes if self.oid else None,
+            "timestamp": int(self.timestamp) if self.timestamp else None,
+            "seq": self.seq,
+            "owner": bytes(self.owner) if self.owner else None,
+            "terms": self.terms,
+            "meta": self.meta,
+            "tid": bytes(self.tid) if self.tid else None,
+            "signature": bytes(self.signature) if self.signature else None,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def oid(self) -> uuid.UUID:
@@ -131,7 +133,7 @@ class Catalog(object):
         Database transaction time (epoch time in ns) of insert or last update.
         """
         if self._timestamp is None and self._from_fbs:
-            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), 'ns')
+            self._timestamp = np.datetime64(self._from_fbs.Timestamp(), "ns")
         return self._timestamp
 
     @timestamp.setter
@@ -176,7 +178,7 @@ class Catalog(object):
         if self._terms is None and self._from_fbs:
             terms = self._from_fbs.Terms()
             if terms:
-                self._terms = terms.decode('utf8')
+                self._terms = terms.decode("utf8")
         return self._terms
 
     @terms.setter
@@ -192,7 +194,7 @@ class Catalog(object):
         if self._meta is None and self._from_fbs:
             meta = self._from_fbs.Meta()
             if meta:
-                self._meta = meta.decode('utf8')
+                self._meta = meta.decode("utf8")
         return self._meta
 
     @meta.setter
@@ -235,7 +237,6 @@ class Catalog(object):
         return Catalog(_CatalogGen.GetRootAsCatalog(buf, 0))
 
     def build(self, builder):
-
         oid = self.oid.bytes if self.oid else None
         if oid:
             oid = builder.CreateString(oid)
@@ -291,14 +292,14 @@ class Catalog(object):
         return final
 
 
-@table('60ba3189-d127-4522-bfbc-ed416bf7233c', build=Catalog.build, cast=Catalog.cast)
+@table("60ba3189-d127-4522-bfbc-ed416bf7233c", build=Catalog.build, cast=Catalog.cast)
 class Catalogs(MapUuidFlatBuffers):
     """
     Catalogs table, mapping from ``oid|UUID`` to :class:`cfxdb.xbr.FbsRepository`
     """
 
 
-@table('2e331469-68f8-4b1b-a1b9-904f7e29dbc5')
+@table("2e331469-68f8-4b1b-a1b9-904f7e29dbc5")
 class IndexCatalogsByOwner(MapBytes20TimestampUuid):
     """
     Catalogs-by-owner index with ``(owner_adr|bytes[20], created|int) -> catalog_id|UUID`` mapping.

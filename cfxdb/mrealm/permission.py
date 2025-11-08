@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -18,43 +18,46 @@ class Permission(ConfigurationElement):
     """
     Role permission database object.
     """
+
     MATCH_TYPE_NONE: int = 0
     MATCH_TYPE_EXACT: int = 1
     MATCH_TYPE_PREFIX: int = 2
     MATCH_TYPE_WILDCARD: int = 3
     MATCH_TYPES_TOSTR = {
         0: None,
-        1: 'exact',
-        2: 'prefix',
-        3: 'wildcard',
+        1: "exact",
+        2: "prefix",
+        3: "wildcard",
     }
     MATCH_TYPES_FROMSTR = {val: key for key, val in MATCH_TYPES_TOSTR.items()}
 
     URI_CHECK_LEVEL_NONE: int = 0
     URI_CHECK_LEVEL_STRICT: int = 1
     URI_CHECK_LEVEL_LOOSE: int = 2
-    URI_CHECK_LEVELS_TOSTR = {0: None, 1: 'strict', 2: 'loose'}
+    URI_CHECK_LEVELS_TOSTR = {0: None, 1: "strict", 2: "loose"}
     URI_CHECK_LEVELS_FROMSTR = {val: key for key, val in URI_CHECK_LEVELS_TOSTR.items()}
 
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 role_oid: Optional[UUID] = None,
-                 uri: Optional[str] = None,
-                 uri_check_level: Optional[int] = None,
-                 match: Optional[int] = None,
-                 allow_call: Optional[bool] = None,
-                 allow_register: Optional[bool] = None,
-                 allow_publish: Optional[bool] = None,
-                 allow_subscribe: Optional[bool] = None,
-                 disclose_caller: Optional[bool] = None,
-                 disclose_publisher: Optional[bool] = None,
-                 cache: Optional[bool] = None,
-                 created: Optional[np.datetime64] = None,
-                 owner: Optional[UUID] = None,
-                 _unknown=None):
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        role_oid: Optional[UUID] = None,
+        uri: Optional[str] = None,
+        uri_check_level: Optional[int] = None,
+        match: Optional[int] = None,
+        allow_call: Optional[bool] = None,
+        allow_register: Optional[bool] = None,
+        allow_publish: Optional[bool] = None,
+        allow_subscribe: Optional[bool] = None,
+        disclose_caller: Optional[bool] = None,
+        disclose_publisher: Optional[bool] = None,
+        cache: Optional[bool] = None,
+        created: Optional[np.datetime64] = None,
+        owner: Optional[UUID] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of this permission object
@@ -177,36 +180,26 @@ class Permission(ConfigurationElement):
         """
         obj = ConfigurationElement.marshal(self)
 
-        obj.update({
-            'oid':
-            str(self.oid) if self.oid else None,
-            'role_oid':
-            str(self.role_oid) if self.role_oid else None,
-            'uri':
-            self.uri,
-            'uri_check_level':
-            Permission.URI_CHECK_LEVELS_TOSTR[self.uri_check_level] if self.uri_check_level else None,
-            'match':
-            Permission.MATCH_TYPES_TOSTR[self.match] if self.match else None,
-            'allow_call':
-            self.allow_call,
-            'allow_register':
-            self.allow_register,
-            'allow_publish':
-            self.allow_publish,
-            'allow_subscribe':
-            self.allow_subscribe,
-            'disclose_caller':
-            self.disclose_caller,
-            'disclose_publisher':
-            self.disclose_publisher,
-            'cache':
-            self.cache,
-            'created':
-            int(self.created) if self.created else None,
-            'owner':
-            str(self.owner) if self.owner else None,
-        })
+        obj.update(
+            {
+                "oid": str(self.oid) if self.oid else None,
+                "role_oid": str(self.role_oid) if self.role_oid else None,
+                "uri": self.uri,
+                "uri_check_level": Permission.URI_CHECK_LEVELS_TOSTR[self.uri_check_level]
+                if self.uri_check_level
+                else None,
+                "match": Permission.MATCH_TYPES_TOSTR[self.match] if self.match else None,
+                "allow_call": self.allow_call,
+                "allow_register": self.allow_register,
+                "allow_publish": self.allow_publish,
+                "allow_subscribe": self.allow_subscribe,
+                "disclose_caller": self.disclose_caller,
+                "disclose_publisher": self.disclose_publisher,
+                "cache": self.cache,
+                "created": int(self.created) if self.created else None,
+                "owner": str(self.owner) if self.owner else None,
+            }
+        )
 
         if self._unknown:
             # pass through all attributes unknown
@@ -233,80 +226,93 @@ class Permission(ConfigurationElement):
         _unknown = {}
         for k in data:
             if k not in [
-                    'oid', 'role_oid', 'uri', 'uri_check_level', 'match', 'allow_call', 'allow_register',
-                    'allow_publish', 'allow_subscribe', 'disclose_caller', 'disclose_publisher', 'cache',
-                    'owner', 'created'
+                "oid",
+                "role_oid",
+                "uri",
+                "uri_check_level",
+                "match",
+                "allow_call",
+                "allow_register",
+                "allow_publish",
+                "allow_subscribe",
+                "disclose_caller",
+                "disclose_publisher",
+                "cache",
+                "owner",
+                "created",
             ]:
                 _unknown[k] = data[k]
 
-        role_oid = data.get('role_oid', None)
+        role_oid = data.get("role_oid", None)
         assert role_oid is None or type(role_oid) == str
         if role_oid:
             role_oid = UUID(role_oid)
 
-        uri = data.get('uri', None)
+        uri = data.get("uri", None)
         assert uri is None or type(uri) == str
 
-        uri_check_level = data.get('uri_check_level', None)
+        uri_check_level = data.get("uri_check_level", None)
         assert uri_check_level is None or type(uri_check_level) == str
         if uri_check_level:
             assert uri_check_level in Permission.URI_CHECK_LEVELS_FROMSTR
             uri_check_level = Permission.URI_CHECK_LEVELS_FROMSTR[uri_check_level]
 
-        match = data.get('match', None)
+        match = data.get("match", None)
         assert match is None or type(match) == str
         if match:
             assert match in Permission.MATCH_TYPES_FROMSTR
             match = Permission.MATCH_TYPES_FROMSTR[match]
 
-        allow_call = data.get('allow_call', None)
+        allow_call = data.get("allow_call", None)
         assert allow_call is None or type(allow_call) == bool
 
-        allow_register = data.get('allow_register', None)
+        allow_register = data.get("allow_register", None)
         assert allow_register is None or type(allow_register) == bool
 
-        allow_publish = data.get('allow_publish', None)
+        allow_publish = data.get("allow_publish", None)
         assert allow_publish is None or type(allow_publish) == bool
 
-        allow_subscribe = data.get('allow_subscribe', None)
+        allow_subscribe = data.get("allow_subscribe", None)
         assert allow_subscribe is None or type(allow_subscribe) == bool
 
-        disclose_caller = data.get('disclose_caller', None)
+        disclose_caller = data.get("disclose_caller", None)
         assert disclose_caller is None or type(disclose_caller) == bool
 
-        disclose_publisher = data.get('disclose_publisher', None)
+        disclose_publisher = data.get("disclose_publisher", None)
         assert disclose_publisher is None or type(disclose_publisher) == bool
 
-        cache = data.get('cache', None)
+        cache = data.get("cache", None)
         assert cache is None or type(cache) == bool
 
-        created = data.get('created', None)
+        created = data.get("created", None)
         assert created is None or type(created) == int
         if created:
-            created = np.datetime64(created, 'ns')
+            created = np.datetime64(created, "ns")
 
-        owner = data.get('owner', None)
+        owner = data.get("owner", None)
         assert owner is None or type(owner) == str
         if owner:
             owner = UUID(owner)
 
-        obj = Permission(oid=obj.oid,
-                         label=obj.label,
-                         description=obj.description,
-                         tags=obj.tags,
-                         role_oid=role_oid,
-                         uri=uri,
-                         uri_check_level=uri_check_level,
-                         match=match,
-                         allow_call=allow_call,
-                         allow_register=allow_register,
-                         allow_publish=allow_publish,
-                         allow_subscribe=allow_subscribe,
-                         disclose_caller=disclose_caller,
-                         disclose_publisher=disclose_publisher,
-                         cache=cache,
-                         created=created,
-                         owner=owner,
-                         _unknown=_unknown)
+        obj = Permission(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            role_oid=role_oid,
+            uri=uri,
+            uri_check_level=uri_check_level,
+            match=match,
+            allow_call=allow_call,
+            allow_register=allow_register,
+            allow_publish=allow_publish,
+            allow_subscribe=allow_subscribe,
+            disclose_caller=disclose_caller,
+            disclose_publisher=disclose_publisher,
+            cache=cache,
+            created=created,
+            owner=owner,
+            _unknown=_unknown,
+        )
 
         return obj

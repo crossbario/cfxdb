@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional, List
 import pprint
+from typing import List, Optional
 from uuid import UUID
 
 import numpy as np
@@ -19,16 +19,19 @@ class RouterCluster(Cluster):
     A router cluster is able to run (application) realms, and is hosted on a groups of router workers
     kept in sync and meshed via router-to-router links.
     """
-    def __init__(self,
-                 oid: Optional[UUID] = None,
-                 label: Optional[str] = None,
-                 description: Optional[str] = None,
-                 tags: Optional[List[str]] = None,
-                 name: Optional[str] = None,
-                 status: Optional[int] = None,
-                 owner_oid: Optional[UUID] = None,
-                 changed: Optional[np.datetime64] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        oid: Optional[UUID] = None,
+        label: Optional[str] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        status: Optional[int] = None,
+        owner_oid: Optional[UUID] = None,
+        changed: Optional[np.datetime64] = None,
+        _unknown=None,
+    ):
         """
 
         :param oid: Object ID of this router cluster.
@@ -39,15 +42,17 @@ class RouterCluster(Cluster):
 
         :param tags: Optional list of user tags on this router cluster.
         """
-        Cluster.__init__(self,
-                         oid=oid,
-                         label=label,
-                         description=description,
-                         tags=tags,
-                         name=name,
-                         status=status,
-                         owner_oid=owner_oid,
-                         changed=changed)
+        Cluster.__init__(
+            self,
+            oid=oid,
+            label=label,
+            description=description,
+            tags=tags,
+            name=name,
+            status=status,
+            owner_oid=owner_oid,
+            changed=changed,
+        )
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
@@ -60,7 +65,7 @@ class RouterCluster(Cluster):
         return not self.__eq__(other)
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     def marshal(self):
         """
@@ -93,14 +98,16 @@ class RouterCluster(Cluster):
             if k not in []:
                 _unknown[k] = data[k]
 
-        obj = RouterCluster(oid=obj.oid,
-                            label=obj.label,
-                            description=obj.description,
-                            tags=obj.tags,
-                            name=obj.name,
-                            status=obj.status,
-                            owner_oid=obj.owner_oid,
-                            changed=obj.changed,
-                            _unknown=_unknown)
+        obj = RouterCluster(
+            oid=obj.oid,
+            label=obj.label,
+            description=obj.description,
+            tags=obj.tags,
+            name=obj.name,
+            status=obj.status,
+            owner_oid=obj.owner_oid,
+            changed=obj.changed,
+            _unknown=_unknown,
+        )
 
         return obj

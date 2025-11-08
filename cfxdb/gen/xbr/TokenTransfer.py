@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # This table stores XBRToken.Transfer events.
 class TokenTransfer(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class TokenTransfer(object):
     def GetRootAsTokenTransfer(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # TokenTransfer
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # TokenTransfer
@@ -59,7 +64,9 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # TokenTransfer
@@ -87,7 +94,9 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # TokenTransfer
@@ -115,7 +124,9 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # TokenTransfer
@@ -143,7 +154,9 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # TokenTransfer
@@ -165,74 +178,98 @@ class TokenTransfer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
+
 def TokenTransferStart(builder):
     builder.StartObject(5)
+
 
 def Start(builder):
     TokenTransferStart(builder)
 
+
 def TokenTransferAddTxHash(builder, txHash):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(txHash), 0)
+
 
 def AddTxHash(builder, txHash):
     TokenTransferAddTxHash(builder, txHash)
 
+
 def TokenTransferStartTxHashVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTxHashVector(builder, numElems: int) -> int:
     return TokenTransferStartTxHashVector(builder, numElems)
 
+
 def TokenTransferAddBlockHash(builder, blockHash):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(blockHash), 0)
+
 
 def AddBlockHash(builder, blockHash):
     TokenTransferAddBlockHash(builder, blockHash)
 
+
 def TokenTransferStartBlockHashVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartBlockHashVector(builder, numElems: int) -> int:
     return TokenTransferStartBlockHashVector(builder, numElems)
 
+
 def TokenTransferAddFromAddress(builder, fromAddress):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(fromAddress), 0)
+
 
 def AddFromAddress(builder, fromAddress):
     TokenTransferAddFromAddress(builder, fromAddress)
 
+
 def TokenTransferStartFromAddressVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartFromAddressVector(builder, numElems: int) -> int:
     return TokenTransferStartFromAddressVector(builder, numElems)
 
+
 def TokenTransferAddToAddress(builder, toAddress):
     builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(toAddress), 0)
+
 
 def AddToAddress(builder, toAddress):
     TokenTransferAddToAddress(builder, toAddress)
 
+
 def TokenTransferStartToAddressVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartToAddressVector(builder, numElems: int) -> int:
     return TokenTransferStartToAddressVector(builder, numElems)
 
+
 def TokenTransferAddValue(builder, value):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 
 def AddValue(builder, value):
     TokenTransferAddValue(builder, value)
 
+
 def TokenTransferStartValueVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartValueVector(builder, numElems: int) -> int:
     return TokenTransferStartValueVector(builder, numElems)
 
+
 def TokenTransferEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return TokenTransferEnd(builder)

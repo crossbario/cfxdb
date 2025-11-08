@@ -5,28 +5,34 @@
 #
 ##############################################################################
 
+from cfxdb.xbr.consent import Consents, IndexConsentByMemberAddress
+from cfxdb.xbrmm.channel import (
+    IndexPayingChannelByDelegate,
+    IndexPayingChannelByRecipient,
+    IndexPaymentChannelByActor,
+    IndexPaymentChannelByDelegate,
+    PayingChannelBalances,
+    PayingChannels,
+    PaymentChannelBalances,
+    PaymentChannels,
+)
+from cfxdb.xbrmm.offer import IndexOfferByKey, Offers
+from cfxdb.xbrmm.transaction import Transactions
+
 from .actor import Actors
 from .api import Apis, IndexApiByCatalog
 from .block import Blocks
 from .catalog import Catalogs, IndexCatalogsByOwner
-
-from cfxdb.xbr.consent import Consents, IndexConsentByMemberAddress
-
-from cfxdb.xbrmm.channel import PaymentChannels, IndexPaymentChannelByDelegate, \
-    IndexPaymentChannelByActor, PaymentChannelBalances, PayingChannels, IndexPayingChannelByDelegate, \
-    IndexPayingChannelByRecipient, PayingChannelBalances
-
-from .market import Markets, IndexMarketsByOwner, IndexMarketsByActor, IndexMarketsByMaker
+from .market import IndexMarketsByActor, IndexMarketsByMaker, IndexMarketsByOwner, Markets
 from .member import Members
-from cfxdb.xbrmm.offer import Offers, IndexOfferByKey
 from .token import TokenApprovals, TokenTransfers
-from cfxdb.xbrmm.transaction import Transactions
 
 
 class Schema(object):
     """
     CFC edge database schema for ZLMDB.
     """
+
     def __init__(self, db):
         self.db = db
 
@@ -186,8 +192,9 @@ class Schema(object):
 
         schema.idx_catalogs_by_owner = db.attach_table(IndexCatalogsByOwner)
 
-        schema.catalogs.attach_index('idx1', schema.idx_catalogs_by_owner, lambda catalog:
-                                     (catalog.owner, catalog.timestamp))
+        schema.catalogs.attach_index(
+            "idx1", schema.idx_catalogs_by_owner, lambda catalog: (catalog.owner, catalog.timestamp)
+        )
 
         schema.consents = db.attach_table(Consents)
 
@@ -203,8 +210,9 @@ class Schema(object):
 
         schema.idx_markets_by_owner = db.attach_table(IndexMarketsByOwner)
 
-        schema.markets.attach_index('idx1', schema.idx_markets_by_owner, lambda market:
-                                    (market.owner, market.timestamp))
+        schema.markets.attach_index(
+            "idx1", schema.idx_markets_by_owner, lambda market: (market.owner, market.timestamp)
+        )
 
         schema.actors = db.attach_table(Actors)
         schema.idx_markets_by_actor = db.attach_table(IndexMarketsByActor)
@@ -215,19 +223,23 @@ class Schema(object):
         #                            (actor.actor, actor.timestamp))
 
         schema.idx_markets_by_maker = db.attach_table(IndexMarketsByMaker)
-        schema.markets.attach_index('idx3', schema.idx_markets_by_maker, lambda market: market.maker)
+        schema.markets.attach_index("idx3", schema.idx_markets_by_maker, lambda market: market.maker)
 
         schema.payment_channels = db.attach_table(PaymentChannels)
 
         schema.idx_payment_channel_by_delegate = db.attach_table(IndexPaymentChannelByDelegate)
         schema.payment_channels.attach_index(
-            'idx1', schema.idx_payment_channel_by_delegate, lambda payment_channel:
-            (bytes(payment_channel.delegate), payment_channel.timestamp))
+            "idx1",
+            schema.idx_payment_channel_by_delegate,
+            lambda payment_channel: (bytes(payment_channel.delegate), payment_channel.timestamp),
+        )
 
         schema.idx_payment_channel_by_actor = db.attach_table(IndexPaymentChannelByActor)
         schema.payment_channels.attach_index(
-            'idx2', schema.idx_payment_channel_by_actor, lambda payment_channel:
-            (bytes(payment_channel.actor), payment_channel.timestamp))
+            "idx2",
+            schema.idx_payment_channel_by_actor,
+            lambda payment_channel: (bytes(payment_channel.actor), payment_channel.timestamp),
+        )
 
         schema.payment_balances = db.attach_table(PaymentChannelBalances)
 
@@ -235,19 +247,23 @@ class Schema(object):
 
         schema.idx_paying_channel_by_delegate = db.attach_table(IndexPayingChannelByDelegate)
         schema.paying_channels.attach_index(
-            'idx1', schema.idx_paying_channel_by_delegate, lambda paying_channel:
-            (bytes(paying_channel.delegate), paying_channel.timestamp))
+            "idx1",
+            schema.idx_paying_channel_by_delegate,
+            lambda paying_channel: (bytes(paying_channel.delegate), paying_channel.timestamp),
+        )
 
         schema.idx_paying_channel_by_recipient = db.attach_table(IndexPayingChannelByRecipient)
         schema.paying_channels.attach_index(
-            'idx2', schema.idx_paying_channel_by_recipient, lambda paying_channel:
-            (bytes(paying_channel.recipient), paying_channel.timestamp))
+            "idx2",
+            schema.idx_paying_channel_by_recipient,
+            lambda paying_channel: (bytes(paying_channel.recipient), paying_channel.timestamp),
+        )
 
         schema.paying_balances = db.attach_table(PayingChannelBalances)
 
         schema.offers = db.attach_table(Offers)
         schema.idx_offer_by_key = db.attach_table(IndexOfferByKey)
-        schema.offers.attach_index('idx1', schema.idx_offer_by_key, lambda offer: offer.key)
+        schema.offers.attach_index("idx1", schema.idx_offer_by_key, lambda offer: offer.key)
 
         schema.transactions = db.attach_table(Transactions)
 

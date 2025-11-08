@@ -5,32 +5,28 @@
 #
 ##############################################################################
 
+import json
 import os
 import sys
 import uuid
-import json
 from pprint import pprint
-from typing import List, Dict, Any
-
-from pygments import highlight, lexers, formatters
+from typing import Any, Dict, List
 
 import cbor2
 import click
 import numpy as np
-
 import zlmdb
-import cfxdb
-
 from autobahn.wamp.serializer import JsonObjectSerializer
-
-from cfxdb.xbrnetwork import Account, UserKey
-
+from pygments import formatters, highlight, lexers
 from txaio import time_ns
+
+import cfxdb
+from cfxdb.xbrnetwork import Account, UserKey
 
 
 def pprint_json(data):
-    json_str = json.dumps(data, separators=(', ', ': '), sort_keys=True, indent=4, ensure_ascii=False)
-    console_str = highlight(json_str, lexers.JsonLexer(), formatters.Terminal256Formatter(style='fruity'))
+    json_str = json.dumps(data, separators=(", ", ": "), sort_keys=True, indent=4, ensure_ascii=False)
+    console_str = highlight(json_str, lexers.JsonLexer(), formatters.Terminal256Formatter(style="fruity"))
     print(console_str)
 
 
@@ -38,6 +34,7 @@ class Exporter(object):
     """
     CFXDB database exporter.
     """
+
     def __init__(self, dbpath):
         """
 
@@ -59,12 +56,12 @@ class Exporter(object):
             self._xbrnetwork = cfxdb.xbrnetwork.Schema.attach(self._db)
 
             self._schemata = {
-                'meta': self._meta,
-                'globalschema': self._globalschema,
-                'mrealmschema': self._mrealmschema,
-                'xbr': self._xbr,
-                'xbrmm': self._xbrmm,
-                'xbrnetwork': self._xbrnetwork,
+                "meta": self._meta,
+                "globalschema": self._globalschema,
+                "mrealmschema": self._mrealmschema,
+                "xbr": self._xbr,
+                "xbrmm": self._xbrmm,
+                "xbrnetwork": self._xbrnetwork,
             }
             self._schema_tables = {}
             for schema_name, schema in self._schemata.items():
@@ -120,9 +117,9 @@ class Exporter(object):
     def _add_test_data(self):
         account = Account()
         account.oid = uuid.uuid4()
-        account.created = np.datetime64(time_ns(), 'ns')
-        account.username = 'alice'
-        account.email = 'alice@example.com'
+        account.created = np.datetime64(time_ns(), "ns")
+        account.username = "alice"
+        account.email = "alice@example.com"
         account.wallet_type = 2  # metamask
         account.wallet_address = os.urandom(20)
         # account.wallet_address = binascii.a2b_hex('f5173a6111B2A6B3C20fceD53B2A8405EC142bF6')
@@ -143,7 +140,7 @@ class Exporter(object):
         :param include_description:
         :return:
         """
-        print(click.style('Database slots:\n', fg='white', bold=True))
+        print(click.style("Database slots:\n", fg="white", bold=True))
         slots = self._db._get_slots()
         for slot_id in slots:
             slot = slots[slot_id]
@@ -153,39 +150,50 @@ class Exporter(object):
                 records = pmap.count(txn)
 
             if include_description:
-                print('   Table in slot {} ({}) with {} records is bound to class {}: {}'.format(
-                    click.style(str(slot.slot), fg='yellow', bold=True),
-                    click.style(str(slot_id), fg='white'), click.style(str(records), fg='yellow', bold=True),
-                    click.style(slot.name, fg='yellow'), slot.description))
+                print(
+                    "   Table in slot {} ({}) with {} records is bound to class {}: {}".format(
+                        click.style(str(slot.slot), fg="yellow", bold=True),
+                        click.style(str(slot_id), fg="white"),
+                        click.style(str(records), fg="yellow", bold=True),
+                        click.style(slot.name, fg="yellow"),
+                        slot.description,
+                    )
+                )
             else:
-                print('   Table in slot {} ({}) with {} records is bound to class {}'.format(
-                    click.style(str(slot.slot), fg='yellow', bold=True), click.style(str(slot_id),
-                                                                                     fg='white'),
-                    click.style(str(records), fg='yellow', bold=True), click.style(slot.name, fg='yellow')))
-        print('')
+                print(
+                    "   Table in slot {} ({}) with {} records is bound to class {}".format(
+                        click.style(str(slot.slot), fg="yellow", bold=True),
+                        click.style(str(slot_id), fg="white"),
+                        click.style(str(records), fg="yellow", bold=True),
+                        click.style(slot.name, fg="yellow"),
+                    )
+                )
+        print("")
 
     def print_stats(self, include_slots=False):
         """
 
         :return:
         """
-        print(click.style('Database statistics:\n', fg='white', bold=True))
+        print(click.style("Database statistics:\n", fg="white", bold=True))
         pprint_json(self._db.stats(include_slots=include_slots))
-        print('')
+        print("")
 
     def print_config(self):
-        print(click.style('Database configuration:\n', fg='white', bold=True))
+        print(click.style("Database configuration:\n", fg="white", bold=True))
         pprint_json(self._db.config())
-        print('')
+        print("")
 
-    def export_database(self,
-                        filename=None,
-                        include_indexes=False,
-                        include_schemata=None,
-                        exclude_tables=None,
-                        use_json=False,
-                        quiet=False,
-                        use_binary_hex_encoding=False):
+    def export_database(
+        self,
+        filename=None,
+        include_indexes=False,
+        include_schemata=None,
+        exclude_tables=None,
+        use_json=False,
+        quiet=False,
+        use_binary_hex_encoding=False,
+    ):
         """
 
         :param filename:
@@ -212,14 +220,14 @@ class Exporter(object):
         with self._db.begin() as txn:
             for schema_name in schemata:
                 for table_name in self._schema_tables[schema_name]:
-                    fq_table_name = '{}.{}'.format(schema_name, table_name)
+                    fq_table_name = "{}.{}".format(schema_name, table_name)
                     if fq_table_name not in exclude_tables:
                         table = self._schemata[schema_name].__dict__[table_name]
                         if not table.is_index() or include_indexes:
                             recs = []
                             for key, val in table.select(txn, return_keys=True, return_values=True):
                                 if val:
-                                    if hasattr(val, 'marshal'):
+                                    if hasattr(val, "marshal"):
                                         val = val.marshal()
                                 recs.append((table._serialize_key(key), val))
                             if recs:
@@ -239,32 +247,40 @@ class Exporter(object):
             data: bytes = cbor2.dumps(result)
 
         if filename:
-            with open(filename, 'wb') as f:
+            with open(filename, "wb") as f:
                 f.write(data)
         else:
             sys.stdout.buffer.write(data)
 
         if not quiet:
-            print('\nExported database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.
-                  format(dbpath=click.style(self._dbpath, fg='yellow'),
-                         filename=click.style(filename, fg='yellow'),
-                         filesize=click.style(len(data), fg='yellow')))
+            print(
+                '\nExported database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.format(
+                    dbpath=click.style(self._dbpath, fg="yellow"),
+                    filename=click.style(filename, fg="yellow"),
+                    filesize=click.style(len(data), fg="yellow"),
+                )
+            )
             for schema_name in result:
                 for table_name in result[schema_name]:
                     cnt = len(result[schema_name][table_name])
                     if cnt:
-                        print('{:.<52}: {}'.format(
-                            click.style('{}.{}'.format(schema_name, table_name), fg='white', bold=True),
-                            click.style(str(cnt) + ' records', fg='yellow')))
+                        print(
+                            "{:.<52}: {}".format(
+                                click.style("{}.{}".format(schema_name, table_name), fg="white", bold=True),
+                                click.style(str(cnt) + " records", fg="yellow"),
+                            )
+                        )
 
-    def import_database(self,
-                        filename=None,
-                        include_indexes=False,
-                        include_schemata=None,
-                        exclude_tables=None,
-                        use_json=False,
-                        quiet=False,
-                        use_binary_hex_encoding=False):
+    def import_database(
+        self,
+        filename=None,
+        include_indexes=False,
+        include_schemata=None,
+        exclude_tables=None,
+        use_json=False,
+        quiet=False,
+        use_binary_hex_encoding=False,
+    ):
         """
 
         :param filename:
@@ -288,7 +304,7 @@ class Exporter(object):
             exclude_tables = set(exclude_tables)
 
         if filename:
-            with open(filename, 'rb') as f:
+            with open(filename, "rb") as f:
                 data = f.read()
         else:
             data = sys.stdin.read()
@@ -300,13 +316,16 @@ class Exporter(object):
             db_data = cbor2.loads(data)
 
         if not quiet:
-            print('\nImporting database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.
-                  format(dbpath=self._dbpath, filename=filename, filesize=len(data)))
+            print(
+                '\nImporting database [dbpath="{dbpath}", filename="{filename}", filesize={filesize}]:\n'.format(
+                    dbpath=self._dbpath, filename=filename, filesize=len(data)
+                )
+            )
 
         with self._db.begin(write=True) as txn:
             for schema_name in schemata:
                 for table_name in self._schema_tables[schema_name]:
-                    fq_table_name = '{}.{}'.format(schema_name, table_name)
+                    fq_table_name = "{}.{}".format(schema_name, table_name)
                     if fq_table_name not in exclude_tables:
                         table = self._schemata[schema_name].__dict__[table_name]
                         if not table.is_index() or include_indexes:
@@ -318,11 +337,14 @@ class Exporter(object):
                                     table[txn, key] = val
                                     cnt += 1
                                 if cnt and not quiet:
-                                    print('{:.<52}: {}'.format(
-                                        click.style('{}.{}'.format(schema_name, table_name),
-                                                    fg='white',
-                                                    bold=True), click.style(str(cnt) + ' records',
-                                                                            fg='yellow')))
+                                    print(
+                                        "{:.<52}: {}".format(
+                                            click.style(
+                                                "{}.{}".format(schema_name, table_name), fg="white", bold=True
+                                            ),
+                                            click.style(str(cnt) + " records", fg="yellow"),
+                                        )
+                                    )
                             else:
                                 if not quiet:
-                                    print('No data to import for {}.{}!'.format(schema_name, table_name))
+                                    print("No data to import for {}.{}!".format(schema_name, table_name))

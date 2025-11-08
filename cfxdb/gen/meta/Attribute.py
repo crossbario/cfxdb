@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # Generic **meta data attributes** for objects in other tables. Primary key of this table is ``(table_oid, object_oid, attribute)``.
 class Attribute(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Attribute(object):
     def GetRootAsAttribute(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Attribute
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Attribute(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Attribute
@@ -59,7 +64,9 @@ class Attribute(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Attribute
@@ -103,7 +110,9 @@ class Attribute(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Attribute
@@ -125,62 +134,82 @@ class Attribute(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
+
 def AttributeStart(builder):
     builder.StartObject(5)
+
 
 def Start(builder):
     AttributeStart(builder)
 
+
 def AttributeAddTableOid(builder, tableOid):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(tableOid), 0)
+
 
 def AddTableOid(builder, tableOid):
     AttributeAddTableOid(builder, tableOid)
 
+
 def AttributeStartTableOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTableOidVector(builder, numElems: int) -> int:
     return AttributeStartTableOidVector(builder, numElems)
 
+
 def AttributeAddObjectOid(builder, objectOid):
     builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(objectOid), 0)
+
 
 def AddObjectOid(builder, objectOid):
     AttributeAddObjectOid(builder, objectOid)
 
+
 def AttributeStartObjectOidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartObjectOidVector(builder, numElems: int) -> int:
     return AttributeStartObjectOidVector(builder, numElems)
 
+
 def AttributeAddAttribute(builder, attribute):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(attribute), 0)
+
 
 def AddAttribute(builder, attribute):
     AttributeAddAttribute(builder, attribute)
 
+
 def AttributeAddModified(builder, modified):
     builder.PrependUint64Slot(3, modified, 0)
+
 
 def AddModified(builder, modified):
     AttributeAddModified(builder, modified)
 
+
 def AttributeAddValue(builder, value):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(value), 0)
+
 
 def AddValue(builder, value):
     AttributeAddValue(builder, value)
 
+
 def AttributeStartValueVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartValueVector(builder, numElems: int) -> int:
     return AttributeStartValueVector(builder, numElems)
 
+
 def AttributeEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return AttributeEnd(builder)

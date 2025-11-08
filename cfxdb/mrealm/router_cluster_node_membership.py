@@ -5,8 +5,8 @@
 #
 ##############################################################################
 
-from typing import Optional
 import pprint
+from typing import Optional
 from uuid import UUID
 
 from cfxdb.mrealm.cluster_node_membership import ClusterNodeMembership
@@ -18,12 +18,15 @@ class RouterClusterNodeMembership(ClusterNodeMembership):
     A router cluster is able to run "data planes", which are groups of router workers kept in sync,
     and meshed via router-to-router links. Finally, "(application) realms" can be started in data planes.
     """
-    def __init__(self,
-                 cluster_oid: Optional[UUID] = None,
-                 node_oid: Optional[UUID] = None,
-                 softlimit: Optional[int] = None,
-                 hardlimit: Optional[int] = None,
-                 _unknown=None):
+
+    def __init__(
+        self,
+        cluster_oid: Optional[UUID] = None,
+        node_oid: Optional[UUID] = None,
+        softlimit: Optional[int] = None,
+        hardlimit: Optional[int] = None,
+        _unknown=None,
+    ):
         """
 
         :param cluster_oid: Object ID of router cluster the node is becoming member of.
@@ -65,10 +68,12 @@ class RouterClusterNodeMembership(ClusterNodeMembership):
         :return: dict
         """
         obj = ClusterNodeMembership.marshal(self)
-        obj.update({
-            'softlimit': self.softlimit,
-            'hardlimit': self.hardlimit,
-        })
+        obj.update(
+            {
+                "softlimit": self.softlimit,
+                "hardlimit": self.hardlimit,
+            }
+        )
         return obj
 
     @staticmethod
@@ -89,23 +94,25 @@ class RouterClusterNodeMembership(ClusterNodeMembership):
         # future attributes (yet unknown) are not only ignored, but passed through!
         _unknown = {}
         for k in data:
-            if k not in ['softlimit', 'hardlimit']:
+            if k not in ["softlimit", "hardlimit"]:
                 _unknown[k] = data[k]
 
         softlimit = None
-        if 'softlimit' in data and data['softlimit']:
-            assert type(data['softlimit']) == int
-            softlimit = data['softlimit']
+        if "softlimit" in data and data["softlimit"]:
+            assert type(data["softlimit"]) == int
+            softlimit = data["softlimit"]
 
         hardlimit = None
-        if 'hardlimit' in data and data['hardlimit']:
-            assert type(data['hardlimit']) == int
-            hardlimit = data['hardlimit']
+        if "hardlimit" in data and data["hardlimit"]:
+            assert type(data["hardlimit"]) == int
+            hardlimit = data["hardlimit"]
 
-        obj = RouterClusterNodeMembership(cluster_oid=obj.cluster_oid,
-                                          node_oid=obj.node_oid,
-                                          softlimit=softlimit,
-                                          hardlimit=hardlimit,
-                                          _unknown=_unknown)
+        obj = RouterClusterNodeMembership(
+            cluster_oid=obj.cluster_oid,
+            node_oid=obj.node_oid,
+            softlimit=softlimit,
+            hardlimit=hardlimit,
+            _unknown=_unknown,
+        )
 
         return obj

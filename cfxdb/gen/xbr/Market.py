@@ -4,11 +4,13 @@
 
 import flatbuffers
 from flatbuffers.compat import import_numpy
+
 np = import_numpy()
+
 
 # XBR Markets.
 class Market(object):
-    __slots__ = ['_tab']
+    __slots__ = ["_tab"]
 
     @classmethod
     def GetRootAs(cls, buf, offset=0):
@@ -21,6 +23,7 @@ class Market(object):
     def GetRootAsMarket(cls, buf, offset=0):
         """This method is deprecated. Please switch to GetRootAs."""
         return cls.GetRootAs(buf, offset)
+
     # Market
     def Init(self, buf, pos):
         self._tab = flatbuffers.table.Table(buf, pos)
@@ -31,7 +34,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -67,7 +72,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -103,7 +110,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -131,7 +140,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -175,7 +186,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -203,7 +216,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -231,7 +246,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -259,7 +276,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -287,7 +306,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -315,7 +336,9 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
         if o != 0:
             a = self._tab.Vector(o)
-            return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
+            return self._tab.Get(
+                flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1)
+            )
         return 0
 
     # Market
@@ -337,158 +360,210 @@ class Market(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
         return o == 0
 
+
 def MarketStart(builder):
     builder.StartObject(14)
+
 
 def Start(builder):
     MarketStart(builder)
 
+
 def MarketAddMarket(builder, market):
     builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(market), 0)
+
 
 def AddMarket(builder, market):
     MarketAddMarket(builder, market)
 
+
 def MarketStartMarketVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMarketVector(builder, numElems: int) -> int:
     return MarketStartMarketVector(builder, numElems)
 
+
 def MarketAddTimestamp(builder, timestamp):
     builder.PrependUint64Slot(1, timestamp, 0)
+
 
 def AddTimestamp(builder, timestamp):
     MarketAddTimestamp(builder, timestamp)
 
+
 def MarketAddCreated(builder, created):
     builder.PrependUOffsetTRelativeSlot(2, flatbuffers.number_types.UOffsetTFlags.py_type(created), 0)
+
 
 def AddCreated(builder, created):
     MarketAddCreated(builder, created)
 
+
 def MarketStartCreatedVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCreatedVector(builder, numElems: int) -> int:
     return MarketStartCreatedVector(builder, numElems)
 
+
 def MarketAddSeq(builder, seq):
     builder.PrependUint32Slot(3, seq, 0)
+
 
 def AddSeq(builder, seq):
     MarketAddSeq(builder, seq)
 
+
 def MarketAddOwner(builder, owner):
     builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(owner), 0)
+
 
 def AddOwner(builder, owner):
     MarketAddOwner(builder, owner)
 
+
 def MarketStartOwnerVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartOwnerVector(builder, numElems: int) -> int:
     return MarketStartOwnerVector(builder, numElems)
 
+
 def MarketAddCoin(builder, coin):
     builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(coin), 0)
+
 
 def AddCoin(builder, coin):
     MarketAddCoin(builder, coin)
 
+
 def MarketStartCoinVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartCoinVector(builder, numElems: int) -> int:
     return MarketStartCoinVector(builder, numElems)
 
+
 def MarketAddTerms(builder, terms):
     builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(terms), 0)
+
 
 def AddTerms(builder, terms):
     MarketAddTerms(builder, terms)
 
+
 def MarketAddMeta(builder, meta):
     builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(meta), 0)
+
 
 def AddMeta(builder, meta):
     MarketAddMeta(builder, meta)
 
+
 def MarketAddMaker(builder, maker):
     builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(maker), 0)
+
 
 def AddMaker(builder, maker):
     MarketAddMaker(builder, maker)
 
+
 def MarketStartMakerVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMakerVector(builder, numElems: int) -> int:
     return MarketStartMakerVector(builder, numElems)
 
+
 def MarketAddProviderSecurity(builder, providerSecurity):
     builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(providerSecurity), 0)
+
 
 def AddProviderSecurity(builder, providerSecurity):
     MarketAddProviderSecurity(builder, providerSecurity)
 
+
 def MarketStartProviderSecurityVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartProviderSecurityVector(builder, numElems: int) -> int:
     return MarketStartProviderSecurityVector(builder, numElems)
 
+
 def MarketAddConsumerSecurity(builder, consumerSecurity):
     builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(consumerSecurity), 0)
+
 
 def AddConsumerSecurity(builder, consumerSecurity):
     MarketAddConsumerSecurity(builder, consumerSecurity)
 
+
 def MarketStartConsumerSecurityVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartConsumerSecurityVector(builder, numElems: int) -> int:
     return MarketStartConsumerSecurityVector(builder, numElems)
 
+
 def MarketAddMarketFee(builder, marketFee):
     builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(marketFee), 0)
+
 
 def AddMarketFee(builder, marketFee):
     MarketAddMarketFee(builder, marketFee)
 
+
 def MarketStartMarketFeeVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartMarketFeeVector(builder, numElems: int) -> int:
     return MarketStartMarketFeeVector(builder, numElems)
 
+
 def MarketAddTid(builder, tid):
     builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(tid), 0)
+
 
 def AddTid(builder, tid):
     MarketAddTid(builder, tid)
 
+
 def MarketStartTidVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartTidVector(builder, numElems: int) -> int:
     return MarketStartTidVector(builder, numElems)
 
+
 def MarketAddSignature(builder, signature):
     builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(signature), 0)
+
 
 def AddSignature(builder, signature):
     MarketAddSignature(builder, signature)
 
+
 def MarketStartSignatureVector(builder, numElems):
     return builder.StartVector(1, numElems, 1)
+
 
 def StartSignatureVector(builder, numElems: int) -> int:
     return MarketStartSignatureVector(builder, numElems)
 
+
 def MarketEnd(builder):
     return builder.EndObject()
+
 
 def End(builder):
     return MarketEnd(builder)

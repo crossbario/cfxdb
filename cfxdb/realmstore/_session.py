@@ -5,15 +5,15 @@
 #
 ##############################################################################
 
-import uuid
-import cbor2
-from typing import Optional, Dict, Any
 import pprint
+import uuid
+from typing import Any, Dict, Optional
 
+import cbor2
 import flatbuffers
 import numpy as np
+from zlmdb import MapUint64TimestampUuid, MapUuidFlatBuffers, table
 
-from zlmdb import table, MapUuidFlatBuffers, MapUint64TimestampUuid
 from cfxdb.gen.realmstore import Session as SessionGen
 
 
@@ -30,7 +30,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def OidAsBytes(self):
@@ -38,7 +38,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def NodeOidAsBytes(self):
@@ -46,7 +46,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def TransportAsBytes(self):
@@ -54,7 +54,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ProxyNodeOidAsBytes(self):
@@ -62,7 +62,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def ProxyTransportAsBytes(self):
@@ -70,7 +70,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
     def AuthextraAsBytes(self):
@@ -78,7 +78,7 @@ class _SessionGen(SessionGen.Session):
         if o != 0:
             _off = self._tab.Vector(o)
             _len = self._tab.VectorLen(o)
-            return memoryview(self._tab.Bytes)[_off:_off + _len]
+            return memoryview(self._tab.Bytes)[_off : _off + _len]
         return None
 
 
@@ -88,28 +88,28 @@ class Session(object):
     """
 
     __slots__ = (
-        '_from_fbs',
-        '_arealm_oid',
-        '_oid',
-        '_session',
-        '_joined_at',
-        '_left_at',
-        '_node_oid',
-        '_node_authid',
-        '_worker_name',
-        '_worker_pid',
-        '_transport',
-        '_proxy_node_oid',
-        '_proxy_node_authid',
-        '_proxy_worker_name',
-        '_proxy_worker_pid',
-        '_proxy_transport',
-        '_realm',
-        '_authid',
-        '_authrole',
-        '_authmethod',
-        '_authprovider',
-        '_authextra',
+        "_from_fbs",
+        "_arealm_oid",
+        "_oid",
+        "_session",
+        "_joined_at",
+        "_left_at",
+        "_node_oid",
+        "_node_authid",
+        "_worker_name",
+        "_worker_pid",
+        "_transport",
+        "_proxy_node_oid",
+        "_proxy_node_authid",
+        "_proxy_worker_name",
+        "_proxy_worker_pid",
+        "_proxy_transport",
+        "_realm",
+        "_authid",
+        "_authrole",
+        "_authmethod",
+        "_authprovider",
+        "_authextra",
     )
 
     def __init__(self, from_fbs: Optional[_SessionGen] = None):
@@ -180,32 +180,32 @@ class Session(object):
 
     def marshal(self):
         obj = {
-            'arealm_oid': self.arealm_oid.bytes if self.arealm_oid else None,
-            'oid': self.oid.bytes if self.oid else None,
-            'session': self.session,
-            'joined_at': int(self.joined_at) if self.joined_at else None,
-            'left_at': int(self.left_at) if self.left_at else None,
-            'node_oid': self.node_oid.bytes if self.node_oid else None,
-            'node_authid': self.node_authid,
-            'worker_name': self.worker_name,
-            'worker_pid': self.worker_pid,
-            'transport': self.transport,
-            'proxy_node_oid': self.proxy_node_oid.bytes if self.proxy_node_oid else None,
-            'proxy_node_authid': self.proxy_node_authid,
-            'proxy_worker_name': self.proxy_worker_name,
-            'proxy_worker_pid': self.proxy_worker_pid,
-            'proxy_transport': self.proxy_transport,
-            'realm': self.realm,
-            'authid': self.authid,
-            'authrole': self.authrole,
-            'authmethod': self.authmethod,
-            'authprovider': self.authprovider,
-            'authextra': self.authextra,
+            "arealm_oid": self.arealm_oid.bytes if self.arealm_oid else None,
+            "oid": self.oid.bytes if self.oid else None,
+            "session": self.session,
+            "joined_at": int(self.joined_at) if self.joined_at else None,
+            "left_at": int(self.left_at) if self.left_at else None,
+            "node_oid": self.node_oid.bytes if self.node_oid else None,
+            "node_authid": self.node_authid,
+            "worker_name": self.worker_name,
+            "worker_pid": self.worker_pid,
+            "transport": self.transport,
+            "proxy_node_oid": self.proxy_node_oid.bytes if self.proxy_node_oid else None,
+            "proxy_node_authid": self.proxy_node_authid,
+            "proxy_worker_name": self.proxy_worker_name,
+            "proxy_worker_pid": self.proxy_worker_pid,
+            "proxy_transport": self.proxy_transport,
+            "realm": self.realm,
+            "authid": self.authid,
+            "authrole": self.authrole,
+            "authmethod": self.authmethod,
+            "authprovider": self.authprovider,
+            "authextra": self.authextra,
         }
         return obj
 
     def __str__(self):
-        return '\n{}\n'.format(pprint.pformat(self.marshal()))
+        return "\n{}\n".format(pprint.pformat(self.marshal()))
 
     @property
     def arealm_oid(self) -> Optional[uuid.UUID]:
@@ -259,7 +259,7 @@ class Session(object):
         Timestamp when the session was joined by the router. Epoch time in ns.
         """
         if self._joined_at is None and self._from_fbs:
-            self._joined_at = np.datetime64(self._from_fbs.JoinedAt(), 'ns')
+            self._joined_at = np.datetime64(self._from_fbs.JoinedAt(), "ns")
         return self._joined_at
 
     @joined_at.setter
@@ -273,7 +273,7 @@ class Session(object):
         Timestamp when the session left the router. Epoch time in ns.
         """
         if self._left_at is None and self._from_fbs:
-            self._left_at = np.datetime64(self._from_fbs.LeftAt(), 'ns')
+            self._left_at = np.datetime64(self._from_fbs.LeftAt(), "ns")
         return self._left_at
 
     @left_at.setter
@@ -305,7 +305,7 @@ class Session(object):
         if self._node_authid is None and self._from_fbs:
             _node_authid = self._from_fbs.NodeAuthid()
             if _node_authid:
-                self._node_authid = _node_authid.decode('utf8')
+                self._node_authid = _node_authid.decode("utf8")
         return self._node_authid
 
     @node_authid.setter
@@ -320,7 +320,7 @@ class Session(object):
         if self._worker_name is None and self._from_fbs:
             _worker_name = self._from_fbs.WorkerName()
             if _worker_name:
-                self._worker_name = _worker_name.decode('utf8')
+                self._worker_name = _worker_name.decode("utf8")
         return self._worker_name
 
     @worker_name.setter
@@ -382,7 +382,7 @@ class Session(object):
         if self._proxy_node_authid is None and self._from_fbs:
             _proxy_node_authid = self._from_fbs.ProxyNodeAuthid()
             if _proxy_node_authid:
-                self._proxy_node_authid = _proxy_node_authid.decode('utf8')
+                self._proxy_node_authid = _proxy_node_authid.decode("utf8")
         return self._proxy_node_authid
 
     @proxy_node_authid.setter
@@ -397,7 +397,7 @@ class Session(object):
         if self._proxy_worker_name is None and self._from_fbs:
             _proxy_worker_name = self._from_fbs.ProxyWorkerName()
             if _proxy_worker_name:
-                self._proxy_worker_name = _proxy_worker_name.decode('utf8')
+                self._proxy_worker_name = _proxy_worker_name.decode("utf8")
         return self._proxy_worker_name
 
     @proxy_worker_name.setter
@@ -441,7 +441,7 @@ class Session(object):
         The WAMP realm the session is/was joined on.
         """
         if self._realm is None and self._from_fbs:
-            self._realm = self._from_fbs.Realm().decode('utf8')
+            self._realm = self._from_fbs.Realm().decode("utf8")
         return self._realm
 
     @realm.setter
@@ -457,7 +457,7 @@ class Session(object):
         if self._authid is None and self._from_fbs:
             _authid = self._from_fbs.Authid()
             if _authid:
-                self._authid = _authid.decode('utf8')
+                self._authid = _authid.decode("utf8")
         return self._authid
 
     @authid.setter
@@ -472,7 +472,7 @@ class Session(object):
         if self._authrole is None and self._from_fbs:
             _authrole = self._from_fbs.Authrole()
             if _authrole:
-                self._authrole = _authrole.decode('utf8')
+                self._authrole = _authrole.decode("utf8")
         return self._authrole
 
     @authrole.setter
@@ -487,7 +487,7 @@ class Session(object):
         if self._authmethod is None and self._from_fbs:
             _authmethod = self._from_fbs.Authmethod()
             if _authmethod:
-                self._authmethod = _authmethod.decode('utf8')
+                self._authmethod = _authmethod.decode("utf8")
         return self._authmethod
 
     @authmethod.setter
@@ -502,7 +502,7 @@ class Session(object):
         if self._authprovider is None and self._from_fbs:
             _authprovider = self._from_fbs.Authprovider()
             if _authprovider:
-                self._authprovider = _authprovider.decode('utf8')
+                self._authprovider = _authprovider.decode("utf8")
         return self._authprovider
 
     @authprovider.setter
@@ -528,11 +528,10 @@ class Session(object):
         self._authextra = value
 
     @staticmethod
-    def cast(buf) -> 'Session':
+    def cast(buf) -> "Session":
         return Session(_SessionGen.GetRootAsSession(buf, 0))
 
     def build(self, builder):
-
         arealm_oid = self.arealm_oid.bytes if self.arealm_oid else None
         if arealm_oid:
             arealm_oid = builder.CreateString(arealm_oid)
@@ -667,7 +666,7 @@ class Session(object):
         return final
 
 
-@table('403ecc06-f564-4ea9-92f2-c4c13bd2ba5a', build=Session.build, cast=Session.cast)
+@table("403ecc06-f564-4ea9-92f2-c4c13bd2ba5a", build=Session.build, cast=Session.cast)
 class Sessions(MapUuidFlatBuffers):
     """
     Persisted session information table.
@@ -676,7 +675,7 @@ class Sessions(MapUuidFlatBuffers):
     """
 
 
-@table('0ea1ea1a-45f2-4352-a4a0-1fafff099c96')
+@table("0ea1ea1a-45f2-4352-a4a0-1fafff099c96")
 class IndexSessionsBySessionId(MapUint64TimestampUuid):
     """
     Index: ``(sessionid, joined_at) -> session_oid``
