@@ -360,6 +360,7 @@ pip install https://github.com/crossbario/cfxdb/releases/download/$RELEASE_NAME/
           files: dist/*
           draft: false
           prerelease: false
+          discussion_category_name: ci-cd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
