@@ -180,6 +180,8 @@ jobs:
       - name: Create development GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_BRANCH: ${{ needs.identifiers.outputs.base_branch }}
+          HEAD_SHA: ${{ needs.identifiers.outputs.head_sha }}
         run: |
           echo "==> Creating development/nightly GitHub release..."
           echo "Release type: $RELEASE_TYPE"
@@ -196,8 +198,8 @@ jobs:
 
 **Release:** $RELEASE_NAME
 **Type:** $RELEASE_TYPE
-**Branch:** ${{ needs.identifiers.outputs.base_branch }}
-**Commit:** ${{ needs.identifiers.outputs.head_sha }}
+**Branch:** $BASE_BRANCH
+**Commit:** $HEAD_SHA
 
 This is an automated development/nightly build for testing purposes.
 
