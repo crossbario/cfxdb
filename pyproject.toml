@@ -68,6 +68,7 @@ dev = [
     "coverage>=5.0.0",
     "tox>=2.9.1",
     "tox-gh-actions>=2.2.0",
+    "py-multihash>=2.0.1",  # For IPFS hash generation in tests
 
     # Code quality
     "ruff>=0.1.0",  # Fast Python linter and formatter
