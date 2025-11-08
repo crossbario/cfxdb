@@ -30,7 +30,6 @@ jobs:
 
       - name: Run code quality checks
         run: just check cpy311
-        continue-on-error: true  # Don't fail build on type/format errors yet
 
   test:
     runs-on: ${{ matrix.os }}
