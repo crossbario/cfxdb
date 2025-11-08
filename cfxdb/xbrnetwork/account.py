@@ -10,7 +10,7 @@ import uuid
 
 import flatbuffers
 import numpy as np
-from autobahn.xbr import unpack_uint256, pack_uint256
+from cfxdb import unpack_uint256, pack_uint256
 from cfxdb.gen.xbrnetwork import Account as AccountGen
 from zlmdb import table, MapUuidFlatBuffers, MapStringUuid, MapBytes20Uuid
 
