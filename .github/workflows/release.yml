@@ -90,6 +90,58 @@ jobs:
       - name: List artifacts
         run: ls -lh dist/
 
+      - name: Validate release fileset
+        run: |
+          echo "======================================================================"
+          echo "==> Validating Release Fileset"
+          echo "======================================================================"
+          echo ""
+
+          # Count wheels and source distributions
+          WHEEL_COUNT=$(find dist -name "*.whl" -type f | wc -l)
+          SDIST_COUNT=$(find dist -name "*.tar.gz" -type f | wc -l)
+
+          echo "Found:"
+          echo "  - Wheels: $WHEEL_COUNT"
+          echo "  - Source distributions: $SDIST_COUNT"
+          echo ""
+
+          # Validate counts
+          HAS_ERRORS=0
+
+          if [ "$WHEEL_COUNT" -ne 1 ]; then
+            echo "❌ ERROR: Expected exactly 1 wheel, found $WHEEL_COUNT"
+            HAS_ERRORS=1
+          else
+            WHEEL_FILE=$(find dist -name "*.whl" -type f)
+            echo "✅ Wheel: $(basename $WHEEL_FILE)"
+
+            # Verify it's a universal wheel
+            if [[ "$WHEEL_FILE" != *"-py2.py3-none-any.whl" ]] && [[ "$WHEEL_FILE" != *"-py3-none-any.whl" ]]; then
+              echo "⚠️  WARNING: Wheel is not universal (py2.py3-none-any or py3-none-any)"
+            fi
+          fi
+
+          if [ "$SDIST_COUNT" -ne 1 ]; then
+            echo "❌ ERROR: Expected exactly 1 source distribution, found $SDIST_COUNT"
+            HAS_ERRORS=1
+          else
+            SDIST_FILE=$(find dist -name "*.tar.gz" -type f ! -name "CHECKSUMS*.sha256")
+            echo "✅ Source: $(basename $SDIST_FILE)"
+          fi
+
+          echo ""
+          if [ $HAS_ERRORS -eq 1 ]; then
+            echo "======================================================================"
+            echo "❌ VALIDATION FAILED"
+            echo "======================================================================"
+            exit 1
+          else
+            echo "======================================================================"
+            echo "✅ VALIDATION PASSED"
+            echo "======================================================================"
+          fi
+
       - name: Get version
         id: get_version
         run: |
