@@ -311,7 +311,7 @@ check venv="": (check-format venv) (check-lint venv) (check-typing venv)
 # -- Testing
 # -----------------------------------------------------------------------------
 
-# Run the test suite with pytest
+# Run the test suite with pytest (requires: `just install-dev`)
 test venv="":
     #!/usr/bin/env bash
     set -e
@@ -332,7 +332,7 @@ test-all:
         just test ${env}
     done
 
-# Generate code coverage report
+# Generate code coverage report (requires: `just install-dev`)
 coverage venv="":
     #!/usr/bin/env bash
     set -e
