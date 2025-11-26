@@ -22,11 +22,34 @@ VENV_DIR := './.venvs'
 # Define supported Python environments
 ENVS := 'cpy314 cpy313 cpy312 cpy311 pypy311'
 
-# Default recipe: list all recipes
+# Default recipe: show project header and list all recipes
 default:
-    @echo ""
-    @just --list
-    @echo ""
+    #!/usr/bin/env bash
+    set -e
+    VERSION=$(grep '^version' pyproject.toml | head -1 | sed 's/.*= *"\(.*\)"/\1/')
+    GIT_REV=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    echo ""
+    echo "==============================================================================="
+    echo "                                   cfxdb                                       "
+    echo ""
+    echo "       Crossbar.io database schemas and access classes for zLMDB/LMDB         "
+    echo ""
+    echo "   Python Package:         cfxdb                                              "
+    echo "   Python Package Version: ${VERSION}                                         "
+    echo "   Git Version:            ${GIT_REV}                                         "
+    echo "   Protocol Specification: https://wamp-proto.org/                            "
+    echo "   Documentation:          https://crossbar.readthedocs.io                    "
+    echo "   Package Releases:       https://pypi.org/project/cfxdb/                    "
+    echo "   Nightly/Dev Releases:   https://github.com/crossbario/cfxdb/releases       "
+    echo "   Source Code:            https://github.com/crossbario/cfxdb                "
+    echo "   Copyright:              typedef int GmbH (Germany/EU)                      "
+    echo "   License:                MIT License                                        "
+    echo ""
+    echo "       >>>   Created by The WAMP/Autobahn/Crossbar.io OSS Project   <<<       "
+    echo "==============================================================================="
+    echo ""
+    just --list
+    echo ""
 
 # Internal helper to map Python version short name to full uv version
 _get-spec short_name:
@@ -360,14 +383,22 @@ build-all:
         just build ${env}
     done
 
-# Verify distribution packages
-verify-dist venv="":
+# Verify wheels using twine check (pure Python package - auditwheel not applicable)
+verify-wheels venv="": (install-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
-    echo "==> Verifying distribution packages..."
-    ${VENV_PYTHON} -m twine check dist/*
-    echo "--> Verification passed"
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PATH="{{VENV_DIR}}/${VENV_NAME}"
+    echo "==> Verifying wheels with twine check..."
+    "${VENV_PATH}/bin/twine" check dist/*
+    echo ""
+    echo "==> Note: This is a pure Python package (py3-none-any wheel)."
+    echo "    auditwheel verification is not applicable (no native extensions)."
+    echo ""
+    echo "==> Wheel verification complete."
 
 # -----------------------------------------------------------------------------
 # -- Documentation
