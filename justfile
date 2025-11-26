@@ -346,42 +346,50 @@ coverage venv="":
 # -----------------------------------------------------------------------------
 
 # Build source distribution
-build-sourcedist venv="":
+build-sourcedist venv="": (install-build-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
     echo "==> Building source distribution..."
     ${VENV_PYTHON} -m build --sdist
-    echo "--> Source distribution built"
+    ls -la dist/
 
 # Build wheel package
-build venv="":
+build venv="": (install-build-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
-    echo "==> Building wheel..."
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PATH="{{VENV_DIR}}/${VENV_NAME}"
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
+    echo "==> Building wheel package..."
     ${VENV_PYTHON} -m build --wheel
-    echo "--> Wheel built"
+    ls -la dist/
 
 # Build both source distribution and wheel
-dist venv="":
+dist venv="": (install-build-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
     echo "==> Building distribution packages..."
     ${VENV_PYTHON} -m build
-    echo "--> Distribution packages built"
     echo ""
     echo "Built packages:"
     ls -lh dist/
 
-# Build wheels for all environments
-build-all:
-    #!/usr/bin/env bash
-    set -e
-    for env in {{ENVS}}; do
-        just build ${env}
-    done
+# Build wheels for all environments (pure Python - only needs one build)
+build-all: (build "cpy311")
+    echo "==> Pure Python package: single universal wheel built."
 
 # Verify wheels using twine check (pure Python package - auditwheel not applicable)
 verify-wheels venv="": (install-tools venv)
