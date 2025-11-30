@@ -291,7 +291,7 @@ check-format venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Checking code formatting with Ruff..."
-    ${VENV_PYTHON} -m ruff format --check cfxdb/
+    ${VENV_PYTHON} -m ruff format --check src/cfxdb/
     echo "--> Format check passed"
 
 # Automatically fix all formatting and code style issues.
@@ -300,7 +300,7 @@ fix-format venv="": (install-tools venv)
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Auto-formatting code with Ruff..."
-    ${VENV_PYTHON} -m ruff format cfxdb/
+    ${VENV_PYTHON} -m ruff format src/cfxdb/
     echo "--> Code formatted"
 
 # Alias for fix-format (backward compatibility)
@@ -312,7 +312,7 @@ check-lint venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Running Ruff linter..."
-    ${VENV_PYTHON} -m ruff check cfxdb/
+    ${VENV_PYTHON} -m ruff check src/cfxdb/
     echo "--> Linting passed"
 
 # Run static type checking with mypy
@@ -321,7 +321,7 @@ check-typing venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Running type checking with mypy..."
-    ${VENV_PYTHON} -m mypy cfxdb/ || echo "Warning: Type checking found issues"
+    ${VENV_PYTHON} -m mypy src/cfxdb/ || echo "Warning: Type checking found issues"
 
 # Run all code quality checks
 check venv="": (check-format venv) (check-lint venv) (check-typing venv)
@@ -336,7 +336,7 @@ test venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Running test suite with pytest..."
-    ${VENV_PYTHON} -m pytest -v cfxdb/
+    ${VENV_PYTHON} -m pytest -v src/cfxdb/tests/
     echo "--> Tests passed"
 
 # Run tests in all environments
@@ -379,7 +379,7 @@ check-coverage venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Generating coverage report..."
-    ${VENV_PYTHON} -m pytest --cov=cfxdb --cov-report=html --cov-report=term cfxdb/
+    ${VENV_PYTHON} -m pytest --cov=cfxdb --cov-report=html --cov-report=term src/cfxdb/tests/
     echo "--> Coverage report generated in htmlcov/"
 
 # Alias for check-coverage (backward compatibility)
