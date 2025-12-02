@@ -17,6 +17,8 @@ permissions:
 
 jobs:
   identifiers:
+    # Only run release workflow for master branch (not PRs)
+    if: github.event.workflow_run.head_branch == 'master' || github.event_name == 'workflow_dispatch'
     uses: wamp-proto/wamp-cicd/.github/workflows/identifiers.yml@main
 
   check-main-workflow:
