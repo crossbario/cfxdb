@@ -478,6 +478,9 @@ verify-wheels venv="": (install-tools venv)
     echo ""
     echo "==> Wheel verification complete."
 
+# Alias for verify-wheels (used by release.yml)
+verify-dist venv="": (verify-wheels venv)
+
 # -----------------------------------------------------------------------------
 # -- Documentation
 # -----------------------------------------------------------------------------
