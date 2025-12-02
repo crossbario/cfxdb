@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cfxdb"
-version = "25.11.1"
+version = "25.12.1"
 description = "Crossbar.io Database - Core database access classes for Crossbar.io"
 readme = "README.rst"
 requires-python = ">=3.11"
@@ -100,7 +100,7 @@ zip-safe = true
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["src"]
 include = ["cfxdb*"]
 exclude = ["tests*", "docs*", ".ai*", ".cicd*", "work*"]
 
@@ -134,7 +134,7 @@ ignore_missing_imports = true
 
 # Pytest configuration
 [tool.pytest.ini_options]
-testpaths = ["cfxdb"]
+testpaths = ["src/cfxdb/tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
@@ -142,7 +142,7 @@ addopts = "-v --tb=short"
 
 # Coverage configuration
 [tool.coverage.run]
-source = ["cfxdb"]
+source = ["src/cfxdb"]
 omit = ["*/tests/*", "*/test_*.py"]
 
 [tool.coverage.report]

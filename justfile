@@ -22,11 +22,34 @@ VENV_DIR := './.venvs'
 # Define supported Python environments
 ENVS := 'cpy314 cpy313 cpy312 cpy311 pypy311'
 
-# Default recipe: list all recipes
+# Default recipe: show project header and list all recipes
 default:
-    @echo ""
-    @just --list
-    @echo ""
+    #!/usr/bin/env bash
+    set -e
+    VERSION=$(grep '^version' pyproject.toml | head -1 | sed 's/.*= *"\(.*\)"/\1/')
+    GIT_REV=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+    echo ""
+    echo "==============================================================================="
+    echo "                                   cfxdb                                       "
+    echo ""
+    echo "       Crossbar.io database schemas and access classes for zLMDB/LMDB         "
+    echo ""
+    echo "   Python Package:         cfxdb                                              "
+    echo "   Python Package Version: ${VERSION}                                         "
+    echo "   Git Version:            ${GIT_REV}                                         "
+    echo "   Protocol Specification: https://wamp-proto.org/                            "
+    echo "   Documentation:          https://crossbar.readthedocs.io                    "
+    echo "   Package Releases:       https://pypi.org/project/cfxdb/                    "
+    echo "   Nightly/Dev Releases:   https://github.com/crossbario/cfxdb/releases       "
+    echo "   Source Code:            https://github.com/crossbario/cfxdb                "
+    echo "   Copyright:              typedef int GmbH (Germany/EU)                      "
+    echo "   License:                MIT License                                        "
+    echo ""
+    echo "       >>>   Created by The WAMP/Autobahn/Crossbar.io OSS Project   <<<       "
+    echo "==============================================================================="
+    echo ""
+    just --list
+    echo ""
 
 # Internal helper to map Python version short name to full uv version
 _get-spec short_name:
@@ -242,6 +265,22 @@ install-all:
         just install-dev ${env}
     done
 
+# Meta-recipe to run `install-dev` on all environments
+install-dev-all:
+    #!/usr/bin/env bash
+    set -e
+    for venv in {{ENVS}}; do
+        just install-dev ${venv}
+    done
+
+# Meta-recipe to run `install-tools` on all environments
+install-tools-all:
+    #!/usr/bin/env bash
+    set -e
+    for venv in {{ENVS}}; do
+        just install-tools ${venv}
+    done
+
 # -----------------------------------------------------------------------------
 # -- Code Quality
 # -----------------------------------------------------------------------------
@@ -252,17 +291,20 @@ check-format venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Checking code formatting with Ruff..."
-    ${VENV_PYTHON} -m ruff format --check cfxdb/
+    ${VENV_PYTHON} -m ruff format --check src/cfxdb/
     echo "--> Format check passed"
 
-# Auto-format code with Ruff (modifies files in-place!)
-autoformat venv="":
+# Automatically fix all formatting and code style issues.
+fix-format venv="": (install-tools venv)
     #!/usr/bin/env bash
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Auto-formatting code with Ruff..."
-    ${VENV_PYTHON} -m ruff format cfxdb/
+    ${VENV_PYTHON} -m ruff format src/cfxdb/
     echo "--> Code formatted"
+
+# Alias for fix-format (backward compatibility)
+autoformat venv="": (fix-format venv)
 
 # Run Ruff linter
 check-lint venv="":
@@ -270,7 +312,7 @@ check-lint venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Running Ruff linter..."
-    ${VENV_PYTHON} -m ruff check cfxdb/
+    ${VENV_PYTHON} -m ruff check src/cfxdb/
     echo "--> Linting passed"
 
 # Run static type checking with mypy
@@ -279,7 +321,7 @@ check-typing venv="":
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Running type checking with mypy..."
-    ${VENV_PYTHON} -m mypy cfxdb/ || echo "Warning: Type checking found issues"
+    ${VENV_PYTHON} -m mypy src/cfxdb/ || echo "Warning: Type checking found issues"
 
 # Run all code quality checks
 check venv="": (check-format venv) (check-lint venv) (check-typing venv)
@@ -288,13 +330,13 @@ check venv="": (check-format venv) (check-lint venv) (check-typing venv)
 # -- Testing
 # -----------------------------------------------------------------------------
 
-# Run the test suite with pytest
+# Run the test suite with pytest (requires: `just install-dev`)
 test venv="":
     #!/usr/bin/env bash
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Running test suite with pytest..."
-    ${VENV_PYTHON} -m pytest -v cfxdb/
+    ${VENV_PYTHON} -m pytest -v src/cfxdb/tests/
     echo "--> Tests passed"
 
 # Run tests in all environments
@@ -309,65 +351,106 @@ test-all:
         just test ${env}
     done
 
-# Generate code coverage report
-coverage venv="":
+# Upgrade dependencies in a single environment (re-installs all deps to latest)
+upgrade venv="": (create venv)
+    #!/usr/bin/env bash
+    set -e
+    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
+    echo "==> Upgrading all dependencies..."
+    ${VENV_PYTHON} -m pip install --upgrade pip
+    ${VENV_PYTHON} -m pip install --upgrade -e '.[dev]'
+    echo "--> Dependencies upgraded"
+
+# Meta-recipe to run `upgrade` on all environments
+upgrade-all:
+    #!/usr/bin/env bash
+    set -e
+    for venv in {{ENVS}}; do
+        echo ""
+        echo "======================================================================"
+        echo "Upgrading ${venv}"
+        echo "======================================================================"
+        just upgrade ${venv}
+    done
+
+# Generate code coverage report (requires: `just install-dev`)
+check-coverage venv="":
     #!/usr/bin/env bash
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
     echo "==> Generating coverage report..."
-    ${VENV_PYTHON} -m pytest --cov=cfxdb --cov-report=html --cov-report=term cfxdb/
+    ${VENV_PYTHON} -m pytest --cov=cfxdb --cov-report=html --cov-report=term src/cfxdb/tests/
     echo "--> Coverage report generated in htmlcov/"
+
+# Alias for check-coverage (backward compatibility)
+coverage venv="": (check-coverage venv)
 
 # -----------------------------------------------------------------------------
 # -- Building
 # -----------------------------------------------------------------------------
 
 # Build source distribution
-build-sourcedist venv="":
+build-sourcedist venv="": (install-build-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
     echo "==> Building source distribution..."
     ${VENV_PYTHON} -m build --sdist
-    echo "--> Source distribution built"
+    ls -la dist/
 
 # Build wheel package
-build venv="":
+build venv="": (install-build-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
-    echo "==> Building wheel..."
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PATH="{{VENV_DIR}}/${VENV_NAME}"
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
+    echo "==> Building wheel package..."
     ${VENV_PYTHON} -m build --wheel
-    echo "--> Wheel built"
+    ls -la dist/
 
 # Build both source distribution and wheel
-dist venv="":
+dist venv="": (install-build-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
     echo "==> Building distribution packages..."
     ${VENV_PYTHON} -m build
-    echo "--> Distribution packages built"
     echo ""
     echo "Built packages:"
     ls -lh dist/
 
-# Build wheels for all environments
-build-all:
-    #!/usr/bin/env bash
-    set -e
-    for env in {{ENVS}}; do
-        just build ${env}
-    done
+# Build wheels for all environments (pure Python - only needs one build)
+build-all: (build "cpy311")
+    echo "==> Pure Python package: single universal wheel built."
 
-# Verify distribution packages
-verify-dist venv="":
+# Verify wheels using twine check (pure Python package - auditwheel not applicable)
+verify-wheels venv="": (install-tools venv)
     #!/usr/bin/env bash
     set -e
-    VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
-    echo "==> Verifying distribution packages..."
-    ${VENV_PYTHON} -m twine check dist/*
-    echo "--> Verification passed"
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PATH="{{VENV_DIR}}/${VENV_NAME}"
+    echo "==> Verifying wheels with twine check..."
+    "${VENV_PATH}/bin/twine" check dist/*
+    echo ""
+    echo "==> Note: This is a pure Python package (py3-none-any wheel)."
+    echo "    auditwheel verification is not applicable (no native extensions)."
+    echo ""
+    echo "==> Wheel verification complete."
 
 # -----------------------------------------------------------------------------
 # -- Documentation
@@ -420,3 +503,76 @@ publish-test venv="":
     echo "==> Publishing to Test PyPI..."
     ${VENV_PYTHON} -m twine upload --repository testpypi dist/*
     echo "--> Published to Test PyPI"
+
+# Download GitHub release artifacts (nightly or tagged release)
+download-github-release release_type="nightly":
+    #!/usr/bin/env bash
+    set -e
+    echo "==> Downloading GitHub release artifacts ({{release_type}})..."
+    rm -rf ./dist
+    mkdir -p ./dist
+    if [ "{{release_type}}" = "nightly" ]; then
+        gh release download nightly --repo crossbario/cfxdb --dir ./dist --pattern '*.whl' --pattern '*.tar.gz' || \
+            echo "Note: No nightly release found or no artifacts available"
+    else
+        gh release download "{{release_type}}" --repo crossbario/cfxdb --dir ./dist --pattern '*.whl' --pattern '*.tar.gz'
+    fi
+    echo ""
+    echo "Downloaded artifacts:"
+    ls -la ./dist/ || echo "No artifacts downloaded"
+
+# Download release artifacts from GitHub and publish to PyPI
+publish-pypi venv="" tag="": (install-tools venv)
+    #!/usr/bin/env bash
+    set -e
+    VENV_PATH="{{VENV_DIR}}/$(just --quiet _get-system-venv-name)"
+    if [ -n "{{ venv }}" ]; then
+        VENV_PATH="{{VENV_DIR}}/{{ venv }}"
+    fi
+    TAG="{{ tag }}"
+    if [ -z "${TAG}" ]; then
+        echo "Error: Please specify a tag to publish"
+        echo "Usage: just publish-pypi cpy311 v24.1.1"
+        exit 1
+    fi
+    echo "==> Publishing ${TAG} to PyPI..."
+    echo ""
+    echo "Step 1: Download release artifacts from GitHub..."
+    just download-github-release "${TAG}"
+    echo ""
+    echo "Step 2: Verify packages with twine..."
+    "${VENV_PATH}/bin/twine" check dist/*
+    echo ""
+    echo "Note: This is a pure Python package (py3-none-any wheel)."
+    echo "      auditwheel verification is not applicable (no native extensions)."
+    echo ""
+    echo "Step 3: Upload to PyPI..."
+    echo ""
+    echo "WARNING: This will upload to PyPI!"
+    echo "Press Ctrl+C to cancel, or Enter to continue..."
+    read
+    "${VENV_PATH}/bin/twine" upload dist/*
+    echo ""
+    echo "==> Successfully published ${TAG} to PyPI"
+
+# Trigger Read the Docs build for a specific tag
+publish-rtd tag="":
+    #!/usr/bin/env bash
+    set -e
+    TAG="{{ tag }}"
+    if [ -z "${TAG}" ]; then
+        echo "Error: Please specify a tag to build"
+        echo "Usage: just publish-rtd v24.1.1"
+        exit 1
+    fi
+    echo "==> Triggering Read the Docs build for ${TAG}..."
+    echo ""
+    echo "Note: Read the Docs builds are typically triggered automatically"
+    echo "      when tags are pushed to GitHub. This recipe is a placeholder"
+    echo "      for manual triggering if needed."
+    echo ""
+    echo "To manually trigger a build:"
+    echo "  1. Go to https://readthedocs.org/projects/cfxdb/"
+    echo "  2. Click 'Build a version'"
+    echo "  3. Select the tag: ${TAG}"
+    echo ""
