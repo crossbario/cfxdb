@@ -9,19 +9,44 @@ on:
       - master
 
 jobs:
+  identifiers:
+    name: Identifiers
+    # GitHub needs to know where .cicd/workflows/identifiers.yml lives at parse time,
+    # and submodules aren't included in that context! thus the following does NOT work:
+    # uses: ./.cicd/workflows/identifiers.yml
+    # we MUST reference the remote repo directly:
+    uses: wamp-proto/wamp-cicd/.github/workflows/identifiers.yml@main
+    # IMPORTANT: we still need .cicd as a Git submodule in the using repo though!
+    # because e.g. identifiers.yml wants to access scripts/sanitize.sh !
+
   check:
+    name: Code Quality
+    needs: identifiers
     runs-on: ubuntu-24.04
+
+    env:
+      BASE_REPO: ${{ needs.identifiers.outputs.base_repo }}
+      BASE_BRANCH: ${{ needs.identifiers.outputs.base_branch }}
+      PR_NUMBER: ${{ needs.identifiers.outputs.pr_number }}
+      PR_REPO: ${{ needs.identifiers.outputs.pr_repo }}
+      PR_BRANCH: ${{ needs.identifiers.outputs.pr_branch }}
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
 
       - name: Set up Python 3.11
         run: uv python install 3.11
 
       - name: Install just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
+
+      - name: Install ty (Astral type checker)
+        run: uv tool install ty
 
       - name: Create venv and install dev dependencies
         run: |
@@ -32,7 +57,17 @@ jobs:
         run: just check cpy311
 
   test:
+    name: Test Suite
+    needs: identifiers
     runs-on: ${{ matrix.os }}
+
+    env:
+      BASE_REPO: ${{ needs.identifiers.outputs.base_repo }}
+      BASE_BRANCH: ${{ needs.identifiers.outputs.base_branch }}
+      PR_NUMBER: ${{ needs.identifiers.outputs.pr_number }}
+      PR_REPO: ${{ needs.identifiers.outputs.pr_repo }}
+      PR_BRANCH: ${{ needs.identifiers.outputs.pr_branch }}
+
     strategy:
       matrix:
         os: [ubuntu-24.04]
@@ -43,12 +78,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
 
       - name: Install just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
 
       - name: Create venv and install dependencies
         run: |
@@ -59,18 +96,30 @@ jobs:
         run: just test ${{ matrix.env }}
 
   docs:
+    name: Documentation
+    needs: identifiers
     runs-on: ubuntu-24.04
+
+    env:
+      BASE_REPO: ${{ needs.identifiers.outputs.base_repo }}
+      BASE_BRANCH: ${{ needs.identifiers.outputs.base_branch }}
+      PR_NUMBER: ${{ needs.identifiers.outputs.pr_number }}
+      PR_REPO: ${{ needs.identifiers.outputs.pr_repo }}
+      PR_BRANCH: ${{ needs.identifiers.outputs.pr_branch }}
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
 
       - name: Set up Python 3.11
         run: uv python install 3.11
 
       - name: Install just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
 
       - name: Create venv and install dependencies
         run: |
