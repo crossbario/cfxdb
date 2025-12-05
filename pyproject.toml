@@ -41,8 +41,8 @@ classifiers = [
 
 dependencies = [
     # WAMP ecosystem packages
-    "autobahn[all]>=25.10.2",
-    "zlmdb>=25.10.2",
+    "autobahn[all]>=25.12.1",
+    "zlmdb>=25.12.1",
 
     # Ethereum/Web3 stack
     "eth-abi>=5.1.0",
