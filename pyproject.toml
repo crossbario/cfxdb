@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=80.9.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "cfxdb"
@@ -95,17 +95,28 @@ Documentation = "https://cfxdb.readthedocs.io"
 Repository = "https://github.com/crossbario/cfxdb"
 Issues = "https://github.com/crossbario/cfxdb/issues"
 
-[tool.setuptools]
-zip-safe = true
-include-package-data = true
+# Hatchling build configuration
+[tool.hatch.build.targets.wheel]
+packages = ["src/cfxdb"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["cfxdb*"]
-exclude = ["tests*", "docs*", ".ai*", ".cicd*", "work*"]
+# Include non-Python files in the wheel
+[tool.hatch.build.targets.wheel.force-include]
+# Include py.typed marker
+"src/cfxdb/py.typed" = "cfxdb/py.typed"
 
-[tool.setuptools.package-data]
-cfxdb = ["py.typed"]
+[tool.hatch.build.targets.sdist]
+# By default, hatchling includes all git-tracked files
+# Exclude build artifacts from sdist
+exclude = [
+    "/.github",
+    "/docs/_build",
+    "/.venvs",
+    "/.uv-cache",
+    "/.coverage",
+    "/.pytest_cache",
+    "/.mypy_cache",
+    "/.ruff_cache",
+]
 
 # Ruff configuration (replaces flake8, black, yapf)
 [tool.ruff]
