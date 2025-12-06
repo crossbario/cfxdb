@@ -239,6 +239,60 @@ install-dev venv="":
     ${VENV_PYTHON} -m pip install -e '.[dev]'
     echo "--> Installed cfxdb[dev] in editable mode"
 
+# Install with latest unreleased WAMP packages from GitHub (usage: `just install-dev-latest cpy312`)
+install-dev-latest venv="": (create venv)
+    #!/usr/bin/env bash
+    set -e
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
+    echo "==> Installing package in editable mode with [dev,dev-latest] extras in ${VENV_NAME}..."
+    echo "==> This will install WAMP packages from GitHub master (unreleased versions)..."
+    ${VENV_PYTHON} -m pip install -e .[dev,dev-latest]
+
+# Install with locally editable WAMP packages for cross-repo development (usage: `just install-dev-local cpy312`)
+install-dev-local venv="": (create venv)
+    #!/usr/bin/env bash
+    set -e
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
+
+    echo "==> Installing WAMP packages in editable mode from local repos..."
+    echo "==> Looking for sibling repos (../txaio, ../autobahn-python, ../zlmdb)..."
+
+    # Install local WAMP packages in editable mode
+    # txaio - no extras needed
+    if [ -d "../txaio" ]; then
+        echo "  ✓ Installing txaio from ../txaio"
+        ${VENV_PYTHON} -m pip install -e "../txaio"
+    else
+        echo "  ⚠ Warning: ../txaio not found, skipping"
+    fi
+
+    # autobahn-python - install with all extras
+    if [ -d "../autobahn-python" ]; then
+        echo "  ✓ Installing autobahn-python with [all] from ../autobahn-python"
+        ${VENV_PYTHON} -m pip install -e "../autobahn-python[all]"
+    else
+        echo "  ⚠ Warning: ../autobahn-python not found, skipping"
+    fi
+
+    # zlmdb - no extras needed
+    if [ -d "../zlmdb" ]; then
+        echo "  ✓ Installing zlmdb from ../zlmdb"
+        ${VENV_PYTHON} -m pip install -e "../zlmdb"
+    else
+        echo "  ⚠ Warning: ../zlmdb not found, skipping"
+    fi
+
+    echo "==> Installing cfxdb in editable mode with [dev] extras..."
+    ${VENV_PYTHON} -m pip install -e .[dev] --upgrade --upgrade-strategy only-if-needed
+
 # Install development tools (ruff, sphinx, etc.)
 # Note: ty (Astral type checker) is installed via `uv tool install ty`
 install-tools venv="":
