@@ -98,6 +98,7 @@ myst_heading_anchors = 3
 autoclass_content = "both"
 autodoc_member_order = "bysource"
 autoapi_options = ["members", "show-inheritance"]
+autoapi_dirs = ["../src/cfxdb"]
 
 # -- Intersphinx Configuration -----------------------------------------------
 intersphinx_mapping = {
