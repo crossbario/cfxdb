@@ -43,4 +43,4 @@ Python programs (including Jupyter notebooks) to CrossbarFX edge node data:
 --------------
 
 *Copyright (c) typedef int GmbH. Licensed under MIT.
-WAMP, Crossbar.io and XBR are trademarks of Crossbar.io Technologies GmbH.*
+WAMP, Crossbar.io and XBR are trademarks of typedef int GmbH (Germany).*
