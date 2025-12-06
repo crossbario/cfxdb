@@ -42,5 +42,15 @@ Python programs (including Jupyter notebooks) to CrossbarFX edge node data:
 
 --------------
 
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   ai/index
+
+--------------
+
 *Copyright (c) typedef int GmbH. Licensed under MIT.
 WAMP, Crossbar.io and XBR are trademarks of typedef int GmbH (Germany).*
