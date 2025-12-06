@@ -76,6 +76,7 @@ dev = [
     # It's a standalone Rust binary, not a Python package dependency
 
     # Documentation
+    "scour>=0.38",  # SVG optimizer for documentation logos
     "sphinx>=1.7.1",
     "sphinx-rtd-theme>=0.1.9",
     "sphinxcontrib-spelling>=7.0.0",
