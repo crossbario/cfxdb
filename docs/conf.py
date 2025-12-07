@@ -115,27 +115,32 @@ intersphinx_cache_limit = 5
 html_theme = "furo"
 html_title = f"{project} {release}"
 
-# Furo theme options with Noto fonts
+# Furo theme options with Noto fonts and Crossbar.io subarea colors
 html_theme_options = {
     # Source repository links
     "source_repository": "https://github.com/crossbario/cfxdb/",
     "source_branch": "master",
     "source_directory": "docs/",
 
-    # Noto fonts from Google Fonts
+    # Noto fonts and Crossbar.io Bright Yellow (#ffff00) accent color
     "light_css_variables": {
         "font-stack": "'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         "font-stack--monospace": "'Noto Sans Mono', SFMono-Regular, Menlo, Consolas, monospace",
+        "color-brand-primary": "#d4aa00",
+        "color-brand-content": "#d4aa00",
     },
     "dark_css_variables": {
         "font-stack": "'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         "font-stack--monospace": "'Noto Sans Mono', SFMono-Regular, Menlo, Consolas, monospace",
+        "color-brand-primary": "#ffff00",
+        "color-brand-content": "#ffff00",
     },
 }
 
-# Logo (optimized SVG generated from docs/_graphics/ by `just _build-images`)
+# Logo and favicon (synced from crossbar by `just sync-images`)
 # Uses the Crossbar.io icon for Crossbar.io ecosystem projects
 html_logo = "_static/img/crossbar_icon.svg"
+html_favicon = "_static/favicon.ico"
 
 # Static files
 html_static_path = ["_static"]
@@ -163,3 +168,4 @@ todo_include_todos = True
 add_module_names = False
 autosectionlabel_prefix_document = True
 pygments_style = "sphinx"
+pygments_dark_style = "monokai"
