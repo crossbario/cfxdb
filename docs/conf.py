@@ -77,7 +77,7 @@ source_suffix = {
 }
 
 # The master toctree document
-master_doc = "contents"
+master_doc = "index"
 
 # Exclude patterns
 exclude_patterns = ["_build", "README.md"]
@@ -103,6 +103,8 @@ autoapi_generate_api_docs = True
 autoapi_options = [
     "members",
     "undoc-members",
+    "private-members",
+    "special-members",
     "show-inheritance",
     "show-module-summary",
     "imported-members",
