@@ -16,16 +16,14 @@ Contents
 --------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
-   router-database/index
-   management-realm/index
-   management-domain/index
-   management-network/index
+   overview
+   installation
+   getting-started
+   programming-guide/index
+   releases
+   changelog
+   contributing
    OVERVIEW.md
    ai/index
-
---------------
-
-*Copyright (c) typedef int GmbH. Licensed under MIT.
-WAMP, Crossbar.io and XBR are trademarks of typedef int GmbH (Germany).*
