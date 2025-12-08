@@ -1,5 +1,5 @@
-Overview
-========
+Introduction
+============
 
 **cfxdb** is a Crossbar.io Python support package with core database access
 classes written in native Python.
