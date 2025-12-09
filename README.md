@@ -1,18 +1,13 @@
-# Introduction to cfxdb
+# cfxdb
 
-[![PyPI Version](https://img.shields.io/pypi/v/cfxdb.svg)](https://pypi.python.org/pypi/cfxdb)
-
-[![GitHub Release](https://img.shields.io/github/v/release/crossbario/cfxdb)](https://github.com/crossbario/cfxdb/releases)
-
-[![Python Versions](https://img.shields.io/pypi/pyversions/cfxdb.svg)](https://pypi.python.org/pypi/cfxdb)
-
+[![PyPI](https://img.shields.io/pypi/v/cfxdb.svg)](https://pypi.python.org/pypi/cfxdb)
+[![Python](https://img.shields.io/pypi/pyversions/cfxdb.svg)](https://pypi.python.org/pypi/cfxdb)
+[![CI](https://github.com/crossbario/cfxdb/workflows/main/badge.svg)](https://github.com/crossbario/cfxdb/actions?query=workflow%3Amain)
+[![Docs](https://readthedocs.org/projects/cfxdb/badge/?version=latest)](https://cfxdb.readthedocs.io/en/latest/)
 [![License](https://img.shields.io/pypi/l/cfxdb.svg)](https://github.com/crossbario/cfxdb/blob/master/LICENSE)
-
-[![Documentation](https://readthedocs.org/projects/cfxdb/badge/?version=latest)](https://cfxdb.readthedocs.io/en/latest/)
-
 [![Downloads](https://img.shields.io/pypi/dm/cfxdb.svg)](https://pypi.python.org/pypi/cfxdb)
 
-[![CI/CD](https://github.com/crossbario/cfxdb/actions/workflows/main.yml/badge.svg)](https://github.com/crossbario/cfxdb/actions/workflows/main.yml)
+---
 
 **cfxdb** is a Crossbar.io Python support package with core database
 access classes written in native Python. The package allows direct
