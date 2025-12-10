@@ -9,7 +9,7 @@ import random
 import timeit
 import uuid
 
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 import pytest
 from autobahn import util

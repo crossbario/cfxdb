@@ -13,7 +13,7 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 import pytest
 from autobahn import util

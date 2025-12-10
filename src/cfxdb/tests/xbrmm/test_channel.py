@@ -15,7 +15,7 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-import flatbuffers
+from zlmdb import flatbuffers
 import pytest
 from txaio import time_ns
 

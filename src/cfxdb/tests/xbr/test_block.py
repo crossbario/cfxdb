@@ -9,7 +9,7 @@ import os
 import random
 import timeit
 
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 import pytest
 from txaio import (

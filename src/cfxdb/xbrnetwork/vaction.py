@@ -9,7 +9,7 @@ import pprint
 import uuid
 
 import cbor2
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 from zlmdb import MapUuidFlatBuffers, table
 

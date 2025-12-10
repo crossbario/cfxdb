@@ -48,9 +48,48 @@ if not hasattr(web3.Web3, "toBytes") and hasattr(web3.Web3, "to_bytes"):
 if not hasattr(web3.Web3, "toInt") and hasattr(web3.Web3, "to_int"):
     web3.Web3.toInt = web3.Web3.to_int
 
+import sys
 import txaio
 
 txaio.use_twisted()
+
+# =============================================================================
+# Monkey-patch zlmdb to expose vendored flatbuffers
+# TEMPORARY: Until zlmdb 25.12.2 is released with native support for:
+#   - `from zlmdb import flatbuffers`
+#   - `zlmdb.setup_flatbuffers_import()`
+# See: https://github.com/crossbario/zlmdb/issues/XX (TODO: add issue number)
+# =============================================================================
+import zlmdb
+
+# Expose zlmdb's vendored flatbuffers as zlmdb.flatbuffers
+if not hasattr(zlmdb, 'flatbuffers'):
+    zlmdb.flatbuffers = zlmdb._flatbuffers_vendor
+    sys.modules.setdefault('zlmdb.flatbuffers', zlmdb._flatbuffers_vendor)
+
+
+def _setup_flatbuffers_import():
+    """
+    Register zlmdb's vendored flatbuffers in sys.modules.
+
+    This allows generated flatbuffers code (which does `import flatbuffers`)
+    to resolve to zlmdb's vendored copy.
+    """
+    _vendor = zlmdb._flatbuffers_vendor
+    sys.modules.setdefault('flatbuffers', _vendor)
+    sys.modules.setdefault('flatbuffers.compat', _vendor.compat)
+    sys.modules.setdefault('flatbuffers.builder', _vendor.builder)
+    sys.modules.setdefault('flatbuffers.table', _vendor.table)
+    sys.modules.setdefault('flatbuffers.util', _vendor.util)
+    sys.modules.setdefault('flatbuffers.number_types', _vendor.number_types)
+    sys.modules.setdefault('flatbuffers.packer', _vendor.packer)
+    sys.modules.setdefault('flatbuffers.encode', _vendor.encode)
+
+
+if not hasattr(zlmdb, 'setup_flatbuffers_import'):
+    zlmdb.setup_flatbuffers_import = _setup_flatbuffers_import
+
+# =============================================================================
 
 from ._version import __version__  # noqa
 from ._exception import InvalidConfigException  # noqa

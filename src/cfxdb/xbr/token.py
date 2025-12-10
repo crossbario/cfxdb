@@ -7,7 +7,7 @@
 
 import pprint
 
-import flatbuffers
+from zlmdb import flatbuffers
 from zlmdb import MapBytes32FlatBuffers, table
 
 from cfxdb import pack_uint256, unpack_uint256

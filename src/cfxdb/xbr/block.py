@@ -7,7 +7,7 @@
 
 import pprint
 
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 from zlmdb import MapBytes32FlatBuffers, table
 

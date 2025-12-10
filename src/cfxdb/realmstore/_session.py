@@ -10,7 +10,7 @@ import uuid
 from typing import Any, Dict, Optional
 
 import cbor2
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 from zlmdb import MapUint64TimestampUuid, MapUuidFlatBuffers, table
 

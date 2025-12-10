@@ -12,7 +12,7 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-import flatbuffers
+from zlmdb import flatbuffers
 import pytest
 
 from cfxdb.xbrmm import ChannelBalance

@@ -11,7 +11,7 @@ import random
 import timeit
 import uuid
 
-import flatbuffers
+from zlmdb import flatbuffers
 import pytest
 import zlmdb
 from autobahn import util

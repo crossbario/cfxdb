@@ -8,7 +8,7 @@
 import random
 import timeit
 
-import flatbuffers
+from zlmdb import flatbuffers
 import pytest
 import zlmdb
 from autobahn import util

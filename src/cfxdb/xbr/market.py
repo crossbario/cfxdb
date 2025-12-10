@@ -7,7 +7,7 @@
 import pprint
 import uuid
 
-import flatbuffers
+from zlmdb import flatbuffers
 import numpy as np
 from zlmdb import MapBytes20TimestampUuid, MapBytes20Uuid, MapUuidFlatBuffers, table
 

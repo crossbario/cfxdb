@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 
 import cbor2
-import flatbuffers
+from zlmdb import flatbuffers
 import pytest
 import txaio
 from autobahn import util
