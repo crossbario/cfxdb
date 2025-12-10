@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "cfxdb"
 version = "25.12.1"
 description = "Crossbar.io Database - Core database access classes for Crossbar.io"
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
