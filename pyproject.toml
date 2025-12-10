@@ -154,6 +154,8 @@ exclude = [
 [tool.ruff]
 line-length = 119
 target-version = "py311"
+# Exclude generated flatbuffers code from linting
+exclude = ["src/cfxdb/gen"]
 
 [tool.ruff.lint]
 select = [

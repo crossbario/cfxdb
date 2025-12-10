@@ -13,11 +13,11 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-from zlmdb import flatbuffers
 import numpy as np
 import pytest
 from autobahn import util
 from txaio import time_ns
+from zlmdb import flatbuffers
 
 from cfxdb.cookiestore import Cookie
 

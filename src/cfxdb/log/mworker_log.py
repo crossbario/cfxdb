@@ -8,9 +8,9 @@
 import pprint
 import uuid
 
-from zlmdb import flatbuffers
 import numpy as np
 from txaio import time_ns
+from zlmdb import flatbuffers
 
 from cfxdb.gen.log import MWorkerLog as MWorkerLogGen
 

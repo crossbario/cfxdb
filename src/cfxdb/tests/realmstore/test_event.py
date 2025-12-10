@@ -8,7 +8,6 @@
 import random
 import timeit
 
-from zlmdb import flatbuffers
 import pytest
 import zlmdb
 from autobahn import util
@@ -16,6 +15,7 @@ from txaio import (
     time_ns,
     with_twisted,  # noqa
 )
+from zlmdb import flatbuffers
 
 from cfxdb.realmstore import Event
 

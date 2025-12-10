@@ -9,9 +9,8 @@ import pprint
 import uuid
 
 import cbor2
-from zlmdb import flatbuffers
 import numpy as np
-from zlmdb import MapUuidFlatBuffers, table
+from zlmdb import MapUuidFlatBuffers, flatbuffers, table
 
 from cfxdb.gen.xbrnetwork import VerifiedAction as VerifiedActionGen
 

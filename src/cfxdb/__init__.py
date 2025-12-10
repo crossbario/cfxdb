@@ -49,6 +49,7 @@ if not hasattr(web3.Web3, "toInt") and hasattr(web3.Web3, "to_int"):
     web3.Web3.toInt = web3.Web3.to_int
 
 import sys
+
 import txaio
 
 txaio.use_twisted()

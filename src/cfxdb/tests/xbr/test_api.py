@@ -10,11 +10,11 @@ import random
 import timeit
 import uuid
 
-from zlmdb import flatbuffers
 import numpy as np
 import pytest
 import txaio
 import zlmdb
+from zlmdb import flatbuffers
 
 txaio.use_twisted()  # noqa
 

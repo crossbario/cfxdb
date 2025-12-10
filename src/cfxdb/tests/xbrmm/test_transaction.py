@@ -14,10 +14,10 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-from zlmdb import flatbuffers
 import numpy as np
 import pytest
 from txaio import time_ns
+from zlmdb import flatbuffers
 
 from cfxdb.xbrmm import Transaction
 

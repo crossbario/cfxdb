@@ -7,9 +7,8 @@
 
 import pprint
 
-from zlmdb import flatbuffers
 import numpy as np
-from zlmdb import MapStringFlatBuffers, table
+from zlmdb import MapStringFlatBuffers, flatbuffers, table
 
 from cfxdb.gen.xbrmm import IPFSFile as IPFSFileGen
 

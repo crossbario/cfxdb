@@ -9,13 +9,13 @@ import os
 import random
 import timeit
 
-from zlmdb import flatbuffers
 import numpy as np
 import pytest
 from txaio import (
     time_ns,
     with_twisted,  # noqa
 )
+from zlmdb import flatbuffers
 
 from cfxdb.xbr import Block
 

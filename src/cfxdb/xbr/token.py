@@ -7,8 +7,7 @@
 
 import pprint
 
-from zlmdb import flatbuffers
-from zlmdb import MapBytes32FlatBuffers, table
+from zlmdb import MapBytes32FlatBuffers, flatbuffers, table
 
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import TokenApproval as TokenApprovalGen

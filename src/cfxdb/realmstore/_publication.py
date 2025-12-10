@@ -8,8 +8,7 @@
 import pprint
 
 import cbor2
-from zlmdb import flatbuffers
-from zlmdb import MapOidFlatBuffers, table
+from zlmdb import MapOidFlatBuffers, flatbuffers, table
 
 from cfxdb.gen.realmstore import Publication as PublicationGen
 

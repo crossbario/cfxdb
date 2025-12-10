@@ -7,9 +7,8 @@
 import pprint
 import uuid
 
-from zlmdb import flatbuffers
 import numpy as np
-from zlmdb import MapBytes16TimestampUuid, MapUuidFlatBuffers, table
+from zlmdb import MapBytes16TimestampUuid, MapUuidFlatBuffers, flatbuffers, table
 
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Api as ApiGen

@@ -12,10 +12,10 @@ import uuid
 from datetime import datetime
 
 import cbor2
-from zlmdb import flatbuffers
 import pytest
 import txaio
 from autobahn import util
+from zlmdb import flatbuffers
 
 from cfxdb.user import ActivationToken, ActivationTokenFbs, User, UserFbs
 
