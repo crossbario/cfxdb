@@ -10,9 +10,8 @@ import uuid
 from typing import Any, Dict, Optional
 
 import cbor2
-import flatbuffers
 import numpy as np
-from zlmdb import MapStringUuid, MapUuidFlatBuffers, table
+from zlmdb import MapStringUuid, MapUuidFlatBuffers, flatbuffers, table
 
 from cfxdb.gen.cookiestore import Cookie as CookieGen
 

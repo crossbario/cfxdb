@@ -7,9 +7,8 @@
 import pprint
 import uuid
 
-import flatbuffers
 import numpy as np
-from zlmdb import MapBytes20TimestampUuid, MapUuidBytes20Bytes20Uint8UuidFlatBuffers, table
+from zlmdb import MapBytes20TimestampUuid, MapUuidBytes20Bytes20Uint8UuidFlatBuffers, flatbuffers, table
 
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Consent as ConsentGen

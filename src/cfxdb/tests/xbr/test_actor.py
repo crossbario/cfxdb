@@ -14,10 +14,10 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-import flatbuffers
 import numpy as np
 import pytest
 from txaio import time_ns
+from zlmdb import flatbuffers
 
 from cfxdb.tests._util import _gen_ipfs_hash
 from cfxdb.xbr import Actor

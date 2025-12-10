@@ -70,6 +70,8 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/_static/img/
+docs/autoapi/
 
 # PyBuilder
 target/
@@ -128,3 +130,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 twistd.pid
+.build/

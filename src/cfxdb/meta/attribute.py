@@ -9,9 +9,8 @@ import pprint
 from uuid import UUID
 
 import cbor2
-import flatbuffers
 import numpy as np
-from zlmdb import MapUuidUuidStringFlatBuffers, table
+from zlmdb import MapUuidUuidStringFlatBuffers, flatbuffers, table
 
 from cfxdb.gen.meta import Attribute as AttributeGen
 

@@ -7,9 +7,8 @@
 import pprint
 import uuid
 
-import flatbuffers
 import numpy as np
-from zlmdb import MapBytes20TimestampUuid, MapBytes20Uuid, MapUuidFlatBuffers, table
+from zlmdb import MapBytes20TimestampUuid, MapBytes20Uuid, MapUuidFlatBuffers, flatbuffers, table
 
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbr import Market as MarketGen

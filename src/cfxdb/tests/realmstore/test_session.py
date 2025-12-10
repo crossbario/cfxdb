@@ -9,12 +9,12 @@ import random
 import timeit
 import uuid
 
-import flatbuffers
 import numpy as np
 import pytest
 from autobahn import util
 from autobahn.wamp.types import TransportDetails
 from txaio import time_ns, with_twisted  # noqa
+from zlmdb import flatbuffers
 
 from cfxdb.realmstore import Session
 

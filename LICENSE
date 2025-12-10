@@ -1,6 +1,37 @@
+---
+title: MIT License
+spdx-id: MIT
+source: https://opensource.org/license/mit/
+
+description: |
+  The MIT License is a short, permissive free software license.
+  It allows reuse within proprietary software provided all copies retain
+  the license terms. This project is distributed under the MIT License
+  by typedef int GmbH and Contributors.
+
+permissions:
+  - commercial-use
+  - modifications
+  - distribution
+  - private-use
+  - sublicense
+
+conditions:
+  - include-copyright
+  - include-license
+
+limitations:
+  - liability
+  - warranty
+
+held-by: typedef int GmbH and Contributors
+project: cfxdb
+year: 2020
+---
+
 The MIT License (MIT)
 
-Copyright (c) typedef int GmbH
+Copyright (c) typedef int GmbH and Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=80.9.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "cfxdb"
 version = "25.12.1"
 description = "Crossbar.io Database - Core database access classes for Crossbar.io"
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
@@ -41,8 +41,8 @@ classifiers = [
 
 dependencies = [
     # WAMP ecosystem packages
-    "autobahn[all]>=25.10.2",
-    "zlmdb>=25.10.2",
+    "autobahn[all]>=25.12.1",
+    "zlmdb>=25.12.1",
 
     # Ethereum/Web3 stack
     "eth-abi>=5.1.0",
@@ -76,6 +76,7 @@ dev = [
     # It's a standalone Rust binary, not a Python package dependency
 
     # Documentation
+    "scour>=0.38",  # SVG optimizer for documentation logos
     "sphinx>=1.7.1",
     "sphinx-rtd-theme>=0.1.9",
     "sphinxcontrib-spelling>=7.0.0",
@@ -89,28 +90,72 @@ dev = [
     "watchdog>=0.8.3",
 ]
 
+# Documentation tools (used by RTD via .readthedocs.yaml)
+docs = [
+    # Core Sphinx + MyST
+    "sphinx>=8.2.3",
+    "myst-parser>=2.0",
+
+    # Theme
+    "furo>=2024.7.0",
+
+    # API docs (no-import parsing)
+    "sphinx-autoapi>=2.1.0",
+
+    # UX Enhancements
+    "sphinx-copybutton>=0.5",
+    "sphinx-design>=0.5",
+    "sphinxcontrib-images>=0.9",
+
+    # Spell checking
+    "sphinxcontrib-spelling>=8.0",
+    "pyenchant>=3.2",
+
+    # Static asset optimization
+    "scour>=0.38",
+
+    # Social previews
+    "sphinxext-opengraph>=0.9",
+
+    # MyST auto-linking
+    "linkify-it-py>=2.0.0",
+]
+
 [project.urls]
 Homepage = "https://github.com/crossbario/cfxdb"
 Documentation = "https://cfxdb.readthedocs.io"
 Repository = "https://github.com/crossbario/cfxdb"
 Issues = "https://github.com/crossbario/cfxdb/issues"
 
-[tool.setuptools]
-zip-safe = true
-include-package-data = true
+# Hatchling build configuration
+[tool.hatch.build.targets.wheel]
+packages = ["src/cfxdb"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["cfxdb*"]
-exclude = ["tests*", "docs*", ".ai*", ".cicd*", "work*"]
+# Include non-Python files in the wheel
+[tool.hatch.build.targets.wheel.force-include]
+# Include py.typed marker
+"src/cfxdb/py.typed" = "cfxdb/py.typed"
 
-[tool.setuptools.package-data]
-cfxdb = ["py.typed"]
+[tool.hatch.build.targets.sdist]
+# By default, hatchling includes all git-tracked files
+# Exclude build artifacts from sdist
+exclude = [
+    "/.github",
+    "/docs/_build",
+    "/.venvs",
+    "/.uv-cache",
+    "/.coverage",
+    "/.pytest_cache",
+    "/.mypy_cache",
+    "/.ruff_cache",
+]
 
 # Ruff configuration (replaces flake8, black, yapf)
 [tool.ruff]
 line-length = 119
 target-version = "py311"
+# Exclude generated flatbuffers code from linting
+exclude = ["src/cfxdb/gen"]
 
 [tool.ruff.lint]
 select = [

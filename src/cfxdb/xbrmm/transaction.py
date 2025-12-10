@@ -8,9 +8,8 @@
 import pprint
 import uuid
 
-import flatbuffers
 import numpy as np
-from zlmdb import MapUuidFlatBuffers, table
+from zlmdb import MapUuidFlatBuffers, flatbuffers, table
 
 from cfxdb import pack_uint256, unpack_uint256
 from cfxdb.gen.xbrmm import Transaction as TransactionGen

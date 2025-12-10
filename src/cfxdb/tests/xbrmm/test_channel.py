@@ -15,9 +15,9 @@ import txaio
 
 txaio.use_twisted()  # noqa
 
-import flatbuffers
 import pytest
 from txaio import time_ns
+from zlmdb import flatbuffers
 
 from cfxdb.xbrmm import Channel
 

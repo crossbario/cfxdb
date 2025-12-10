@@ -10,9 +10,8 @@ import uuid
 from typing import Any, Dict, Optional
 
 import cbor2
-import flatbuffers
 import numpy as np
-from zlmdb import MapUint64TimestampUuid, MapUuidFlatBuffers, table
+from zlmdb import MapUint64TimestampUuid, MapUuidFlatBuffers, flatbuffers, table
 
 from cfxdb.gen.realmstore import Session as SessionGen
 
