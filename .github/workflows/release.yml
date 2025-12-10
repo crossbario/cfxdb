@@ -132,25 +132,25 @@ jobs:
         uses: wamp-proto/wamp-cicd/actions/download-artifact-verified@main
         with:
           name: ${{ needs.check-main-workflow.outputs.artifact_dist }}
-          path: dist/
+          path: ${{ github.workspace }}/dist
           run-id: ${{ needs.check-main-workflow.outputs.main_run_id }}
 
       - name: List downloaded packages
         run: |
           echo "Downloaded packages:"
-          ls -lh dist/
+          ls -lh ${{ github.workspace }}/dist/
 
       - name: Validate release fileset
         uses: wamp-proto/wamp-cicd/actions/check-release-fileset@main
         with:
-          dist-path: dist/
+          dist-path: ${{ github.workspace }}/dist
           expected-wheels: 1
           expected-sdists: 1
           wheel-pattern: "py3-none-any"
 
       - name: Generate checksums
         run: |
-          cd dist
+          cd ${{ github.workspace }}/dist
           sha256sum * > CHECKSUMS-ALL.sha256
           cat CHECKSUMS-ALL.sha256
 
@@ -180,7 +180,7 @@ jobs:
             - SHA256 checksums (CHECKSUMS-ALL.sha256)
 
             ⚠️  This is a development build - for production use, install from PyPI.
-          files: dist/*
+          files: ${{ github.workspace }}/dist/*
           draft: false
           prerelease: true
           discussion_category_name: ci-cd
@@ -225,25 +225,25 @@ jobs:
         uses: wamp-proto/wamp-cicd/actions/download-artifact-verified@main
         with:
           name: ${{ needs.check-main-workflow.outputs.artifact_dist }}
-          path: dist/
+          path: ${{ github.workspace }}/dist
           run-id: ${{ needs.check-main-workflow.outputs.main_run_id }}
 
       - name: List downloaded packages
         run: |
           echo "Downloaded packages:"
-          ls -lh dist/
+          ls -lh ${{ github.workspace }}/dist/
 
       - name: Validate release fileset
         uses: wamp-proto/wamp-cicd/actions/check-release-fileset@main
         with:
-          dist-path: dist/
+          dist-path: ${{ github.workspace }}/dist
           expected-wheels: 1
           expected-sdists: 1
           wheel-pattern: "py3-none-any"
 
       - name: Generate checksums (for GitHub release)
         run: |
-          cd dist
+          cd ${{ github.workspace }}/dist
           sha256sum * > CHECKSUMS-ALL.sha256
           cat CHECKSUMS-ALL.sha256
 
@@ -292,7 +292,7 @@ jobs:
             See [CHANGELOG](https://github.com/crossbario/cfxdb/blob/master/CHANGELOG.md) for details.
 
             Also published to PyPI: https://pypi.org/project/cfxdb/
-          files: dist/*
+          files: ${{ github.workspace }}/dist/*
           draft: false
           prerelease: false
           discussion_category_name: ci-cd
@@ -304,10 +304,10 @@ jobs:
           echo "======================================================================"
           echo "Removing files that PyPI doesn't accept"
           echo "======================================================================"
-          rm -f dist/CHECKSUMS*.sha256
+          rm -f ${{ github.workspace }}/dist/CHECKSUMS*.sha256
           echo ""
           echo "Files to upload to PyPI:"
-          ls -lh dist/
+          ls -lh ${{ github.workspace }}/dist/
           echo "======================================================================"
 
       - name: Publish to PyPI
@@ -315,7 +315,7 @@ jobs:
         with:
           # Use OIDC trusted publishing (no password needed)
           # Automatically generates and uploads attestations
-          packages-dir: dist/
+          packages-dir: ${{ github.workspace }}/dist/
           verify-metadata: true
           skip-existing: false
           print-hash: true
