@@ -255,19 +255,6 @@ install-dev venv="":
     ${VENV_PYTHON} -m pip install -e '.[dev]'
     echo "--> Installed cfxdb[dev] in editable mode"
 
-# Install with latest unreleased WAMP packages from GitHub (usage: `just install-dev-latest cpy312`)
-install-dev-latest venv="": (create venv)
-    #!/usr/bin/env bash
-    set -e
-    VENV_NAME="{{ venv }}"
-    if [ -z "${VENV_NAME}" ]; then
-        VENV_NAME=$(just --quiet _get-system-venv-name)
-    fi
-    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
-    echo "==> Installing package in editable mode with [dev,dev-latest] extras in ${VENV_NAME}..."
-    echo "==> This will install WAMP packages from GitHub master (unreleased versions)..."
-    ${VENV_PYTHON} -m pip install -e .[dev,dev-latest]
-
 # Install with locally editable WAMP packages for cross-repo development (usage: `just install-dev-local cpy312`)
 install-dev-local venv="": (create venv)
     #!/usr/bin/env bash
