@@ -5,6 +5,13 @@ This page provides links to release artifacts for each version of cfxdb.
 
 For detailed changelog entries, see :doc:`changelog`.
 
+25.12.1
+-------
+
+* `GitHub Release <https://github.com/crossbario/cfxdb/releases/tag/v25.12.1>`__
+* `PyPI Package <https://pypi.org/project/cfxdb/25.12.1/>`__
+* `Documentation <https://cfxdb.readthedocs.io/en/v25.12.1/>`__
+
 23.12.1
 -------
 
