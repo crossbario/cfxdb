@@ -63,9 +63,9 @@ txaio.use_twisted()
 import zlmdb
 
 # Expose zlmdb's vendored flatbuffers as zlmdb.flatbuffers
-if not hasattr(zlmdb, 'flatbuffers'):
+if not hasattr(zlmdb, "flatbuffers"):
     zlmdb.flatbuffers = zlmdb._flatbuffers_vendor
-    sys.modules.setdefault('zlmdb.flatbuffers', zlmdb._flatbuffers_vendor)
+    sys.modules.setdefault("zlmdb.flatbuffers", zlmdb._flatbuffers_vendor)
 
 
 def _setup_flatbuffers_import():
@@ -76,17 +76,17 @@ def _setup_flatbuffers_import():
     to resolve to zlmdb's vendored copy.
     """
     _vendor = zlmdb._flatbuffers_vendor
-    sys.modules.setdefault('flatbuffers', _vendor)
-    sys.modules.setdefault('flatbuffers.compat', _vendor.compat)
-    sys.modules.setdefault('flatbuffers.builder', _vendor.builder)
-    sys.modules.setdefault('flatbuffers.table', _vendor.table)
-    sys.modules.setdefault('flatbuffers.util', _vendor.util)
-    sys.modules.setdefault('flatbuffers.number_types', _vendor.number_types)
-    sys.modules.setdefault('flatbuffers.packer', _vendor.packer)
-    sys.modules.setdefault('flatbuffers.encode', _vendor.encode)
+    sys.modules.setdefault("flatbuffers", _vendor)
+    sys.modules.setdefault("flatbuffers.compat", _vendor.compat)
+    sys.modules.setdefault("flatbuffers.builder", _vendor.builder)
+    sys.modules.setdefault("flatbuffers.table", _vendor.table)
+    sys.modules.setdefault("flatbuffers.util", _vendor.util)
+    sys.modules.setdefault("flatbuffers.number_types", _vendor.number_types)
+    sys.modules.setdefault("flatbuffers.packer", _vendor.packer)
+    sys.modules.setdefault("flatbuffers.encode", _vendor.encode)
 
 
-if not hasattr(zlmdb, 'setup_flatbuffers_import'):
+if not hasattr(zlmdb, "setup_flatbuffers_import"):
     zlmdb.setup_flatbuffers_import = _setup_flatbuffers_import
 
 # =============================================================================

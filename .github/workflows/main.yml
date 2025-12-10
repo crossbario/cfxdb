@@ -125,6 +125,7 @@ jobs:
         run: |
           just create cpy311
           just install-dev cpy311
+          just install-docs cpy311
 
       - name: Build documentation
         run: just docs cpy311

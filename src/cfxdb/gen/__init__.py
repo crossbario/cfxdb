@@ -9,16 +9,16 @@ import sys
 import zlmdb
 
 # Check if zlmdb has setup_flatbuffers_import (zlmdb >= 25.12.2 or monkey-patched)
-if hasattr(zlmdb, 'setup_flatbuffers_import'):
+if hasattr(zlmdb, "setup_flatbuffers_import"):
     zlmdb.setup_flatbuffers_import()
 else:
     # Fallback for zlmdb 25.12.1: register vendored flatbuffers directly
     _vendor = zlmdb._flatbuffers_vendor
-    sys.modules.setdefault('flatbuffers', _vendor)
-    sys.modules.setdefault('flatbuffers.compat', _vendor.compat)
-    sys.modules.setdefault('flatbuffers.builder', _vendor.builder)
-    sys.modules.setdefault('flatbuffers.table', _vendor.table)
-    sys.modules.setdefault('flatbuffers.util', _vendor.util)
-    sys.modules.setdefault('flatbuffers.number_types', _vendor.number_types)
-    sys.modules.setdefault('flatbuffers.packer', _vendor.packer)
-    sys.modules.setdefault('flatbuffers.encode', _vendor.encode)
+    sys.modules.setdefault("flatbuffers", _vendor)
+    sys.modules.setdefault("flatbuffers.compat", _vendor.compat)
+    sys.modules.setdefault("flatbuffers.builder", _vendor.builder)
+    sys.modules.setdefault("flatbuffers.table", _vendor.table)
+    sys.modules.setdefault("flatbuffers.util", _vendor.util)
+    sys.modules.setdefault("flatbuffers.number_types", _vendor.number_types)
+    sys.modules.setdefault("flatbuffers.packer", _vendor.packer)
+    sys.modules.setdefault("flatbuffers.encode", _vendor.encode)
