@@ -307,7 +307,7 @@ install-tools venv="":
     echo "--> Installed development tools"
 
 # Install minimal build tools for building wheels
-install-build-tools venv="":
+install-build-tools venv="": (create venv)
     #!/usr/bin/env bash
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
@@ -515,7 +515,7 @@ dist venv="": (install-build-tools venv)
     ls -lh dist/
 
 # Build wheels for all environments (pure Python - only needs one build)
-build-all: (build "cpy311")
+build-all: build
     echo "==> Pure Python package: single universal wheel built."
 
 # Verify wheels using twine check (pure Python package - auditwheel not applicable)
