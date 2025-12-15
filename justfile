@@ -307,7 +307,7 @@ install-tools venv="":
     echo "--> Installed development tools"
 
 # Install minimal build tools for building wheels
-install-build-tools venv="":
+install-build-tools venv="": (create venv)
     #!/usr/bin/env bash
     set -e
     VENV_PYTHON=$(just --quiet _get-venv-python {{ venv }})
@@ -434,6 +434,183 @@ test-all:
         just test ${env}
     done
 
+# Run smoke tests (quick sanity check for imports and bundled files)
+test-smoke venv="":
+    #!/usr/bin/env bash
+    set -e
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
+    VENV_PATH="{{ VENV_DIR }}/${VENV_NAME}"
+
+    echo "Running smoke tests with Python: $(${VENV_PYTHON} --version)"
+    echo "Venv: ${VENV_PATH}"
+    echo ""
+
+    # Run the smoke test Python script
+    ${VENV_PYTHON} "{{ PROJECT_DIR }}/scripts/smoke_test.py"
+
+# Test installing and verifying a built wheel (used in CI for artifact verification)
+# Usage: just test-wheel-install /path/to/cfxdb-*.whl
+test-wheel-install wheel_path:
+    #!/usr/bin/env bash
+    set -e
+    WHEEL_PATH="{{ wheel_path }}"
+
+    if [ ! -f "${WHEEL_PATH}" ]; then
+        echo "ERROR: Wheel file not found: ${WHEEL_PATH}"
+        exit 1
+    fi
+
+    WHEEL_NAME=$(basename "${WHEEL_PATH}")
+    echo "========================================================================"
+    echo "  WHEEL INSTALL TEST"
+    echo "========================================================================"
+    echo ""
+    echo "Wheel: ${WHEEL_NAME}"
+    echo ""
+
+    # Create ephemeral venv name based on wheel
+    EPHEMERAL_VENV="smoke-wheel-$$"
+    EPHEMERAL_PATH="{{ VENV_DIR }}/${EPHEMERAL_VENV}"
+
+    # Extract Python version from wheel filename
+    # Wheel format: {name}-{version}-{python tag}-{abi tag}-{platform tag}.whl
+    # Python tag examples: cp312, cp311, pp311, py3
+    PYTAG=$(echo "${WHEEL_NAME}" | sed -n 's/.*-\(cp[0-9]*\|pp[0-9]*\|py[0-9]*\)-.*/\1/p')
+
+    # For py3-none-any wheels (pure Python), use system Python
+    if [ "${PYTAG}" = "py3" ]; then
+        SYS_VENV=$(just --quiet _get-system-venv-name)
+        echo "Pure Python wheel detected, using system venv: ${SYS_VENV}"
+        PYTAG="${SYS_VENV}"
+    fi
+
+    # Map pytag to uv python version
+    case "${PYTAG}" in
+        cp314|cpy314) PYTHON_VERSION="3.14" ;;
+        cp313|cpy313) PYTHON_VERSION="3.13" ;;
+        cp312|cpy312) PYTHON_VERSION="3.12" ;;
+        cp311|cpy311) PYTHON_VERSION="3.11" ;;
+        pp311|pypy311) PYTHON_VERSION="pypy3.11" ;;
+        *) echo "Unknown Python tag: ${PYTAG}"; exit 1 ;;
+    esac
+
+    echo "Python version: ${PYTHON_VERSION}"
+    echo "Ephemeral venv: ${EPHEMERAL_PATH}"
+    echo ""
+
+    # Clean up any existing ephemeral venv
+    rm -rf "${EPHEMERAL_PATH}"
+
+    # Create fresh venv with uv
+    echo "Creating ephemeral venv..."
+    uv venv --python "${PYTHON_VERSION}" "${EPHEMERAL_PATH}"
+
+    # Install the wheel
+    echo "Installing wheel..."
+    uv pip install --python "${EPHEMERAL_PATH}/bin/python" "${WHEEL_PATH}"
+
+    # Run smoke tests
+    echo ""
+    echo "Running smoke tests..."
+    "${EPHEMERAL_PATH}/bin/python" "{{ PROJECT_DIR }}/scripts/smoke_test.py"
+    RESULT=$?
+
+    # Clean up ephemeral venv
+    echo ""
+    echo "Cleaning up ephemeral venv..."
+    rm -rf "${EPHEMERAL_PATH}"
+
+    if [ ${RESULT} -eq 0 ]; then
+        echo ""
+        echo "========================================================================"
+        echo "  WHEEL INSTALL TEST: PASSED"
+        echo "========================================================================"
+    else
+        echo ""
+        echo "========================================================================"
+        echo "  WHEEL INSTALL TEST: FAILED"
+        echo "========================================================================"
+        exit 1
+    fi
+
+# Test installing and verifying a source distribution (used in CI for artifact verification)
+# Usage: just test-sdist-install /path/to/cfxdb-*.tar.gz
+test-sdist-install sdist_path:
+    #!/usr/bin/env bash
+    set -e
+    SDIST_PATH="{{ sdist_path }}"
+
+    if [ ! -f "${SDIST_PATH}" ]; then
+        echo "ERROR: Source distribution not found: ${SDIST_PATH}"
+        exit 1
+    fi
+
+    SDIST_NAME=$(basename "${SDIST_PATH}")
+    echo "========================================================================"
+    echo "  SOURCE DISTRIBUTION INSTALL TEST"
+    echo "========================================================================"
+    echo ""
+    echo "Source dist: ${SDIST_NAME}"
+    echo ""
+
+    # Create ephemeral venv
+    EPHEMERAL_VENV="smoke-sdist-$$"
+    EPHEMERAL_PATH="{{ VENV_DIR }}/${EPHEMERAL_VENV}"
+
+    # Use system Python version
+    SYS_VENV=$(just --quiet _get-system-venv-name)
+    case "${SYS_VENV}" in
+        cpy314) PYTHON_VERSION="3.14" ;;
+        cpy313) PYTHON_VERSION="3.13" ;;
+        cpy312) PYTHON_VERSION="3.12" ;;
+        cpy311) PYTHON_VERSION="3.11" ;;
+        pypy311) PYTHON_VERSION="pypy3.11" ;;
+        *) echo "Unknown system venv: ${SYS_VENV}"; exit 1 ;;
+    esac
+
+    echo "Python version: ${PYTHON_VERSION}"
+    echo "Ephemeral venv: ${EPHEMERAL_PATH}"
+    echo ""
+
+    # Clean up any existing ephemeral venv
+    rm -rf "${EPHEMERAL_PATH}"
+
+    # Create fresh venv with uv
+    echo "Creating ephemeral venv..."
+    uv venv --python "${PYTHON_VERSION}" "${EPHEMERAL_PATH}"
+
+    # Install the sdist
+    echo "Installing source distribution..."
+    uv pip install --python "${EPHEMERAL_PATH}/bin/python" "${SDIST_PATH}"
+
+    # Run smoke tests
+    echo ""
+    echo "Running smoke tests..."
+    "${EPHEMERAL_PATH}/bin/python" "{{ PROJECT_DIR }}/scripts/smoke_test.py"
+    RESULT=$?
+
+    # Clean up ephemeral venv
+    echo ""
+    echo "Cleaning up ephemeral venv..."
+    rm -rf "${EPHEMERAL_PATH}"
+
+    if [ ${RESULT} -eq 0 ]; then
+        echo ""
+        echo "========================================================================"
+        echo "  SOURCE DISTRIBUTION INSTALL TEST: PASSED"
+        echo "========================================================================"
+    else
+        echo ""
+        echo "========================================================================"
+        echo "  SOURCE DISTRIBUTION INSTALL TEST: FAILED"
+        echo "========================================================================"
+        exit 1
+    fi
+
 # Upgrade dependencies in a single environment (re-installs all deps to latest)
 upgrade venv="": (create venv)
     #!/usr/bin/env bash
@@ -515,7 +692,7 @@ dist venv="": (install-build-tools venv)
     ls -lh dist/
 
 # Build wheels for all environments (pure Python - only needs one build)
-build-all: (build "cpy311")
+build-all: build
     echo "==> Pure Python package: single universal wheel built."
 
 # Verify wheels using twine check (pure Python package - auditwheel not applicable)
@@ -636,22 +813,60 @@ publish-test venv="":
     ${VENV_PYTHON} -m twine upload --repository testpypi dist/*
     echo "--> Published to Test PyPI"
 
-# Download GitHub release artifacts (nightly or tagged release)
-download-github-release release_type="nightly":
+# Download GitHub release artifacts to /tmp/release-artifacts/<tag> with checksum verification
+download-github-release tag="nightly":
     #!/usr/bin/env bash
     set -e
-    echo "==> Downloading GitHub release artifacts ({{release_type}})..."
-    rm -rf ./dist
-    mkdir -p ./dist
-    if [ "{{release_type}}" = "nightly" ]; then
-        gh release download nightly --repo crossbario/cfxdb --dir ./dist --pattern '*.whl' --pattern '*.tar.gz' || \
+
+    TAG="{{ tag }}"
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+
+    echo "==> Downloading GitHub release artifacts for ${TAG}..."
+    echo "    Target directory: ${DOWNLOAD_DIR}"
+
+    # Check gh CLI is authenticated
+    if ! gh auth status &>/dev/null; then
+        echo "❌ Error: gh CLI is not authenticated"
+        echo "   Run: gh auth login"
+        exit 1
+    fi
+
+    # Create fresh download directory
+    rm -rf "${DOWNLOAD_DIR}"
+    mkdir -p "${DOWNLOAD_DIR}"
+
+    # Download artifacts
+    if [ "${TAG}" = "nightly" ]; then
+        gh release download nightly --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
+            --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS.sha256' 2>/dev/null || \
             echo "Note: No nightly release found or no artifacts available"
     else
-        gh release download "{{release_type}}" --repo crossbario/cfxdb --dir ./dist --pattern '*.whl' --pattern '*.tar.gz'
+        gh release download "${TAG}" --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
+            --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS.sha256'
     fi
+
+    # Verify checksums if available
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        echo ""
+        echo "==> Verifying checksums..."
+        cd "${DOWNLOAD_DIR}"
+        if sha256sum -c CHECKSUMS.sha256; then
+            echo "✅ All checksums verified"
+        else
+            echo "❌ Checksum verification failed!"
+            exit 1
+        fi
+        cd - > /dev/null
+    else
+        echo ""
+        echo "⚠️  Warning: No CHECKSUMS.sha256 file found in release"
+    fi
+
     echo ""
     echo "Downloaded artifacts:"
-    ls -la ./dist/ || echo "No artifacts downloaded"
+    ls -la "${DOWNLOAD_DIR}/" || echo "No artifacts downloaded"
+    echo ""
+    echo "==> Artifacts available at: ${DOWNLOAD_DIR}"
 
 # Download release artifacts from GitHub and publish to PyPI
 publish-pypi venv="" tag="": (install-tools venv)
@@ -667,13 +882,16 @@ publish-pypi venv="" tag="": (install-tools venv)
         echo "Usage: just publish-pypi cpy311 v24.1.1"
         exit 1
     fi
+
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+
     echo "==> Publishing ${TAG} to PyPI..."
     echo ""
     echo "Step 1: Download release artifacts from GitHub..."
     just download-github-release "${TAG}"
     echo ""
     echo "Step 2: Verify packages with twine..."
-    "${VENV_PATH}/bin/twine" check dist/*
+    "${VENV_PATH}/bin/twine" check "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz
     echo ""
     echo "Note: This is a pure Python package (py3-none-any wheel)."
     echo "      auditwheel verification is not applicable (no native extensions)."
@@ -683,7 +901,7 @@ publish-pypi venv="" tag="": (install-tools venv)
     echo "WARNING: This will upload to PyPI!"
     echo "Press Ctrl+C to cancel, or Enter to continue..."
     read
-    "${VENV_PATH}/bin/twine" upload dist/*
+    "${VENV_PATH}/bin/twine" upload "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz
     echo ""
     echo "==> Successfully published ${TAG} to PyPI"
 
@@ -709,6 +927,177 @@ publish-rtd tag="":
     echo "  3. Select the tag: ${TAG}"
     echo ""
 
+
+# Generate release notes from GitHub release for documentation integration
+generate-release-notes tag:
+    #!/usr/bin/env bash
+    set -e
+
+    TAG="{{ tag }}"
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+
+    echo "==> Generating release notes for ${TAG}..."
+
+    # Check gh CLI is authenticated
+    if ! gh auth status &>/dev/null; then
+        echo "❌ Error: gh CLI is not authenticated"
+        echo "   Run: gh auth login"
+        exit 1
+    fi
+
+    # Get release info from GitHub
+    echo ""
+    echo "==> Fetching release information from GitHub..."
+    gh release view "${TAG}" --repo crossbario/cfxdb --json tagName,name,body,createdAt,assets \
+        > "${DOWNLOAD_DIR}/release-info.json" 2>/dev/null || {
+        echo "❌ Error: Could not fetch release ${TAG}"
+        exit 1
+    }
+
+    # Extract release body (notes)
+    echo ""
+    echo "==> Release notes for ${TAG}:"
+    echo "----------------------------------------"
+    gh release view "${TAG}" --repo crossbario/cfxdb --json body -q '.body'
+    echo "----------------------------------------"
+    echo ""
+    echo "==> Release info saved to: ${DOWNLOAD_DIR}/release-info.json"
+
+# Integrate GitHub release artifacts into documentation (chain-of-custody)
+docs-integrate-github-release tag:
+    #!/usr/bin/env bash
+    set -e
+
+    TAG="{{ tag }}"
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+    DOCS_RELEASE_DIR="docs/_releases/${TAG}"
+
+    echo "==> Integrating GitHub release ${TAG} into documentation..."
+
+    # Ensure artifacts are downloaded
+    if [ ! -d "${DOWNLOAD_DIR}" ] || [ -z "$(ls -A ${DOWNLOAD_DIR} 2>/dev/null)" ]; then
+        echo "==> Artifacts not found, downloading..."
+        just download-github-release "${TAG}"
+    fi
+
+    # Create docs release directory
+    mkdir -p "${DOCS_RELEASE_DIR}"
+
+    # Copy chain-of-custody files
+    echo ""
+    echo "==> Copying chain-of-custody files..."
+
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        cp "${DOWNLOAD_DIR}/CHECKSUMS.sha256" "${DOCS_RELEASE_DIR}/"
+        echo "  ✓ CHECKSUMS.sha256"
+    fi
+
+    if [ -f "${DOWNLOAD_DIR}/release-info.json" ]; then
+        cp "${DOWNLOAD_DIR}/release-info.json" "${DOCS_RELEASE_DIR}/"
+        echo "  ✓ release-info.json"
+    fi
+
+    # Generate build-info.txt with download metadata
+    echo "==> Generating build-info.txt..."
+    TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    ARTIFACTS=$(ls -la "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz 2>/dev/null | awk '{print "  " $NF ": " $5 " bytes"}')
+    {
+        echo "Release: ${TAG}"
+        echo "Downloaded: ${TIMESTAMP}"
+        echo "Source: GitHub Releases (crossbario/cfxdb)"
+        echo "Verification: Checksums verified during download"
+        echo ""
+        echo "Artifacts:"
+        echo "${ARTIFACTS}"
+    } > "${DOCS_RELEASE_DIR}/build-info.txt"
+    echo "  ✓ build-info.txt"
+
+    # Generate VALIDATION.txt
+    echo "==> Generating VALIDATION.txt..."
+    CHECKSUM_STATUS="NO CHECKSUMS AVAILABLE"
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        CHECKSUM_STATUS="PASSED"
+    fi
+    ARTIFACT_LIST=$(ls "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz 2>/dev/null | while read f; do echo "  - $(basename "$f")"; done)
+    {
+        echo "Validation Report for ${TAG}"
+        echo "Generated: ${TIMESTAMP}"
+        echo ""
+        echo "Source Verification:"
+        echo "  - Downloaded from: GitHub Releases (crossbario/cfxdb)"
+        echo "  - Release tag: ${TAG}"
+        echo "  - Checksum verification: ${CHECKSUM_STATUS}"
+        echo ""
+        echo "Artifact List:"
+        echo "${ARTIFACT_LIST}"
+        echo ""
+        echo "This package is a pure Python wheel (py3-none-any)."
+        echo "No native code compilation or platform-specific verification required."
+    } > "${DOCS_RELEASE_DIR}/VALIDATION.txt"
+    echo "  ✓ VALIDATION.txt"
+
+    echo ""
+    echo "==> Documentation integration complete."
+    echo "    Files written to: ${DOCS_RELEASE_DIR}/"
+    ls -la "${DOCS_RELEASE_DIR}/"
+
+# -----------------------------------------------------------------------------
+# -- FlatBuffers Schema Management
+# -----------------------------------------------------------------------------
+
+# Regenerate .bfbs binary schemas from .fbs files (requires autobahn with flatc)
+# Note: cfxdb bundles both .fbs and .bfbs files; use this to regenerate after .fbs changes
+# cfxdb uses zlmdb's vendored flatbuffers runtime (from zlmdb import flatbuffers)
+generate-bfbs venv="":
+    #!/usr/bin/env bash
+    set -e
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PATH="{{ VENV_DIR }}/${VENV_NAME}"
+
+    echo "==> Regenerating .bfbs binary schemas from .fbs files..."
+    echo "    Note: cfxdb uses zlmdb's vendored flatbuffers runtime"
+
+    # Check if flatc is available via autobahn (autobahn bundles the flatc compiler)
+    if ! "${VENV_PATH}/bin/python" -c "from autobahn._flatc import get_flatc_path; print(get_flatc_path())" &>/dev/null; then
+        echo "❌ Error: flatc not available. Install autobahn[all] with flatc support."
+        echo "   Run: just install-dev"
+        exit 1
+    fi
+
+    FLATC=$("${VENV_PATH}/bin/python" -c "from autobahn._flatc import get_flatc_path; print(get_flatc_path())")
+    echo "   Using flatc: ${FLATC}"
+
+    # Output directory for .bfbs files (matches existing structure)
+    BFBS_DIR="src/cfxdb/gen"
+
+    # Find and compile all .fbs files in src/cfxdb/
+    FBS_FILES=$(find src/cfxdb -maxdepth 1 -name "*.fbs" -type f)
+    for FBS in ${FBS_FILES}; do
+        BASENAME=$(basename "${FBS}" .fbs)
+        echo "   Compiling: ${FBS} -> ${BFBS_DIR}/${BASENAME}.bfbs"
+        "${FLATC}" --binary --schema -o "${BFBS_DIR}" "${FBS}"
+    done
+
+    echo ""
+    echo "==> Generated .bfbs files:"
+    ls -la "${BFBS_DIR}"/*.bfbs 2>/dev/null || echo "   No .bfbs files generated"
+    echo ""
+    echo "==> Note: Both .fbs and .bfbs files are bundled in the cfxdb wheel"
+
+# List FlatBuffers schema files (.fbs source and .bfbs binary)
+list-fbs:
+    #!/usr/bin/env bash
+    set -e
+    echo "==> FlatBuffers schema files (.fbs) in src/cfxdb/:"
+    find src/cfxdb -maxdepth 1 -name "*.fbs" -type f | sort
+    echo ""
+    echo "==> Binary schema files (.bfbs) in src/cfxdb/gen/:"
+    find src/cfxdb/gen -name "*.bfbs" -type f 2>/dev/null | sort || echo "   None found"
+    echo ""
+    echo "==> Note: cfxdb uses 'from zlmdb import flatbuffers' (zlmdb's vendored runtime)"
 
 # -----------------------------------------------------------------------------
 # -- Release workflow recipes

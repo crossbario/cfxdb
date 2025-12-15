@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cfxdb"
-version = "25.12.1"
+version = "25.12.2"
 description = "Crossbar.io Database - Core database access classes for Crossbar.io"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -40,18 +40,26 @@ classifiers = [
 ]
 
 dependencies = [
-    # WAMP ecosystem packages
-    "autobahn[all]>=25.12.1",
-    "zlmdb>=25.12.1",
+    # WAMP ecosystem packages:
+    # - zlmdb: Core dependency for LMDB-based object-relational database layer.
+    #   cfxdb defines database schemas and table classes that extend zlmdb's
+    #   MapOidFlatBuffers, MapUuidFlatBuffers, etc. base classes.
+    # - autobahn: Required for WAMP protocol types used in database schemas
+    #   (e.g., autobahn.wamp.types.TransportDetails in realmstore tables,
+    #   autobahn.wamp.serializer.JsonObjectSerializer in exporter, and
+    #   autobahn.util for ID generation and activation codes in tests).
+    #   The [all] extra ensures FlatBuffers serialization support is available.
+    "zlmdb>=25.12.2",
+    "autobahn[all]>=25.12.2",
 
-    # Ethereum/Web3 stack
+    # Ethereum/Web3 stack (for XBR market maker and network schemas)
     "eth-abi>=5.1.0",
     "eth-account>=0.13.0",
     "web3>=7.6.0",
 
     # Additional dependencies
-    "parsimonious>=0.10.0",
-    "argon2-cffi>=25.1.0",
+    "parsimonious>=0.10.0",  # PEG parser for schema definitions
+    "argon2-cffi>=25.1.0",   # Password hashing for user authentication
 ]
 
 [project.optional-dependencies]
@@ -66,8 +74,6 @@ dev = [
     "pytest>=3.4.2",
     "pytest-runner>=2.11.1",
     "coverage>=5.0.0",
-    "tox>=2.9.1",
-    "tox-gh-actions>=2.2.0",
     "py-multihash>=2.0.1",  # For IPFS hash generation in tests
 
     # Code quality
