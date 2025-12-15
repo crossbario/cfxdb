@@ -814,15 +814,18 @@ publish-test venv="":
     echo "--> Published to Test PyPI"
 
 # Download GitHub release artifacts to /tmp/release-artifacts/<tag> with checksum verification
-download-github-release tag="nightly":
+# Usage:
+#   just download-github-release          # Download latest release (development or stable)
+#   just download-github-release latest   # Same as above
+#   just download-github-release v25.12.2 # Download specific tag
+#   just download-github-release master-202512152202 # Download specific development release
+download-github-release tag="latest":
     #!/usr/bin/env bash
     set -e
 
     TAG="{{ tag }}"
-    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
 
-    echo "==> Downloading GitHub release artifacts for ${TAG}..."
-    echo "    Target directory: ${DOWNLOAD_DIR}"
+    echo "==> Downloading GitHub release artifacts..."
 
     # Check gh CLI is authenticated
     if ! gh auth status &>/dev/null; then
@@ -831,26 +834,45 @@ download-github-release tag="nightly":
         exit 1
     fi
 
+    # Resolve "latest" to actual tag name
+    if [ "${TAG}" = "latest" ]; then
+        TAG=$(gh release list --repo crossbario/cfxdb --limit 1 --json tagName -q '.[0].tagName')
+        if [ -z "${TAG}" ]; then
+            echo "❌ Error: Could not find any releases"
+            exit 1
+        fi
+        echo "    Resolved 'latest' to: ${TAG}"
+    fi
+
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+    echo "    Target directory: ${DOWNLOAD_DIR}"
+
     # Create fresh download directory
     rm -rf "${DOWNLOAD_DIR}"
     mkdir -p "${DOWNLOAD_DIR}"
 
-    # Download artifacts
-    if [ "${TAG}" = "nightly" ]; then
-        gh release download nightly --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
-            --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS.sha256' 2>/dev/null || \
-            echo "Note: No nightly release found or no artifacts available"
-    else
-        gh release download "${TAG}" --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
-            --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS.sha256'
+    # Download artifacts (try both CHECKSUMS.sha256 and CHECKSUMS-ALL.sha256 for compatibility)
+    gh release download "${TAG}" --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
+        --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS*.sha256' || {
+        echo "❌ Error: Failed to download release ${TAG}"
+        echo "   Available releases:"
+        gh release list --repo crossbario/cfxdb --limit 5
+        exit 1
+    }
+
+    # Verify checksums if available (prefer CHECKSUMS.sha256, fall back to CHECKSUMS-ALL.sha256)
+    CHECKSUM_FILE=""
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        CHECKSUM_FILE="${DOWNLOAD_DIR}/CHECKSUMS.sha256"
+    elif [ -f "${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256" ]; then
+        CHECKSUM_FILE="${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256"
     fi
 
-    # Verify checksums if available
-    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+    if [ -n "${CHECKSUM_FILE}" ]; then
         echo ""
-        echo "==> Verifying checksums..."
+        echo "==> Verifying checksums using $(basename ${CHECKSUM_FILE})..."
         cd "${DOWNLOAD_DIR}"
-        if sha256sum -c CHECKSUMS.sha256; then
+        if sha256sum -c "$(basename ${CHECKSUM_FILE})"; then
             echo "✅ All checksums verified"
         else
             echo "❌ Checksum verification failed!"
@@ -859,7 +881,7 @@ download-github-release tag="nightly":
         cd - > /dev/null
     else
         echo ""
-        echo "⚠️  Warning: No CHECKSUMS.sha256 file found in release"
+        echo "⚠️  Warning: No CHECKSUMS file found in release"
     fi
 
     echo ""
@@ -987,9 +1009,13 @@ docs-integrate-github-release tag:
     echo ""
     echo "==> Copying chain-of-custody files..."
 
+    # Handle both CHECKSUMS.sha256 and CHECKSUMS-ALL.sha256 for compatibility
     if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
         cp "${DOWNLOAD_DIR}/CHECKSUMS.sha256" "${DOCS_RELEASE_DIR}/"
         echo "  ✓ CHECKSUMS.sha256"
+    elif [ -f "${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256" ]; then
+        cp "${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256" "${DOCS_RELEASE_DIR}/CHECKSUMS.sha256"
+        echo "  ✓ CHECKSUMS.sha256 (copied from CHECKSUMS-ALL.sha256)"
     fi
 
     if [ -f "${DOWNLOAD_DIR}/release-info.json" ]; then
@@ -1015,7 +1041,7 @@ docs-integrate-github-release tag:
     # Generate VALIDATION.txt
     echo "==> Generating VALIDATION.txt..."
     CHECKSUM_STATUS="NO CHECKSUMS AVAILABLE"
-    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ] || [ -f "${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256" ]; then
         CHECKSUM_STATUS="PASSED"
     fi
     ARTIFACT_LIST=$(ls "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz 2>/dev/null | while read f; do echo "  - $(basename "$f")"; done)
