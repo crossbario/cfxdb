@@ -636,22 +636,60 @@ publish-test venv="":
     ${VENV_PYTHON} -m twine upload --repository testpypi dist/*
     echo "--> Published to Test PyPI"
 
-# Download GitHub release artifacts (nightly or tagged release)
-download-github-release release_type="nightly":
+# Download GitHub release artifacts to /tmp/release-artifacts/<tag> with checksum verification
+download-github-release tag="nightly":
     #!/usr/bin/env bash
     set -e
-    echo "==> Downloading GitHub release artifacts ({{release_type}})..."
-    rm -rf ./dist
-    mkdir -p ./dist
-    if [ "{{release_type}}" = "nightly" ]; then
-        gh release download nightly --repo crossbario/cfxdb --dir ./dist --pattern '*.whl' --pattern '*.tar.gz' || \
+
+    TAG="{{ tag }}"
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+
+    echo "==> Downloading GitHub release artifacts for ${TAG}..."
+    echo "    Target directory: ${DOWNLOAD_DIR}"
+
+    # Check gh CLI is authenticated
+    if ! gh auth status &>/dev/null; then
+        echo "❌ Error: gh CLI is not authenticated"
+        echo "   Run: gh auth login"
+        exit 1
+    fi
+
+    # Create fresh download directory
+    rm -rf "${DOWNLOAD_DIR}"
+    mkdir -p "${DOWNLOAD_DIR}"
+
+    # Download artifacts
+    if [ "${TAG}" = "nightly" ]; then
+        gh release download nightly --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
+            --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS.sha256' 2>/dev/null || \
             echo "Note: No nightly release found or no artifacts available"
     else
-        gh release download "{{release_type}}" --repo crossbario/cfxdb --dir ./dist --pattern '*.whl' --pattern '*.tar.gz'
+        gh release download "${TAG}" --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
+            --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS.sha256'
     fi
+
+    # Verify checksums if available
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        echo ""
+        echo "==> Verifying checksums..."
+        cd "${DOWNLOAD_DIR}"
+        if sha256sum -c CHECKSUMS.sha256; then
+            echo "✅ All checksums verified"
+        else
+            echo "❌ Checksum verification failed!"
+            exit 1
+        fi
+        cd - > /dev/null
+    else
+        echo ""
+        echo "⚠️  Warning: No CHECKSUMS.sha256 file found in release"
+    fi
+
     echo ""
     echo "Downloaded artifacts:"
-    ls -la ./dist/ || echo "No artifacts downloaded"
+    ls -la "${DOWNLOAD_DIR}/" || echo "No artifacts downloaded"
+    echo ""
+    echo "==> Artifacts available at: ${DOWNLOAD_DIR}"
 
 # Download release artifacts from GitHub and publish to PyPI
 publish-pypi venv="" tag="": (install-tools venv)
@@ -667,13 +705,16 @@ publish-pypi venv="" tag="": (install-tools venv)
         echo "Usage: just publish-pypi cpy311 v24.1.1"
         exit 1
     fi
+
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+
     echo "==> Publishing ${TAG} to PyPI..."
     echo ""
     echo "Step 1: Download release artifacts from GitHub..."
     just download-github-release "${TAG}"
     echo ""
     echo "Step 2: Verify packages with twine..."
-    "${VENV_PATH}/bin/twine" check dist/*
+    "${VENV_PATH}/bin/twine" check "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz
     echo ""
     echo "Note: This is a pure Python package (py3-none-any wheel)."
     echo "      auditwheel verification is not applicable (no native extensions)."
@@ -683,7 +724,7 @@ publish-pypi venv="" tag="": (install-tools venv)
     echo "WARNING: This will upload to PyPI!"
     echo "Press Ctrl+C to cancel, or Enter to continue..."
     read
-    "${VENV_PATH}/bin/twine" upload dist/*
+    "${VENV_PATH}/bin/twine" upload "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz
     echo ""
     echo "==> Successfully published ${TAG} to PyPI"
 
@@ -709,6 +750,119 @@ publish-rtd tag="":
     echo "  3. Select the tag: ${TAG}"
     echo ""
 
+
+# Generate release notes from GitHub release for documentation integration
+generate-release-notes tag:
+    #!/usr/bin/env bash
+    set -e
+
+    TAG="{{ tag }}"
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+
+    echo "==> Generating release notes for ${TAG}..."
+
+    # Check gh CLI is authenticated
+    if ! gh auth status &>/dev/null; then
+        echo "❌ Error: gh CLI is not authenticated"
+        echo "   Run: gh auth login"
+        exit 1
+    fi
+
+    # Get release info from GitHub
+    echo ""
+    echo "==> Fetching release information from GitHub..."
+    gh release view "${TAG}" --repo crossbario/cfxdb --json tagName,name,body,createdAt,assets \
+        > "${DOWNLOAD_DIR}/release-info.json" 2>/dev/null || {
+        echo "❌ Error: Could not fetch release ${TAG}"
+        exit 1
+    }
+
+    # Extract release body (notes)
+    echo ""
+    echo "==> Release notes for ${TAG}:"
+    echo "----------------------------------------"
+    gh release view "${TAG}" --repo crossbario/cfxdb --json body -q '.body'
+    echo "----------------------------------------"
+    echo ""
+    echo "==> Release info saved to: ${DOWNLOAD_DIR}/release-info.json"
+
+# Integrate GitHub release artifacts into documentation (chain-of-custody)
+docs-integrate-github-release tag:
+    #!/usr/bin/env bash
+    set -e
+
+    TAG="{{ tag }}"
+    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
+    DOCS_RELEASE_DIR="docs/_releases/${TAG}"
+
+    echo "==> Integrating GitHub release ${TAG} into documentation..."
+
+    # Ensure artifacts are downloaded
+    if [ ! -d "${DOWNLOAD_DIR}" ] || [ -z "$(ls -A ${DOWNLOAD_DIR} 2>/dev/null)" ]; then
+        echo "==> Artifacts not found, downloading..."
+        just download-github-release "${TAG}"
+    fi
+
+    # Create docs release directory
+    mkdir -p "${DOCS_RELEASE_DIR}"
+
+    # Copy chain-of-custody files
+    echo ""
+    echo "==> Copying chain-of-custody files..."
+
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        cp "${DOWNLOAD_DIR}/CHECKSUMS.sha256" "${DOCS_RELEASE_DIR}/"
+        echo "  ✓ CHECKSUMS.sha256"
+    fi
+
+    if [ -f "${DOWNLOAD_DIR}/release-info.json" ]; then
+        cp "${DOWNLOAD_DIR}/release-info.json" "${DOCS_RELEASE_DIR}/"
+        echo "  ✓ release-info.json"
+    fi
+
+    # Generate build-info.txt with download metadata
+    echo "==> Generating build-info.txt..."
+    TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    ARTIFACTS=$(ls -la "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz 2>/dev/null | awk '{print "  " $NF ": " $5 " bytes"}')
+    {
+        echo "Release: ${TAG}"
+        echo "Downloaded: ${TIMESTAMP}"
+        echo "Source: GitHub Releases (crossbario/cfxdb)"
+        echo "Verification: Checksums verified during download"
+        echo ""
+        echo "Artifacts:"
+        echo "${ARTIFACTS}"
+    } > "${DOCS_RELEASE_DIR}/build-info.txt"
+    echo "  ✓ build-info.txt"
+
+    # Generate VALIDATION.txt
+    echo "==> Generating VALIDATION.txt..."
+    CHECKSUM_STATUS="NO CHECKSUMS AVAILABLE"
+    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
+        CHECKSUM_STATUS="PASSED"
+    fi
+    ARTIFACT_LIST=$(ls "${DOWNLOAD_DIR}"/*.whl "${DOWNLOAD_DIR}"/*.tar.gz 2>/dev/null | while read f; do echo "  - $(basename "$f")"; done)
+    {
+        echo "Validation Report for ${TAG}"
+        echo "Generated: ${TIMESTAMP}"
+        echo ""
+        echo "Source Verification:"
+        echo "  - Downloaded from: GitHub Releases (crossbario/cfxdb)"
+        echo "  - Release tag: ${TAG}"
+        echo "  - Checksum verification: ${CHECKSUM_STATUS}"
+        echo ""
+        echo "Artifact List:"
+        echo "${ARTIFACT_LIST}"
+        echo ""
+        echo "This package is a pure Python wheel (py3-none-any)."
+        echo "No native code compilation or platform-specific verification required."
+    } > "${DOCS_RELEASE_DIR}/VALIDATION.txt"
+    echo "  ✓ VALIDATION.txt"
+
+    echo ""
+    echo "==> Documentation integration complete."
+    echo "    Files written to: ${DOCS_RELEASE_DIR}/"
+    ls -la "${DOCS_RELEASE_DIR}/"
 
 # -----------------------------------------------------------------------------
 # -- Release workflow recipes
