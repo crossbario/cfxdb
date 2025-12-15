@@ -813,115 +813,153 @@ publish-test venv="":
     ${VENV_PYTHON} -m twine upload --repository testpypi dist/*
     echo "--> Published to Test PyPI"
 
-# Download GitHub release artifacts to /tmp/release-artifacts/<tag> with checksum verification
-# Usage:
-#   just download-github-release          # Download latest release (development or stable)
-#   just download-github-release latest   # Same as above
-#   just download-github-release v25.12.2 # Download specific tag
-#   just download-github-release master-202512152202 # Download specific development release
-download-github-release tag="latest":
+# Download GitHub release artifacts (usage: `just download-github-release` for nightly, or `just download-github-release stable`)
+# Downloads wheel, sdist, and verifies checksums
+# This is the unified download recipe for both docs integration and release notes generation
+download-github-release release_type="nightly":
     #!/usr/bin/env bash
-    set -e
+    set -euo pipefail
 
-    TAG="{{ tag }}"
+    RELEASE_TYPE="{{ release_type }}"
+    REPO="crossbario/cfxdb"
 
-    echo "==> Downloading GitHub release artifacts..."
+    echo ""
+    echo "════════════════════════════════════════════════════════════"
+    echo "  Downloading GitHub Release Artifacts"
+    echo "════════════════════════════════════════════════════════════"
+    echo ""
+    echo "Release type: ${RELEASE_TYPE}"
+    echo ""
 
-    # Check gh CLI is authenticated
-    if ! gh auth status &>/dev/null; then
-        echo "❌ Error: gh CLI is not authenticated"
+    # Check if gh is available and authenticated
+    if ! command -v gh &> /dev/null; then
+        echo "❌ ERROR: GitHub CLI (gh) is not installed"
+        echo "   Install: https://cli.github.com/"
+        exit 1
+    fi
+
+    if ! gh auth status &> /dev/null; then
+        echo "❌ ERROR: GitHub CLI is not authenticated"
         echo "   Run: gh auth login"
         exit 1
     fi
 
-    # Resolve "latest" to actual tag name
-    if [ "${TAG}" = "latest" ]; then
-        TAG=$(gh release list --repo crossbario/cfxdb --limit 1 --json tagName -q '.[0].tagName')
-        if [ -z "${TAG}" ]; then
-            echo "❌ Error: Could not find any releases"
-            exit 1
-        fi
-        echo "    Resolved 'latest' to: ${TAG}"
+    # Determine which release tag to download
+    case "${RELEASE_TYPE}" in
+        nightly)
+            echo "==> Looking for nightly release..."
+            RELEASE_TAG=$(gh release list --repo "${REPO}" --limit 20 | grep -E "^master-" | head -1 | awk '{print $1}') || true
+            if [ -z "${RELEASE_TAG}" ]; then
+                echo "❌ ERROR: No nightly (master-*) release found"
+                echo "Available releases:"
+                gh release list --repo "${REPO}" --limit 10
+                exit 1
+            fi
+            ;;
+        stable|latest)
+            echo "==> Looking for stable release..."
+            RELEASE_TAG=$(gh release list --repo "${REPO}" --limit 20 | grep -E "^v[0-9]+\.[0-9]+\.[0-9]+" | head -1 | awk '{print $1}') || true
+            if [ -z "${RELEASE_TAG}" ]; then
+                echo "❌ ERROR: No stable (v*) release found"
+                echo "Available releases:"
+                gh release list --repo "${REPO}" --limit 10
+                exit 1
+            fi
+            ;;
+        development|dev)
+            echo "==> Looking for development release (fork-*)..."
+            RELEASE_TAG=$(gh release list --repo "${REPO}" --limit 20 | grep -E "^fork-" | head -1 | awk '{print $1}') || true
+            if [ -z "${RELEASE_TAG}" ]; then
+                echo "❌ ERROR: No development (fork-*) release found"
+                echo "Available releases:"
+                gh release list --repo "${REPO}" --limit 10
+                exit 1
+            fi
+            ;;
+        *)
+            # Assume it's a specific tag name
+            RELEASE_TAG="${RELEASE_TYPE}"
+            ;;
+    esac
+
+    echo "✅ Found release: ${RELEASE_TAG}"
+    echo ""
+
+    # Destination directory - compatible with generate-release-notes
+    DEST_DIR="/tmp/release-artifacts/${RELEASE_TAG}"
+
+    # Create/clean destination directory
+    if [ -d "${DEST_DIR}" ]; then
+        echo "==> Cleaning existing directory: ${DEST_DIR}"
+        rm -rf "${DEST_DIR}"
     fi
+    mkdir -p "${DEST_DIR}"
 
-    DOWNLOAD_DIR="/tmp/release-artifacts/${TAG}"
-    echo "    Target directory: ${DOWNLOAD_DIR}"
+    # Download all release assets
+    echo "==> Downloading all release assets to: ${DEST_DIR}"
+    echo ""
+    cd "${DEST_DIR}"
 
-    # Create fresh download directory
-    rm -rf "${DOWNLOAD_DIR}"
-    mkdir -p "${DOWNLOAD_DIR}"
+    gh release download "${RELEASE_TAG}" \
+        --repo "${REPO}" \
+        --pattern "*" \
+        --clobber
 
-    # Download artifacts (try both CHECKSUMS.sha256 and CHECKSUMS-ALL.sha256 for compatibility)
-    gh release download "${TAG}" --repo crossbario/cfxdb --dir "${DOWNLOAD_DIR}" \
-        --pattern '*.whl' --pattern '*.tar.gz' --pattern 'CHECKSUMS*.sha256' || {
-        echo "❌ Error: Failed to download release ${TAG}"
-        echo "   Available releases:"
-        gh release list --repo crossbario/cfxdb --limit 5
-        exit 1
-    }
+    # Count different types of files
+    WHEEL_COUNT=$(ls -1 *.whl 2>/dev/null | wc -l || echo "0")
+    TARBALL_COUNT=$(ls -1 *.tar.gz 2>/dev/null | wc -l || echo "0")
+    CHECKSUM_COUNT=$(ls -1 *CHECKSUMS* 2>/dev/null | wc -l || echo "0")
 
-    # Verify checksums if available (prefer CHECKSUMS.sha256, fall back to CHECKSUMS-ALL.sha256)
-    CHECKSUM_FILE=""
-    if [ -f "${DOWNLOAD_DIR}/CHECKSUMS.sha256" ]; then
-        CHECKSUM_FILE="${DOWNLOAD_DIR}/CHECKSUMS.sha256"
-    elif [ -f "${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256" ]; then
-        CHECKSUM_FILE="${DOWNLOAD_DIR}/CHECKSUMS-ALL.sha256"
-    fi
+    echo ""
+    echo "==> Downloaded assets:"
+    ls -la
+    echo ""
+    echo "==> Asset summary:"
+    echo "    Wheels:     ${WHEEL_COUNT}"
+    echo "    Tarballs:   ${TARBALL_COUNT}"
+    echo "    Checksums:  ${CHECKSUM_COUNT}"
 
-    if [ -n "${CHECKSUM_FILE}" ]; then
+    # Verify checksums if available
+    if [ -f "CHECKSUMS.sha256" ]; then
         echo ""
-        echo "==> Verifying checksums using $(basename ${CHECKSUM_FILE})..."
-        cd "${DOWNLOAD_DIR}"
-
-        # Detect checksum file format and verify accordingly
-        # OpenSSL format: SHA2-256(./filename)= hash
-        # sha256sum format: hash  filename
-        if grep -q "^SHA" "$(basename ${CHECKSUM_FILE})"; then
-            # OpenSSL format - parse and verify manually
-            HAS_ERRORS=0
-            while IFS= read -r line; do
-                # Parse: SHA2-256(./filename)= hash
-                HASH=$(echo "$line" | sed 's/.*= *//')
-                FILE=$(echo "$line" | sed 's/SHA[^(]*(\.\///' | sed 's/)=.*//')
-                if [ -f "$FILE" ]; then
-                    ACTUAL=$(sha256sum "$FILE" | awk '{print $1}')
-                    if [ "$HASH" = "$ACTUAL" ]; then
-                        echo "  ✓ $FILE"
-                    else
-                        echo "  ✗ $FILE - MISMATCH!"
-                        HAS_ERRORS=1
-                    fi
+        echo "==> Verifying checksums..."
+        VERIFIED=0
+        FAILED=0
+        while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            FILE_PATH=$(echo "$line" | sed -E 's/^SHA2?-?256\(([^)]+)\)=.*/\1/')
+            EXPECTED_CHECKSUM=$(echo "$line" | awk -F'= ' '{print $2}')
+            FILE_PATH="${FILE_PATH#./}"
+            if [ -f "$FILE_PATH" ]; then
+                ACTUAL_CHECKSUM=$(openssl sha256 "$FILE_PATH" | awk '{print $2}')
+                if [ "$ACTUAL_CHECKSUM" = "$EXPECTED_CHECKSUM" ]; then
+                    VERIFIED=$((VERIFIED + 1))
                 else
-                    echo "  ✗ $FILE - NOT FOUND"
-                    HAS_ERRORS=1
+                    echo "    ❌ MISMATCH: $FILE_PATH"
+                    FAILED=$((FAILED + 1))
                 fi
-            done < "$(basename ${CHECKSUM_FILE})"
-            if [ $HAS_ERRORS -eq 0 ]; then
-                echo "✅ All checksums verified"
-            else
-                echo "❌ Checksum verification failed!"
-                exit 1
             fi
+        done < CHECKSUMS.sha256
+        if [ $FAILED -gt 0 ]; then
+            echo "    ERROR: ${FAILED} file(s) failed verification!"
+            exit 1
         else
-            # Standard sha256sum format
-            if sha256sum -c "$(basename ${CHECKSUM_FILE})"; then
-                echo "✅ All checksums verified"
-            else
-                echo "❌ Checksum verification failed!"
-                exit 1
-            fi
+            echo "    ✅ ${VERIFIED} file(s) verified successfully"
         fi
-        cd - > /dev/null
-    else
-        echo ""
-        echo "⚠️  Warning: No CHECKSUMS file found in release"
     fi
 
     echo ""
-    echo "Downloaded artifacts:"
-    ls -la "${DOWNLOAD_DIR}/" || echo "No artifacts downloaded"
+    echo "════════════════════════════════════════════════════════════"
+    echo "✅ Download Complete"
+    echo "════════════════════════════════════════════════════════════"
     echo ""
-    echo "==> Artifacts available at: ${DOWNLOAD_DIR}"
+    echo "Artifacts location: ${DEST_DIR}"
+    echo ""
+    echo "Next steps:"
+    echo "  1. Build docs:            just docs"
+    echo "  2. Integrate artifacts:   just docs-integrate-github-release ${RELEASE_TAG}"
+    echo "  3. Generate release notes: just generate-release-notes <version> ${RELEASE_TAG}"
+    echo ""
 
 # Download release artifacts from GitHub and publish to PyPI
 publish-pypi venv="" tag="": (install-tools venv)
