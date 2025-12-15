@@ -872,11 +872,44 @@ download-github-release tag="latest":
         echo ""
         echo "==> Verifying checksums using $(basename ${CHECKSUM_FILE})..."
         cd "${DOWNLOAD_DIR}"
-        if sha256sum -c "$(basename ${CHECKSUM_FILE})"; then
-            echo "✅ All checksums verified"
+
+        # Detect checksum file format and verify accordingly
+        # OpenSSL format: SHA2-256(./filename)= hash
+        # sha256sum format: hash  filename
+        if grep -q "^SHA" "$(basename ${CHECKSUM_FILE})"; then
+            # OpenSSL format - parse and verify manually
+            HAS_ERRORS=0
+            while IFS= read -r line; do
+                # Parse: SHA2-256(./filename)= hash
+                HASH=$(echo "$line" | sed 's/.*= *//')
+                FILE=$(echo "$line" | sed 's/SHA[^(]*(\.\///' | sed 's/)=.*//')
+                if [ -f "$FILE" ]; then
+                    ACTUAL=$(sha256sum "$FILE" | awk '{print $1}')
+                    if [ "$HASH" = "$ACTUAL" ]; then
+                        echo "  ✓ $FILE"
+                    else
+                        echo "  ✗ $FILE - MISMATCH!"
+                        HAS_ERRORS=1
+                    fi
+                else
+                    echo "  ✗ $FILE - NOT FOUND"
+                    HAS_ERRORS=1
+                fi
+            done < "$(basename ${CHECKSUM_FILE})"
+            if [ $HAS_ERRORS -eq 0 ]; then
+                echo "✅ All checksums verified"
+            else
+                echo "❌ Checksum verification failed!"
+                exit 1
+            fi
         else
-            echo "❌ Checksum verification failed!"
-            exit 1
+            # Standard sha256sum format
+            if sha256sum -c "$(basename ${CHECKSUM_FILE})"; then
+                echo "✅ All checksums verified"
+            else
+                echo "❌ Checksum verification failed!"
+                exit 1
+            fi
         fi
         cd - > /dev/null
     else
