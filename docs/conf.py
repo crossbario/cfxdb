@@ -200,3 +200,13 @@ add_module_names = False
 autosectionlabel_prefix_document = True
 pygments_style = "sphinx"
 pygments_dark_style = "monokai"
+
+# -- Suppress Warnings -------------------------------------------------------
+# Suppress duplicate object warnings when using both autoapi and autodoc
+# directives for the same classes. The manual .. autoclass:: directives in
+# the domain-specific docs (management-realm/, router-database/, etc.) are
+# intentionally duplicating autoapi-generated docs for better organization.
+suppress_warnings = [
+    "autodoc.duplicate_object",
+    "autosectionlabel.*",
+]

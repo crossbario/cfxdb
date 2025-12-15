@@ -865,6 +865,64 @@ docs-integrate-github-release tag:
     ls -la "${DOCS_RELEASE_DIR}/"
 
 # -----------------------------------------------------------------------------
+# -- FlatBuffers Schema Management
+# -----------------------------------------------------------------------------
+
+# Regenerate .bfbs binary schemas from .fbs files (requires autobahn with flatc)
+# Note: cfxdb bundles both .fbs and .bfbs files; use this to regenerate after .fbs changes
+# cfxdb uses zlmdb's vendored flatbuffers runtime (from zlmdb import flatbuffers)
+generate-bfbs venv="":
+    #!/usr/bin/env bash
+    set -e
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PATH="{{ VENV_DIR }}/${VENV_NAME}"
+
+    echo "==> Regenerating .bfbs binary schemas from .fbs files..."
+    echo "    Note: cfxdb uses zlmdb's vendored flatbuffers runtime"
+
+    # Check if flatc is available via autobahn (autobahn bundles the flatc compiler)
+    if ! "${VENV_PATH}/bin/python" -c "from autobahn._flatc import get_flatc_path; print(get_flatc_path())" &>/dev/null; then
+        echo "❌ Error: flatc not available. Install autobahn[all] with flatc support."
+        echo "   Run: just install-dev"
+        exit 1
+    fi
+
+    FLATC=$("${VENV_PATH}/bin/python" -c "from autobahn._flatc import get_flatc_path; print(get_flatc_path())")
+    echo "   Using flatc: ${FLATC}"
+
+    # Output directory for .bfbs files (matches existing structure)
+    BFBS_DIR="src/cfxdb/gen"
+
+    # Find and compile all .fbs files in src/cfxdb/
+    FBS_FILES=$(find src/cfxdb -maxdepth 1 -name "*.fbs" -type f)
+    for FBS in ${FBS_FILES}; do
+        BASENAME=$(basename "${FBS}" .fbs)
+        echo "   Compiling: ${FBS} -> ${BFBS_DIR}/${BASENAME}.bfbs"
+        "${FLATC}" --binary --schema -o "${BFBS_DIR}" "${FBS}"
+    done
+
+    echo ""
+    echo "==> Generated .bfbs files:"
+    ls -la "${BFBS_DIR}"/*.bfbs 2>/dev/null || echo "   No .bfbs files generated"
+    echo ""
+    echo "==> Note: Both .fbs and .bfbs files are bundled in the cfxdb wheel"
+
+# List FlatBuffers schema files (.fbs source and .bfbs binary)
+list-fbs:
+    #!/usr/bin/env bash
+    set -e
+    echo "==> FlatBuffers schema files (.fbs) in src/cfxdb/:"
+    find src/cfxdb -maxdepth 1 -name "*.fbs" -type f | sort
+    echo ""
+    echo "==> Binary schema files (.bfbs) in src/cfxdb/gen/:"
+    find src/cfxdb/gen -name "*.bfbs" -type f 2>/dev/null | sort || echo "   None found"
+    echo ""
+    echo "==> Note: cfxdb uses 'from zlmdb import flatbuffers' (zlmdb's vendored runtime)"
+
+# -----------------------------------------------------------------------------
 # -- Release workflow recipes
 # -----------------------------------------------------------------------------
 

@@ -13,6 +13,26 @@ Unreleased
 
 *No unreleased changes yet.*
 
+25.12.2 (2025-12-15)
+--------------------
+
+**New**
+
+* Added ``generate-release-notes`` justfile recipe for documentation integration
+* Added ``docs-integrate-github-release`` justfile recipe with chain-of-custody files
+* Added ``.github/workflows/README.md`` documenting CI/CD architecture
+
+**Fix**
+
+* Fixed autoapi duplicate object warnings by adding suppress_warnings in conf.py (#82)
+* Consolidated ``download-github-release`` recipe to use ``/tmp/release-artifacts/<tag>`` path
+
+**Other**
+
+* Updated dependencies: autobahn[all]>=25.12.2, zlmdb>=25.12.2
+* Removed tox from dev dependencies (no longer used)
+* Added documentation for WHY both zlmdb and autobahn dependencies are needed (#112)
+
 25.12.1 (2025-12-10)
 --------------------
 
