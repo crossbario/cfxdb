@@ -21,11 +21,15 @@ Unreleased
 * Added ``generate-release-notes`` justfile recipe for documentation integration
 * Added ``docs-integrate-github-release`` justfile recipe with chain-of-custody files
 * Added ``.github/workflows/README.md`` documenting CI/CD architecture
+* Added ``release-post-comment.yml`` workflow for GitHub Discussions notifications
 
 **Fix**
 
 * Fixed autoapi duplicate object warnings by adding suppress_warnings in conf.py (#82)
 * Consolidated ``download-github-release`` recipe to use ``/tmp/release-artifacts/<tag>`` path
+* Fixed release workflow to properly upload wheels (corrected check-release-fileset parameters)
+* Fixed OpenSSL checksum format handling in download-github-release recipe
+* Aligned download-github-release recipe with autobahn-python/zlmdb for consistency
 
 **Other**
 
