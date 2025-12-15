@@ -434,6 +434,183 @@ test-all:
         just test ${env}
     done
 
+# Run smoke tests (quick sanity check for imports and bundled files)
+test-smoke venv="":
+    #!/usr/bin/env bash
+    set -e
+    VENV_NAME="{{ venv }}"
+    if [ -z "${VENV_NAME}" ]; then
+        VENV_NAME=$(just --quiet _get-system-venv-name)
+    fi
+    VENV_PYTHON=$(just --quiet _get-venv-python "${VENV_NAME}")
+    VENV_PATH="{{ VENV_DIR }}/${VENV_NAME}"
+
+    echo "Running smoke tests with Python: $(${VENV_PYTHON} --version)"
+    echo "Venv: ${VENV_PATH}"
+    echo ""
+
+    # Run the smoke test Python script
+    ${VENV_PYTHON} "{{ PROJECT_DIR }}/scripts/smoke_test.py"
+
+# Test installing and verifying a built wheel (used in CI for artifact verification)
+# Usage: just test-wheel-install /path/to/cfxdb-*.whl
+test-wheel-install wheel_path:
+    #!/usr/bin/env bash
+    set -e
+    WHEEL_PATH="{{ wheel_path }}"
+
+    if [ ! -f "${WHEEL_PATH}" ]; then
+        echo "ERROR: Wheel file not found: ${WHEEL_PATH}"
+        exit 1
+    fi
+
+    WHEEL_NAME=$(basename "${WHEEL_PATH}")
+    echo "========================================================================"
+    echo "  WHEEL INSTALL TEST"
+    echo "========================================================================"
+    echo ""
+    echo "Wheel: ${WHEEL_NAME}"
+    echo ""
+
+    # Create ephemeral venv name based on wheel
+    EPHEMERAL_VENV="smoke-wheel-$$"
+    EPHEMERAL_PATH="{{ VENV_DIR }}/${EPHEMERAL_VENV}"
+
+    # Extract Python version from wheel filename
+    # Wheel format: {name}-{version}-{python tag}-{abi tag}-{platform tag}.whl
+    # Python tag examples: cp312, cp311, pp311, py3
+    PYTAG=$(echo "${WHEEL_NAME}" | sed -n 's/.*-\(cp[0-9]*\|pp[0-9]*\|py[0-9]*\)-.*/\1/p')
+
+    # For py3-none-any wheels (pure Python), use system Python
+    if [ "${PYTAG}" = "py3" ]; then
+        SYS_VENV=$(just --quiet _get-system-venv-name)
+        echo "Pure Python wheel detected, using system venv: ${SYS_VENV}"
+        PYTAG="${SYS_VENV}"
+    fi
+
+    # Map pytag to uv python version
+    case "${PYTAG}" in
+        cp314|cpy314) PYTHON_VERSION="3.14" ;;
+        cp313|cpy313) PYTHON_VERSION="3.13" ;;
+        cp312|cpy312) PYTHON_VERSION="3.12" ;;
+        cp311|cpy311) PYTHON_VERSION="3.11" ;;
+        pp311|pypy311) PYTHON_VERSION="pypy3.11" ;;
+        *) echo "Unknown Python tag: ${PYTAG}"; exit 1 ;;
+    esac
+
+    echo "Python version: ${PYTHON_VERSION}"
+    echo "Ephemeral venv: ${EPHEMERAL_PATH}"
+    echo ""
+
+    # Clean up any existing ephemeral venv
+    rm -rf "${EPHEMERAL_PATH}"
+
+    # Create fresh venv with uv
+    echo "Creating ephemeral venv..."
+    uv venv --python "${PYTHON_VERSION}" "${EPHEMERAL_PATH}"
+
+    # Install the wheel
+    echo "Installing wheel..."
+    uv pip install --python "${EPHEMERAL_PATH}/bin/python" "${WHEEL_PATH}"
+
+    # Run smoke tests
+    echo ""
+    echo "Running smoke tests..."
+    "${EPHEMERAL_PATH}/bin/python" "{{ PROJECT_DIR }}/scripts/smoke_test.py"
+    RESULT=$?
+
+    # Clean up ephemeral venv
+    echo ""
+    echo "Cleaning up ephemeral venv..."
+    rm -rf "${EPHEMERAL_PATH}"
+
+    if [ ${RESULT} -eq 0 ]; then
+        echo ""
+        echo "========================================================================"
+        echo "  WHEEL INSTALL TEST: PASSED"
+        echo "========================================================================"
+    else
+        echo ""
+        echo "========================================================================"
+        echo "  WHEEL INSTALL TEST: FAILED"
+        echo "========================================================================"
+        exit 1
+    fi
+
+# Test installing and verifying a source distribution (used in CI for artifact verification)
+# Usage: just test-sdist-install /path/to/cfxdb-*.tar.gz
+test-sdist-install sdist_path:
+    #!/usr/bin/env bash
+    set -e
+    SDIST_PATH="{{ sdist_path }}"
+
+    if [ ! -f "${SDIST_PATH}" ]; then
+        echo "ERROR: Source distribution not found: ${SDIST_PATH}"
+        exit 1
+    fi
+
+    SDIST_NAME=$(basename "${SDIST_PATH}")
+    echo "========================================================================"
+    echo "  SOURCE DISTRIBUTION INSTALL TEST"
+    echo "========================================================================"
+    echo ""
+    echo "Source dist: ${SDIST_NAME}"
+    echo ""
+
+    # Create ephemeral venv
+    EPHEMERAL_VENV="smoke-sdist-$$"
+    EPHEMERAL_PATH="{{ VENV_DIR }}/${EPHEMERAL_VENV}"
+
+    # Use system Python version
+    SYS_VENV=$(just --quiet _get-system-venv-name)
+    case "${SYS_VENV}" in
+        cpy314) PYTHON_VERSION="3.14" ;;
+        cpy313) PYTHON_VERSION="3.13" ;;
+        cpy312) PYTHON_VERSION="3.12" ;;
+        cpy311) PYTHON_VERSION="3.11" ;;
+        pypy311) PYTHON_VERSION="pypy3.11" ;;
+        *) echo "Unknown system venv: ${SYS_VENV}"; exit 1 ;;
+    esac
+
+    echo "Python version: ${PYTHON_VERSION}"
+    echo "Ephemeral venv: ${EPHEMERAL_PATH}"
+    echo ""
+
+    # Clean up any existing ephemeral venv
+    rm -rf "${EPHEMERAL_PATH}"
+
+    # Create fresh venv with uv
+    echo "Creating ephemeral venv..."
+    uv venv --python "${PYTHON_VERSION}" "${EPHEMERAL_PATH}"
+
+    # Install the sdist
+    echo "Installing source distribution..."
+    uv pip install --python "${EPHEMERAL_PATH}/bin/python" "${SDIST_PATH}"
+
+    # Run smoke tests
+    echo ""
+    echo "Running smoke tests..."
+    "${EPHEMERAL_PATH}/bin/python" "{{ PROJECT_DIR }}/scripts/smoke_test.py"
+    RESULT=$?
+
+    # Clean up ephemeral venv
+    echo ""
+    echo "Cleaning up ephemeral venv..."
+    rm -rf "${EPHEMERAL_PATH}"
+
+    if [ ${RESULT} -eq 0 ]; then
+        echo ""
+        echo "========================================================================"
+        echo "  SOURCE DISTRIBUTION INSTALL TEST: PASSED"
+        echo "========================================================================"
+    else
+        echo ""
+        echo "========================================================================"
+        echo "  SOURCE DISTRIBUTION INSTALL TEST: FAILED"
+        echo "========================================================================"
+        exit 1
+    fi
+
 # Upgrade dependencies in a single environment (re-installs all deps to latest)
 upgrade venv="": (create venv)
     #!/usr/bin/env bash
