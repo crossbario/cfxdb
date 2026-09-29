@@ -42,6 +42,7 @@ Contents
    releases
    changelog
    contributing
+   development
    OVERVIEW.md
    ai/index
 
