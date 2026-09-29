@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cfxdb"
-version = "26.6.1"
+version = "26.9.1.dev1"
 description = "Crossbar.io Database - Core database access classes for Crossbar.io"
 readme = "README.md"
 requires-python = ">=3.11"
