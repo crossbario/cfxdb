@@ -1,3 +1,9 @@
+###############################################################################
+#
+#  Copyright (C) typedef int GmbH
+#  SPDX-License-Identifier: MIT
+#
+###############################################################################
 # Register zlmdb's vendored flatbuffers in sys.modules so that the flatc-generated
 # code in this package (which does `import flatbuffers`) resolves to zlmdb's
 # vendored copy instead of requiring a separate flatbuffers package.
