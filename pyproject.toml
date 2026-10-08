@@ -158,6 +158,7 @@ exclude = [
 
 # Ruff configuration (replaces flake8, black, yapf)
 [tool.ruff]
+extend-exclude = [".ai", ".autobahn-crossbar-ai", ".cicd"]
 line-length = 119
 target-version = "py311"
 # Exclude generated flatbuffers code from linting
