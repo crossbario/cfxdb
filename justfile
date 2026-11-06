@@ -396,7 +396,7 @@ check-typing venv="":
     # runs) - tracked in #123, to be fixed before 26.9.1; then drop these ignores.
     ty check \
         --python "${VENV_PYTHON}" \
-        --ignore unresolved-import \
+        --ignore import-not-found \
         --ignore unresolved-attribute \
         --ignore unresolved-reference \
         --ignore unresolved-global \
