@@ -50,6 +50,9 @@ class WebService(ConfigurationElement):
         self.path = path
 
     def other(self, key, default=None):
+        # _unknown is None for a web service built directly rather than parsed (#149).
+        if self._unknown is None:
+            return default
         return self._unknown.get(key, default)
 
     def __eq__(self, other):
