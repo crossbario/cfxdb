@@ -137,12 +137,15 @@ def fill_session(session):
     session.authrole = random.choice(["admin", "user*", "guest", "anon*"])
     session.authmethod = random.choice(["wampcra", "cookie", "anonymous-proxy"])
     session.authprovider = random.choice(["static", "dynamic"])
+    # DATA1 is a literal of mixed values, so its items type as a union: narrow this one.
+    authextra = DATA1["authextra"]
+    assert isinstance(authextra, dict)
     session.authextra = {
         "transport": _td2.marshal(),
-        "x_cb_node": DATA1["authextra"].get("x_cb_node", None),
-        "x_cb_peer": DATA1["authextra"].get("x_cb_peer", None),
-        "x_cb_pid": DATA1["authextra"].get("x_cb_pid", None),
-        "x_cb_worker": DATA1["authextra"].get("x_cb_worker", None),
+        "x_cb_node": authextra.get("x_cb_node", None),
+        "x_cb_peer": authextra.get("x_cb_peer", None),
+        "x_cb_pid": authextra.get("x_cb_pid", None),
+        "x_cb_worker": authextra.get("x_cb_worker", None),
     }
 
 

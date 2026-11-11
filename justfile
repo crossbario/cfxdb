@@ -394,7 +394,6 @@ check-typing venv="":
     # TEMPORARY (WAMP fleet rollout wave1-2026-09): newer ty reports redundant-condition.
     # These are REAL bugs (e.g. `assert (x for x in y)` is always true, so the check never
     # runs) - tracked in #123, to be fixed before 26.9.1; then drop these ignores.
-    # missing-union-attribute: new in ty 0.0.100, ignored until their sites are fixed (#149).
     #
     # CI installs the newest ty, on purpose: we follow it as it moves (#148). ty
     # renames rules now and then, and an --ignore naming an old name then silences
@@ -429,7 +428,6 @@ check-typing venv="":
         --ignore no-matching-overload \
         --ignore conflicting-declarations \
         --ignore deprecated \
-        --ignore missing-union-attribute \
         src/cfxdb/ 2>&1 | tee "${TY_OUT}"
     rc=${PIPESTATUS[0]}
     set -e
